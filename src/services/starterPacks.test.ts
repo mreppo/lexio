@@ -145,7 +145,7 @@ describe('loadPack', () => {
 
     const result = await loadPack('test-pack')
     expect(result).toEqual(pack)
-    expect(fetch).toHaveBeenCalledWith('/starter-packs/test-pack.json')
+    expect(fetch).toHaveBeenCalledWith('/lexio/starter-packs/test-pack.json')
   })
 
   it('should throw when the pack fetch fails', async () => {

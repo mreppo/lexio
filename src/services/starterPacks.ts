@@ -39,10 +39,12 @@ export function packMatchesPair(
 
 /**
  * Fetches the pack manifest and returns the list of available pack IDs.
- * The manifest lives at /starter-packs/manifest.json.
+ * The manifest lives at <BASE_URL>starter-packs/manifest.json.
+ * BASE_URL is provided by Vite and equals '/lexio/' in production, '/' in dev.
  */
 export async function listPackIds(): Promise<readonly string[]> {
-  const response = await fetch('/starter-packs/manifest.json')
+  const base = import.meta.env.BASE_URL
+  const response = await fetch(`${base}starter-packs/manifest.json`)
   if (!response.ok) {
     throw new Error(`Failed to load pack manifest: ${response.status} ${response.statusText}`)
   }
@@ -52,10 +54,12 @@ export async function listPackIds(): Promise<readonly string[]> {
 
 /**
  * Loads a starter pack by ID from the public directory.
- * Fetches /starter-packs/<id>.json and returns the parsed StarterPack.
+ * Fetches <BASE_URL>starter-packs/<id>.json and returns the parsed StarterPack.
+ * BASE_URL is provided by Vite and equals '/lexio/' in production, '/' in dev.
  */
 export async function loadPack(id: string): Promise<StarterPack> {
-  const response = await fetch(`/starter-packs/${id}.json`)
+  const base = import.meta.env.BASE_URL
+  const response = await fetch(`${base}starter-packs/${id}.json`)
   if (!response.ok) {
     throw new Error(`Failed to load pack "${id}": ${response.status} ${response.statusText}`)
   }
