@@ -198,6 +198,18 @@ npm run build      # Verify production build
 npx tsc --noEmit   # Type check only
 ```
 
+### Before Marking an Issue Complete
+
+Before marking any issue complete, agents must verify the full quality gate passes:
+
+```bash
+npm run lint         # Must pass with zero errors
+npm run format:check # Must pass (all code formatted)
+npm test -- --run    # All unit tests must pass
+npx tsc --noEmit     # No type errors
+npm run build        # Production build must succeed
+```
+
 ## E2E Testing
 
 After all unit tests pass, the QA agent must also verify critical flows work end-to-end:

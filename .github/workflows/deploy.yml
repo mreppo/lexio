@@ -20,6 +20,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Full history needed for SonarCloud blame analysis
+          fetch-depth: 0
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -36,8 +39,19 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit
 
-      - name: Run tests
-        run: npm run test:run
+      - name: Lint
+        run: npm run lint
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Run tests with coverage
+        run: npm run test:run -- --coverage
+
+      - name: SonarCloud scan
+        uses: SonarSource/sonarcloud-github-action@v3
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Build
         run: npm run build
