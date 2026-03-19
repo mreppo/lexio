@@ -21,6 +21,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   quizMode: 'mixed',
   dailyGoal: 20,
   theme: 'dark',
+  typoTolerance: 1,
 }
 
 function readJson<T>(key: string): T | null {
