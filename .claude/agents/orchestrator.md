@@ -1,7 +1,7 @@
 ---
 name: orchestrator
 description: Coordinates the full development workflow for Lexio. Use this agent to implement GitHub issues end-to-end - it reads the issue, plans the work, delegates to specialist agents (developer, qa, reviewer, devops), and ensures everything meets acceptance criteria before marking complete. Invoke with issue number or feature description.
-model: opus
+model: sonnet
 tools: Read, Write, Edit, Bash, Glob, Grep, Agent
 ---
 
