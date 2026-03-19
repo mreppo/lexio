@@ -1,47 +1,9 @@
 import { describe, it, expect, beforeEach, vi, type MockInstance } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useThemeMode } from './useThemeMode'
-import type { StorageService } from '@/services/storage/StorageService'
+import { createMockSettings } from '@/test/fixtures'
+import { createMockStorage } from '@/test/mockStorage'
 import type { UserSettings } from '@/types'
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function makeSettings(theme: UserSettings['theme']): UserSettings {
-  return {
-    activePairId: null,
-    quizMode: 'mixed',
-    dailyGoal: 20,
-    theme,
-    typoTolerance: 1,
-  }
-}
-
-function makeStorage(theme: UserSettings['theme']): StorageService {
-  const settings: UserSettings = makeSettings(theme)
-
-  return {
-    getSettings: vi.fn().mockResolvedValue({ ...settings }),
-    saveSettings: vi.fn().mockImplementation(async (updated: UserSettings) => {
-      Object.assign(settings, updated)
-    }),
-    // Unused methods – cast to satisfy the interface
-    getLanguagePairs: vi.fn(),
-    saveLanguagePair: vi.fn(),
-    deleteLanguagePair: vi.fn(),
-    getWords: vi.fn(),
-    saveWord: vi.fn(),
-    saveWords: vi.fn(),
-    deleteWord: vi.fn(),
-    getWordProgress: vi.fn(),
-    getAllProgress: vi.fn(),
-    saveWordProgress: vi.fn(),
-    getDailyStats: vi.fn(),
-    saveDailyStats: vi.fn(),
-    getRecentDailyStats: vi.fn(),
-  } as unknown as StorageService
-}
 
 // ---------------------------------------------------------------------------
 // matchMedia mock
@@ -78,7 +40,11 @@ describe('useThemeMode', () => {
 
   it('should initialise with dark mode when settings.theme is "dark"', async () => {
     mockMatchMedia(false)
-    const storage = makeStorage('dark')
+    const settings = createMockSettings({ theme: 'dark' })
+    const storage = createMockStorage({
+      getSettings: vi.fn().mockResolvedValue(settings),
+      saveSettings: vi.fn().mockResolvedValue(undefined),
+    })
     const { result } = renderHook(() => useThemeMode(storage))
 
     await act(async () => {})
@@ -89,7 +55,11 @@ describe('useThemeMode', () => {
 
   it('should initialise with light mode when settings.theme is "light"', async () => {
     mockMatchMedia(false)
-    const storage = makeStorage('light')
+    const settings = createMockSettings({ theme: 'light' })
+    const storage = createMockStorage({
+      getSettings: vi.fn().mockResolvedValue(settings),
+      saveSettings: vi.fn().mockResolvedValue(undefined),
+    })
     const { result } = renderHook(() => useThemeMode(storage))
 
     await act(async () => {})
@@ -100,7 +70,11 @@ describe('useThemeMode', () => {
 
   it('should resolve "system" to "dark" when OS prefers dark', async () => {
     mockMatchMedia(true)
-    const storage = makeStorage('system')
+    const settings = createMockSettings({ theme: 'system' })
+    const storage = createMockStorage({
+      getSettings: vi.fn().mockResolvedValue(settings),
+      saveSettings: vi.fn().mockResolvedValue(undefined),
+    })
     const { result } = renderHook(() => useThemeMode(storage))
 
     await act(async () => {})
@@ -111,7 +85,11 @@ describe('useThemeMode', () => {
 
   it('should resolve "system" to "light" when OS prefers light', async () => {
     mockMatchMedia(false)
-    const storage = makeStorage('system')
+    const settings = createMockSettings({ theme: 'system' })
+    const storage = createMockStorage({
+      getSettings: vi.fn().mockResolvedValue(settings),
+      saveSettings: vi.fn().mockResolvedValue(undefined),
+    })
     const { result } = renderHook(() => useThemeMode(storage))
 
     await act(async () => {})
@@ -122,7 +100,14 @@ describe('useThemeMode', () => {
 
   it('should persist the new preference when setPreference is called', async () => {
     mockMatchMedia(false)
-    const storage = makeStorage('dark')
+    const settings = createMockSettings({ theme: 'dark' })
+    const storedSettings = { ...settings }
+    const storage = createMockStorage({
+      getSettings: vi.fn().mockImplementation(async () => ({ ...storedSettings })),
+      saveSettings: vi.fn().mockImplementation(async (updated: UserSettings) => {
+        Object.assign(storedSettings, updated)
+      }),
+    })
     const { result } = renderHook(() => useThemeMode(storage))
 
     await act(async () => {})
@@ -137,7 +122,14 @@ describe('useThemeMode', () => {
 
   it('should update mode to dark when switching to "dark" preference', async () => {
     mockMatchMedia(false)
-    const storage = makeStorage('light')
+    const settings = createMockSettings({ theme: 'light' })
+    const storedSettings = { ...settings }
+    const storage = createMockStorage({
+      getSettings: vi.fn().mockImplementation(async () => ({ ...storedSettings })),
+      saveSettings: vi.fn().mockImplementation(async (updated: UserSettings) => {
+        Object.assign(storedSettings, updated)
+      }),
+    })
     const { result } = renderHook(() => useThemeMode(storage))
 
     await act(async () => {})
@@ -150,7 +142,14 @@ describe('useThemeMode', () => {
 
   it('should load settings only once on mount', async () => {
     mockMatchMedia(false)
-    const storage = makeStorage('dark')
+    const settings = createMockSettings({ theme: 'dark' })
+    const storedSettings = { ...settings }
+    const storage = createMockStorage({
+      getSettings: vi.fn().mockImplementation(async () => ({ ...storedSettings })),
+      saveSettings: vi.fn().mockImplementation(async (updated: UserSettings) => {
+        Object.assign(storedSettings, updated)
+      }),
+    })
     const { result } = renderHook(() => useThemeMode(storage))
 
     await act(async () => {})

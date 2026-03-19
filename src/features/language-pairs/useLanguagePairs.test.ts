@@ -1,48 +1,24 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { renderHook, act } from '@testing-library/react'
+import { act } from '@testing-library/react'
 import { useLanguagePairs } from './useLanguagePairs'
 import type { StorageService } from '@/services/storage'
 import type { LanguagePair, UserSettings, Word } from '@/types'
-import { StorageContext } from '@/hooks/useStorage'
-import { createElement } from 'react'
-import type { ReactNode } from 'react'
+import { createMockPair, createMockWord, createMockSettings } from '@/test/fixtures'
+import { createMockStorage } from '@/test/mockStorage'
+import { renderHookWithStorage } from '@/test/renderWithStorage'
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
-const DEFAULT_SETTINGS: UserSettings = {
-  activePairId: null,
-  quizMode: 'mixed',
-  dailyGoal: 20,
-  theme: 'dark',
-  typoTolerance: 1,
-}
+const DEFAULT_SETTINGS = createMockSettings({ activePairId: null, theme: 'dark' })
 
 function makePair(overrides: Partial<LanguagePair> = {}): LanguagePair {
-  return {
-    id: 'pair-1',
-    sourceLang: 'English',
-    sourceCode: 'en',
-    targetLang: 'Latvian',
-    targetCode: 'lv',
-    createdAt: 1000000,
-    ...overrides,
-  }
+  return createMockPair(overrides)
 }
 
 function makeWord(overrides: Partial<Word> = {}): Word {
-  return {
-    id: 'word-1',
-    pairId: 'pair-1',
-    source: 'house',
-    target: 'māja',
-    notes: null,
-    tags: [],
-    createdAt: 1000000,
-    isFromPack: false,
-    ...overrides,
-  }
+  return createMockWord(overrides)
 }
 
 function makeStorage(
@@ -52,7 +28,7 @@ function makeStorage(
   const storedPairs = [...pairs]
   const storedSettings = { ...settings }
 
-  return {
+  return createMockStorage({
     getLanguagePairs: vi.fn().mockImplementation(async () => [...storedPairs]),
     getLanguagePair: vi
       .fn()
@@ -70,27 +46,7 @@ function makeStorage(
     saveSettings: vi.fn().mockImplementation(async (s: UserSettings) => {
       Object.assign(storedSettings, s)
     }),
-    getWords: vi.fn().mockResolvedValue([]),
-    getWord: vi.fn().mockResolvedValue(null),
-    saveWord: vi.fn().mockResolvedValue(undefined),
-    saveWords: vi.fn().mockResolvedValue(undefined),
-    deleteWord: vi.fn().mockResolvedValue(undefined),
-    getWordProgress: vi.fn().mockResolvedValue(null),
-    getAllProgress: vi.fn().mockResolvedValue([]),
-    saveWordProgress: vi.fn().mockResolvedValue(undefined),
-    getDailyStats: vi.fn().mockResolvedValue(null),
-    getDailyStatsRange: vi.fn().mockResolvedValue([]),
-    saveDailyStats: vi.fn().mockResolvedValue(undefined),
-    getRecentDailyStats: vi.fn().mockResolvedValue([]),
-    exportAll: vi.fn().mockResolvedValue('{}'),
-    importAll: vi.fn().mockResolvedValue(undefined),
-    clearAll: vi.fn().mockResolvedValue(undefined),
-  } as StorageService
-}
-
-function makeWrapper(storage: StorageService) {
-  return ({ children }: { children: ReactNode }) =>
-    createElement(StorageContext.Provider, { value: storage }, children)
+  })
 }
 
 // ---------------------------------------------------------------------------
@@ -105,9 +61,7 @@ describe('useLanguagePairs', () => {
   describe('initial load', () => {
     it('should start in loading state', () => {
       const storage = makeStorage()
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
       expect(result.current.loading).toBe(true)
     })
 
@@ -115,9 +69,7 @@ describe('useLanguagePairs', () => {
       const pair = makePair()
       const storage = makeStorage([pair])
 
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -128,12 +80,10 @@ describe('useLanguagePairs', () => {
 
     it('should set activePair from settings on mount', async () => {
       const pair = makePair()
-      const settings: UserSettings = { ...DEFAULT_SETTINGS, activePairId: 'pair-1' }
+      const settings = createMockSettings({ activePairId: 'pair-1' })
       const storage = makeStorage([pair], settings)
 
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -143,9 +93,7 @@ describe('useLanguagePairs', () => {
     it('should have null activePair when settings has no active pair', async () => {
       const storage = makeStorage()
 
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -156,9 +104,7 @@ describe('useLanguagePairs', () => {
   describe('createPair', () => {
     it('should add a new pair to the list', async () => {
       const storage = makeStorage()
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -178,9 +124,7 @@ describe('useLanguagePairs', () => {
 
     it('should set the new pair as active by default', async () => {
       const storage = makeStorage()
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -199,9 +143,7 @@ describe('useLanguagePairs', () => {
 
     it('should not set pair as active when setActive is false', async () => {
       const storage = makeStorage()
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -222,9 +164,7 @@ describe('useLanguagePairs', () => {
 
     it('should persist the pair to storage', async () => {
       const storage = makeStorage()
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -244,9 +184,7 @@ describe('useLanguagePairs', () => {
 
     it('should trim whitespace from inputs', async () => {
       const storage = makeStorage()
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -277,12 +215,10 @@ describe('useLanguagePairs', () => {
         sourceCode: 'de',
         targetCode: 'fr',
       })
-      const settings: UserSettings = { ...DEFAULT_SETTINGS, activePairId: 'pair-1' }
+      const settings = createMockSettings({ activePairId: 'pair-1' })
       const storage = makeStorage([pair1, pair2], settings)
 
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
       expect(result.current.activePair?.id).toBe('pair-1')
@@ -298,9 +234,7 @@ describe('useLanguagePairs', () => {
       const pair = makePair()
       const storage = makeStorage([pair])
 
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -319,9 +253,7 @@ describe('useLanguagePairs', () => {
       const pair = makePair()
       const storage = makeStorage([pair])
 
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -336,9 +268,7 @@ describe('useLanguagePairs', () => {
       const pair = makePair()
       const storage = makeStorage([pair])
 
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -351,12 +281,10 @@ describe('useLanguagePairs', () => {
 
     it('should clear activePair when the active pair is deleted', async () => {
       const pair = makePair()
-      const settings: UserSettings = { ...DEFAULT_SETTINGS, activePairId: 'pair-1' }
+      const settings = createMockSettings({ activePairId: 'pair-1' })
       const storage = makeStorage([pair], settings)
 
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
       expect(result.current.activePair?.id).toBe('pair-1')
@@ -377,12 +305,10 @@ describe('useLanguagePairs', () => {
         sourceLang: 'German',
         targetLang: 'French',
       })
-      const settings: UserSettings = { ...DEFAULT_SETTINGS, activePairId: 'pair-1' }
+      const settings = createMockSettings({ activePairId: 'pair-1' })
       const storage = makeStorage([pair1, pair2], settings)
 
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 
@@ -400,9 +326,7 @@ describe('useLanguagePairs', () => {
       const storage = makeStorage([pair])
       vi.mocked(storage.getWords).mockResolvedValue([word1, word2])
 
-      const { result } = renderHook(() => useLanguagePairs(), {
-        wrapper: makeWrapper(storage),
-      })
+      const { result } = renderHookWithStorage(() => useLanguagePairs(), storage)
 
       await act(async () => {})
 

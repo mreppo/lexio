@@ -11,14 +11,19 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { renderHook, act, waitFor } from '@testing-library/react'
-import type { ReactNode } from 'react'
-import { createElement } from 'react'
-import { StorageContext } from '@/hooks/useStorage'
+import { act, waitFor } from '@testing-library/react'
 import type { StorageService } from '@/services/storage/StorageService'
-import type { Word, LanguagePair, UserSettings, WordProgress } from '@/types'
+import type { Word } from '@/types'
 import { useQuizSession, selectModeForWord, MAX_CONSECUTIVE_SAME_MODE } from './useQuizSession'
 import type { ActiveQuizMode } from './useQuizSession'
+import {
+  createMockPair,
+  createMockWord,
+  createMockProgress,
+  createMockSettings,
+} from '@/test/fixtures'
+import { createMockStorage } from '@/test/mockStorage'
+import { renderHookWithStorage } from '@/test/renderWithStorage'
 
 // ─── Mocks ────────────────────────────────────────────────────────────────────
 
@@ -40,29 +45,19 @@ const mockGenerateDistractors = vi.mocked(generateDistractors)
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
 
-const mockPair: LanguagePair = {
+const mockPair = createMockPair({
   id: 'pair-1',
   sourceLang: 'Latvian',
   targetLang: 'English',
   sourceCode: 'lv',
   targetCode: 'en',
-  createdAt: 1000,
-}
+})
 
 function makeWord(id: string, source: string, target: string): Word {
-  return {
-    id,
-    pairId: 'pair-1',
-    source,
-    target,
-    notes: null,
-    tags: [],
-    createdAt: 1000,
-    isFromPack: false,
-  }
+  return createMockWord({ id, pairId: 'pair-1', source, target, createdAt: 1000 })
 }
 
-const mockProgress: WordProgress = {
+const mockProgress = createMockProgress({
   wordId: 'w1',
   correctCount: 0,
   incorrectCount: 0,
@@ -71,7 +66,7 @@ const mockProgress: WordProgress = {
   nextReview: 0,
   confidence: 0,
   history: [],
-}
+})
 
 const mockDistr = {
   options: ['house', 'cat', 'dog', 'bird'],
@@ -89,37 +84,6 @@ const fourWords = [
   makeWord('w3', 'suns', 'dog'),
   makeWord('w4', 'galds', 'table'),
 ]
-
-function makeMockStorage(words: Word[] = []): StorageService {
-  return {
-    getLanguagePairs: vi.fn(),
-    getLanguagePair: vi.fn(),
-    saveLanguagePair: vi.fn(),
-    deleteLanguagePair: vi.fn(),
-    getWords: vi.fn().mockResolvedValue(words),
-    getWord: vi.fn(),
-    saveWord: vi.fn(),
-    saveWords: vi.fn(),
-    deleteWord: vi.fn(),
-    getWordProgress: vi.fn(),
-    getAllProgress: vi.fn(),
-    saveWordProgress: vi.fn(),
-    getSettings: vi.fn(),
-    saveSettings: vi.fn(),
-    getDailyStats: vi.fn().mockResolvedValue(null),
-    getDailyStatsRange: vi.fn().mockResolvedValue([]),
-    saveDailyStats: vi.fn(),
-    getRecentDailyStats: vi.fn().mockResolvedValue([]),
-    exportAll: vi.fn(),
-    importAll: vi.fn(),
-    clearAll: vi.fn(),
-  }
-}
-
-function makeWrapper(storage: StorageService) {
-  return ({ children }: { children: ReactNode }) =>
-    createElement(StorageContext.Provider, { value: storage }, children)
-}
 
 // ─── selectModeForWord unit tests ─────────────────────────────────────────────
 
@@ -196,18 +160,18 @@ describe('selectModeForWord', () => {
 // ─── Type mode ────────────────────────────────────────────────────────────────
 
 describe('useQuizSession - type mode', () => {
-  const typeSettings: UserSettings = {
+  const typeSettings = createMockSettings({
     activePairId: 'pair-1',
     quizMode: 'type',
     dailyGoal: 3,
     theme: 'dark',
     typoTolerance: 1,
-  }
+  })
 
   let mockStorage: StorageService
 
   beforeEach(() => {
-    mockStorage = makeMockStorage()
+    mockStorage = createMockStorage()
     vi.clearAllMocks()
     mockRecordAttempt.mockResolvedValue(mockProgress)
   })
@@ -216,9 +180,10 @@ describe('useQuizSession - type mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, typeSettings, 'type'),
+      mockStorage,
+    )
 
     expect(result.current.state.phase).toBe('loading')
 
@@ -233,9 +198,10 @@ describe('useQuizSession - type mode', () => {
   it('should finish immediately if no words are available', async () => {
     mockGetNextWords.mockResolvedValue([])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, typeSettings, 'type'),
+      mockStorage,
+    )
 
     await waitFor(() => {
       expect(result.current.state.phase).toBe('finished')
@@ -243,9 +209,10 @@ describe('useQuizSession - type mode', () => {
   })
 
   it('should finish immediately if pair is null', async () => {
-    const { result } = renderHook(() => useQuizSession(null, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(null, typeSettings, 'type'),
+      mockStorage,
+    )
 
     await waitFor(() => {
       expect(result.current.state.phase).toBe('finished')
@@ -256,9 +223,10 @@ describe('useQuizSession - type mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, typeSettings, 'type'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
 
@@ -270,9 +238,10 @@ describe('useQuizSession - type mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, typeSettings, 'type'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
 
@@ -287,9 +256,10 @@ describe('useQuizSession - type mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, typeSettings, 'type'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     await act(async () => {
@@ -312,9 +282,10 @@ describe('useQuizSession - type mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, typeSettings, 'type'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     await act(async () => {
@@ -336,9 +307,9 @@ describe('useQuizSession - type mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(
+    const { result } = renderHookWithStorage(
       () => useQuizSession(mockPair, { ...typeSettings, typoTolerance: 1 }, 'type'),
-      { wrapper: makeWrapper(mockStorage) },
+      mockStorage,
     )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
@@ -366,9 +337,10 @@ describe('useQuizSession - type mode', () => {
       { word: word2, direction: 'source-to-target', progress: null },
     ])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, typeSettings, 'type'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     expect(result.current.state.currentWord?.id).toBe('w1')
@@ -406,9 +378,10 @@ describe('useQuizSession - type mode', () => {
     ]
     mockGetNextWords.mockResolvedValue(words)
 
-    const { result } = renderHook(() => useQuizSession(mockPair, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, typeSettings, 'type'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
 
@@ -443,9 +416,10 @@ describe('useQuizSession - type mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, typeSettings, 'type'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
 
@@ -460,9 +434,10 @@ describe('useQuizSession - type mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'target-to-source', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, typeSettings, 'type'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     expect(result.current.state.direction).toBe('target-to-source')
@@ -485,9 +460,9 @@ describe('useQuizSession - type mode', () => {
   it('should provide session goal from settings dailyGoal', async () => {
     mockGetNextWords.mockResolvedValue([])
 
-    const { result } = renderHook(
+    const { result } = renderHookWithStorage(
       () => useQuizSession(mockPair, { ...typeSettings, dailyGoal: 15 }, 'type'),
-      { wrapper: makeWrapper(mockStorage) },
+      mockStorage,
     )
 
     await waitFor(() => expect(result.current.state.phase).toBe('finished'))
@@ -498,9 +473,10 @@ describe('useQuizSession - type mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, typeSettings, 'type'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, typeSettings, 'type'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     expect(result.current.state.currentMode).toBe('type')
@@ -516,18 +492,20 @@ describe('useQuizSession - type mode', () => {
 // ─── Choice mode ──────────────────────────────────────────────────────────────
 
 describe('useQuizSession - choice mode', () => {
-  const choiceSettings: UserSettings = {
+  const choiceSettings = createMockSettings({
     activePairId: 'pair-1',
     quizMode: 'choice',
     dailyGoal: 3,
     theme: 'dark',
     typoTolerance: 1,
-  }
+  })
 
   let mockStorage: StorageService
 
   beforeEach(() => {
-    mockStorage = makeMockStorage(fourWords)
+    mockStorage = createMockStorage({
+      getWords: vi.fn().mockResolvedValue(fourWords),
+    })
     vi.clearAllMocks()
     mockRecordAttempt.mockResolvedValue(mockProgress)
     mockGenerateDistractors.mockReturnValue(mockDistractorResult)
@@ -537,9 +515,10 @@ describe('useQuizSession - choice mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     expect(result.current.state.phase).toBe('loading')
 
@@ -552,19 +531,22 @@ describe('useQuizSession - choice mode', () => {
   })
 
   it('should show not-enough-words phase when fewer than MIN_WORDS_FOR_CHOICE words', async () => {
-    const tinyStorage = makeMockStorage([
-      makeWord('w1', 'māja', 'house'),
-      makeWord('w2', 'kaķis', 'cat'),
-      makeWord('w3', 'suns', 'dog'),
-      // only 3 words - below MIN_WORDS_FOR_CHOICE (4)
-    ])
+    const tinyStorage = createMockStorage({
+      getWords: vi.fn().mockResolvedValue([
+        makeWord('w1', 'māja', 'house'),
+        makeWord('w2', 'kaķis', 'cat'),
+        makeWord('w3', 'suns', 'dog'),
+        // only 3 words - below MIN_WORDS_FOR_CHOICE (4)
+      ]),
+    })
     mockGetNextWords.mockResolvedValue([
       { word: makeWord('w1', 'māja', 'house'), direction: 'source-to-target', progress: null },
     ])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(tinyStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      tinyStorage,
+    )
 
     await waitFor(() => {
       expect(result.current.state.phase).toBe('not-enough-words')
@@ -574,9 +556,10 @@ describe('useQuizSession - choice mode', () => {
   it('should finish immediately if no words are returned by getNextWords', async () => {
     mockGetNextWords.mockResolvedValue([])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => {
       expect(result.current.state.phase).toBe('finished')
@@ -584,9 +567,10 @@ describe('useQuizSession - choice mode', () => {
   })
 
   it('should finish immediately if pair is null', async () => {
-    const { result } = renderHook(() => useQuizSession(null, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(null, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => {
       expect(result.current.state.phase).toBe('finished')
@@ -597,9 +581,10 @@ describe('useQuizSession - choice mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
 
@@ -612,9 +597,10 @@ describe('useQuizSession - choice mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
 
@@ -630,9 +616,10 @@ describe('useQuizSession - choice mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     await act(async () => {
@@ -655,9 +642,10 @@ describe('useQuizSession - choice mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     // Select index 0 = 'cat', but correct is index 1 = 'house'
@@ -681,9 +669,10 @@ describe('useQuizSession - choice mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
 
@@ -708,9 +697,10 @@ describe('useQuizSession - choice mode', () => {
       { word: word2, direction: 'source-to-target', progress: null },
     ])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     expect(result.current.state.currentWord?.id).toBe('w1')
@@ -749,9 +739,10 @@ describe('useQuizSession - choice mode', () => {
     ]
     mockGetNextWords.mockResolvedValue(wordsForQuiz)
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
 
@@ -786,9 +777,10 @@ describe('useQuizSession - choice mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
 
@@ -806,9 +798,10 @@ describe('useQuizSession - choice mode', () => {
       correctIndex: 1,
     })
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     expect(result.current.state.direction).toBe('target-to-source')
@@ -830,9 +823,10 @@ describe('useQuizSession - choice mode', () => {
     const word = makeWord('w1', 'māja', 'house')
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, choiceSettings, 'choice'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, choiceSettings, 'choice'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     expect(result.current.state.currentMode).toBe('choice')
@@ -848,19 +842,19 @@ describe('useQuizSession - choice mode', () => {
 // ─── Mixed mode ───────────────────────────────────────────────────────────────
 
 describe('useQuizSession - mixed mode', () => {
-  const mixedSettings: UserSettings = {
+  const mixedSettings = createMockSettings({
     activePairId: 'pair-1',
     quizMode: 'mixed',
     dailyGoal: 3,
     theme: 'dark',
     typoTolerance: 1,
-  }
+  })
 
   let mockStorage: StorageService
 
   beforeEach(() => {
     vi.clearAllMocks()
-    mockStorage = makeMockStorage()
+    mockStorage = createMockStorage()
     mockRecordAttempt.mockResolvedValue(mockProgress)
   })
 
@@ -875,9 +869,10 @@ describe('useQuizSession - mixed mode', () => {
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
     mockGenerateDistractors.mockReturnValue(mockDistr)
 
-    const { result } = renderHook(() => useQuizSession(mockPair, mixedSettings, 'mixed'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, mixedSettings, 'mixed'),
+      mockStorage,
+    )
 
     expect(result.current.state.phase).toBe('loading')
 
@@ -892,9 +887,10 @@ describe('useQuizSession - mixed mode', () => {
     vi.mocked(mockStorage.getWords).mockResolvedValue([])
     mockGetNextWords.mockResolvedValue([])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, mixedSettings, 'mixed'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, mixedSettings, 'mixed'),
+      mockStorage,
+    )
 
     await waitFor(() => {
       expect(result.current.state.phase).toBe('finished')
@@ -902,9 +898,10 @@ describe('useQuizSession - mixed mode', () => {
   })
 
   it('should finish immediately if pair is null', async () => {
-    const { result } = renderHook(() => useQuizSession(null, mixedSettings, 'mixed'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(null, mixedSettings, 'mixed'),
+      mockStorage,
+    )
 
     await waitFor(() => {
       expect(result.current.state.phase).toBe('finished')
@@ -921,9 +918,10 @@ describe('useQuizSession - mixed mode', () => {
     // Since only 1 word, choice is unavailable -> falls back to type
     mockRecordAttempt.mockResolvedValue(mockProgress)
 
-    const { result } = renderHook(() => useQuizSession(mockPair, mixedSettings, 'mixed'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, mixedSettings, 'mixed'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     // With only 1 word, choice is unavailable so mode must be type
@@ -963,9 +961,10 @@ describe('useQuizSession - mixed mode', () => {
     // Use Math.random mock to force choice mode
     const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0.99) // > any typeRatio → choice
 
-    const { result } = renderHook(() => useQuizSession(mockPair, mixedSettings, 'mixed'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, mixedSettings, 'mixed'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     expect(result.current.state.currentMode).toBe('choice')
@@ -1002,9 +1001,10 @@ describe('useQuizSession - mixed mode', () => {
 
     const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0.99) // force choice
 
-    const { result } = renderHook(() => useQuizSession(mockPair, mixedSettings, 'mixed'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, mixedSettings, 'mixed'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     expect(result.current.state.currentMode).toBe('choice')
@@ -1023,9 +1023,10 @@ describe('useQuizSession - mixed mode', () => {
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
     // With 1 word, choice unavailable → type mode forced
 
-    const { result } = renderHook(() => useQuizSession(mockPair, mixedSettings, 'mixed'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, mixedSettings, 'mixed'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     expect(result.current.state.currentMode).toBe('type')
@@ -1048,9 +1049,10 @@ describe('useQuizSession - mixed mode', () => {
     // Force type mode for simplicity
     const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0) // 0 < typeRatio → type
 
-    const { result } = renderHook(() => useQuizSession(mockPair, mixedSettings, 'mixed'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, mixedSettings, 'mixed'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
     expect(result.current.state.currentWord?.id).toBe('w1')
@@ -1093,9 +1095,10 @@ describe('useQuizSession - mixed mode', () => {
     // Force type mode so we can use submitAnswer
     const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0)
 
-    const { result } = renderHook(() => useQuizSession(mockPair, mixedSettings, 'mixed'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, mixedSettings, 'mixed'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
 
@@ -1133,9 +1136,10 @@ describe('useQuizSession - mixed mode', () => {
     vi.mocked(mockStorage.getWords).mockResolvedValue([word])
     mockGetNextWords.mockResolvedValue([{ word, direction: 'source-to-target', progress: null }])
 
-    const { result } = renderHook(() => useQuizSession(mockPair, mixedSettings, 'mixed'), {
-      wrapper: makeWrapper(mockStorage),
-    })
+    const { result } = renderHookWithStorage(
+      () => useQuizSession(mockPair, mixedSettings, 'mixed'),
+      mockStorage,
+    )
 
     await waitFor(() => expect(result.current.state.phase).toBe('question'))
 

@@ -5,12 +5,12 @@
  */
 
 import React, { useCallback } from 'react'
-import { Box, Button, Paper, Typography, Chip, Alert } from '@mui/material'
+import { Box, Button, Typography, Alert } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import type { LanguagePair } from '@/types'
 import type { UseQuizSessionResult } from '../useQuizSession'
-import { SessionProgress } from './SessionProgress'
+import { QuizLayout } from './QuizLayout'
 import { MIN_WORDS_FOR_CHOICE } from '@/utils/distractorGenerator'
 
 type OptionState = 'default' | 'correct' | 'incorrect' | 'reveal'
@@ -157,36 +157,16 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
   const isAnswered = selectedIndex !== -1
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <SessionProgress completed={wordsCompleted} total={sessionGoal} correct={correctCount} />
-
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Chip
-          label={`${fromLang} → ${toLang}`}
-          size="small"
-          variant="outlined"
-          sx={{ fontWeight: 600 }}
-          aria-label={`Translating from ${fromLang} to ${toLang}`}
-        />
-      </Box>
-
-      <Paper elevation={2} sx={{ p: 4, textAlign: 'center', borderRadius: 3 }}>
-        <Typography
-          variant="h4"
-          component="p"
-          fontWeight={700}
-          sx={{ wordBreak: 'break-word' }}
-          aria-label={`Translate: ${questionText}`}
-        >
-          {questionText}
-        </Typography>
-        {currentWord?.notes != null && currentWord.notes !== '' && (
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 1, fontStyle: 'italic' }}>
-            {currentWord.notes}
-          </Typography>
-        )}
-      </Paper>
-
+    <QuizLayout
+      fromLang={fromLang}
+      toLang={toLang}
+      questionText={questionText}
+      notes={currentWord?.notes}
+      wordsCompleted={wordsCompleted}
+      sessionGoal={sessionGoal}
+      correctCount={correctCount}
+      onEndSession={endSession}
+    >
       <Box
         sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}
         role="group"
@@ -235,18 +215,6 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
           {wordsCompleted >= sessionGoal ? 'See results' : 'Next word'}
         </Button>
       )}
-
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Button
-          variant="text"
-          size="small"
-          color="inherit"
-          onClick={endSession}
-          sx={{ color: 'text.disabled', fontSize: '0.75rem' }}
-        >
-          End session
-        </Button>
-      </Box>
-    </Box>
+    </QuizLayout>
   )
 }
