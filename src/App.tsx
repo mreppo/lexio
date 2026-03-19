@@ -14,7 +14,7 @@ import {
 import { createAppTheme } from './theme'
 import { useThemeMode } from './hooks/useThemeMode'
 import { LocalStorageService } from './services/storage'
-import { StorageContext } from './hooks/useStorage'
+import { StorageContext, useStorage } from './hooks/useStorage'
 import {
   useLanguagePairs,
   LanguagePairSelector,
@@ -23,6 +23,8 @@ import {
 } from './features/language-pairs'
 import type { CreatePairInput } from './features/language-pairs'
 import { WordListScreen } from './features/words'
+import { QuizScreen } from './features/quiz'
+import type { UserSettings } from './types'
 
 /**
  * A single shared storage instance for the application.
@@ -43,8 +45,22 @@ function AppContent() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false)
   // Whether this is the first launch (no pairs yet, after loading completes).
   const [isFirstLaunch, setIsFirstLaunch] = useState(false)
-  // Active tab: 'pairs' = language pair management, 'words' = word list
-  const [activeTab, setActiveTab] = useState<'pairs' | 'words'>('words')
+  // Active tab
+  const [activeTab, setActiveTab] = useState<'quiz' | 'words' | 'pairs'>('quiz')
+
+  const storage = useStorage()
+  const [settings, setSettings] = useState<UserSettings>({
+    activePairId: null,
+    quizMode: 'type',
+    dailyGoal: 20,
+    theme: 'system',
+    typoTolerance: 1,
+  })
+
+  // Load settings on mount.
+  useEffect(() => {
+    void storage.getSettings().then((s) => setSettings(s))
+  }, [storage])
 
   useEffect(() => {
     if (!loading && pairs.length === 0) {
@@ -100,9 +116,10 @@ function AppContent() {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs
             value={activeTab}
-            onChange={(_e, v: 'pairs' | 'words') => setActiveTab(v)}
+            onChange={(_e, v: 'quiz' | 'words' | 'pairs') => setActiveTab(v)}
             centered
           >
+            <Tab label="Quiz" value="quiz" />
             <Tab label="Words" value="words" />
             <Tab label="Language pairs" value="pairs" />
           </Tabs>
@@ -130,6 +147,10 @@ function AppContent() {
               </Box>
             ) : (
               <>
+                {activeTab === 'quiz' && (
+                  <QuizScreen pair={activePair} settings={settings} />
+                )}
+
                 {activeTab === 'words' && (
                   <WordListScreen activePair={activePair} />
                 )}
