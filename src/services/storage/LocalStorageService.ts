@@ -11,7 +11,6 @@ const KEYS = {
   LANGUAGE_PAIRS: 'lexio:language-pairs',
   WORDS_PREFIX: 'lexio:words:',
   PROGRESS_PREFIX: 'lexio:progress:',
-  ALL_PROGRESS_PREFIX: 'lexio:all-progress:',
   SETTINGS: 'lexio:settings',
   DAILY_STATS_PREFIX: 'lexio:daily-stats:',
 } as const
@@ -43,8 +42,15 @@ function writeJson<T>(key: string, value: T): void {
  * This is the only place in the codebase that calls localStorage directly.
  */
 export class LocalStorageService implements StorageService {
+  // --- Language pairs ---
+
   async getLanguagePairs(): Promise<LanguagePair[]> {
     return readJson<LanguagePair[]>(KEYS.LANGUAGE_PAIRS) ?? []
+  }
+
+  async getLanguagePair(id: string): Promise<LanguagePair | null> {
+    const pairs = await this.getLanguagePairs()
+    return pairs.find((p) => p.id === id) ?? null
   }
 
   async saveLanguagePair(pair: LanguagePair): Promise<void> {
@@ -61,8 +67,20 @@ export class LocalStorageService implements StorageService {
     writeJson(KEYS.LANGUAGE_PAIRS, pairs.filter((p) => p.id !== id))
   }
 
+  // --- Words ---
+
   async getWords(pairId: string): Promise<Word[]> {
     return readJson<Word[]>(`${KEYS.WORDS_PREFIX}${pairId}`) ?? []
+  }
+
+  async getWord(id: string): Promise<Word | null> {
+    const pairs = await this.getLanguagePairs()
+    for (const pair of pairs) {
+      const words = await this.getWords(pair.id)
+      const found = words.find((w) => w.id === id)
+      if (found) return found
+    }
+    return null
   }
 
   async saveWord(word: Word): Promise<void> {
@@ -76,7 +94,6 @@ export class LocalStorageService implements StorageService {
 
   async saveWords(words: Word[]): Promise<void> {
     if (words.length === 0) return
-    // Group by pairId for efficiency
     const byPair = new Map<string, Word[]>()
     for (const word of words) {
       const existing = byPair.get(word.pairId) ?? []
@@ -94,7 +111,6 @@ export class LocalStorageService implements StorageService {
   }
 
   async deleteWord(id: string): Promise<void> {
-    // We need to search across all pairs - find by scanning keys
     const pairs = await this.getLanguagePairs()
     for (const pair of pairs) {
       const words = await this.getWords(pair.id)
@@ -105,6 +121,8 @@ export class LocalStorageService implements StorageService {
       }
     }
   }
+
+  // --- Progress ---
 
   async getWordProgress(wordId: string): Promise<WordProgress | null> {
     return readJson<WordProgress>(`${KEYS.PROGRESS_PREFIX}${wordId}`)
@@ -124,6 +142,8 @@ export class LocalStorageService implements StorageService {
     writeJson(`${KEYS.PROGRESS_PREFIX}${progress.wordId}`, progress)
   }
 
+  // --- Settings ---
+
   async getSettings(): Promise<UserSettings> {
     return readJson<UserSettings>(KEYS.SETTINGS) ?? DEFAULT_SETTINGS
   }
@@ -132,8 +152,23 @@ export class LocalStorageService implements StorageService {
     writeJson(KEYS.SETTINGS, settings)
   }
 
+  // --- Daily stats ---
+
   async getDailyStats(date: string): Promise<DailyStats | null> {
     return readJson<DailyStats>(`${KEYS.DAILY_STATS_PREFIX}${date}`)
+  }
+
+  async getDailyStatsRange(from: string, to: string): Promise<DailyStats[]> {
+    const result: DailyStats[] = []
+    const current = new Date(from)
+    const end = new Date(to)
+    while (current <= end) {
+      const dateStr = current.toISOString().slice(0, 10)
+      const stats = await this.getDailyStats(dateStr)
+      if (stats !== null) result.push(stats)
+      current.setDate(current.getDate() + 1)
+    }
+    return result
   }
 
   async saveDailyStats(stats: DailyStats): Promise<void> {
@@ -151,5 +186,95 @@ export class LocalStorageService implements StorageService {
       if (stats !== null) result.push(stats)
     }
     return result
+  }
+
+  // --- Data management ---
+
+  async exportAll(): Promise<string> {
+    const pairs = await this.getLanguagePairs()
+    const words: Record<string, Word[]> = {}
+    const progress: Record<string, WordProgress> = {}
+
+    for (const pair of pairs) {
+      const pairWords = await this.getWords(pair.id)
+      words[pair.id] = pairWords
+      for (const word of pairWords) {
+        const p = await this.getWordProgress(word.id)
+        if (p !== null) progress[word.id] = p
+      }
+    }
+
+    const settings = await this.getSettings()
+
+    // Collect all daily stats from localStorage keys
+    const dailyStats: DailyStats[] = []
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i)
+      if (key?.startsWith(KEYS.DAILY_STATS_PREFIX)) {
+        const stats = readJson<DailyStats>(key)
+        if (stats !== null) dailyStats.push(stats)
+      }
+    }
+
+    return JSON.stringify({
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      languagePairs: pairs,
+      words,
+      progress,
+      settings,
+      dailyStats,
+    })
+  }
+
+  async importAll(data: string): Promise<void> {
+    const parsed = JSON.parse(data) as {
+      languagePairs?: LanguagePair[]
+      words?: Record<string, Word[]>
+      progress?: Record<string, WordProgress>
+      settings?: UserSettings
+      dailyStats?: DailyStats[]
+    }
+
+    await this.clearAll()
+
+    if (parsed.languagePairs) {
+      writeJson(KEYS.LANGUAGE_PAIRS, parsed.languagePairs)
+    }
+
+    if (parsed.words) {
+      for (const [pairId, pairWords] of Object.entries(parsed.words)) {
+        writeJson(`${KEYS.WORDS_PREFIX}${pairId}`, pairWords)
+      }
+    }
+
+    if (parsed.progress) {
+      for (const [wordId, wordProgress] of Object.entries(parsed.progress)) {
+        writeJson(`${KEYS.PROGRESS_PREFIX}${wordId}`, wordProgress)
+      }
+    }
+
+    if (parsed.settings) {
+      writeJson(KEYS.SETTINGS, parsed.settings)
+    }
+
+    if (parsed.dailyStats) {
+      for (const stats of parsed.dailyStats) {
+        writeJson(`${KEYS.DAILY_STATS_PREFIX}${stats.date}`, stats)
+      }
+    }
+  }
+
+  async clearAll(): Promise<void> {
+    const keysToRemove: string[] = []
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i)
+      if (key?.startsWith('lexio:')) {
+        keysToRemove.push(key)
+      }
+    }
+    for (const key of keysToRemove) {
+      localStorage.removeItem(key)
+    }
   }
 }

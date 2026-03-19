@@ -15,11 +15,13 @@ import type {
 export interface StorageService {
   // Language pairs
   getLanguagePairs(): Promise<LanguagePair[]>
+  getLanguagePair(id: string): Promise<LanguagePair | null>
   saveLanguagePair(pair: LanguagePair): Promise<void>
   deleteLanguagePair(id: string): Promise<void>
 
   // Words
   getWords(pairId: string): Promise<Word[]>
+  getWord(id: string): Promise<Word | null>
   saveWord(word: Word): Promise<void>
   saveWords(words: Word[]): Promise<void>
   deleteWord(id: string): Promise<void>
@@ -35,6 +37,12 @@ export interface StorageService {
 
   // Stats
   getDailyStats(date: string): Promise<DailyStats | null>
+  getDailyStatsRange(from: string, to: string): Promise<DailyStats[]>
   saveDailyStats(stats: DailyStats): Promise<void>
   getRecentDailyStats(days: number): Promise<DailyStats[]>
+
+  // Data management
+  exportAll(): Promise<string>
+  importAll(data: string): Promise<void>
+  clearAll(): Promise<void>
 }
