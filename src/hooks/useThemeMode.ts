@@ -41,7 +41,7 @@ export function useThemeMode(storage: StorageService): UseThemeModeResult {
   useEffect(() => {
     if (preference !== 'system') return
 
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const mediaQuery = globalThis.matchMedia('(prefers-color-scheme: dark)')
 
     const handleChange = () => {
       setMode(mediaQuery.matches ? 'dark' : 'light')

@@ -6,11 +6,7 @@
  */
 
 import { test, expect } from '@playwright/test'
-import {
-  resetAppState,
-  fillAndSubmitCreatePairDialog,
-  createLanguagePair,
-} from './helpers'
+import { resetAppState, fillAndSubmitCreatePairDialog, createLanguagePair } from './helpers'
 
 // ─── Test setup ───────────────────────────────────────────────────────────────
 
@@ -81,9 +77,7 @@ test('delete a language pair', async ({ page }) => {
   await expect(pairList.getByText('Italian → English')).toBeVisible()
 
   // Click the delete button for the Spanish-English pair.
-  await page
-    .getByRole('button', { name: 'Delete Spanish to English pair' })
-    .click()
+  await page.getByRole('button', { name: 'Delete Spanish to English pair' }).click()
 
   // The confirmation dialog should appear.
   const deleteDialog = page.getByRole('dialog')

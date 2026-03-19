@@ -6,10 +6,7 @@
  */
 
 import { test, expect } from '@playwright/test'
-import {
-  resetAppState,
-  fillAndSubmitCreatePairDialog,
-} from './helpers'
+import { resetAppState, fillAndSubmitCreatePairDialog } from './helpers'
 
 // ─── Test setup ───────────────────────────────────────────────────────────────
 

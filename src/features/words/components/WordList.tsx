@@ -58,7 +58,7 @@ export function WordList({ words, progressMap, onEdit, onDelete, onBulkDelete }:
     for (const word of words) {
       for (const tag of word.tags) tagSet.add(tag)
     }
-    return Array.from(tagSet).sort()
+    return Array.from(tagSet).sort((a, b) => a.localeCompare(b))
   }, [words])
 
   const filteredAndSorted = useMemo(() => {

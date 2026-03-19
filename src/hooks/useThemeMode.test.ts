@@ -61,7 +61,7 @@ function mockMatchMedia(prefersDark: boolean): MockInstance {
   }
 
   const spy = vi
-    .spyOn(window, 'matchMedia')
+    .spyOn(globalThis, 'matchMedia')
     .mockReturnValue(mediaQueryList as unknown as MediaQueryList)
 
   return spy

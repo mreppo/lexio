@@ -15,7 +15,7 @@ describe('resolveThemeMode', () => {
   })
 
   it('should return "dark" for "system" when OS prefers dark', () => {
-    vi.spyOn(window, 'matchMedia').mockReturnValue({
+    vi.spyOn(globalThis, 'matchMedia').mockReturnValue({
       matches: true,
     } as MediaQueryList)
 
@@ -23,7 +23,7 @@ describe('resolveThemeMode', () => {
   })
 
   it('should return "light" for "system" when OS prefers light', () => {
-    vi.spyOn(window, 'matchMedia').mockReturnValue({
+    vi.spyOn(globalThis, 'matchMedia').mockReturnValue({
       matches: false,
     } as MediaQueryList)
 

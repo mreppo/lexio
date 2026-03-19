@@ -170,7 +170,7 @@ export function createAppTheme(mode: 'light' | 'dark'): Theme {
  */
 export function resolveThemeMode(preference: ThemePreference): 'light' | 'dark' {
   if (preference === 'system') {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    return globalThis.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   }
   return preference
 }

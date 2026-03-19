@@ -133,6 +133,16 @@ export function PackBrowserDialog({
     [pairId, pairSourceCode, pairTargetCode, storage, onInstalled, onClose],
   )
 
+  const handleInstallClick = useCallback(
+    (pack: StarterPack) => () => {
+      handleInstall(pack).catch((err: unknown) => {
+        const message = err instanceof Error ? err.message : 'Unknown error'
+        setLoadError(message)
+      })
+    },
+    [handleInstall],
+  )
+
   const handleClose = useCallback(() => {
     onClose()
   }, [onClose])
@@ -204,7 +214,7 @@ export function PackBrowserDialog({
                           startIcon={
                             isInstalling ? <CircularProgress size={14} /> : <DownloadIcon />
                           }
-                          onClick={() => void handleInstall(pack)}
+                          onClick={handleInstallClick(pack)}
                           disabled={isInstalling || !pairId}
                         >
                           Install
