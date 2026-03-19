@@ -7,11 +7,13 @@ import {
   Stack,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import type { Word, LanguagePair } from '@/types'
 import { useWords } from '../useWords'
 import type { CreateWordInput } from '../useWords'
 import { WordList } from './WordList'
 import { WordFormDialog } from './WordFormDialog'
+import { PackBrowserDialog } from '@/features/starter-packs'
 
 export interface WordListScreenProps {
   readonly activePair: LanguagePair | null
@@ -22,12 +24,13 @@ export interface WordListScreenProps {
  * Handles empty states, loading, and delegates list + form to sub-components.
  */
 export function WordListScreen({ activePair }: WordListScreenProps) {
-  const { words, progressMap, loading, addWord, updateWord, deleteWord, deleteWords } =
+  const { words, progressMap, loading, addWord, updateWord, deleteWord, deleteWords, refresh } =
     useWords(activePair?.id ?? null)
 
   const [formOpen, setFormOpen] = useState(false)
   const [wordToEdit, setWordToEdit] = useState<Word | null>(null)
   const [quickAddMode, setQuickAddMode] = useState(false)
+  const [packBrowserOpen, setPackBrowserOpen] = useState(false)
 
   const handleOpenAdd = useCallback((quick = false) => {
     setWordToEdit(null)
@@ -60,6 +63,19 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
     },
     [activePair, wordToEdit, addWord, updateWord],
   )
+
+  const handleOpenPackBrowser = useCallback(() => {
+    setPackBrowserOpen(true)
+  }, [])
+
+  const handleClosePackBrowser = useCallback(() => {
+    setPackBrowserOpen(false)
+  }, [])
+
+  const handlePackInstalled = useCallback(() => {
+    // Refresh the word list after a pack is installed.
+    refresh()
+  }, [refresh])
 
   // No active pair selected
   if (!activePair) {
@@ -97,14 +113,18 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
             <strong>
               {activePair.sourceLang} → {activePair.targetLang}
             </strong>
-            . You can also import a starter pack from the settings.
+            , or install a starter pack to get going quickly.
           </Typography>
-          <Stack direction="row" spacing={1} justifyContent="center">
+          <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap">
             <Button variant="contained" startIcon={<AddIcon />} onClick={() => handleOpenAdd(false)}>
               Add your first word
             </Button>
-            <Button variant="outlined" onClick={() => handleOpenAdd(true)}>
-              Quick add
+            <Button
+              variant="outlined"
+              startIcon={<LibraryBooksIcon />}
+              onClick={handleOpenPackBrowser}
+            >
+              Starter packs
             </Button>
           </Stack>
         </Box>
@@ -115,6 +135,13 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
           quickAddMode={quickAddMode}
           onClose={handleCloseForm}
           onSubmit={handleSubmit}
+        />
+
+        <PackBrowserDialog
+          open={packBrowserOpen}
+          pairId={activePair.id}
+          onClose={handleClosePackBrowser}
+          onInstalled={handlePackInstalled}
         />
       </>
     )
@@ -127,6 +154,14 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
           {activePair.sourceLang} → {activePair.targetLang}
         </Typography>
         <Stack direction="row" spacing={1}>
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<LibraryBooksIcon />}
+            onClick={handleOpenPackBrowser}
+          >
+            Packs
+          </Button>
           <Button variant="outlined" size="small" onClick={() => handleOpenAdd(true)}>
             Quick add
           </Button>
@@ -155,6 +190,13 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
         quickAddMode={quickAddMode}
         onClose={handleCloseForm}
         onSubmit={handleSubmit}
+      />
+
+      <PackBrowserDialog
+        open={packBrowserOpen}
+        pairId={activePair.id}
+        onClose={handleClosePackBrowser}
+        onInstalled={handlePackInstalled}
       />
     </>
   )
