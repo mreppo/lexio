@@ -198,6 +198,31 @@ npm run build      # Verify production build
 npx tsc --noEmit   # Type check only
 ```
 
+## E2E Testing
+
+After all unit tests pass, the QA agent must also verify critical flows work end-to-end:
+
+- Run `npm run e2e` before marking any issue as complete
+- If a change touches UI components, verify the affected flow in a real browser
+- E2E tests run against the production build, not the dev server
+- If an E2E test fails, the bug is real — do not skip or mock around it
+
+### Playwright conventions
+
+- Test files live in `e2e/` and end in `.spec.ts`
+- Shared helpers (state reset, pair creation, pack installation) live in `e2e/helpers.ts`
+- Every test calls `resetAppState(page)` in `beforeEach` to clear localStorage
+- No mocking — interact through the real UI and real fetch
+- Use Playwright's auto-waiting assertions (`toBeVisible`, `toHaveCount`) — never use `waitForTimeout` except for short unavoidable delays
+- Chromium only in CI (keeps the pipeline fast)
+
+### Running E2E tests
+
+```bash
+npm run e2e          # run against production build (headless)
+npm run e2e:headed   # run with browser visible (for debugging)
+```
+
 ### Lockfile Integrity
 
 After any `npm install` (adding, removing, or upgrading packages), always verify the lockfile is consistent before committing:
