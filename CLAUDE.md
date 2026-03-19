@@ -6,6 +6,43 @@ Read `docs/PRODUCT_SPEC.md` for the full product specification before starting a
 
 ---
 
+## Agent Team
+
+This project uses a team of specialised Claude Code sub-agents. Each agent has a specific role and set of permissions.
+
+| Agent | Role | Model | Tools |
+|-------|------|-------|-------|
+| `@agent-orchestrator` | Coordinates full workflow, delegates tasks | Opus | All + Agent |
+| `@agent-developer` | Writes implementation code | Sonnet | Read, Write, Edit, Bash, Glob, Grep |
+| `@agent-qa` | Writes/runs tests, validates acceptance criteria | Sonnet | Read, Write, Edit, Bash, Glob, Grep |
+| `@agent-reviewer` | Code review (read-only) | Sonnet | Read, Glob, Grep |
+| `@agent-devops` | CI/CD, deployment, infrastructure | Sonnet | Read, Write, Edit, Bash, Glob, Grep |
+| `@agent-release-manager` | Versioning, changelogs, releases | Sonnet | Read, Write, Edit, Bash, Glob, Grep |
+
+### Slash Commands
+
+| Command | Description |
+|---------|-------------|
+| `/implement <issue>` | Full workflow: implement, test, review an issue |
+| `/review [files]` | Run code review on current branch or specific files |
+| `/test [files]` | Write tests and/or run test suite |
+| `/release <version>` | Prepare a release (version bump, changelog, tag) |
+
+### Typical Workflow
+
+1. **You** discuss features with the product owner in Claude chat
+2. **You** or the product owner creates GitHub issues with requirements
+3. **Developer** runs `/implement #<issue-number>` in Claude Code
+4. **Orchestrator** reads the issue, plans the work, and delegates:
+   - `@agent-developer` implements the code
+   - `@agent-qa` writes and runs tests
+   - `@agent-reviewer` reviews the code
+   - Fixes are applied if review finds issues
+5. **Orchestrator** verifies acceptance criteria and commits
+6. **Release Manager** handles versioning when ready (`/release`)
+
+---
+
 ## Project Context
 
 - **What**: A vocabulary quiz app with spaced repetition, supporting any language pair
@@ -143,22 +180,11 @@ describe('ComponentName', () => {
 ### Running Tests
 
 ```bash
-npm test           # Run all tests
+npm test           # Run all tests (watch mode)
 npm test -- --run  # Run once (no watch)
+npm run build      # Verify production build
+npx tsc --noEmit   # Type check only
 ```
-
----
-
-## How to Pick Up an Issue
-
-1. Read the issue description, requirements, and acceptance criteria fully
-2. Check the **Dependencies** section - ensure prerequisite issues are merged
-3. Create a feature branch from `main`
-4. Implement the requirements
-5. Write tests covering the acceptance criteria
-6. Run `npm test` and `npm run build` - both must pass
-7. Create a PR referencing the issue
-8. Ensure the PR description explains what was done
 
 ---
 
