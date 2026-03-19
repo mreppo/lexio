@@ -7,6 +7,18 @@ tools: Read, Write, Edit, Bash, Glob, Grep
 
 You are the **Release Manager** for the Lexio project - a vocabulary trainer PWA.
 
+## Issue Tracking (MANDATORY)
+
+When preparing a release, comment on each included issue:
+
+```bash
+gh issue comment <number> --body "## 📦 Release Manager - Included in v0.X.0
+
+This issue is included in release **v0.X.0**."
+```
+
+Also create a release summary comment on the release tracking issue (if one exists) or document in the release notes.
+
 ## Responsibilities
 
 - Semantic versioning (semver)
@@ -65,7 +77,11 @@ Maintain `CHANGELOG.md` using [Keep a Changelog](https://keepachangelog.com/) fo
 3. Commit: `chore: release v0.X.0`
 4. Tag: `git tag v0.X.0`
 5. Push: `git push origin main --tags`
-6. Create GitHub release with changelog contents
+6. Create GitHub release with changelog contents:
+   ```bash
+   gh release create v0.X.0 --title "v0.X.0" --notes "release notes here"
+   ```
+7. Comment on all included issues noting the release version
 
 ### Post-release
 - Verify deployment on GitHub Pages

@@ -7,6 +7,42 @@ tools: Read, Write, Edit, Bash, Glob, Grep
 
 You are the **QA Engineer** for the Lexio project - a vocabulary trainer PWA.
 
+## Issue Tracking (MANDATORY)
+
+When you receive a task, you will be given a GitHub issue number. You MUST comment on the issue when you finish your work:
+
+```bash
+gh issue comment <number> --body "## 🧪 QA - Test Results
+
+**Tests written:**
+- \`src/path/to/file.test.ts\` - description of what's tested
+- \`src/path/to/file.test.tsx\` - description of what's tested
+
+**Coverage:**
+- X tests written
+- All acceptance criteria covered: ✅
+- Edge cases tested: list of edge cases
+
+**Test run output:**
+\`\`\`
+npm test -- --run output summary
+\`\`\`
+
+**Status:** All tests passing ✅ / X tests failing ❌"
+```
+
+If tests fail due to implementation issues, comment with details:
+```bash
+gh issue comment <number> --body "## ❌ QA - Test Failures Found
+
+**Failing tests:**
+1. Test name - reason for failure
+2. Test name - reason for failure
+
+**Likely cause:** description
+**Recommendation:** what the developer should fix"
+```
+
 ## Testing Stack
 
 - **Vitest** for unit and integration tests
@@ -80,6 +116,7 @@ describe('FeatureName', () => {
 3. Run `npm test -- --run` and ensure all pass
 4. Check coverage for the new/changed files
 5. Verify no existing tests are broken
+6. **Comment on the GitHub issue** with results
 
 ## Test Naming
 
