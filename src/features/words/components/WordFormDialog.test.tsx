@@ -24,64 +24,29 @@ describe('WordFormDialog', () => {
   })
 
   it('should not render when open is false', () => {
-    render(
-      <WordFormDialog
-        open={false}
-        word={null}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<WordFormDialog open={false} word={null} onClose={vi.fn()} onSubmit={vi.fn()} />)
     expect(screen.queryByText('Add word')).not.toBeInTheDocument()
   })
 
   it('should render add mode when open is true and word is null', () => {
-    render(
-      <WordFormDialog
-        open={true}
-        word={null}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<WordFormDialog open={true} word={null} onClose={vi.fn()} onSubmit={vi.fn()} />)
     expect(screen.getByRole('heading', { name: 'Add word' })).toBeInTheDocument()
   })
 
   it('should render edit mode when a word is provided', () => {
-    render(
-      <WordFormDialog
-        open={true}
-        word={makeWord()}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<WordFormDialog open={true} word={makeWord()} onClose={vi.fn()} onSubmit={vi.fn()} />)
     expect(screen.getByText('Edit word')).toBeInTheDocument()
   })
 
   it('should pre-fill form fields when editing an existing word', () => {
-    render(
-      <WordFormDialog
-        open={true}
-        word={makeWord()}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<WordFormDialog open={true} word={makeWord()} onClose={vi.fn()} onSubmit={vi.fn()} />)
     expect(screen.getByDisplayValue('house')).toBeInTheDocument()
     expect(screen.getByDisplayValue('māja')).toBeInTheDocument()
     expect(screen.getByDisplayValue('a place to live')).toBeInTheDocument()
   })
 
   it('should show existing tags in edit mode', () => {
-    render(
-      <WordFormDialog
-        open={true}
-        word={makeWord()}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<WordFormDialog open={true} word={makeWord()} onClose={vi.fn()} onSubmit={vi.fn()} />)
     expect(screen.getByText('nouns')).toBeInTheDocument()
     expect(screen.getByText('B1')).toBeInTheDocument()
   })
@@ -90,41 +55,20 @@ describe('WordFormDialog', () => {
     const user = userEvent.setup()
     const onClose = vi.fn()
 
-    render(
-      <WordFormDialog
-        open={true}
-        word={null}
-        onClose={onClose}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<WordFormDialog open={true} word={null} onClose={onClose} onSubmit={vi.fn()} />)
 
     await user.click(screen.getByRole('button', { name: /Cancel/i }))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
   it('should disable submit button when fields are empty', () => {
-    render(
-      <WordFormDialog
-        open={true}
-        word={null}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<WordFormDialog open={true} word={null} onClose={vi.fn()} onSubmit={vi.fn()} />)
     expect(screen.getByRole('button', { name: /Add word/i })).toBeDisabled()
   })
 
   it('should enable submit button when source and target are filled', async () => {
     const user = userEvent.setup()
-    render(
-      <WordFormDialog
-        open={true}
-        word={null}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<WordFormDialog open={true} word={null} onClose={vi.fn()} onSubmit={vi.fn()} />)
 
     await user.type(screen.getByLabelText(/Source word/i), 'cat')
     await user.type(screen.getByLabelText(/Target word/i), 'kaķis')
@@ -135,14 +79,7 @@ describe('WordFormDialog', () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn().mockResolvedValue(true)
 
-    render(
-      <WordFormDialog
-        open={true}
-        word={null}
-        onClose={vi.fn()}
-        onSubmit={onSubmit}
-      />,
-    )
+    render(<WordFormDialog open={true} word={null} onClose={vi.fn()} onSubmit={onSubmit} />)
 
     await user.type(screen.getByLabelText(/Source word/i), 'cat')
     await user.type(screen.getByLabelText(/Target word/i), 'kaķis')
@@ -162,36 +99,20 @@ describe('WordFormDialog', () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn().mockResolvedValue(false)
 
-    render(
-      <WordFormDialog
-        open={true}
-        word={null}
-        onClose={vi.fn()}
-        onSubmit={onSubmit}
-      />,
-    )
+    render(<WordFormDialog open={true} word={null} onClose={vi.fn()} onSubmit={onSubmit} />)
 
     await user.type(screen.getByLabelText(/Source word/i), 'cat')
     await user.type(screen.getByLabelText(/Target word/i), 'kaķis')
     await user.click(screen.getByRole('button', { name: /Add word/i }))
 
     await waitFor(() => {
-      expect(
-        screen.getByText('This word already exists in the list.'),
-      ).toBeInTheDocument()
+      expect(screen.getByText('This word already exists in the list.')).toBeInTheDocument()
     })
   })
 
   it('should add a tag when pressing Enter in the tag field', async () => {
     const user = userEvent.setup()
-    render(
-      <WordFormDialog
-        open={true}
-        word={null}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<WordFormDialog open={true} word={null} onClose={vi.fn()} onSubmit={vi.fn()} />)
 
     await user.type(screen.getByLabelText(/Tags/i), 'food')
     await user.keyboard('{Enter}')
@@ -201,14 +122,7 @@ describe('WordFormDialog', () => {
 
   it('should remove a tag when its delete button is clicked', async () => {
     const user = userEvent.setup()
-    render(
-      <WordFormDialog
-        open={true}
-        word={makeWord()}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<WordFormDialog open={true} word={makeWord()} onClose={vi.fn()} onSubmit={vi.fn()} />)
 
     // Word has 'nouns' and 'B1' tags.
     // MUI Chip places aria-label on the chip root div (role="button") when onDelete is set.

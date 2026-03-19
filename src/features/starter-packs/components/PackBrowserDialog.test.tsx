@@ -81,19 +81,15 @@ describe('PackBrowserDialog', () => {
 
   it('should not render dialog content when open is false', () => {
     vi.spyOn(starterPacksService, 'listPacks').mockResolvedValue([])
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} open={false} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} open={false} />, {
+      wrapper: makeWrapper(makeStorage()),
+    })
     expect(screen.queryByText('Browse starter packs')).not.toBeInTheDocument()
   })
 
   it('should render dialog title when open is true', async () => {
     vi.spyOn(starterPacksService, 'listPacks').mockResolvedValue([MOCK_PACK])
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} />, { wrapper: makeWrapper(makeStorage()) })
     await waitFor(() => {
       expect(screen.getByText('Browse starter packs')).toBeInTheDocument()
     })
@@ -102,19 +98,13 @@ describe('PackBrowserDialog', () => {
   it('should show loading indicator while packs are loading', () => {
     // Never resolves, so loading stays true
     vi.spyOn(starterPacksService, 'listPacks').mockReturnValue(new Promise(() => {}))
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} />, { wrapper: makeWrapper(makeStorage()) })
     expect(screen.getByRole('progressbar')).toBeInTheDocument()
   })
 
   it('should show "No starter packs available" when list is empty', async () => {
     vi.spyOn(starterPacksService, 'listPacks').mockResolvedValue([])
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} />, { wrapper: makeWrapper(makeStorage()) })
     await waitFor(() => {
       expect(screen.getByText(/No starter packs available/i)).toBeInTheDocument()
     })
@@ -122,22 +112,18 @@ describe('PackBrowserDialog', () => {
 
   it('should display pack name and description after load', async () => {
     vi.spyOn(starterPacksService, 'listPacks').mockResolvedValue([MOCK_PACK])
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} />, { wrapper: makeWrapper(makeStorage()) })
     await waitFor(() => {
       expect(screen.getByText('English-Latvian B1-B2')).toBeInTheDocument()
-      expect(screen.getByText('Common English-Latvian vocabulary at B1-B2 level')).toBeInTheDocument()
+      expect(
+        screen.getByText('Common English-Latvian vocabulary at B1-B2 level'),
+      ).toBeInTheDocument()
     })
   })
 
   it('should show error message when listPacks fails', async () => {
     vi.spyOn(starterPacksService, 'listPacks').mockRejectedValue(new Error('Network error'))
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} />, { wrapper: makeWrapper(makeStorage()) })
     await waitFor(() => {
       expect(screen.getByText('Network error')).toBeInTheDocument()
     })
@@ -147,10 +133,9 @@ describe('PackBrowserDialog', () => {
     const user = userEvent.setup()
     const onClose = vi.fn()
     vi.spyOn(starterPacksService, 'listPacks').mockResolvedValue([MOCK_PACK])
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} onClose={onClose} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} onClose={onClose} />, {
+      wrapper: makeWrapper(makeStorage()),
+    })
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /^Close$/i })).toBeInTheDocument()
     })
@@ -166,10 +151,9 @@ describe('PackBrowserDialog', () => {
     vi.spyOn(starterPacksService, 'listPacks').mockResolvedValue([MOCK_PACK])
     vi.spyOn(starterPacksService, 'installPack').mockResolvedValue({ added: 2, skipped: 0 })
 
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} onInstalled={onInstalled} onClose={onClose} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} onInstalled={onInstalled} onClose={onClose} />, {
+      wrapper: makeWrapper(makeStorage()),
+    })
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Install/i })).toBeInTheDocument()
@@ -191,10 +175,7 @@ describe('PackBrowserDialog', () => {
     vi.spyOn(starterPacksService, 'listPacks').mockResolvedValue([MOCK_PACK])
     vi.spyOn(starterPacksService, 'installPack').mockResolvedValue({ added: 2, skipped: 1 })
 
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} />, { wrapper: makeWrapper(makeStorage()) })
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Install/i })).toBeInTheDocument()
@@ -216,10 +197,9 @@ describe('PackBrowserDialog', () => {
     vi.spyOn(starterPacksService, 'listPacks').mockResolvedValue([MOCK_PACK])
     vi.spyOn(starterPacksService, 'installPack').mockResolvedValue({ added: 2, skipped: 0 })
 
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} onClose={onClose} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} onClose={onClose} />, {
+      wrapper: makeWrapper(makeStorage()),
+    })
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Install/i })).toBeInTheDocument()
@@ -248,16 +228,19 @@ describe('PackBrowserDialog', () => {
     vi.useFakeTimers({ shouldAdvanceTime: true })
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime.bind(vi) })
     const callOrder: string[] = []
-    const onInstalled = vi.fn().mockImplementation(() => { callOrder.push('onInstalled') })
-    const onClose = vi.fn().mockImplementation(() => { callOrder.push('onClose') })
+    const onInstalled = vi.fn().mockImplementation(() => {
+      callOrder.push('onInstalled')
+    })
+    const onClose = vi.fn().mockImplementation(() => {
+      callOrder.push('onClose')
+    })
 
     vi.spyOn(starterPacksService, 'listPacks').mockResolvedValue([MOCK_PACK])
     vi.spyOn(starterPacksService, 'installPack').mockResolvedValue({ added: 2, skipped: 0 })
 
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} onInstalled={onInstalled} onClose={onClose} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} onInstalled={onInstalled} onClose={onClose} />, {
+      wrapper: makeWrapper(makeStorage()),
+    })
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Install/i })).toBeInTheDocument()
@@ -285,10 +268,9 @@ describe('PackBrowserDialog', () => {
     vi.spyOn(starterPacksService, 'listPacks').mockResolvedValue([MOCK_PACK])
     vi.spyOn(starterPacksService, 'installPack').mockRejectedValue(new Error('Install failed'))
 
-    render(
-      <PackBrowserDialog {...DEFAULT_PROPS} onClose={onClose} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<PackBrowserDialog {...DEFAULT_PROPS} onClose={onClose} />, {
+      wrapper: makeWrapper(makeStorage()),
+    })
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Install/i })).toBeInTheDocument()

@@ -1,10 +1,4 @@
-import type {
-  LanguagePair,
-  Word,
-  WordProgress,
-  UserSettings,
-  DailyStats,
-} from '@/types'
+import type { LanguagePair, Word, WordProgress, UserSettings, DailyStats } from '@/types'
 
 /**
  * Storage abstraction interface.

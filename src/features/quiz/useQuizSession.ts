@@ -26,11 +26,11 @@ import type { DistractorResult } from '@/utils/distractorGenerator'
 // ─── Public types ─────────────────────────────────────────────────────────────
 
 export type SessionPhase =
-  | 'loading'           // fetching words
-  | 'not-enough-words'  // fewer than MIN_WORDS_FOR_CHOICE words (choice/mixed only)
-  | 'question'          // showing a word, waiting for input
-  | 'feedback'          // showing result, about to advance
-  | 'finished'          // session complete
+  | 'loading' // fetching words
+  | 'not-enough-words' // fewer than MIN_WORDS_FOR_CHOICE words (choice/mixed only)
+  | 'question' // showing a word, waiting for input
+  | 'feedback' // showing result, about to advance
+  | 'finished' // session complete
 
 export type ActiveQuizMode = 'type' | 'choice'
 
@@ -136,8 +136,7 @@ export function selectModeForWord(
   }
 
   // Confidence heuristic: nudge low-confidence words toward choice
-  const effectiveTypeRatio =
-    confidence < LOW_CONFIDENCE_THRESHOLD ? typeRatio * 0.5 : typeRatio
+  const effectiveTypeRatio = confidence < LOW_CONFIDENCE_THRESHOLD ? typeRatio * 0.5 : typeRatio
 
   return Math.random() < effectiveTypeRatio ? 'type' : 'choice'
 }
@@ -238,12 +237,7 @@ export function useQuizSession(
         let distractors: DistractorResult | null = null
 
         if (itemMode === 'choice') {
-          const result = generateDistractors(
-            wfq.word,
-            wfq.direction,
-            allWords,
-            recentDistractorIds,
-          )
+          const result = generateDistractors(wfq.word, wfq.direction, allWords, recentDistractorIds)
 
           if (result === null) {
             // Fallback to type mode if distractors cannot be generated.
@@ -259,9 +253,7 @@ export function useQuizSession(
             .filter(
               (w) =>
                 w.id !== wfq.word.id &&
-                result.options.includes(
-                  wfq.direction === 'source-to-target' ? w.target : w.source,
-                ),
+                result.options.includes(wfq.direction === 'source-to-target' ? w.target : w.source),
             )
             .map((w) => w.id)
         }
@@ -312,8 +304,7 @@ export function useQuizSession(
       if (phase !== 'question' || currentWord === null || direction === null) return
       if (currentMode !== 'type') return
 
-      const correctText =
-        direction === 'source-to-target' ? currentWord.target : currentWord.source
+      const correctText = direction === 'source-to-target' ? currentWord.target : currentWord.source
 
       const matchResult = matchAnswer(userAnswer, correctText, settings.typoTolerance)
       const isCorrect = matchResult.result === 'correct' || matchResult.result === 'almost'

@@ -72,13 +72,10 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
     setHubPhase('active')
   }, [])
 
-  const handleSessionFinished = useCallback(
-    (wordsReviewed: number, correctCount: number): void => {
-      setSessionResult({ wordsReviewed, correctCount })
-      setHubPhase('summary')
-    },
-    [],
-  )
+  const handleSessionFinished = useCallback((wordsReviewed: number, correctCount: number): void => {
+    setSessionResult({ wordsReviewed, correctCount })
+    setHubPhase('summary')
+  }, [])
 
   const handleContinue = useCallback((): void => {
     setHubPhase('select')

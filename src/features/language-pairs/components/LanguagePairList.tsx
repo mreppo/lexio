@@ -50,11 +50,7 @@ export function LanguagePairList({ pairs, activePairId, onDelete }: LanguagePair
       <Paper variant="outlined" sx={{ borderRadius: 2 }}>
         <List disablePadding>
           {pairs.map((pair, index) => (
-            <ListItem
-              key={pair.id}
-              divider={index < pairs.length - 1}
-              sx={{ py: 1.5, pr: 7 }}
-            >
+            <ListItem key={pair.id} divider={index < pairs.length - 1} sx={{ py: 1.5, pr: 7 }}>
               <ListItemText
                 primary={
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

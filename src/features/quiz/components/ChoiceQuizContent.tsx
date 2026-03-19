@@ -5,14 +5,7 @@
  */
 
 import { useCallback } from 'react'
-import {
-  Box,
-  Button,
-  Paper,
-  Typography,
-  Chip,
-  Alert,
-} from '@mui/material'
+import { Box, Button, Paper, Typography, Chip, Alert } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import type { LanguagePair } from '@/types'
@@ -94,7 +87,9 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
   } = state
 
   const handleSelect = useCallback(
-    (index: number): void => { void selectOption(index) },
+    (index: number): void => {
+      void selectOption(index)
+    },
     [selectOption],
   )
 
@@ -111,7 +106,9 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
   if (phase === 'loading') {
     return (
       <Box sx={{ textAlign: 'center', py: 8 }}>
-        <Typography variant="body1" color="text.secondary">Loading words...</Typography>
+        <Typography variant="body1" color="text.secondary">
+          Loading words...
+        </Typography>
       </Box>
     )
   }
@@ -120,8 +117,7 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
     return (
       <Box sx={{ py: 4 }}>
         <Alert severity="info" sx={{ mb: 2 }}>
-          Multiple choice mode requires at least {MIN_WORDS_FOR_CHOICE} words in
-          this language pair.
+          Multiple choice mode requires at least {MIN_WORDS_FOR_CHOICE} words in this language pair.
         </Alert>
         <Typography variant="body2" color="text.secondary">
           Add more words to your word list to use multiple choice mode.
@@ -133,8 +129,12 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
   if (phase === 'finished' && error !== null) {
     return (
       <Box sx={{ textAlign: 'center', py: 8 }}>
-        <Typography variant="h6" color="error.main" gutterBottom>Something went wrong</Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>{error}</Typography>
+        <Typography variant="h6" color="error.main" gutterBottom>
+          Something went wrong
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+          {error}
+        </Typography>
       </Box>
     )
   }
@@ -145,7 +145,7 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
   const fromLang = direction === 'source-to-target' ? pair.sourceLang : pair.targetLang
   const toLang = direction === 'source-to-target' ? pair.targetLang : pair.sourceLang
   const questionText =
-    direction === 'source-to-target' ? currentWord?.source ?? '' : currentWord?.target ?? ''
+    direction === 'source-to-target' ? (currentWord?.source ?? '') : (currentWord?.target ?? '')
   const isAnswered = selectedIndex !== -1
 
   return (
@@ -201,10 +201,13 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
               aria-pressed={isSelected}
               aria-describedby={isAnswered && isCorrectOption ? 'correct-answer-label' : undefined}
               startIcon={
-                isAnswered && optionState === 'correct' ? <CheckCircleOutlineIcon /> :
-                isAnswered && optionState === 'incorrect' ? <CancelOutlinedIcon /> :
-                isAnswered && optionState === 'reveal' ? <CheckCircleOutlineIcon /> :
-                null
+                isAnswered && optionState === 'correct' ? (
+                  <CheckCircleOutlineIcon />
+                ) : isAnswered && optionState === 'incorrect' ? (
+                  <CancelOutlinedIcon />
+                ) : isAnswered && optionState === 'reveal' ? (
+                  <CheckCircleOutlineIcon />
+                ) : null
               }
             >
               {option}
@@ -216,9 +219,13 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
       {isAnswered && (
         <Box role="status" aria-live="polite" sx={{ textAlign: 'center' }}>
           {lastChoiceCorrect === true ? (
-            <Typography variant="h6" color="success.main" fontWeight={700}>Correct!</Typography>
+            <Typography variant="h6" color="success.main" fontWeight={700}>
+              Correct!
+            </Typography>
           ) : (
-            <Typography variant="h6" color="error.main" fontWeight={700}>Incorrect</Typography>
+            <Typography variant="h6" color="error.main" fontWeight={700}>
+              Incorrect
+            </Typography>
           )}
         </Box>
       )}

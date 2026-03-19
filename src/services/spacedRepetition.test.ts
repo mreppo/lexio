@@ -38,10 +38,7 @@ function makeWord(id: string, pairId = 'pair-1'): Word {
   }
 }
 
-function makeProgress(
-  wordId: string,
-  overrides: Partial<WordProgress> = {},
-): WordProgress {
+function makeProgress(wordId: string, overrides: Partial<WordProgress> = {}): WordProgress {
   return {
     wordId,
     correctCount: 0,
@@ -65,16 +62,12 @@ function makeMockStorage(
 
   return {
     getWords: vi.fn().mockResolvedValue(words),
-    getWordProgress: vi.fn((id: string) =>
-      Promise.resolve(savedProgress.get(id) ?? null),
-    ),
+    getWordProgress: vi.fn((id: string) => Promise.resolve(savedProgress.get(id) ?? null)),
     saveWordProgress: vi.fn((p: WordProgress) => {
       savedProgress.set(p.wordId, p)
       return Promise.resolve()
     }),
-    getDailyStats: vi.fn((date: string) =>
-      Promise.resolve(savedDailyStats.get(date) ?? null),
-    ),
+    getDailyStats: vi.fn((date: string) => Promise.resolve(savedDailyStats.get(date) ?? null)),
     saveDailyStats: vi.fn((stats) => {
       savedDailyStats.set(stats.date, stats)
       return Promise.resolve()
@@ -118,8 +111,30 @@ describe('calculateConfidence', () => {
 
   it('should weight recent attempts more heavily than older ones', () => {
     // Recent: mostly correct; older: all incorrect
-    const historyRecentGood = makeHistory([false, false, false, false, false, true, true, true, true, true])
-    const historyRecentBad = makeHistory([true, true, true, true, true, false, false, false, false, false])
+    const historyRecentGood = makeHistory([
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+    ])
+    const historyRecentBad = makeHistory([
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ])
 
     const confRecentGood = calculateConfidence(historyRecentGood, 0)
     const confRecentBad = calculateConfidence(historyRecentBad, 0)
@@ -139,7 +154,10 @@ describe('calculateConfidence', () => {
 
   it('should not apply streak multiplier when streak is below threshold', () => {
     const history = makeHistory([true, true, true])
-    const belowThreshold = calculateConfidence(history, SPACED_REPETITION_CONFIG.STREAK_THRESHOLD - 1)
+    const belowThreshold = calculateConfidence(
+      history,
+      SPACED_REPETITION_CONFIG.STREAK_THRESHOLD - 1,
+    )
     const noStreak = calculateConfidence(history, 0)
 
     expect(belowThreshold).toBe(noStreak)
@@ -159,10 +177,7 @@ describe('calculateConfidence', () => {
 
   it('should use older attempts when history exceeds the weighted window', () => {
     // 15 older incorrect + 5 recent correct - older ones contribute but with weight 1
-    const history = makeHistory([
-      ...Array(15).fill(false),
-      ...Array(5).fill(true),
-    ])
+    const history = makeHistory([...Array(15).fill(false), ...Array(5).fill(true)])
     const confidence = calculateConfidence(history, 0)
     // Should be > 0 (recent correct) but < 1 (older incorrect drag it down)
     expect(confidence).toBeGreaterThan(0)
@@ -219,7 +234,14 @@ describe('computeProgressAfterAttempt', () => {
   const NOW = 1_700_000_000_000
 
   it('should create progress from scratch for a first-ever attempt', () => {
-    const result = computeProgressAfterAttempt(null, 'word-1', true, 'source-to-target', 'type', NOW)
+    const result = computeProgressAfterAttempt(
+      null,
+      'word-1',
+      true,
+      'source-to-target',
+      'type',
+      NOW,
+    )
 
     expect(result.wordId).toBe('word-1')
     expect(result.correctCount).toBe(1)
@@ -232,20 +254,41 @@ describe('computeProgressAfterAttempt', () => {
 
   it('should increment streak on correct answer', () => {
     const existing = makeProgress('word-1', { streak: 2 })
-    const result = computeProgressAfterAttempt(existing, 'word-1', true, 'source-to-target', 'type', NOW)
+    const result = computeProgressAfterAttempt(
+      existing,
+      'word-1',
+      true,
+      'source-to-target',
+      'type',
+      NOW,
+    )
 
     expect(result.streak).toBe(3)
   })
 
   it('should reset streak to 0 on incorrect answer', () => {
     const existing = makeProgress('word-1', { streak: 5 })
-    const result = computeProgressAfterAttempt(existing, 'word-1', false, 'source-to-target', 'type', NOW)
+    const result = computeProgressAfterAttempt(
+      existing,
+      'word-1',
+      false,
+      'source-to-target',
+      'type',
+      NOW,
+    )
 
     expect(result.streak).toBe(0)
   })
 
   it('should schedule next review in the future', () => {
-    const result = computeProgressAfterAttempt(null, 'word-1', true, 'source-to-target', 'type', NOW)
+    const result = computeProgressAfterAttempt(
+      null,
+      'word-1',
+      true,
+      'source-to-target',
+      'type',
+      NOW,
+    )
 
     expect(result.nextReview).toBeGreaterThan(NOW)
   })
@@ -256,8 +299,22 @@ describe('computeProgressAfterAttempt', () => {
       streak: 4,
     })
 
-    const afterCorrect = computeProgressAfterAttempt(base, 'word-1', true, 'source-to-target', 'type', NOW)
-    const afterIncorrect = computeProgressAfterAttempt(base, 'word-1', false, 'source-to-target', 'type', NOW)
+    const afterCorrect = computeProgressAfterAttempt(
+      base,
+      'word-1',
+      true,
+      'source-to-target',
+      'type',
+      NOW,
+    )
+    const afterIncorrect = computeProgressAfterAttempt(
+      base,
+      'word-1',
+      false,
+      'source-to-target',
+      'type',
+      NOW,
+    )
 
     expect(afterIncorrect.nextReview).toBeLessThan(afterCorrect.nextReview)
   })
@@ -267,7 +324,14 @@ describe('computeProgressAfterAttempt', () => {
     const fullHistory = makeHistory(Array(maxSize).fill(true)) as AttemptRecord[]
     const existing = makeProgress('word-1', { history: fullHistory })
 
-    const result = computeProgressAfterAttempt(existing, 'word-1', true, 'source-to-target', 'type', NOW)
+    const result = computeProgressAfterAttempt(
+      existing,
+      'word-1',
+      true,
+      'source-to-target',
+      'type',
+      NOW,
+    )
 
     expect(result.history.length).toBe(maxSize)
   })
@@ -278,7 +342,14 @@ describe('computeProgressAfterAttempt', () => {
     const fullHistory = makeHistory(Array(maxSize).fill(false)) as AttemptRecord[]
     const existing = makeProgress('word-1', { history: fullHistory, streak: 0 })
 
-    const result = computeProgressAfterAttempt(existing, 'word-1', true, 'source-to-target', 'type', NOW)
+    const result = computeProgressAfterAttempt(
+      existing,
+      'word-1',
+      true,
+      'source-to-target',
+      'type',
+      NOW,
+    )
 
     expect(result.history.length).toBe(maxSize)
     // The newest entry should be correct (true)
@@ -287,8 +358,22 @@ describe('computeProgressAfterAttempt', () => {
 
   it('should accumulate correctCount and incorrectCount', () => {
     const existing = makeProgress('word-1', { correctCount: 3, incorrectCount: 1 })
-    const afterCorrect = computeProgressAfterAttempt(existing, 'word-1', true, 'source-to-target', 'type', NOW)
-    const afterIncorrect = computeProgressAfterAttempt(existing, 'word-1', false, 'source-to-target', 'type', NOW)
+    const afterCorrect = computeProgressAfterAttempt(
+      existing,
+      'word-1',
+      true,
+      'source-to-target',
+      'type',
+      NOW,
+    )
+    const afterIncorrect = computeProgressAfterAttempt(
+      existing,
+      'word-1',
+      false,
+      'source-to-target',
+      'type',
+      NOW,
+    )
 
     expect(afterCorrect.correctCount).toBe(4)
     expect(afterCorrect.incorrectCount).toBe(1)
@@ -297,7 +382,14 @@ describe('computeProgressAfterAttempt', () => {
   })
 
   it('should record the attempt direction and mode', () => {
-    const result = computeProgressAfterAttempt(null, 'word-1', true, 'target-to-source', 'choice', NOW)
+    const result = computeProgressAfterAttempt(
+      null,
+      'word-1',
+      true,
+      'target-to-source',
+      'choice',
+      NOW,
+    )
 
     const lastAttempt = result.history[result.history.length - 1]
     expect(lastAttempt.direction).toBe('target-to-source')
@@ -332,8 +424,8 @@ describe('computeProgressAfterAttempt', () => {
 
 describe('getNextWords', () => {
   const NOW = 1_700_000_000_000
-  const FUTURE = NOW + 24 * 60 * 60 * 1000  // 1 day in the future
-  const PAST = NOW - 60 * 1000              // 1 minute in the past
+  const FUTURE = NOW + 24 * 60 * 60 * 1000 // 1 day in the future
+  const PAST = NOW - 60 * 1000 // 1 minute in the past
 
   it('should return an empty array when there are no words', async () => {
     const storage = makeMockStorage([])
@@ -377,9 +469,9 @@ describe('getNextWords', () => {
 
     const result = await getNextWords(storage, 'pair-1', 3, NOW)
 
-    expect(result[0].word.id).toBe('w3')  // most overdue
+    expect(result[0].word.id).toBe('w3') // most overdue
     expect(result[1].word.id).toBe('w2')
-    expect(result[2].word.id).toBe('w1')  // least overdue
+    expect(result[2].word.id).toBe('w1') // least overdue
   })
 
   it('should include new words when slots remain after overdue', async () => {

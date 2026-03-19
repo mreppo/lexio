@@ -1,4 +1,12 @@
-export type SortOption = 'source-asc' | 'source-desc' | 'target-asc' | 'target-desc' | 'date-asc' | 'date-desc' | 'confidence-asc' | 'confidence-desc'
+export type SortOption =
+  | 'source-asc'
+  | 'source-desc'
+  | 'target-asc'
+  | 'target-desc'
+  | 'date-asc'
+  | 'date-desc'
+  | 'confidence-asc'
+  | 'confidence-desc'
 
 export type WordFilter = 'all' | 'user-added' | 'from-pack'
 
@@ -53,7 +61,10 @@ export const CONFIDENCE_LABELS: Record<ConfidenceFilter, string> = {
   mastered: 'Mastered',
 }
 
-export const CONFIDENCE_COLORS: Record<ConfidenceFilter, 'default' | 'warning' | 'info' | 'success'> = {
+export const CONFIDENCE_COLORS: Record<
+  ConfidenceFilter,
+  'default' | 'warning' | 'info' | 'success'
+> = {
   all: 'default',
   learning: 'warning',
   familiar: 'info',

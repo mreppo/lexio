@@ -47,10 +47,7 @@ function makeProgress(overrides: Partial<WordProgress> = {}): WordProgress {
   }
 }
 
-function makeStorage(
-  words: Word[] = [],
-  progress: WordProgress[] = [],
-): StorageService {
+function makeStorage(words: Word[] = [], progress: WordProgress[] = []): StorageService {
   const storedWords = [...words]
   const storedProgress = [...progress]
 
@@ -63,9 +60,9 @@ function makeStorage(
     saveSettings: vi.fn().mockResolvedValue(undefined),
 
     getWords: vi.fn().mockImplementation(async () => [...storedWords]),
-    getWord: vi.fn().mockImplementation(async (id: string) =>
-      storedWords.find((w) => w.id === id) ?? null,
-    ),
+    getWord: vi
+      .fn()
+      .mockImplementation(async (id: string) => storedWords.find((w) => w.id === id) ?? null),
     saveWord: vi.fn().mockImplementation(async (word: Word) => {
       const idx = storedWords.findIndex((w) => w.id === word.id)
       if (idx >= 0) storedWords[idx] = word
@@ -456,10 +453,7 @@ describe('useWords', () => {
     })
 
     it('should call storage.deleteWord for each id', async () => {
-      const words = [
-        makeWord({ id: 'w1' }),
-        makeWord({ id: 'w2' }),
-      ]
+      const words = [makeWord({ id: 'w1' }), makeWord({ id: 'w2' })]
       const storage = makeStorage(words)
       const { result } = renderHook(() => useWords('pair-1'), {
         wrapper: makeWrapper(storage),

@@ -22,11 +22,7 @@ function renderSelector(
 ) {
   return render(
     <ThemeProvider theme={createTheme()}>
-      <QuizModeSelector
-        selectedMode={selectedMode}
-        onModeChange={onModeChange}
-        onStart={onStart}
-      />
+      <QuizModeSelector selectedMode={selectedMode} onModeChange={onModeChange} onStart={onStart} />
     </ThemeProvider>,
   )
 }

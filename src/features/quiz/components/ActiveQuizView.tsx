@@ -23,12 +23,7 @@ interface ActiveQuizViewProps {
   readonly onSessionFinished: (wordsReviewed: number, correctCount: number) => void
 }
 
-export function ActiveQuizView({
-  mode,
-  pair,
-  settings,
-  onSessionFinished,
-}: ActiveQuizViewProps) {
+export function ActiveQuizView({ mode, pair, settings, onSessionFinished }: ActiveQuizViewProps) {
   const session = useQuizSession(pair, settings, mode)
   const { phase, wordsCompleted, correctCount, currentMode } = session.state
 
@@ -41,8 +36,8 @@ export function ActiveQuizView({
     if (phase === 'finished') {
       onFinishedRef.current(wordsCompleted, correctCount)
     }
-  // wordsCompleted and correctCount are stable at the moment phase becomes
-  // 'finished', so including them is correct and avoids stale reads.
+    // wordsCompleted and correctCount are stable at the moment phase becomes
+    // 'finished', so including them is correct and avoids stale reads.
   }, [phase, wordsCompleted, correctCount])
 
   if (currentMode === 'type') {

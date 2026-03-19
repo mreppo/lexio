@@ -54,9 +54,9 @@ function makeStorage(
 
   return {
     getLanguagePairs: vi.fn().mockImplementation(async () => [...storedPairs]),
-    getLanguagePair: vi.fn().mockImplementation(async (id: string) =>
-      storedPairs.find((p) => p.id === id) ?? null,
-    ),
+    getLanguagePair: vi
+      .fn()
+      .mockImplementation(async (id: string) => storedPairs.find((p) => p.id === id) ?? null),
     saveLanguagePair: vi.fn().mockImplementation(async (pair: LanguagePair) => {
       const idx = storedPairs.findIndex((p) => p.id === pair.id)
       if (idx >= 0) storedPairs[idx] = pair
@@ -270,7 +270,13 @@ describe('useLanguagePairs', () => {
   describe('switchPair', () => {
     it('should update activePair to the selected pair', async () => {
       const pair1 = makePair({ id: 'pair-1', sourceLang: 'English', targetLang: 'Latvian' })
-      const pair2 = makePair({ id: 'pair-2', sourceLang: 'German', targetLang: 'French', sourceCode: 'de', targetCode: 'fr' })
+      const pair2 = makePair({
+        id: 'pair-2',
+        sourceLang: 'German',
+        targetLang: 'French',
+        sourceCode: 'de',
+        targetCode: 'fr',
+      })
       const settings: UserSettings = { ...DEFAULT_SETTINGS, activePairId: 'pair-1' }
       const storage = makeStorage([pair1, pair2], settings)
 
@@ -364,7 +370,13 @@ describe('useLanguagePairs', () => {
 
     it('should not clear activePair when a different pair is deleted', async () => {
       const pair1 = makePair({ id: 'pair-1' })
-      const pair2 = makePair({ id: 'pair-2', sourceCode: 'de', targetCode: 'fr', sourceLang: 'German', targetLang: 'French' })
+      const pair2 = makePair({
+        id: 'pair-2',
+        sourceCode: 'de',
+        targetCode: 'fr',
+        sourceLang: 'German',
+        targetLang: 'French',
+      })
       const settings: UserSettings = { ...DEFAULT_SETTINGS, activePairId: 'pair-1' }
       const storage = makeStorage([pair1, pair2], settings)
 

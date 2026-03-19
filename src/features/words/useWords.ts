@@ -87,9 +87,7 @@ export function useWords(activePairId: string | null): UseWordsResult {
       const normSource = input.source.trim().toLowerCase()
       const normTarget = input.target.trim().toLowerCase()
       const duplicate = words.find(
-        (w) =>
-          w.source.toLowerCase() === normSource &&
-          w.target.toLowerCase() === normTarget,
+        (w) => w.source.toLowerCase() === normSource && w.target.toLowerCase() === normTarget,
       )
       if (duplicate) return null
 

@@ -81,7 +81,13 @@ describe('LanguagePairSelector', () => {
   it('should call onSwitch when a pair item is clicked', async () => {
     const user = userEvent.setup()
     const pair1 = makePair({ id: 'pair-1', sourceLang: 'English', targetLang: 'Latvian' })
-    const pair2 = makePair({ id: 'pair-2', sourceLang: 'German', targetLang: 'French', sourceCode: 'de', targetCode: 'fr' })
+    const pair2 = makePair({
+      id: 'pair-2',
+      sourceLang: 'German',
+      targetLang: 'French',
+      sourceCode: 'de',
+      targetCode: 'fr',
+    })
     const onSwitch = vi.fn()
 
     render(

@@ -140,11 +140,7 @@ export function WordListItem({
 
       {!selectionMode && (
         <ListItemSecondaryAction>
-          <IconButton
-            size="small"
-            aria-label={`Edit ${word.source}`}
-            onClick={handleEdit}
-          >
+          <IconButton size="small" aria-label={`Edit ${word.source}`} onClick={handleEdit}>
             <EditIcon fontSize="small" />
           </IconButton>
           <IconButton

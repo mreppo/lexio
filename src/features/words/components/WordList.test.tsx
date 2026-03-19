@@ -36,7 +36,9 @@ const defaultProps = {
   progressMap: new Map<string, WordProgress>(),
   onEdit: vi.fn() as (word: Word) => void,
   onDelete: vi.fn().mockResolvedValue(undefined) as (wordId: string) => Promise<void>,
-  onBulkDelete: vi.fn().mockResolvedValue(undefined) as (wordIds: readonly string[]) => Promise<void>,
+  onBulkDelete: vi.fn().mockResolvedValue(undefined) as (
+    wordIds: readonly string[],
+  ) => Promise<void>,
 }
 
 describe('WordList', () => {
@@ -62,10 +64,7 @@ describe('WordList', () => {
   })
 
   it('should show word count', () => {
-    const words = [
-      makeWord({ id: 'w1' }),
-      makeWord({ id: 'w2' }),
-    ]
+    const words = [makeWord({ id: 'w1' }), makeWord({ id: 'w2' })]
     render(<WordList {...defaultProps} words={words} />)
     expect(screen.getByText(/2 words/i)).toBeInTheDocument()
   })
@@ -99,9 +98,7 @@ describe('WordList', () => {
   })
 
   it('should show tag filter chips when words have tags', () => {
-    const words = [
-      makeWord({ id: 'w1', tags: ['food', 'B1'] }),
-    ]
+    const words = [makeWord({ id: 'w1', tags: ['food', 'B1'] })]
     render(<WordList {...defaultProps} words={words} />)
     expect(screen.getByRole('button', { name: /food/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /B1/i })).toBeInTheDocument()
@@ -157,7 +154,9 @@ describe('WordList', () => {
 
     // The Delete button text is "Delete (1)" - check by text content
     const buttons = screen.getAllByRole('button')
-    const deleteBtn = buttons.find((b) => b.textContent?.includes('Delete') && b.textContent?.includes('1'))
+    const deleteBtn = buttons.find(
+      (b) => b.textContent?.includes('Delete') && b.textContent?.includes('1'),
+    )
     expect(deleteBtn).toBeTruthy()
   })
 
@@ -206,10 +205,7 @@ describe('WordList', () => {
 
   it('should show select-all checkbox in selection mode', async () => {
     const user = userEvent.setup()
-    const words = [
-      makeWord({ id: 'w1', source: 'cat' }),
-      makeWord({ id: 'w2', source: 'dog' }),
-    ]
+    const words = [makeWord({ id: 'w1', source: 'cat' }), makeWord({ id: 'w2', source: 'dog' })]
     render(<WordList {...defaultProps} words={words} />)
 
     await user.click(screen.getByRole('button', { name: /Select/i }))
@@ -219,10 +215,7 @@ describe('WordList', () => {
 
   it('should select all words when select-all is checked', async () => {
     const user = userEvent.setup()
-    const words = [
-      makeWord({ id: 'w1', source: 'cat' }),
-      makeWord({ id: 'w2', source: 'dog' }),
-    ]
+    const words = [makeWord({ id: 'w1', source: 'cat' }), makeWord({ id: 'w2', source: 'dog' })]
     render(<WordList {...defaultProps} words={words} />)
 
     await user.click(screen.getByRole('button', { name: /Select/i }))
@@ -230,7 +223,9 @@ describe('WordList', () => {
 
     // Delete button should show count of 2
     const buttons = screen.getAllByRole('button')
-    const deleteBtn = buttons.find((b) => b.textContent?.includes('Delete') && b.textContent?.includes('2'))
+    const deleteBtn = buttons.find(
+      (b) => b.textContent?.includes('Delete') && b.textContent?.includes('2'),
+    )
     expect(deleteBtn).toBeTruthy()
   })
 

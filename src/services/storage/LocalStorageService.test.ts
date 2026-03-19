@@ -227,9 +227,27 @@ describe('LocalStorageService', () => {
 
   describe('getDailyStatsRange', () => {
     it('should return stats within the given date range', async () => {
-      await service.saveDailyStats({ date: '2026-01-01', wordsReviewed: 10, correctCount: 8, incorrectCount: 2, streakDays: 1 })
-      await service.saveDailyStats({ date: '2026-01-02', wordsReviewed: 15, correctCount: 12, incorrectCount: 3, streakDays: 2 })
-      await service.saveDailyStats({ date: '2026-01-04', wordsReviewed: 5, correctCount: 5, incorrectCount: 0, streakDays: 1 })
+      await service.saveDailyStats({
+        date: '2026-01-01',
+        wordsReviewed: 10,
+        correctCount: 8,
+        incorrectCount: 2,
+        streakDays: 1,
+      })
+      await service.saveDailyStats({
+        date: '2026-01-02',
+        wordsReviewed: 15,
+        correctCount: 12,
+        incorrectCount: 3,
+        streakDays: 2,
+      })
+      await service.saveDailyStats({
+        date: '2026-01-04',
+        wordsReviewed: 5,
+        correctCount: 5,
+        incorrectCount: 0,
+        streakDays: 1,
+      })
 
       const stats = await service.getDailyStatsRange('2026-01-01', '2026-01-03')
       expect(stats).toHaveLength(2)
@@ -345,7 +363,13 @@ describe('LocalStorageService', () => {
     it('should remove all lexio: keys from localStorage', async () => {
       await service.saveLanguagePair(makePair())
       await service.saveWord(makeWord())
-      await service.saveSettings({ activePairId: 'pair-1', quizMode: 'type', dailyGoal: 10, theme: 'light', typoTolerance: 1 })
+      await service.saveSettings({
+        activePairId: 'pair-1',
+        quizMode: 'type',
+        dailyGoal: 10,
+        theme: 'light',
+        typoTolerance: 1,
+      })
       // Add a non-lexio key to ensure it survives
       localStorage.setItem('other-app:key', 'should-survive')
 

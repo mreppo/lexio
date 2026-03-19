@@ -60,9 +60,9 @@ function mockMatchMedia(prefersDark: boolean): MockInstance {
     removeEventListener: vi.fn(),
   }
 
-  const spy = vi.spyOn(window, 'matchMedia').mockReturnValue(
-    mediaQueryList as unknown as MediaQueryList,
-  )
+  const spy = vi
+    .spyOn(window, 'matchMedia')
+    .mockReturnValue(mediaQueryList as unknown as MediaQueryList)
 
   return spy
 }
@@ -130,9 +130,7 @@ describe('useThemeMode', () => {
       await result.current.setPreference('light')
     })
 
-    expect(storage.saveSettings).toHaveBeenCalledWith(
-      expect.objectContaining({ theme: 'light' }),
-    )
+    expect(storage.saveSettings).toHaveBeenCalledWith(expect.objectContaining({ theme: 'light' }))
     expect(result.current.preference).toBe('light')
     expect(result.current.mode).toBe('light')
   })
