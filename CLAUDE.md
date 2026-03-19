@@ -12,7 +12,7 @@ This project uses a team of specialised Claude Code sub-agents. Each agent has a
 
 | Agent | Role | Model | Tools |
 |-------|------|-------|-------|
-| `@agent-orchestrator` | Coordinates full workflow, delegates tasks | Opus | All + Agent |
+| `@agent-orchestrator` | Routes work, delegates to specialists | Sonnet | All + Agent |
 | `@agent-developer` | Writes implementation code | Sonnet | Read, Write, Edit, Bash, Glob, Grep |
 | `@agent-qa` | Writes/runs tests, validates acceptance criteria | Sonnet | Read, Write, Edit, Bash, Glob, Grep |
 | `@agent-reviewer` | Code review (read-only) | Sonnet | Read, Glob, Grep |
