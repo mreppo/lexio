@@ -100,10 +100,9 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
     )
   }
 
-  // Empty state
-  if (words.length === 0) {
-    return (
-      <>
+  return (
+    <>
+      {words.length === 0 ? (
         <Box sx={{ py: 8, textAlign: 'center' }}>
           <Typography variant="h6" gutterBottom fontWeight={700}>
             No words yet
@@ -128,64 +127,48 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
             </Button>
           </Stack>
         </Box>
+      ) : (
+        <>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <Typography variant="h6" fontWeight={700}>
+              {activePair.sourceLang} → {activePair.targetLang}
+            </Typography>
+            <Stack direction="row" spacing={1}>
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<LibraryBooksIcon />}
+                onClick={handleOpenPackBrowser}
+              >
+                Packs
+              </Button>
+              <Button variant="outlined" size="small" onClick={() => handleOpenAdd(true)}>
+                Quick add
+              </Button>
+              <Button
+                variant="contained"
+                size="small"
+                startIcon={<AddIcon />}
+                onClick={() => handleOpenAdd(false)}
+              >
+                Add word
+              </Button>
+            </Stack>
+          </Box>
 
-        <WordFormDialog
-          open={formOpen}
-          word={wordToEdit}
-          quickAddMode={quickAddMode}
-          onClose={handleCloseForm}
-          onSubmit={handleSubmit}
-        />
+          <WordList
+            words={words}
+            progressMap={progressMap}
+            onEdit={handleOpenEdit}
+            onDelete={deleteWord}
+            onBulkDelete={deleteWords}
+          />
+        </>
+      )}
 
-        <PackBrowserDialog
-          open={packBrowserOpen}
-          pairId={activePair.id}
-          pairSourceCode={activePair.sourceCode}
-          pairTargetCode={activePair.targetCode}
-          onClose={handleClosePackBrowser}
-          onInstalled={handlePackInstalled}
-        />
-      </>
-    )
-  }
-
-  return (
-    <>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-        <Typography variant="h6" fontWeight={700}>
-          {activePair.sourceLang} → {activePair.targetLang}
-        </Typography>
-        <Stack direction="row" spacing={1}>
-          <Button
-            variant="outlined"
-            size="small"
-            startIcon={<LibraryBooksIcon />}
-            onClick={handleOpenPackBrowser}
-          >
-            Packs
-          </Button>
-          <Button variant="outlined" size="small" onClick={() => handleOpenAdd(true)}>
-            Quick add
-          </Button>
-          <Button
-            variant="contained"
-            size="small"
-            startIcon={<AddIcon />}
-            onClick={() => handleOpenAdd(false)}
-          >
-            Add word
-          </Button>
-        </Stack>
-      </Box>
-
-      <WordList
-        words={words}
-        progressMap={progressMap}
-        onEdit={handleOpenEdit}
-        onDelete={deleteWord}
-        onBulkDelete={deleteWords}
-      />
-
+      {/* Dialogs rendered once, outside conditionals, so their lifecycle is not
+          tied to which branch is active. This prevents the dialog from reopening
+          when a pack install transitions words.length from 0 to >0. */}
       <WordFormDialog
         open={formOpen}
         word={wordToEdit}
