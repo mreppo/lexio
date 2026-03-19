@@ -8,6 +8,8 @@ import {
   Typography,
   Container,
   Button,
+  Tab,
+  Tabs,
 } from '@mui/material'
 import { createAppTheme } from './theme'
 import { useThemeMode } from './hooks/useThemeMode'
@@ -20,6 +22,7 @@ import {
   LanguagePairList,
 } from './features/language-pairs'
 import type { CreatePairInput } from './features/language-pairs'
+import { WordListScreen } from './features/words'
 
 /**
  * A single shared storage instance for the application.
@@ -40,6 +43,8 @@ function AppContent() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false)
   // Whether this is the first launch (no pairs yet, after loading completes).
   const [isFirstLaunch, setIsFirstLaunch] = useState(false)
+  // Active tab: 'pairs' = language pair management, 'words' = word list
+  const [activeTab, setActiveTab] = useState<'pairs' | 'words'>('words')
 
   useEffect(() => {
     if (!loading && pairs.length === 0) {
@@ -90,6 +95,20 @@ function AppContent() {
         </Toolbar>
       </AppBar>
 
+      {/* Navigation tabs — only show when there are pairs */}
+      {!loading && pairs.length > 0 && (
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs
+            value={activeTab}
+            onChange={(_e, v: 'pairs' | 'words') => setActiveTab(v)}
+            centered
+          >
+            <Tab label="Words" value="words" />
+            <Tab label="Language pairs" value="pairs" />
+          </Tabs>
+        </Box>
+      )}
+
       <Container maxWidth="sm" sx={{ py: 4 }}>
         {!loading && (
           <>
@@ -110,22 +129,30 @@ function AppContent() {
                 </Button>
               </Box>
             ) : (
-              <Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                  <Typography variant="h6" fontWeight={700}>
-                    Language pairs
-                  </Typography>
-                  <Button variant="outlined" size="small" onClick={handleOpenCreateDialog}>
-                    Add pair
-                  </Button>
-                </Box>
+              <>
+                {activeTab === 'words' && (
+                  <WordListScreen activePair={activePair} />
+                )}
 
-                <LanguagePairList
-                  pairs={pairs}
-                  activePairId={activePair?.id ?? null}
-                  onDelete={deletePair}
-                />
-              </Box>
+                {activeTab === 'pairs' && (
+                  <Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                      <Typography variant="h6" fontWeight={700}>
+                        Language pairs
+                      </Typography>
+                      <Button variant="outlined" size="small" onClick={handleOpenCreateDialog}>
+                        Add pair
+                      </Button>
+                    </Box>
+
+                    <LanguagePairList
+                      pairs={pairs}
+                      activePairId={activePair?.id ?? null}
+                      onDelete={deletePair}
+                    />
+                  </Box>
+                )}
+              </>
             )}
           </>
         )}
