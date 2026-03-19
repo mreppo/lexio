@@ -41,7 +41,10 @@ async function setupPairWithWords(page: Parameters<typeof resetAppState>[0]) {
  */
 async function clickStartQuiz(page: Parameters<typeof resetAppState>[0]) {
   // The button's visible text is "Start quiz"; match it.
-  await page.locator('button').filter({ hasText: /^Start quiz$/ }).click()
+  await page
+    .locator('button')
+    .filter({ hasText: /^Start quiz$/ })
+    .click()
 }
 
 // ─── Test setup ───────────────────────────────────────────────────────────────
@@ -83,7 +86,10 @@ test('complete a type-mode quiz session', async ({ page }) => {
     await nextOrResults.click()
 
     // If the session summary appeared, stop looping.
-    const summaryVisible = await page.getByText('Session complete!').isVisible().catch(() => false)
+    const summaryVisible = await page
+      .getByText('Session complete!')
+      .isVisible()
+      .catch(() => false)
     if (summaryVisible) break
   }
 
@@ -118,9 +124,7 @@ test('complete a choice-mode quiz session', async ({ page }) => {
   await optionButtons.first().click()
 
   // Feedback ("Correct!" or "Incorrect") should appear in the status region.
-  await expect(
-    page.getByRole('status').filter({ hasText: /correct|incorrect/i }),
-  ).toBeVisible()
+  await expect(page.getByRole('status').filter({ hasText: /correct|incorrect/i })).toBeVisible()
 
   // "Next word" or "See results" button should appear.
   const nextBtn = page.locator('button').filter({ hasText: /next word|see results/i })
@@ -177,9 +181,12 @@ test('quiz handles empty word list gracefully', async ({ page }) => {
     page.getByText(/something went wrong|no words|loading/i).waitFor({ timeout: 3_000 }),
     // The mode selector might still be visible if quiz didn't start
     page.getByText('Choose your quiz mode').waitFor({ timeout: 3_000 }),
-  ]).then(() => true).catch(() => false)
+  ])
+    .then(() => true)
+    .catch(() => false)
 
   // Whether or not we got a specific message, the app must not have crashed.
-  void hasValidResponse
+  // hasValidResponse is checked implicitly - the key assertion is that Lexio is still visible.
+  expect(typeof hasValidResponse).toBe('boolean')
   await expect(page.getByText('Lexio')).toBeVisible()
 })

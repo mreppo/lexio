@@ -93,7 +93,9 @@ test('install starter pack from populated word list', async ({ page }) => {
   // The dialog should be gone and the word list screen should still be visible.
   await expect(page.getByRole('dialog')).toBeHidden()
   // The word list heading shows the language pair name.
-  await expect(page.getByRole('heading', { name: /English.*Latvian|Latvian.*English/i })).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: /English.*Latvian|Latvian.*English/i }),
+  ).toBeVisible()
 })
 
 test('reversed pack direction installs with swapped words', async ({ page }) => {

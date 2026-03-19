@@ -164,20 +164,20 @@ describe('calculateConfidence', () => {
   })
 
   it('should cap confidence at 1', () => {
-    const history = makeHistory(Array(20).fill(true))
+    const history = makeHistory(new Array(20).fill(true))
     const confidence = calculateConfidence(history, 10)
     expect(confidence).toBeLessThanOrEqual(1)
   })
 
   it('should never return confidence below 0', () => {
-    const history = makeHistory(Array(20).fill(false))
+    const history = makeHistory(new Array(20).fill(false))
     const confidence = calculateConfidence(history, 0)
     expect(confidence).toBeGreaterThanOrEqual(0)
   })
 
   it('should use older attempts when history exceeds the weighted window', () => {
     // 15 older incorrect + 5 recent correct - older ones contribute but with weight 1
-    const history = makeHistory([...Array(15).fill(false), ...Array(5).fill(true)])
+    const history = makeHistory([...new Array(15).fill(false), ...new Array(5).fill(true)])
     const confidence = calculateConfidence(history, 0)
     // Should be > 0 (recent correct) but < 1 (older incorrect drag it down)
     expect(confidence).toBeGreaterThan(0)
@@ -321,7 +321,7 @@ describe('computeProgressAfterAttempt', () => {
 
   it('should not exceed MAX_HISTORY_SIZE', () => {
     const maxSize = SPACED_REPETITION_CONFIG.MAX_HISTORY_SIZE
-    const fullHistory = makeHistory(Array(maxSize).fill(true)) as AttemptRecord[]
+    const fullHistory = makeHistory(new Array(maxSize).fill(true)) as AttemptRecord[]
     const existing = makeProgress('word-1', { history: fullHistory })
 
     const result = computeProgressAfterAttempt(
@@ -339,7 +339,7 @@ describe('computeProgressAfterAttempt', () => {
   it('should drop the oldest record when history is full', () => {
     const maxSize = SPACED_REPETITION_CONFIG.MAX_HISTORY_SIZE
     // All false except we add a true one to a full history
-    const fullHistory = makeHistory(Array(maxSize).fill(false)) as AttemptRecord[]
+    const fullHistory = makeHistory(new Array(maxSize).fill(false)) as AttemptRecord[]
     const existing = makeProgress('word-1', { history: fullHistory, streak: 0 })
 
     const result = computeProgressAfterAttempt(
@@ -398,7 +398,7 @@ describe('computeProgressAfterAttempt', () => {
 
   it('should reduce confidence after incorrect answer on a high-confidence word', () => {
     // Build a high-confidence word
-    const history = makeHistory(Array(8).fill(true)) as AttemptRecord[]
+    const history = makeHistory(new Array(8).fill(true)) as AttemptRecord[]
     const existing = makeProgress('word-1', {
       history,
       streak: 8,

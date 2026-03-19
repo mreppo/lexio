@@ -130,39 +130,39 @@ describe('selectModeForWord', () => {
     }
   })
 
-  it('should return type when typeRatio is 1.0', () => {
+  it('should return type when typeRatio is 1', () => {
     for (let i = 0; i < 20; i++) {
-      expect(selectModeForWord(1.0, [], 0.5, true)).toBe('type')
+      expect(selectModeForWord(1, [], 0.5, true)).toBe('type')
     }
   })
 
-  it('should return choice when typeRatio is 0.0', () => {
+  it('should return choice when typeRatio is 0', () => {
     for (let i = 0; i < 20; i++) {
-      expect(selectModeForWord(0.0, [], 0.5, true)).toBe('choice')
+      expect(selectModeForWord(0, [], 0.5, true)).toBe('choice')
     }
   })
 
   it('should force switch after MAX_CONSECUTIVE_SAME_MODE type questions', () => {
-    const recentModes: ActiveQuizMode[] = Array(MAX_CONSECUTIVE_SAME_MODE).fill('type')
-    expect(selectModeForWord(1.0, recentModes, 0.5, true)).toBe('choice')
+    const recentModes: ActiveQuizMode[] = new Array(MAX_CONSECUTIVE_SAME_MODE).fill('type')
+    expect(selectModeForWord(1, recentModes, 0.5, true)).toBe('choice')
   })
 
   it('should force switch after MAX_CONSECUTIVE_SAME_MODE choice questions', () => {
-    const recentModes: ActiveQuizMode[] = Array(MAX_CONSECUTIVE_SAME_MODE).fill('choice')
-    expect(selectModeForWord(0.0, recentModes, 0.5, true)).toBe('type')
+    const recentModes: ActiveQuizMode[] = new Array(MAX_CONSECUTIVE_SAME_MODE).fill('choice')
+    expect(selectModeForWord(0, recentModes, 0.5, true)).toBe('type')
   })
 
   it('should not force switch when last N modes are not all the same', () => {
     const recentModes: ActiveQuizMode[] = ['type', 'choice', 'type']
-    expect(selectModeForWord(1.0, recentModes, 0.5, true)).toBe('type')
+    expect(selectModeForWord(1, recentModes, 0.5, true)).toBe('type')
   })
 
   it('should reduce type probability for low-confidence words', () => {
     // With low confidence (< 0.3), effective type ratio halves.
-    // typeRatio=1.0 -> effectiveRatio=0.5 -> both modes possible.
+    // typeRatio=1 -> effectiveRatio=0.5 -> both modes possible.
     const results = new Set<ActiveQuizMode>()
     for (let i = 0; i < 100; i++) {
-      results.add(selectModeForWord(1.0, [], 0, true))
+      results.add(selectModeForWord(1, [], 0, true))
     }
     expect(results.has('type')).toBe(true)
     expect(results.has('choice')).toBe(true)
@@ -170,7 +170,7 @@ describe('selectModeForWord', () => {
 
   it('should not reduce type probability for high-confidence words', () => {
     for (let i = 0; i < 20; i++) {
-      expect(selectModeForWord(1.0, [], 0.9, true)).toBe('type')
+      expect(selectModeForWord(1, [], 0.9, true)).toBe('type')
     }
   })
 

@@ -59,10 +59,7 @@ async function fillAutocompleteLanguage(
  * Fills in the Create Pair dialog and submits it.
  * Caller must ensure the dialog is already open.
  */
-export async function fillAndSubmitCreatePairDialog(
-  page: Page,
-  pair: PairInput,
-): Promise<void> {
+export async function fillAndSubmitCreatePairDialog(page: Page, pair: PairInput): Promise<void> {
   // The form renders two Autocomplete + Language code field pairs.
   // Use role="combobox" to target only the inputs (not the listboxes).
 
@@ -108,9 +105,7 @@ export async function openPackBrowserFromWordsTab(page: Page): Promise<void> {
   await page.getByRole('tab', { name: 'Words' }).click()
   // The button is labelled "Starter packs" in the empty state and "Packs" when
   // there are already words. Match both with a regex.
-  const packsButton = page
-    .getByRole('button', { name: /starter packs|packs/i })
-    .first()
+  const packsButton = page.getByRole('button', { name: /starter packs|packs/i }).first()
   await packsButton.click()
   await expect(page.getByRole('dialog')).toBeVisible({ timeout: 10_000 })
 }
@@ -142,7 +137,10 @@ export interface WordInput {
  */
 export async function addWord(page: Page, word: WordInput): Promise<void> {
   // "Add your first word" (empty) or "Add word" (populated)
-  await page.getByRole('button', { name: /add (your first )?word/i }).first().click()
+  await page
+    .getByRole('button', { name: /add (your first )?word/i })
+    .first()
+    .click()
   await page.getByLabel('Source word').fill(word.source)
   await page.getByLabel('Target word').fill(word.target)
   // The submit button inside the dialog is also "Add word"

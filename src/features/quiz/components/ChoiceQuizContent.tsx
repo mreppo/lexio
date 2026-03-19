@@ -4,7 +4,7 @@
  * Accepts an already-running session and does not render its own finished state.
  */
 
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { Box, Button, Paper, Typography, Chip, Alert } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
@@ -21,6 +21,14 @@ function getOptionState(index: number, correctIndex: number, selectedIndex: numb
   if (index === selectedIndex && index !== correctIndex) return 'incorrect'
   if (index === correctIndex && selectedIndex !== correctIndex) return 'reveal'
   return 'default'
+}
+
+function getOptionStartIcon(isAnswered: boolean, optionState: OptionState): React.ReactNode {
+  if (!isAnswered) return null
+  if (optionState === 'correct') return <CheckCircleOutlineIcon />
+  if (optionState === 'incorrect') return <CancelOutlinedIcon />
+  if (optionState === 'reveal') return <CheckCircleOutlineIcon />
+  return null
 }
 
 function getOptionSx(state: OptionState) {
@@ -200,15 +208,7 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
               aria-label={`Option ${index + 1}: ${option}`}
               aria-pressed={isSelected}
               aria-describedby={isAnswered && isCorrectOption ? 'correct-answer-label' : undefined}
-              startIcon={
-                isAnswered && optionState === 'correct' ? (
-                  <CheckCircleOutlineIcon />
-                ) : isAnswered && optionState === 'incorrect' ? (
-                  <CancelOutlinedIcon />
-                ) : isAnswered && optionState === 'reveal' ? (
-                  <CheckCircleOutlineIcon />
-                ) : null
-              }
+              startIcon={getOptionStartIcon(isAnswered, optionState)}
             >
               {option}
             </Button>

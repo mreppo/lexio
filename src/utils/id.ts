@@ -1,16 +1,9 @@
 /**
  * Generate a unique identifier.
- * Uses crypto.randomUUID() with a fallback for environments that lack it.
+ * Uses crypto.randomUUID() which is available in all modern browsers and Node 14.17+.
+ * The Math.random() fallback has been removed as it is not cryptographically secure
+ * and is unnecessary given the app's modern browser target.
  */
 export function generateId(): string {
-  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-    return crypto.randomUUID()
-  }
-
-  // Fallback: manual v4-like UUID
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0
-    const v = c === 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
-  })
+  return crypto.randomUUID()
 }

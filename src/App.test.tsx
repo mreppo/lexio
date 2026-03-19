@@ -7,8 +7,8 @@ import App from './App'
 // We just ensure matchMedia is defined (jsdom may not provide it).
 beforeEach(() => {
   localStorage.clear()
-  if (!window.matchMedia) {
-    vi.spyOn(window, 'matchMedia').mockReturnValue({
+  if (!globalThis.matchMedia) {
+    vi.spyOn(globalThis, 'matchMedia').mockReturnValue({
       matches: false,
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
