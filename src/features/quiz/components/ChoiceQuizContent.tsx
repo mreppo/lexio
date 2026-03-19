@@ -16,7 +16,7 @@ import {
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import type { LanguagePair } from '@/types'
-import type { UseChoiceQuizSessionResult } from '../useChoiceQuizSession'
+import type { UseQuizSessionResult } from '../useQuizSession'
 import { SessionProgress } from './SessionProgress'
 import { MIN_WORDS_FOR_CHOICE } from '@/utils/distractorGenerator'
 
@@ -73,7 +73,7 @@ function getOptionSx(state: OptionState) {
 }
 
 interface ChoiceQuizContentProps {
-  readonly session: UseChoiceQuizSessionResult
+  readonly session: UseQuizSessionResult
   readonly pair: LanguagePair | null
 }
 
@@ -86,7 +86,7 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
     options,
     correctIndex,
     selectedIndex,
-    lastCorrect,
+    lastChoiceCorrect,
     wordsCompleted,
     sessionGoal,
     correctCount,
@@ -215,7 +215,7 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
 
       {isAnswered && (
         <Box role="status" aria-live="polite" sx={{ textAlign: 'center' }}>
-          {lastCorrect === true ? (
+          {lastChoiceCorrect === true ? (
             <Typography variant="h6" color="success.main" fontWeight={700}>Correct!</Typography>
           ) : (
             <Typography variant="h6" color="error.main" fontWeight={700}>Incorrect</Typography>
