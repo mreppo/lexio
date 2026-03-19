@@ -140,6 +140,8 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
         <PackBrowserDialog
           open={packBrowserOpen}
           pairId={activePair.id}
+          pairSourceCode={activePair.sourceCode}
+          pairTargetCode={activePair.targetCode}
           onClose={handleClosePackBrowser}
           onInstalled={handlePackInstalled}
         />
@@ -195,6 +197,8 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
       <PackBrowserDialog
         open={packBrowserOpen}
         pairId={activePair.id}
+        pairSourceCode={activePair.sourceCode}
+        pairTargetCode={activePair.targetCode}
         onClose={handleClosePackBrowser}
         onInstalled={handlePackInstalled}
       />

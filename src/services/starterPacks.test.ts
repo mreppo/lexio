@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type { StarterPack, Word } from '@/types'
-import { listPackIds, loadPack, listPacks, installPack } from './starterPacks'
+import { listPackIds, loadPack, listPacks, installPack, packMatchesPair } from './starterPacks'
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -56,6 +56,50 @@ function makeStorageMock(existingWords: Word[] = []) {
     clearAll: vi.fn(),
   }
 }
+
+// ── packMatchesPair ───────────────────────────────────────────────────────────
+
+describe('packMatchesPair', () => {
+  it('should return "same" when pack codes match the pair exactly', () => {
+    const pack = makePack({ sourceCode: 'lv', targetCode: 'en' })
+    expect(packMatchesPair(pack, 'lv', 'en')).toBe('same')
+  })
+
+  it('should return "reversed" when pack codes are the mirror of the pair', () => {
+    const pack = makePack({ sourceCode: 'lv', targetCode: 'en' })
+    expect(packMatchesPair(pack, 'en', 'lv')).toBe('reversed')
+  })
+
+  it('should return "none" for unrelated language codes', () => {
+    const pack = makePack({ sourceCode: 'lv', targetCode: 'en' })
+    expect(packMatchesPair(pack, 'ru', 'de')).toBe('none')
+  })
+
+  it('should return "none" when only one code matches', () => {
+    const pack = makePack({ sourceCode: 'lv', targetCode: 'en' })
+    expect(packMatchesPair(pack, 'lv', 'ru')).toBe('none')
+  })
+
+  it('should return "same" for ru-en pack with ru-en pair', () => {
+    const pack = makePack({ sourceCode: 'ru', targetCode: 'en' })
+    expect(packMatchesPair(pack, 'ru', 'en')).toBe('same')
+  })
+
+  it('should return "reversed" for ru-en pack with en-ru pair', () => {
+    const pack = makePack({ sourceCode: 'ru', targetCode: 'en' })
+    expect(packMatchesPair(pack, 'en', 'ru')).toBe('reversed')
+  })
+
+  it('should return "same" for ru-lv pack with ru-lv pair', () => {
+    const pack = makePack({ sourceCode: 'ru', targetCode: 'lv' })
+    expect(packMatchesPair(pack, 'ru', 'lv')).toBe('same')
+  })
+
+  it('should return "reversed" for ru-lv pack with lv-ru pair', () => {
+    const pack = makePack({ sourceCode: 'ru', targetCode: 'lv' })
+    expect(packMatchesPair(pack, 'lv', 'ru')).toBe('reversed')
+  })
+})
 
 // ── listPackIds ───────────────────────────────────────────────────────────────
 
@@ -159,11 +203,13 @@ describe('listPacks', () => {
 // ── installPack ───────────────────────────────────────────────────────────────
 
 describe('installPack', () => {
+  // ── same direction (pack codes == pair codes) ──────────────────────────────
+
   it('should add all words when storage is empty', async () => {
     const pack = makePack()
     const storage = makeStorageMock([])
 
-    const result = await installPack(pack, 'pair-1', storage)
+    const result = await installPack(pack, 'pair-1', 'lv', 'en', storage)
 
     expect(result.added).toBe(2)
     expect(result.skipped).toBe(0)
@@ -177,7 +223,7 @@ describe('installPack', () => {
     const pack = makePack()
     const storage = makeStorageMock([])
 
-    await installPack(pack, 'pair-1', storage)
+    await installPack(pack, 'pair-1', 'lv', 'en', storage)
 
     const saved = storage.saveWords.mock.calls[0][0] as Word[]
     expect(saved.every((w) => w.isFromPack)).toBe(true)
@@ -187,7 +233,7 @@ describe('installPack', () => {
     const pack = makePack()
     const storage = makeStorageMock([])
 
-    await installPack(pack, 'pair-1', storage)
+    await installPack(pack, 'pair-1', 'lv', 'en', storage)
 
     const saved = storage.saveWords.mock.calls[0][0] as Word[]
     expect(saved.every((w) => w.tags.includes('starter-pack'))).toBe(true)
@@ -199,7 +245,7 @@ describe('installPack', () => {
     })
     const storage = makeStorageMock([])
 
-    await installPack(pack, 'pair-1', storage)
+    await installPack(pack, 'pair-1', 'lv', 'en', storage)
 
     const saved = storage.saveWords.mock.calls[0][0] as Word[]
     expect(saved[0].tags).toContain('food-drink')
@@ -217,7 +263,7 @@ describe('installPack', () => {
     })
     const storage = makeStorageMock([existingWord])
 
-    const result = await installPack(pack, 'pair-1', storage)
+    const result = await installPack(pack, 'pair-1', 'lv', 'en', storage)
 
     expect(result.added).toBe(1)
     expect(result.skipped).toBe(1)
@@ -235,7 +281,7 @@ describe('installPack', () => {
     const pack = makePack()
     const storage = makeStorageMock(existingWords)
 
-    const result = await installPack(pack, 'pair-1', storage)
+    const result = await installPack(pack, 'pair-1', 'lv', 'en', storage)
 
     expect(result.added).toBe(0)
     expect(result.skipped).toBe(2)
@@ -250,7 +296,7 @@ describe('installPack', () => {
     const pack = makePack()
     const storage = makeStorageMock(existingWords)
 
-    await installPack(pack, 'pair-1', storage)
+    await installPack(pack, 'pair-1', 'lv', 'en', storage)
 
     expect(storage.saveWords).not.toHaveBeenCalled()
   })
@@ -259,7 +305,7 @@ describe('installPack', () => {
     const pack = makePack()
     const storage = makeStorageMock([])
 
-    await installPack(pack, 'my-pair-id', storage)
+    await installPack(pack, 'my-pair-id', 'lv', 'en', storage)
 
     const saved = storage.saveWords.mock.calls[0][0] as Word[]
     expect(saved.every((w) => w.pairId === 'my-pair-id')).toBe(true)
@@ -274,7 +320,7 @@ describe('installPack', () => {
     })
     const storage = makeStorageMock([])
 
-    const result = await installPack(pack, 'pair-1', storage)
+    const result = await installPack(pack, 'pair-1', 'lv', 'en', storage)
 
     expect(result.added).toBe(1)
     expect(result.skipped).toBe(1)
@@ -287,10 +333,94 @@ describe('installPack', () => {
     })
     const storage = makeStorageMock([existingWord])
 
-    await installPack(pack, 'pair-1', storage)
+    await installPack(pack, 'pair-1', 'lv', 'en', storage)
 
     const saved = storage.saveWords.mock.calls[0][0] as Word[]
     const savedIds = saved.map((w) => w.id)
     expect(savedIds).not.toContain(existingWord.id)
+  })
+
+  // ── reversed direction (pack codes are swapped relative to pair) ───────────
+
+  it('should swap source and target when installing in reversed direction', async () => {
+    // Pack is lv→en, but pair is en→lv (reversed)
+    const pack = makePack({
+      sourceCode: 'lv',
+      targetCode: 'en',
+      words: [
+        { source: 'ūdens', target: 'water', tags: ['B1'] },
+        { source: 'maize', target: 'bread', tags: ['B1'] },
+      ],
+    })
+    const storage = makeStorageMock([])
+
+    const result = await installPack(pack, 'pair-1', 'en', 'lv', storage)
+
+    expect(result.added).toBe(2)
+    const saved = storage.saveWords.mock.calls[0][0] as Word[]
+    expect(saved[0].source).toBe('water')
+    expect(saved[0].target).toBe('ūdens')
+    expect(saved[1].source).toBe('bread')
+    expect(saved[1].target).toBe('maize')
+  })
+
+  it('should detect duplicates on swapped values when installing reversed', async () => {
+    // Existing word already has "water" as source and "ūdens" as target (en-lv direction).
+    const existingWord = makeWord({ source: 'water', target: 'ūdens' })
+    const pack = makePack({
+      sourceCode: 'lv',
+      targetCode: 'en',
+      words: [
+        { source: 'ūdens', target: 'water', tags: ['B1'] }, // becomes water|ūdens after swap -> duplicate
+        { source: 'maize', target: 'bread', tags: ['B1'] }, // becomes bread|maize -> new
+      ],
+    })
+    const storage = makeStorageMock([existingWord])
+
+    const result = await installPack(pack, 'pair-1', 'en', 'lv', storage)
+
+    expect(result.added).toBe(1)
+    expect(result.skipped).toBe(1)
+
+    const saved = storage.saveWords.mock.calls[0][0] as Word[]
+    expect(saved[0].source).toBe('bread')
+    expect(saved[0].target).toBe('maize')
+  })
+
+  it('should preserve tags when installing in reversed direction', async () => {
+    const pack = makePack({
+      sourceCode: 'lv',
+      targetCode: 'en',
+      words: [{ source: 'ūdens', target: 'water', tags: ['food-drink', 'B1'] }],
+    })
+    const storage = makeStorageMock([])
+
+    await installPack(pack, 'pair-1', 'en', 'lv', storage)
+
+    const saved = storage.saveWords.mock.calls[0][0] as Word[]
+    expect(saved[0].tags).toContain('food-drink')
+    expect(saved[0].tags).toContain('B1')
+    expect(saved[0].tags).toContain('starter-pack')
+  })
+
+  it('should set isFromPack to true on reversed-direction installs', async () => {
+    const pack = makePack({ sourceCode: 'lv', targetCode: 'en' })
+    const storage = makeStorageMock([])
+
+    await installPack(pack, 'pair-1', 'en', 'lv', storage)
+
+    const saved = storage.saveWords.mock.calls[0][0] as Word[]
+    expect(saved.every((w) => w.isFromPack)).toBe(true)
+  })
+
+  // ── incompatible pack ──────────────────────────────────────────────────────
+
+  it('should throw when the pack is not compatible with the pair', async () => {
+    const pack = makePack({ sourceCode: 'lv', targetCode: 'en' })
+    const storage = makeStorageMock([])
+
+    await expect(installPack(pack, 'pair-1', 'ru', 'de', storage)).rejects.toThrow(
+      'not compatible with pair ru-de',
+    )
   })
 })

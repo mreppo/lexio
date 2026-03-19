@@ -16,13 +16,17 @@ import {
 import DownloadIcon from '@mui/icons-material/Download'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import type { StarterPack } from '@/types'
-import { listPacks, installPack } from '@/services/starterPacks'
+import { listPacks, installPack, packMatchesPair } from '@/services/starterPacks'
 import type { InstallPackResult } from '@/services/starterPacks'
 import { useStorage } from '@/hooks/useStorage'
 
 export interface PackBrowserDialogProps {
   readonly open: boolean
   readonly pairId: string | null
+  /** ISO language code for the active pair's source language (e.g. "en", "lv"). */
+  readonly pairSourceCode: string | null
+  /** ISO language code for the active pair's target language (e.g. "en", "lv"). */
+  readonly pairTargetCode: string | null
   readonly onClose: () => void
   /** Called after words have been successfully installed so the caller can refresh word list. */
   readonly onInstalled: () => void
@@ -36,11 +40,22 @@ interface PackInstallState {
 /**
  * Dialog that lets the user browse available starter packs and install one.
  * Packs are loaded from the public directory via fetch.
+ *
+ * Uses packMatchesPair to filter packs to only those compatible with the active
+ * language pair (in either direction). When installing a reversed pack the
+ * service layer swaps source/target automatically.
  */
-export function PackBrowserDialog({ open, pairId, onClose, onInstalled }: PackBrowserDialogProps) {
+export function PackBrowserDialog({
+  open,
+  pairId,
+  pairSourceCode,
+  pairTargetCode,
+  onClose,
+  onInstalled,
+}: PackBrowserDialogProps) {
   const storage = useStorage()
 
-  const [packs, setPacks] = useState<readonly StarterPack[]>([])
+  const [allPacks, setAllPacks] = useState<readonly StarterPack[]>([])
   const [loadingPacks, setLoadingPacks] = useState(false)
   const [loadError, setLoadError] = useState<string | null>(null)
 
@@ -57,7 +72,7 @@ export function PackBrowserDialog({ open, pairId, onClose, onInstalled }: PackBr
 
     listPacks()
       .then((loaded) => {
-        setPacks(loaded)
+        setAllPacks(loaded)
         setLoadingPacks(false)
       })
       .catch((err: unknown) => {
@@ -67,9 +82,17 @@ export function PackBrowserDialog({ open, pairId, onClose, onInstalled }: PackBr
       })
   }, [open])
 
+  // Filter to only packs compatible with the active pair (same or reversed direction).
+  const packs =
+    pairSourceCode !== null && pairTargetCode !== null
+      ? allPacks.filter(
+          (pack) => packMatchesPair(pack, pairSourceCode, pairTargetCode) !== 'none',
+        )
+      : allPacks
+
   const handleInstall = useCallback(
     async (pack: StarterPack) => {
-      if (!pairId) return
+      if (!pairId || !pairSourceCode || !pairTargetCode) return
 
       setInstallStates((prev) => ({
         ...prev,
@@ -77,7 +100,7 @@ export function PackBrowserDialog({ open, pairId, onClose, onInstalled }: PackBr
       }))
 
       try {
-        const result = await installPack(pack, pairId, storage)
+        const result = await installPack(pack, pairId, pairSourceCode, pairTargetCode, storage)
         setInstallStates((prev) => ({
           ...prev,
           [pack.id]: { status: 'done', result },
@@ -92,7 +115,7 @@ export function PackBrowserDialog({ open, pairId, onClose, onInstalled }: PackBr
         setLoadError(message)
       }
     },
-    [pairId, storage, onInstalled],
+    [pairId, pairSourceCode, pairTargetCode, storage, onInstalled],
   )
 
   const handleClose = useCallback(() => {
