@@ -46,6 +46,7 @@ export interface UserSettings {
   readonly quizMode: QuizMode
   readonly dailyGoal: number
   readonly theme: ThemePreference
+  readonly typoTolerance: number
 }
 
 export interface DailyStats {
@@ -54,4 +55,18 @@ export interface DailyStats {
   readonly correctCount: number
   readonly incorrectCount: number
   readonly streakDays: number
+}
+
+export interface StarterPack {
+  readonly id: string
+  readonly name: string
+  readonly description: string
+  readonly sourceCode: string
+  readonly targetCode: string
+  readonly level: string
+  readonly words: ReadonlyArray<{
+    readonly source: string
+    readonly target: string
+    readonly tags: readonly string[]
+  }>
 }
