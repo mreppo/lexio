@@ -14,6 +14,7 @@ function makeSettings(theme: UserSettings['theme']): UserSettings {
     quizMode: 'mixed',
     dailyGoal: 20,
     theme,
+    typoTolerance: 1,
   }
 }
 
