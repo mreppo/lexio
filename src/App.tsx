@@ -23,7 +23,7 @@ import {
 } from './features/language-pairs'
 import type { CreatePairInput } from './features/language-pairs'
 import { WordListScreen } from './features/words'
-import { QuizScreen } from './features/quiz'
+import { QuizHub } from './features/quiz'
 import type { UserSettings } from './types'
 
 /**
@@ -148,7 +148,11 @@ function AppContent() {
             ) : (
               <>
                 {activeTab === 'quiz' && (
-                  <QuizScreen pair={activePair} settings={settings} />
+                  <QuizHub
+                    pair={activePair}
+                    settings={settings}
+                    onSettingsChange={setSettings}
+                  />
                 )}
 
                 {activeTab === 'words' && (
