@@ -8,16 +8,28 @@ Read `docs/PRODUCT_SPEC.md` for the full product specification before starting a
 
 ## Agent Team
 
-This project uses a team of specialised Claude Code sub-agents. Each agent has a specific role and set of permissions.
+This project uses a team of specialised Claude Code sub-agents. Each agent has a specific role, permissions, and signs its comments on GitHub issues.
 
-| Agent | Role | Model | Tools |
-|-------|------|-------|-------|
-| `@agent-orchestrator` | Routes work, delegates to specialists | Sonnet | All + Agent |
-| `@agent-developer` | Writes implementation code | Sonnet | Read, Write, Edit, Bash, Glob, Grep |
-| `@agent-qa` | Writes/runs tests, validates acceptance criteria | Sonnet | Read, Write, Edit, Bash, Glob, Grep |
-| `@agent-reviewer` | Code review (read-only) | Sonnet | Read, Glob, Grep |
-| `@agent-devops` | CI/CD, deployment, infrastructure | Sonnet | Read, Write, Edit, Bash, Glob, Grep |
-| `@agent-release-manager` | Versioning, changelogs, releases | Sonnet | Read, Write, Edit, Bash, Glob, Grep |
+| Agent | Role | Signature | Tools |
+|-------|------|-----------|-------|
+| `@agent-orchestrator` | Routes work, delegates, manages PRs | 🤖 *Orchestrator Agent (Claude CLI)* | All + Agent |
+| `@agent-developer` | Writes implementation code | 🤖 *Developer Agent (Claude CLI)* | Read, Write, Edit, Bash, Glob, Grep |
+| `@agent-qa` | Writes/runs tests, validates criteria | 🤖 *QA Agent (Claude CLI)* | Read, Write, Edit, Bash, Glob, Grep |
+| `@agent-reviewer` | Code review (read-only) | 🤖 *Reviewer Agent (Claude CLI)* | Read, Glob, Grep |
+| `@agent-devops` | CI/CD, deployment, infrastructure | 🤖 *DevOps Agent (Claude CLI)* | Read, Write, Edit, Bash, Glob, Grep |
+| `@agent-release-manager` | Versioning, changelogs, releases | 🤖 *Release Manager Agent (Claude CLI)* | Read, Write, Edit, Bash, Glob, Grep |
+
+Comments made by the **Product Architect** (in Claude Chat) are signed: 🤖 *Product Architect (Claude Chat)*
+
+All agents run on **Sonnet**. All comments are posted under the repo owner's GitHub account, so signatures are essential for traceability.
+
+### Issue Lifecycle
+
+When an agent picks up an issue:
+1. **Assign** the issue to `mreppo`
+2. **Comment** with a plan and **ETA**
+3. Each agent **comments** what it did (with signature)
+4. On completion, **log time spent** and **close** the issue
 
 ### Slash Commands
 
@@ -30,15 +42,15 @@ This project uses a team of specialised Claude Code sub-agents. Each agent has a
 
 ### Typical Workflow
 
-1. **You** discuss features with the product owner in Claude chat
+1. **You** discuss features with the product owner in Claude Chat
 2. **You** or the product owner creates GitHub issues with requirements
 3. **Developer** runs `/implement #<issue-number>` in Claude Code
-4. **Orchestrator** reads the issue, plans the work, and delegates:
-   - `@agent-developer` implements the code
-   - `@agent-qa` writes and runs tests
-   - `@agent-reviewer` reviews the code
+4. **Orchestrator** assigns the issue, comments with plan and ETA, then delegates:
+   - `@agent-developer` implements the code, comments what it did
+   - `@agent-qa` writes and runs tests, comments results
+   - `@agent-reviewer` reviews the code, comments findings
    - Fixes are applied if review finds issues
-5. **Orchestrator** verifies acceptance criteria and commits
+5. **Orchestrator** creates PR, merges, logs time, closes the issue
 6. **Release Manager** handles versioning when ready (`/release`)
 
 ---
@@ -196,3 +208,5 @@ npx tsc --noEmit   # Type check only
 - **Mobile-first** - test on small screens, ensure touch targets are large enough
 - **Accessibility** - proper labels, contrast ratios, keyboard navigation
 - **No hardcoded magic numbers** - use named constants for algorithm parameters, thresholds, etc.
+- **Sign every issue comment** - all agents post under the same GitHub account, signatures identify who did what
+- **Log time** - orchestrator estimates ETA at start and logs actual time at close
