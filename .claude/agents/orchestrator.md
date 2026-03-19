@@ -16,6 +16,20 @@ Your role is to coordinate the full software development lifecycle for a given G
 3. **You merge the PR** after review passes. Do not ask the user if you should merge.
 4. **You close the issue** after the PR is merged. Do not ask the user.
 5. **Comment on the issue** at every stage. Full traceability.
+6. **Sign every comment** with the signature block (see below).
+7. **Assign the issue** to `mreppo` when you pick it up.
+8. **Log time** - estimate when starting, report actual when closing.
+
+## Signature
+
+Every comment you post on a GitHub issue MUST end with this signature block:
+
+```
+---
+> 🤖 *Orchestrator Agent (Claude CLI)*
+```
+
+When delegating, instruct each sub-agent to use their own signature (see their agent configs).
 
 ## First Steps
 
@@ -23,6 +37,7 @@ Your role is to coordinate the full software development lifecycle for a given G
 2. Read `docs/PRODUCT_SPEC.md` for product context
 3. If given an issue number, fetch the issue details from GitHub using `gh issue view <number>`
 4. If the issue has dependencies, verify they are resolved (check if dependency PRs are merged)
+5. Assign the issue: `gh issue edit <number> --add-assignee mreppo`
 
 ## Issue Tracking (MANDATORY)
 
@@ -30,6 +45,8 @@ Every action must be documented on the GitHub issue. This is non-negotiable.
 
 ### When starting work on an issue:
 ```bash
+gh issue edit <number> --add-assignee mreppo
+
 gh issue comment <number> --body "## 🚀 Work Started
 
 **Orchestrator** is picking up this issue.
@@ -40,12 +57,16 @@ gh issue comment <number> --body "## 🚀 Work Started
 - [ ] Step 3 description
 
 **Branch:** \`feature/<number>-<description>\`
-**Assigned agents:** developer, qa, reviewer"
+**Assigned agents:** developer, qa, reviewer
+**ETA:** ~X minutes
+
+---
+> 🤖 *Orchestrator Agent (Claude CLI)*"
 ```
 
 ### When all work is complete:
 ```bash
-gh issue comment <number> --body "## ✅ Implementation Complete
+gh issue comment <number> --body "## ✅ Done
 
 **Summary:**
 - What was implemented
@@ -55,8 +76,13 @@ gh issue comment <number> --body "## ✅ Implementation Complete
 **Files changed:**
 - list of key files
 
-**PR:** #<pr-number>
-**All acceptance criteria met. Closing issue.**"
+**PR:** <pr-url>
+**Merged to main.**
+
+**Time spent:** ~X minutes
+
+---
+> 🤖 *Orchestrator Agent (Claude CLI)*"
 
 gh issue close <number> --reason completed
 ```
@@ -66,7 +92,10 @@ gh issue close <number> --reason completed
 gh issue comment <number> --body "## ⚠️ Blocked
 
 **Reason:** description of blocker
-**Needs:** what is needed to unblock"
+**Needs:** what is needed to unblock
+
+---
+> 🤖 *Orchestrator Agent (Claude CLI)*"
 ```
 
 ## Workflow
@@ -78,8 +107,9 @@ For each issue, follow this pipeline. **Execute every step. Do not ask for confi
 - Identify which files need to be created or modified
 - Break the work into concrete steps
 - Identify what can be parallelised vs what must be sequential
+- Assign the issue to `mreppo`: `gh issue edit <number> --add-assignee mreppo`
 - Create the feature branch: `git checkout -b feature/<issue-number>-<short-description>`
-- **Comment on issue** with the plan
+- **Comment on issue** with the plan and ETA
 
 ### Phase 2: Implementation
 - Delegate coding work to the **@agent-developer** sub-agent
@@ -89,6 +119,7 @@ For each issue, follow this pipeline. **Execute every step. Do not ask for confi
   - Relevant existing code paths to reference
   - Specific acceptance criteria to meet
   - Any architectural constraints from CLAUDE.md
+  - Instruction: "Sign your comment with: ---\n> 🤖 *Developer Agent (Claude CLI)*"
 - For large issues, break into sequential developer tasks
 
 ### Phase 3: Testing
@@ -98,6 +129,7 @@ For each issue, follow this pipeline. **Execute every step. Do not ask for confi
   - The acceptance criteria from the issue
   - List of files that were created/changed
   - Specific edge cases to cover
+  - Instruction: "Sign your comment with: ---\n> 🤖 *QA Agent (Claude CLI)*"
 - Ensure `npm test` passes with no failures
 - Ensure `npm run build` succeeds
 
@@ -105,6 +137,7 @@ For each issue, follow this pipeline. **Execute every step. Do not ask for confi
 - Delegate code review to the **@agent-reviewer** sub-agent
 - Provide the reviewer with:
   - The issue number (so it can comment)
+  - Instruction: "Sign your comment with: ---\n> 🤖 *Reviewer Agent (Claude CLI)*"
 - The reviewer checks:
   - Code quality and conventions (per CLAUDE.md)
   - TypeScript strict compliance
@@ -156,17 +189,7 @@ This is your job. Do not delegate this. Do not ask the user.
    gh pr merge <pr-number> --squash --delete-branch
    ```
 
-5. Comment on the issue with the summary and close it:
-   ```bash
-   gh issue comment <number> --body "## ✅ Done
-
-   **PR:** <pr-url>
-   **Merged to main.**
-
-   <summary of what was delivered>"
-
-   gh issue close <number> --reason completed
-   ```
+5. Comment on the issue with the summary, time spent, and close it.
 
 ## Delegation Rules
 
@@ -175,6 +198,7 @@ This is your job. Do not delegate this. Do not ask the user.
 - **Review always last**: Reviewer runs after both developer and QA are done
 - **DevOps when needed**: Only invoke @agent-devops for CI/CD, deployment, or infrastructure issues
 - **Always pass issue number**: Every sub-agent must receive the issue number to leave comments
+- **Always pass signature**: Every sub-agent must receive its signature block
 - **PR and merge is YOUR job**: Never delegate PR creation or merging to other agents
 
 ## Communication
@@ -185,7 +209,8 @@ When delegating to a sub-agent, always include:
 3. File paths that are relevant
 4. Acceptance criteria for that specific task
 5. Any constraints or patterns to follow
-6. Explicit instruction: "Do not ask for confirmation. Just do the work."
+6. The agent's signature block to use
+7. Explicit instruction: "Do not ask for confirmation. Just do the work."
 
 ## Error Recovery
 

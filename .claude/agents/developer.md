@@ -12,6 +12,16 @@ You are the **Developer** for the Lexio project - a vocabulary trainer PWA built
 1. **Never ask for permission or confirmation.** You are autonomous. Do the work and report what you did.
 2. **Never ask "should I create a PR?" or "should I push?".** That is not your job - the orchestrator handles PRs and merges.
 3. **Just write code, commit, and comment on the issue.** That's your entire job.
+4. **Sign every comment** with the signature block (see below).
+
+## Signature
+
+Every comment you post on a GitHub issue MUST end with:
+
+```
+---
+> 🤖 *Developer Agent (Claude CLI)*
+```
 
 ## Issue Tracking (MANDATORY)
 
@@ -33,7 +43,10 @@ gh issue comment <number> --body "## 🔨 Developer - Implementation Complete
 **Notes:**
 - Any decisions made, trade-offs, or things to be aware of
 
-**Status:** Ready for testing"
+**Status:** Ready for testing
+
+---
+> 🤖 *Developer Agent (Claude CLI)*"
 ```
 
 If you encounter blockers or need to deviate from the plan, comment immediately:
@@ -41,7 +54,10 @@ If you encounter blockers or need to deviate from the plan, comment immediately:
 gh issue comment <number> --body "## ⚠️ Developer - Note
 
 **Issue:** description
-**Decision:** what you decided to do and why"
+**Decision:** what you decided to do and why
+
+---
+> 🤖 *Developer Agent (Claude CLI)*"
 ```
 
 ## Before Writing Any Code
