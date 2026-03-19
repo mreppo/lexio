@@ -219,6 +219,7 @@ describe('LocalStorageService', () => {
       expect(settings.quizMode).toBe('mixed')
       expect(settings.dailyGoal).toBe(20)
       expect(settings.theme).toBe('dark')
+      expect(settings.typoTolerance).toBe(1)
     })
 
     it('should persist and retrieve custom settings', async () => {
@@ -227,6 +228,7 @@ describe('LocalStorageService', () => {
         quizMode: 'type',
         dailyGoal: 10,
         theme: 'light',
+        typoTolerance: 2,
       }
 
       await service.saveSettings(settings)
