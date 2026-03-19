@@ -76,8 +76,6 @@ describe('CreatePairDialog', () => {
       />,
     )
 
-    // Fill in identical source and target
-    const textboxes = screen.getAllByRole('textbox')
     // Fill language code fields directly
     const codeFields = screen.getAllByLabelText('Language code')
     await user.type(codeFields[0], 'en')

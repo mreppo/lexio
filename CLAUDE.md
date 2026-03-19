@@ -198,6 +198,26 @@ npm run build      # Verify production build
 npx tsc --noEmit   # Type check only
 ```
 
+### Lockfile Integrity
+
+After any `npm install` (adding, removing, or upgrading packages), always verify the lockfile is consistent before committing:
+
+```bash
+npm install           # add/upgrade packages
+npm ci --dry-run      # verify lockfile is valid - must pass before committing
+```
+
+If `npm ci --dry-run` fails, the lockfile is out of sync. Regenerate it:
+
+```bash
+rm package-lock.json
+rm -rf node_modules
+npm install
+npm ci --dry-run      # should now pass
+```
+
+Never commit a `package-lock.json` that fails `npm ci`. The CI pipeline enforces this with a dedicated "Verify lockfile integrity" step that runs before install.
+
 ---
 
 ## Important Reminders
