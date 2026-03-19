@@ -25,3 +25,8 @@ dist-ssr
 
 # TypeScript build info
 *.tsbuildinfo
+
+# Playwright
+e2e-results/
+playwright-report/
+test-results/
