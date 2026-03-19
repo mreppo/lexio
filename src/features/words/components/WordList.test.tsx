@@ -3,23 +3,18 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { WordList } from './WordList'
 import type { Word, WordProgress } from '@/types'
+import { createMockWord, createMockProgress } from '@/test/fixtures'
 
 function makeWord(overrides: Partial<Word> = {}): Word {
-  return {
+  return createMockWord({
     id: `word-${Math.random()}`,
-    pairId: 'pair-1',
-    source: 'house',
-    target: 'māja',
-    notes: null,
-    tags: [],
     createdAt: Date.now(),
-    isFromPack: false,
     ...overrides,
-  }
+  })
 }
 
 function makeProgress(wordId: string, confidence: number): WordProgress {
-  return {
+  return createMockProgress({
     wordId,
     correctCount: 5,
     incorrectCount: 1,
@@ -27,8 +22,7 @@ function makeProgress(wordId: string, confidence: number): WordProgress {
     lastReviewed: Date.now(),
     nextReview: Date.now() + 86400000,
     confidence,
-    history: [],
-  }
+  })
 }
 
 const defaultProps = {
