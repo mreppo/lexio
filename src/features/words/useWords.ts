@@ -25,6 +25,8 @@ export interface UseWordsResult {
   readonly deleteWord: (wordId: string) => Promise<void>
   /** Delete multiple words by id. */
   readonly deleteWords: (wordIds: readonly string[]) => Promise<void>
+  /** Re-fetch words and progress from storage (e.g. after a pack install). */
+  readonly refresh: () => void
 }
 
 /**
@@ -36,8 +38,14 @@ export function useWords(activePairId: string | null): UseWordsResult {
   const [words, setWords] = useState<Word[]>([])
   const [progressMap, setProgressMap] = useState<Map<string, WordProgress>>(new Map())
   const [loading, setLoading] = useState(true)
+  // Incrementing this counter triggers a re-fetch without changing the pair id.
+  const [refreshCount, setRefreshCount] = useState(0)
 
-  // Reload whenever the active pair changes.
+  const refresh = useCallback(() => {
+    setRefreshCount((n) => n + 1)
+  }, [])
+
+  // Reload whenever the active pair changes or refresh() is called.
   useEffect(() => {
     if (activePairId === null) {
       setWords([])
@@ -71,7 +79,7 @@ export function useWords(activePairId: string | null): UseWordsResult {
     return () => {
       cancelled = true
     }
-  }, [storage, activePairId])
+  }, [storage, activePairId, refreshCount])
 
   const addWord = useCallback(
     async (pairId: string, input: CreateWordInput): Promise<Word | null> => {
@@ -153,5 +161,5 @@ export function useWords(activePairId: string | null): UseWordsResult {
     [storage],
   )
 
-  return { words, progressMap, loading, addWord, updateWord, deleteWord, deleteWords }
+  return { words, progressMap, loading, addWord, updateWord, deleteWord, deleteWords, refresh }
 }
