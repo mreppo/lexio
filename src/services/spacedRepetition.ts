@@ -102,9 +102,7 @@ export function calculateConfidence(
   let totalWeight = 0
 
   recentAttempts.forEach((attempt, index) => {
-    const weight = index < cfg.RECENCY_WEIGHTS.length
-      ? cfg.RECENCY_WEIGHTS[index]
-      : 1
+    const weight = index < cfg.RECENCY_WEIGHTS.length ? cfg.RECENCY_WEIGHTS[index] : 1
     weightedSum += weight * (attempt.correct ? 1 : 0)
     totalWeight += weight
   })
@@ -171,9 +169,10 @@ export function computeProgressAfterAttempt(
 
   // Append attempt and cap history length
   const fullHistory = [...prevHistory, newAttempt]
-  const trimmedHistory = fullHistory.length > cfg.MAX_HISTORY_SIZE
-    ? fullHistory.slice(fullHistory.length - cfg.MAX_HISTORY_SIZE)
-    : fullHistory
+  const trimmedHistory =
+    fullHistory.length > cfg.MAX_HISTORY_SIZE
+      ? fullHistory.slice(fullHistory.length - cfg.MAX_HISTORY_SIZE)
+      : fullHistory
 
   // Calculate new streak
   const newStreak = correct ? prevStreak + 1 : 0

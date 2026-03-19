@@ -21,12 +21,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import SortIcon from '@mui/icons-material/Sort'
 import DeleteIcon from '@mui/icons-material/Delete'
 import type { Word, WordProgress } from '@/types'
-import {
-  SORT_OPTIONS,
-  WORD_FILTERS,
-  CONFIDENCE_FILTERS,
-  getConfidenceBucket,
-} from '../constants'
+import { SORT_OPTIONS, WORD_FILTERS, CONFIDENCE_FILTERS, getConfidenceBucket } from '../constants'
 import type { SortOption, WordFilter, ConfidenceFilter } from '../constants'
 import { WordListItem } from './WordListItem'
 import { DeleteWordDialog } from './DeleteWordDialog'
@@ -42,13 +37,7 @@ export interface WordListProps {
 /**
  * Full word list with search, filter, sort and bulk-selection controls.
  */
-export function WordList({
-  words,
-  progressMap,
-  onEdit,
-  onDelete,
-  onBulkDelete,
-}: WordListProps) {
+export function WordList({ words, progressMap, onEdit, onDelete, onBulkDelete }: WordListProps) {
   const [search, setSearch] = useState('')
   const [sortOption, setSortOption] = useState<SortOption>('date-desc')
   const [wordFilter, setWordFilter] = useState<WordFilter>('all')
@@ -98,23 +87,30 @@ export function WordList({
         const progA = progressMap.get(a.id)
         const progB = progressMap.get(b.id)
         switch (sortOption) {
-          case 'source-asc': return a.source.localeCompare(b.source)
-          case 'source-desc': return b.source.localeCompare(a.source)
-          case 'target-asc': return a.target.localeCompare(b.target)
-          case 'target-desc': return b.target.localeCompare(a.target)
-          case 'date-asc': return a.createdAt - b.createdAt
-          case 'date-desc': return b.createdAt - a.createdAt
-          case 'confidence-asc': return (progA?.confidence ?? 0) - (progB?.confidence ?? 0)
-          case 'confidence-desc': return (progB?.confidence ?? 0) - (progA?.confidence ?? 0)
-          default: return 0
+          case 'source-asc':
+            return a.source.localeCompare(b.source)
+          case 'source-desc':
+            return b.source.localeCompare(a.source)
+          case 'target-asc':
+            return a.target.localeCompare(b.target)
+          case 'target-desc':
+            return b.target.localeCompare(a.target)
+          case 'date-asc':
+            return a.createdAt - b.createdAt
+          case 'date-desc':
+            return b.createdAt - a.createdAt
+          case 'confidence-asc':
+            return (progA?.confidence ?? 0) - (progB?.confidence ?? 0)
+          case 'confidence-desc':
+            return (progB?.confidence ?? 0) - (progA?.confidence ?? 0)
+          default:
+            return 0
         }
       })
   }, [words, search, sortOption, wordFilter, confidenceFilter, activeTags, progressMap])
 
   const handleToggleTag = useCallback((tag: string) => {
-    setActiveTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
-    )
+    setActiveTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
   }, [])
 
   const handleToggleSelect = useCallback((wordId: string) => {
@@ -320,10 +316,7 @@ export function WordList({
         <Paper variant="outlined" sx={{ borderRadius: 2 }}>
           {selectionMode && (
             <>
-              <Toolbar
-                variant="dense"
-                sx={{ pl: 1, minHeight: 40 }}
-              >
+              <Toolbar variant="dense" sx={{ pl: 1, minHeight: 40 }}>
                 <Checkbox
                   checked={allVisibleSelected}
                   indeterminate={selectedIds.size > 0 && !allVisibleSelected}
@@ -332,9 +325,7 @@ export function WordList({
                   size="small"
                 />
                 <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-                  {selectedIds.size > 0
-                    ? `${selectedIds.size} selected`
-                    : 'Select all'}
+                  {selectedIds.size > 0 ? `${selectedIds.size} selected` : 'Select all'}
                 </Typography>
               </Toolbar>
               <Divider />

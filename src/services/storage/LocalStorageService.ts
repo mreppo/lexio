@@ -1,11 +1,5 @@
 import type { StorageService } from './StorageService'
-import type {
-  LanguagePair,
-  Word,
-  WordProgress,
-  UserSettings,
-  DailyStats,
-} from '@/types'
+import type { LanguagePair, Word, WordProgress, UserSettings, DailyStats } from '@/types'
 
 const KEYS = {
   LANGUAGE_PAIRS: 'lexio:language-pairs',
@@ -56,15 +50,16 @@ export class LocalStorageService implements StorageService {
   async saveLanguagePair(pair: LanguagePair): Promise<void> {
     const pairs = await this.getLanguagePairs()
     const idx = pairs.findIndex((p) => p.id === pair.id)
-    const updated = idx >= 0
-      ? pairs.map((p) => (p.id === pair.id ? pair : p))
-      : [...pairs, pair]
+    const updated = idx >= 0 ? pairs.map((p) => (p.id === pair.id ? pair : p)) : [...pairs, pair]
     writeJson(KEYS.LANGUAGE_PAIRS, updated)
   }
 
   async deleteLanguagePair(id: string): Promise<void> {
     const pairs = await this.getLanguagePairs()
-    writeJson(KEYS.LANGUAGE_PAIRS, pairs.filter((p) => p.id !== id))
+    writeJson(
+      KEYS.LANGUAGE_PAIRS,
+      pairs.filter((p) => p.id !== id),
+    )
   }
 
   // --- Words ---
@@ -86,9 +81,7 @@ export class LocalStorageService implements StorageService {
   async saveWord(word: Word): Promise<void> {
     const words = await this.getWords(word.pairId)
     const idx = words.findIndex((w) => w.id === word.id)
-    const updated = idx >= 0
-      ? words.map((w) => (w.id === word.id ? word : w))
-      : [...words, word]
+    const updated = idx >= 0 ? words.map((w) => (w.id === word.id ? word : w)) : [...words, word]
     writeJson(`${KEYS.WORDS_PREFIX}${word.pairId}`, updated)
   }
 

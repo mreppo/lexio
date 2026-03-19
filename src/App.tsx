@@ -137,31 +137,28 @@ function AppContent() {
                 <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
                   Create your first language pair to get started.
                 </Typography>
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={handleOpenCreateDialog}
-                >
+                <Button variant="contained" size="large" onClick={handleOpenCreateDialog}>
                   Create language pair
                 </Button>
               </Box>
             ) : (
               <>
                 {activeTab === 'quiz' && (
-                  <QuizHub
-                    pair={activePair}
-                    settings={settings}
-                    onSettingsChange={setSettings}
-                  />
+                  <QuizHub pair={activePair} settings={settings} onSettingsChange={setSettings} />
                 )}
 
-                {activeTab === 'words' && (
-                  <WordListScreen activePair={activePair} />
-                )}
+                {activeTab === 'words' && <WordListScreen activePair={activePair} />}
 
                 {activeTab === 'pairs' && (
                   <Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        mb: 2,
+                      }}
+                    >
                       <Typography variant="h6" fontWeight={700}>
                         Language pairs
                       </Typography>

@@ -174,7 +174,10 @@ describe('listPacks', () => {
 
     // Manifest fetch
     vi.mocked(fetch)
-      .mockResolvedValueOnce({ ok: true, json: async () => ({ packs: ['pack-1', 'pack-2'] }) } as Response)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ packs: ['pack-1', 'pack-2'] }),
+      } as Response)
       // pack-1 fetch
       .mockResolvedValueOnce({ ok: true, json: async () => pack1 } as Response)
       // pack-2 fetch
@@ -190,7 +193,10 @@ describe('listPacks', () => {
     const pack1 = makePack({ id: 'pack-1' })
 
     vi.mocked(fetch)
-      .mockResolvedValueOnce({ ok: true, json: async () => ({ packs: ['pack-1', 'broken'] }) } as Response)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ packs: ['pack-1', 'broken'] }),
+      } as Response)
       .mockResolvedValueOnce({ ok: true, json: async () => pack1 } as Response)
       .mockResolvedValueOnce({ ok: false, status: 500, statusText: 'Error' } as Response)
 

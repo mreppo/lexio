@@ -69,10 +69,8 @@ export function DeletePairDialog({ open, pair, onClose, onConfirm }: DeletePairD
 
         <Typography variant="body1" gutterBottom>
           This will permanently delete{' '}
-          <strong>
-            {pair ? `${pair.sourceLang} → ${pair.targetLang}` : 'this pair'}
-          </strong>{' '}
-          along with all associated words and learning progress.
+          <strong>{pair ? `${pair.sourceLang} → ${pair.targetLang}` : 'this pair'}</strong> along
+          with all associated words and learning progress.
         </Typography>
 
         <Typography variant="body2" color="error.main" sx={{ mt: 1 }}>
@@ -84,12 +82,7 @@ export function DeletePairDialog({ open, pair, onClose, onConfirm }: DeletePairD
         <Button variant="outlined" onClick={handleClose} disabled={deleting}>
           Cancel
         </Button>
-        <Button
-          variant="contained"
-          color="error"
-          onClick={handleConfirm}
-          disabled={deleting}
-        >
+        <Button variant="contained" color="error" onClick={handleConfirm} disabled={deleting}>
           {deleting ? 'Deleting...' : 'Delete pair'}
         </Button>
       </DialogActions>

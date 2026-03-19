@@ -28,8 +28,8 @@ export function levenshtein(a: string, b: string): number {
     for (let i = 1; i <= a.length; i++) {
       const substitutionCost = a[i - 1] === b[j - 1] ? 0 : 1
       curr[i] = Math.min(
-        curr[i - 1] + 1,          // insertion
-        prev[i] + 1,               // deletion
+        curr[i - 1] + 1, // insertion
+        prev[i] + 1, // deletion
         prev[i - 1] + substitutionCost, // substitution
       )
     }

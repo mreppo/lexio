@@ -85,18 +85,12 @@ describe('WordListScreen', () => {
   })
 
   it('should show "no pair" message when activePair is null', () => {
-    render(
-      <WordListScreen activePair={null} />,
-      { wrapper: makeWrapper(makeStorage()) },
-    )
+    render(<WordListScreen activePair={null} />, { wrapper: makeWrapper(makeStorage()) })
     expect(screen.getByText(/No language pair selected/i)).toBeInTheDocument()
   })
 
   it('should show empty state when no words exist', async () => {
-    render(
-      <WordListScreen activePair={DEFAULT_PAIR} />,
-      { wrapper: makeWrapper(makeStorage([])) },
-    )
+    render(<WordListScreen activePair={DEFAULT_PAIR} />, { wrapper: makeWrapper(makeStorage([])) })
 
     await waitFor(() => {
       expect(screen.getByText(/No words yet/i)).toBeInTheDocument()
@@ -104,10 +98,7 @@ describe('WordListScreen', () => {
   })
 
   it('should show "Add your first word" button in empty state', async () => {
-    render(
-      <WordListScreen activePair={DEFAULT_PAIR} />,
-      { wrapper: makeWrapper(makeStorage([])) },
-    )
+    render(<WordListScreen activePair={DEFAULT_PAIR} />, { wrapper: makeWrapper(makeStorage([])) })
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Add your first word/i })).toBeInTheDocument()
@@ -116,10 +107,9 @@ describe('WordListScreen', () => {
 
   it('should show word list when words exist', async () => {
     const word = makeWord({ source: 'house', target: 'māja' })
-    render(
-      <WordListScreen activePair={DEFAULT_PAIR} />,
-      { wrapper: makeWrapper(makeStorage([word])) },
-    )
+    render(<WordListScreen activePair={DEFAULT_PAIR} />, {
+      wrapper: makeWrapper(makeStorage([word])),
+    })
 
     await waitFor(() => {
       expect(screen.getByText('house')).toBeInTheDocument()
@@ -129,10 +119,9 @@ describe('WordListScreen', () => {
 
   it('should show pair name as heading when words exist', async () => {
     const word = makeWord()
-    render(
-      <WordListScreen activePair={DEFAULT_PAIR} />,
-      { wrapper: makeWrapper(makeStorage([word])) },
-    )
+    render(<WordListScreen activePair={DEFAULT_PAIR} />, {
+      wrapper: makeWrapper(makeStorage([word])),
+    })
 
     await waitFor(() => {
       expect(screen.getByText('English → Latvian')).toBeInTheDocument()
@@ -142,10 +131,9 @@ describe('WordListScreen', () => {
   it('should open add word dialog when "Add word" is clicked', async () => {
     const user = userEvent.setup()
     const word = makeWord()
-    render(
-      <WordListScreen activePair={DEFAULT_PAIR} />,
-      { wrapper: makeWrapper(makeStorage([word])) },
-    )
+    render(<WordListScreen activePair={DEFAULT_PAIR} />, {
+      wrapper: makeWrapper(makeStorage([word])),
+    })
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Add word/i })).toBeInTheDocument()
@@ -158,10 +146,7 @@ describe('WordListScreen', () => {
 
   it('should add a word and show it in the list', async () => {
     const user = userEvent.setup()
-    render(
-      <WordListScreen activePair={DEFAULT_PAIR} />,
-      { wrapper: makeWrapper(makeStorage([])) },
-    )
+    render(<WordListScreen activePair={DEFAULT_PAIR} />, { wrapper: makeWrapper(makeStorage([])) })
 
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /Add your first word/i })).toBeInTheDocument()
@@ -182,10 +167,9 @@ describe('WordListScreen', () => {
   it('should open edit dialog when edit button is clicked', async () => {
     const user = userEvent.setup()
     const word = makeWord({ source: 'house', target: 'māja' })
-    render(
-      <WordListScreen activePair={DEFAULT_PAIR} />,
-      { wrapper: makeWrapper(makeStorage([word])) },
-    )
+    render(<WordListScreen activePair={DEFAULT_PAIR} />, {
+      wrapper: makeWrapper(makeStorage([word])),
+    })
 
     await waitFor(() => {
       expect(screen.getByText('house')).toBeInTheDocument()
@@ -200,10 +184,9 @@ describe('WordListScreen', () => {
   it('should delete a word when confirmed', async () => {
     const user = userEvent.setup()
     const word = makeWord({ source: 'house', target: 'māja' })
-    render(
-      <WordListScreen activePair={DEFAULT_PAIR} />,
-      { wrapper: makeWrapper(makeStorage([word])) },
-    )
+    render(<WordListScreen activePair={DEFAULT_PAIR} />, {
+      wrapper: makeWrapper(makeStorage([word])),
+    })
 
     await waitFor(() => {
       expect(screen.getByText('house')).toBeInTheDocument()

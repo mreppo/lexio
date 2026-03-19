@@ -17,5 +17,9 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     // Exclude Playwright E2E specs — they are collected by Playwright, not Vitest.
     exclude: ['**/node_modules/**', '**/dist/**', 'e2e/**'],
+    coverage: {
+      reporter: ['text', 'lcov'],
+      reportsDirectory: 'coverage',
+    },
   },
 })

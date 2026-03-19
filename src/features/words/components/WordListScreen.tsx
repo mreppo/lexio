@@ -1,11 +1,5 @@
 import { useState, useCallback } from 'react'
-import {
-  Box,
-  Typography,
-  Button,
-  CircularProgress,
-  Stack,
-} from '@mui/material'
+import { Box, Typography, Button, CircularProgress, Stack } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import type { Word, LanguagePair } from '@/types'
@@ -107,7 +101,11 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
           <Typography variant="h6" gutterBottom fontWeight={700}>
             No words yet
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 3, maxWidth: 340, mx: 'auto' }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ mb: 3, maxWidth: 340, mx: 'auto' }}
+          >
             Add your first word to start building your vocabulary for{' '}
             <strong>
               {activePair.sourceLang} → {activePair.targetLang}
@@ -115,7 +113,11 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
             , or install a starter pack to get going quickly.
           </Typography>
           <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap">
-            <Button variant="contained" startIcon={<AddIcon />} onClick={() => handleOpenAdd(false)}>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={() => handleOpenAdd(false)}
+            >
               Add your first word
             </Button>
             <Button
@@ -129,7 +131,9 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
         </Box>
       ) : (
         <>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+          <Box
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}
+          >
             <Typography variant="h6" fontWeight={700}>
               {activePair.sourceLang} → {activePair.targetLang}
             </Typography>

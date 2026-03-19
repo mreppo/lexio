@@ -6,21 +6,8 @@
  * finished state — the parent (ActiveQuizView → QuizHub) handles that transition.
  */
 
-import {
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  KeyboardEvent,
-} from 'react'
-import {
-  Box,
-  Button,
-  Paper,
-  TextField,
-  Typography,
-  Chip,
-} from '@mui/material'
+import { useState, useCallback, useEffect, useRef, type KeyboardEvent } from 'react'
+import { Box, Button, Paper, TextField, Typography, Chip } from '@mui/material'
 import type { LanguagePair, UserSettings } from '@/types'
 import type { UseQuizSessionResult } from '../useQuizSession'
 import { SessionProgress } from './SessionProgress'
@@ -90,7 +77,9 @@ export function TypeQuizContent({ session, pair, settings }: TypeQuizContentProp
   if (phase === 'loading') {
     return (
       <Box sx={{ textAlign: 'center', py: 8 }}>
-        <Typography variant="body1" color="text.secondary">Loading words...</Typography>
+        <Typography variant="body1" color="text.secondary">
+          Loading words...
+        </Typography>
       </Box>
     )
   }
@@ -98,8 +87,12 @@ export function TypeQuizContent({ session, pair, settings }: TypeQuizContentProp
   if (phase === 'finished' && error !== null) {
     return (
       <Box sx={{ textAlign: 'center', py: 8 }}>
-        <Typography variant="h6" color="error.main" gutterBottom>Something went wrong</Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>{error}</Typography>
+        <Typography variant="h6" color="error.main" gutterBottom>
+          Something went wrong
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+          {error}
+        </Typography>
       </Box>
     )
   }
@@ -110,7 +103,7 @@ export function TypeQuizContent({ session, pair, settings }: TypeQuizContentProp
   const fromLang = direction === 'source-to-target' ? pair.sourceLang : pair.targetLang
   const toLang = direction === 'source-to-target' ? pair.targetLang : pair.sourceLang
   const questionText =
-    direction === 'source-to-target' ? currentWord?.source ?? '' : currentWord?.target ?? ''
+    direction === 'source-to-target' ? (currentWord?.source ?? '') : (currentWord?.target ?? '')
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>

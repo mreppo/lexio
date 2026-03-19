@@ -116,10 +116,8 @@ export function CreatePairDialog({
     }
   }, [form, onSubmit, handleClose])
 
-  const sourcePresetValue =
-    LANGUAGE_PRESETS.find((p) => p.name === form.sourceLang) ?? null
-  const targetPresetValue =
-    LANGUAGE_PRESETS.find((p) => p.name === form.targetLang) ?? null
+  const sourcePresetValue = LANGUAGE_PRESETS.find((p) => p.name === form.sourceLang) ?? null
+  const targetPresetValue = LANGUAGE_PRESETS.find((p) => p.name === form.targetLang) ?? null
 
   return (
     <Dialog

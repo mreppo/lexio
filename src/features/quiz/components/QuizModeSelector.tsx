@@ -7,14 +7,7 @@
  */
 
 import { useCallback } from 'react'
-import {
-  Box,
-  Button,
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-} from '@mui/material'
+import { Box, Button, Card, CardActionArea, CardContent, Typography } from '@mui/material'
 import KeyboardIcon from '@mui/icons-material/Keyboard'
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
 import ShuffleIcon from '@mui/icons-material/Shuffle'
@@ -63,11 +56,7 @@ interface QuizModeSelectorProps {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function QuizModeSelector({
-  selectedMode,
-  onModeChange,
-  onStart,
-}: QuizModeSelectorProps) {
+export function QuizModeSelector({ selectedMode, onModeChange, onStart }: QuizModeSelectorProps) {
   const handleSelect = useCallback(
     (mode: QuizMode): void => {
       onModeChange(mode)

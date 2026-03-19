@@ -9,35 +9,18 @@ describe('CreatePairDialog', () => {
   })
 
   it('should not render when open is false', () => {
-    render(
-      <CreatePairDialog
-        open={false}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<CreatePairDialog open={false} onClose={vi.fn()} onSubmit={vi.fn()} />)
     expect(screen.queryByText('Add language pair')).not.toBeInTheDocument()
   })
 
   it('should render when open is true', () => {
-    render(
-      <CreatePairDialog
-        open={true}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<CreatePairDialog open={true} onClose={vi.fn()} onSubmit={vi.fn()} />)
     expect(screen.getByText('Add language pair')).toBeInTheDocument()
   })
 
   it('should pre-fill EN-LV when suggestDefault is true', () => {
     render(
-      <CreatePairDialog
-        open={true}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-        suggestDefault={true}
-      />,
+      <CreatePairDialog open={true} onClose={vi.fn()} onSubmit={vi.fn()} suggestDefault={true} />,
     )
     // Language codes should be pre-filled
     const inputs = screen.getAllByRole('textbox')
@@ -51,13 +34,7 @@ describe('CreatePairDialog', () => {
 
   it('should show validation error when submitting empty form', async () => {
     const user = userEvent.setup()
-    render(
-      <CreatePairDialog
-        open={true}
-        onClose={vi.fn()}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<CreatePairDialog open={true} onClose={vi.fn()} onSubmit={vi.fn()} />)
 
     await user.click(screen.getByRole('button', { name: /Create pair/i }))
 
@@ -68,13 +45,7 @@ describe('CreatePairDialog', () => {
     const user = userEvent.setup()
     const onSubmit = vi.fn()
 
-    render(
-      <CreatePairDialog
-        open={true}
-        onClose={vi.fn()}
-        onSubmit={onSubmit}
-      />,
-    )
+    render(<CreatePairDialog open={true} onClose={vi.fn()} onSubmit={onSubmit} />)
 
     // Fill language code fields directly
     const codeFields = screen.getAllByLabelText('Language code')
@@ -98,13 +69,7 @@ describe('CreatePairDialog', () => {
     const user = userEvent.setup()
     const onClose = vi.fn()
 
-    render(
-      <CreatePairDialog
-        open={true}
-        onClose={onClose}
-        onSubmit={vi.fn()}
-      />,
-    )
+    render(<CreatePairDialog open={true} onClose={onClose} onSubmit={vi.fn()} />)
 
     await user.click(screen.getByRole('button', { name: /Cancel/i }))
     expect(onClose).toHaveBeenCalledTimes(1)
@@ -115,12 +80,7 @@ describe('CreatePairDialog', () => {
     const onSubmit = vi.fn().mockResolvedValue(undefined)
 
     render(
-      <CreatePairDialog
-        open={true}
-        onClose={vi.fn()}
-        onSubmit={onSubmit}
-        suggestDefault={true}
-      />,
+      <CreatePairDialog open={true} onClose={vi.fn()} onSubmit={onSubmit} suggestDefault={true} />,
     )
 
     // Form is pre-filled with EN-LV defaults when suggestDefault=true

@@ -25,8 +25,8 @@ interface SessionSummaryProps {
 // ─── Encouraging messages ─────────────────────────────────────────────────────
 
 function getEncouragingMessage(accuracy: number, wordsReviewed: number): string {
-  if (wordsReviewed === 0) return 'Ready to start? Let\'s go!'
-  if (accuracy >= 90) return 'Outstanding work! You\'re on fire!'
+  if (wordsReviewed === 0) return "Ready to start? Let's go!"
+  if (accuracy >= 90) return "Outstanding work! You're on fire!"
   if (accuracy >= 75) return 'Great job! Keep it up!'
   if (accuracy >= 50) return 'Good effort! Practice makes perfect.'
   return 'Keep going — every review builds your memory!'
@@ -42,8 +42,7 @@ export function SessionSummary({
   onGoHome,
 }: SessionSummaryProps) {
   const incorrectCount = wordsReviewed - correctCount
-  const accuracy =
-    wordsReviewed > 0 ? Math.round((correctCount / wordsReviewed) * 100) : 0
+  const accuracy = wordsReviewed > 0 ? Math.round((correctCount / wordsReviewed) * 100) : 0
   const message = getEncouragingMessage(accuracy, wordsReviewed)
 
   return (
@@ -73,10 +72,7 @@ export function SessionSummary({
       </Box>
 
       {/* Stats card */}
-      <Paper
-        elevation={2}
-        sx={{ width: '100%', borderRadius: 3, overflow: 'hidden' }}
-      >
+      <Paper elevation={2} sx={{ width: '100%', borderRadius: 3, overflow: 'hidden' }}>
         <Box
           sx={{
             display: 'grid',
@@ -185,20 +181,10 @@ export function SessionSummary({
 
       {/* Action buttons */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, width: '100%' }}>
-        <Button
-          variant="contained"
-          size="large"
-          fullWidth
-          onClick={onContinue}
-        >
+        <Button variant="contained" size="large" fullWidth onClick={onContinue}>
           Start new session
         </Button>
-        <Button
-          variant="outlined"
-          size="large"
-          fullWidth
-          onClick={onGoHome}
-        >
+        <Button variant="outlined" size="large" fullWidth onClick={onGoHome}>
           Back to dashboard
         </Button>
       </Box>

@@ -22,29 +22,23 @@ describe('LanguagePairList', () => {
   })
 
   it('should show empty state message when no pairs', () => {
-    render(
-      <LanguagePairList
-        pairs={[]}
-        activePairId={null}
-        onDelete={vi.fn()}
-      />,
-    )
+    render(<LanguagePairList pairs={[]} activePairId={null} onDelete={vi.fn()} />)
     expect(screen.getByText(/No language pairs yet/i)).toBeInTheDocument()
   })
 
   it('should render a list item for each pair', () => {
     const pairs = [
       makePair({ id: 'pair-1', sourceLang: 'English', targetLang: 'Latvian' }),
-      makePair({ id: 'pair-2', sourceLang: 'German', targetLang: 'French', sourceCode: 'de', targetCode: 'fr' }),
+      makePair({
+        id: 'pair-2',
+        sourceLang: 'German',
+        targetLang: 'French',
+        sourceCode: 'de',
+        targetCode: 'fr',
+      }),
     ]
 
-    render(
-      <LanguagePairList
-        pairs={pairs}
-        activePairId={null}
-        onDelete={vi.fn()}
-      />,
-    )
+    render(<LanguagePairList pairs={pairs} activePairId={null} onDelete={vi.fn()} />)
 
     expect(screen.getByText('English → Latvian')).toBeInTheDocument()
     expect(screen.getByText('German → French')).toBeInTheDocument()
@@ -53,16 +47,16 @@ describe('LanguagePairList', () => {
   it('should show the Active chip on the active pair', () => {
     const pairs = [
       makePair({ id: 'pair-1', sourceLang: 'English', targetLang: 'Latvian' }),
-      makePair({ id: 'pair-2', sourceLang: 'German', targetLang: 'French', sourceCode: 'de', targetCode: 'fr' }),
+      makePair({
+        id: 'pair-2',
+        sourceLang: 'German',
+        targetLang: 'French',
+        sourceCode: 'de',
+        targetCode: 'fr',
+      }),
     ]
 
-    render(
-      <LanguagePairList
-        pairs={pairs}
-        activePairId="pair-1"
-        onDelete={vi.fn()}
-      />,
-    )
+    render(<LanguagePairList pairs={pairs} activePairId="pair-1" onDelete={vi.fn()} />)
 
     expect(screen.getByText('Active')).toBeInTheDocument()
   })
@@ -71,13 +65,7 @@ describe('LanguagePairList', () => {
     const user = userEvent.setup()
     const pair = makePair()
 
-    render(
-      <LanguagePairList
-        pairs={[pair]}
-        activePairId={null}
-        onDelete={vi.fn()}
-      />,
-    )
+    render(<LanguagePairList pairs={[pair]} activePairId={null} onDelete={vi.fn()} />)
 
     await user.click(screen.getByRole('button', { name: /Delete English to Latvian pair/i }))
     // Dialog should appear
@@ -86,13 +74,7 @@ describe('LanguagePairList', () => {
 
   it('should display language codes as secondary text', () => {
     const pair = makePair()
-    render(
-      <LanguagePairList
-        pairs={[pair]}
-        activePairId={null}
-        onDelete={vi.fn()}
-      />,
-    )
+    render(<LanguagePairList pairs={[pair]} activePairId={null} onDelete={vi.fn()} />)
     expect(screen.getByText('en → lv')).toBeInTheDocument()
   })
 })

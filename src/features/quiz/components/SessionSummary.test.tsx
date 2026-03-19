@@ -98,22 +98,22 @@ describe('SessionSummary', () => {
   })
 
   it('should show outstanding message for >= 90% accuracy', () => {
-    renderSummary(10, 9)  // 90%
+    renderSummary(10, 9) // 90%
     expect(screen.getByText(/outstanding/i)).toBeInTheDocument()
   })
 
   it('should show great job message for >= 75% accuracy', () => {
-    renderSummary(10, 8)  // 80%
+    renderSummary(10, 8) // 80%
     expect(screen.getByText(/great job/i)).toBeInTheDocument()
   })
 
   it('should show good effort message for >= 50% accuracy', () => {
-    renderSummary(10, 6)  // 60%
+    renderSummary(10, 6) // 60%
     expect(screen.getByText(/good effort/i)).toBeInTheDocument()
   })
 
   it('should show keep going message for < 50% accuracy', () => {
-    renderSummary(10, 4)  // 40%
+    renderSummary(10, 4) // 40%
     expect(screen.getByText(/keep going/i)).toBeInTheDocument()
   })
 })

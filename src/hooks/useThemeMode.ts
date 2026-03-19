@@ -51,7 +51,6 @@ export function useThemeMode(storage: StorageService): UseThemeModeResult {
     if (mediaQuery.addEventListener) {
       mediaQuery.addEventListener('change', handleChange)
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-deprecated
       mediaQuery.addListener(handleChange)
     }
 
@@ -59,7 +58,6 @@ export function useThemeMode(storage: StorageService): UseThemeModeResult {
       if (mediaQuery.removeEventListener) {
         mediaQuery.removeEventListener('change', handleChange)
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-deprecated
         mediaQuery.removeListener(handleChange)
       }
     }

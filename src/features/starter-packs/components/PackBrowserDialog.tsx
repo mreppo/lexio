@@ -97,9 +97,7 @@ export function PackBrowserDialog({
   // Filter to only packs compatible with the active pair (same or reversed direction).
   const packs =
     pairSourceCode !== null && pairTargetCode !== null
-      ? allPacks.filter(
-          (pack) => packMatchesPair(pack, pairSourceCode, pairTargetCode) !== 'none',
-        )
+      ? allPacks.filter((pack) => packMatchesPair(pack, pairSourceCode, pairTargetCode) !== 'none')
       : allPacks
 
   const handleInstall = useCallback(
@@ -203,7 +201,9 @@ export function PackBrowserDialog({
                         <Button
                           variant="contained"
                           size="small"
-                          startIcon={isInstalling ? <CircularProgress size={14} /> : <DownloadIcon />}
+                          startIcon={
+                            isInstalling ? <CircularProgress size={14} /> : <DownloadIcon />
+                          }
                           onClick={() => void handleInstall(pack)}
                           disabled={isInstalling || !pairId}
                         >
@@ -216,7 +216,10 @@ export function PackBrowserDialog({
                   {isDone && state.result && (
                     <Alert severity="success" sx={{ mt: 1 }}>
                       Added {state.result.added} words
-                      {state.result.skipped > 0 ? `, skipped ${state.result.skipped} duplicates` : ''}.
+                      {state.result.skipped > 0
+                        ? `, skipped ${state.result.skipped} duplicates`
+                        : ''}
+                      .
                     </Alert>
                   )}
                 </Box>
