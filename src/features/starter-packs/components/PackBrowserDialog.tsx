@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import {
   Dialog,
   DialogTitle,
@@ -62,6 +62,18 @@ export function PackBrowserDialog({
   // Per-pack install state keyed by pack id.
   const [installStates, setInstallStates] = useState<Record<string, PackInstallState>>({})
 
+  // Tracks the auto-close timer so it can be cleared on unmount.
+  const autoCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Clear the auto-close timer when the component unmounts.
+  useEffect(() => {
+    return () => {
+      if (autoCloseTimerRef.current !== null) {
+        clearTimeout(autoCloseTimerRef.current)
+      }
+    }
+  }, [])
+
   // Load packs whenever the dialog opens.
   useEffect(() => {
     if (!open) return
@@ -105,7 +117,12 @@ export function PackBrowserDialog({
           ...prev,
           [pack.id]: { status: 'done', result },
         }))
+        // Refresh the word list immediately so it is populated when the dialog closes.
         onInstalled()
+        // Auto-close after a brief delay so the user can read the success message.
+        autoCloseTimerRef.current = setTimeout(() => {
+          onClose()
+        }, 1500)
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : 'Unknown error'
         setInstallStates((prev) => ({
@@ -115,7 +132,7 @@ export function PackBrowserDialog({
         setLoadError(message)
       }
     },
-    [pairId, pairSourceCode, pairTargetCode, storage, onInstalled],
+    [pairId, pairSourceCode, pairTargetCode, storage, onInstalled, onClose],
   )
 
   const handleClose = useCallback(() => {
