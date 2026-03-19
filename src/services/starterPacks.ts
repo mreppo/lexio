@@ -11,6 +11,33 @@ export interface InstallPackResult {
 }
 
 /**
+ * Describes how a starter pack's language codes relate to a given pair's codes.
+ *
+ * - 'same'     – pack codes match the pair exactly (no swap needed)
+ * - 'reversed' – pack codes are the mirror of the pair (swap source/target on install)
+ * - 'none'     – pack is for a completely different language combination
+ */
+export type PackMatchResult = 'same' | 'reversed' | 'none'
+
+/**
+ * Determines whether a starter pack is compatible with the given language pair,
+ * and in which direction.
+ *
+ * A pack with sourceCode="lv" / targetCode="en" matches both:
+ *   - an LV-EN pair  → 'same'
+ *   - an EN-LV pair  → 'reversed'
+ */
+export function packMatchesPair(
+  pack: StarterPack,
+  pairSourceCode: string,
+  pairTargetCode: string,
+): PackMatchResult {
+  if (pack.sourceCode === pairSourceCode && pack.targetCode === pairTargetCode) return 'same'
+  if (pack.sourceCode === pairTargetCode && pack.targetCode === pairSourceCode) return 'reversed'
+  return 'none'
+}
+
+/**
  * Fetches the pack manifest and returns the list of available pack IDs.
  * The manifest lives at /starter-packs/manifest.json.
  */
@@ -50,7 +77,13 @@ export async function listPacks(): Promise<readonly StarterPack[]> {
 /**
  * Installs a starter pack into storage for the given language pair.
  *
- * For each word in the pack:
+ * The pairSourceCode and pairTargetCode parameters are used to determine the
+ * install direction via packMatchesPair:
+ * - 'same'     – words are installed as-is
+ * - 'reversed' – source and target values are swapped so they match the pair direction
+ * - 'none'     – throws an error (the UI should never call this for an incompatible pack)
+ *
+ * For each word in the pack (after any swap):
  * - Checks for an exact duplicate by source+target (case-insensitive).
  * - If no duplicate exists, creates a Word with `isFromPack: true` and tag "starter-pack".
  * - Skips words that already exist.
@@ -60,8 +93,18 @@ export async function listPacks(): Promise<readonly StarterPack[]> {
 export async function installPack(
   pack: StarterPack,
   pairId: string,
+  pairSourceCode: string,
+  pairTargetCode: string,
   storage: StorageService,
 ): Promise<InstallPackResult> {
+  const direction = packMatchesPair(pack, pairSourceCode, pairTargetCode)
+
+  if (direction === 'none') {
+    throw new Error(
+      `Pack "${pack.id}" (${pack.sourceCode}-${pack.targetCode}) is not compatible with pair ${pairSourceCode}-${pairTargetCode}`,
+    )
+  }
+
   const existingWords = await storage.getWords(pairId)
 
   // Build a set of normalised source+target keys for duplicate detection.
@@ -73,7 +116,11 @@ export async function installPack(
   let skipped = 0
 
   for (const entry of pack.words) {
-    const key = `${entry.source.toLowerCase()}|${entry.target.toLowerCase()}`
+    // Swap source and target when installing in the reversed direction.
+    const wordSource = direction === 'reversed' ? entry.target : entry.source
+    const wordTarget = direction === 'reversed' ? entry.source : entry.target
+
+    const key = `${wordSource.toLowerCase()}|${wordTarget.toLowerCase()}`
     if (existingKeys.has(key)) {
       skipped++
       continue
@@ -83,8 +130,8 @@ export async function installPack(
     wordsToAdd.push({
       id: generateId(),
       pairId,
-      source: entry.source,
-      target: entry.target,
+      source: wordSource,
+      target: wordTarget,
       notes: null,
       tags,
       createdAt: Date.now(),
