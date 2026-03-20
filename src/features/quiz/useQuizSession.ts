@@ -50,6 +50,10 @@ export interface QuizSessionState {
   readonly sessionGoal: number
   /** Number of correct answers this session. */
   readonly correctCount: number
+  /** Current streak of consecutive correct answers within this session. */
+  readonly sessionStreak: number
+  /** Best streak of consecutive correct answers achieved in this session. */
+  readonly bestSessionStreak: number
   /** Error message if something went wrong. */
   readonly error: string | null
   // Type-mode state
@@ -165,6 +169,8 @@ export function useQuizSession(
   const [lastChoiceCorrect, setLastChoiceCorrect] = useState<boolean | null>(null)
   const [wordsCompleted, setWordsCompleted] = useState(0)
   const [correctCount, setCorrectCount] = useState(0)
+  const [sessionStreak, setSessionStreak] = useState(0)
+  const [bestSessionStreak, setBestSessionStreak] = useState(0)
   const [error, setError] = useState<string | null>(null)
 
   // Recent mode history for consecutive-mode enforcement in mixed mode.
@@ -319,7 +325,16 @@ export function useQuizSession(
 
       setLastResult(matchResult)
       setWordsCompleted((n) => n + 1)
-      if (isCorrect) setCorrectCount((n) => n + 1)
+      if (isCorrect) {
+        setCorrectCount((n) => n + 1)
+        setSessionStreak((s) => {
+          const next = s + 1
+          setBestSessionStreak((b) => Math.max(b, next))
+          return next
+        })
+      } else {
+        setSessionStreak(0)
+      }
       setPhase('feedback')
     },
     [phase, currentWord, direction, currentMode, settings.typoTolerance, storage],
@@ -347,7 +362,16 @@ export function useQuizSession(
       setSelectedIndex(index)
       setLastChoiceCorrect(isCorrect)
       setWordsCompleted((n) => n + 1)
-      if (isCorrect) setCorrectCount((n) => n + 1)
+      if (isCorrect) {
+        setCorrectCount((n) => n + 1)
+        setSessionStreak((s) => {
+          const next = s + 1
+          setBestSessionStreak((b) => Math.max(b, next))
+          return next
+        })
+      } else {
+        setSessionStreak(0)
+      }
       setPhase('feedback')
     },
     [phase, currentWord, direction, currentMode, selectedIndex, correctIndex, storage],
@@ -383,6 +407,8 @@ export function useQuizSession(
   const restart = useCallback((): void => {
     setWordsCompleted(0)
     setCorrectCount(0)
+    setSessionStreak(0)
+    setBestSessionStreak(0)
     setSelectedIndex(-1)
     setLastResult(null)
     setLastChoiceCorrect(null)
@@ -404,6 +430,8 @@ export function useQuizSession(
     wordsCompleted,
     sessionGoal,
     correctCount,
+    sessionStreak,
+    bestSessionStreak,
     error,
     lastResult,
     options,

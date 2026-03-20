@@ -18,14 +18,18 @@ interface ActiveQuizViewProps {
   readonly settings: UserSettings
   /**
    * Called once when the session transitions to 'finished'.
-   * Receives the final wordsReviewed and correctCount.
+   * Receives the final wordsReviewed, correctCount, and bestSessionStreak.
    */
-  readonly onSessionFinished: (wordsReviewed: number, correctCount: number) => void
+  readonly onSessionFinished: (
+    wordsReviewed: number,
+    correctCount: number,
+    bestSessionStreak: number,
+  ) => void
 }
 
 export function ActiveQuizView({ mode, pair, settings, onSessionFinished }: ActiveQuizViewProps) {
   const session = useQuizSession(pair, settings, mode)
-  const { phase, wordsCompleted, correctCount, currentMode } = session.state
+  const { phase, wordsCompleted, correctCount, bestSessionStreak, currentMode } = session.state
 
   // Store onSessionFinished in a ref so the effect dep array only contains the
   // stable phase value — the callback itself is always current.
@@ -34,11 +38,11 @@ export function ActiveQuizView({ mode, pair, settings, onSessionFinished }: Acti
 
   useEffect(() => {
     if (phase === 'finished') {
-      onFinishedRef.current(wordsCompleted, correctCount)
+      onFinishedRef.current(wordsCompleted, correctCount, bestSessionStreak)
     }
-    // wordsCompleted and correctCount are stable at the moment phase becomes
-    // 'finished', so including them is correct and avoids stale reads.
-  }, [phase, wordsCompleted, correctCount])
+    // wordsCompleted, correctCount, and bestSessionStreak are stable at the moment
+    // phase becomes 'finished', so including them is correct and avoids stale reads.
+  }, [phase, wordsCompleted, correctCount, bestSessionStreak])
 
   if (currentMode === 'type') {
     return <TypeQuizContent session={session} pair={pair} settings={settings} />

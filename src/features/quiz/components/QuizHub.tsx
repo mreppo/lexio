@@ -2,8 +2,8 @@
  * QuizHub - the entry point for the quiz feature.
  *
  * Manages the pre-quiz mode selection screen, active quiz routing, and
- * the post-session summary. It persists the user's mode preference and
- * pulls the current streak from daily stats for the summary screen.
+ * the post-session summary. It persists the user's mode preference, updates
+ * DailyStats after each session, and shows streak + words-learned data.
  *
  * Hub state machine:
  *   'select'  → user picks Type / Choice / Mixed
@@ -15,6 +15,8 @@ import { useState, useCallback, useEffect } from 'react'
 import { Box } from '@mui/material'
 import type { LanguagePair, UserSettings, QuizMode } from '@/types'
 import { useStorage } from '@/hooks/useStorage'
+import { updateDailyStatsAfterSession, loadCurrentStreak } from '@/services/streakService'
+import { getWordsLearnedForPair } from '@/services/wordsLearnedService'
 import { QuizModeSelector } from './QuizModeSelector'
 import { SessionSummary } from './SessionSummary'
 import { ActiveQuizView } from './ActiveQuizView'
@@ -31,6 +33,7 @@ type HubPhase = 'select' | 'active' | 'summary'
 interface SessionResult {
   readonly wordsReviewed: number
   readonly correctCount: number
+  readonly bestSessionStreak: number
 }
 
 export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
@@ -40,23 +43,34 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
   const [sessionResult, setSessionResult] = useState<SessionResult>({
     wordsReviewed: 0,
     correctCount: 0,
+    bestSessionStreak: 0,
   })
   const [streakDays, setStreakDays] = useState(0)
+  const [wordsLearned, setWordsLearned] = useState(0)
+  const [totalWords, setTotalWords] = useState(0)
 
   // Keep local selectedMode in sync when settings.quizMode changes externally.
   useEffect(() => {
     setSelectedMode(settings.quizMode)
   }, [settings.quizMode])
 
-  // Load streak days from recent daily stats.
+  // Reload streak from storage whenever the hub phase changes (e.g. after session).
   useEffect(() => {
-    void storage.getRecentDailyStats(7).then((stats) => {
-      const latest = stats[stats.length - 1]
-      if (latest !== undefined) {
-        setStreakDays(latest.streakDays)
-      }
+    void loadCurrentStreak(storage, settings.dailyGoal).then(setStreakDays)
+  }, [storage, hubPhase, settings.dailyGoal])
+
+  // Reload words learned whenever the hub phase changes or the pair changes.
+  useEffect(() => {
+    if (pair === null) {
+      setWordsLearned(0)
+      setTotalWords(0)
+      return
+    }
+    void getWordsLearnedForPair(storage, pair.id).then((result) => {
+      setWordsLearned(result.learned)
+      setTotalWords(result.total)
     })
-  }, [storage, hubPhase])
+  }, [storage, pair, hubPhase])
 
   const handleModeChange = useCallback(
     (mode: QuizMode): void => {
@@ -72,10 +86,22 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
     setHubPhase('active')
   }, [])
 
-  const handleSessionFinished = useCallback((wordsReviewed: number, correctCount: number): void => {
-    setSessionResult({ wordsReviewed, correctCount })
-    setHubPhase('summary')
-  }, [])
+  const handleSessionFinished = useCallback(
+    (wordsReviewed: number, correctCount: number, bestSessionStreak: number): void => {
+      setSessionResult({ wordsReviewed, correctCount, bestSessionStreak })
+
+      // Persist daily stats in the background - do not block UI transition.
+      void updateDailyStatsAfterSession(
+        storage,
+        wordsReviewed,
+        correctCount,
+        settings.dailyGoal,
+      ).then(setStreakDays)
+
+      setHubPhase('summary')
+    },
+    [storage, settings.dailyGoal],
+  )
 
   const handleContinue = useCallback((): void => {
     setHubPhase('select')
@@ -102,6 +128,9 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
         wordsReviewed={sessionResult.wordsReviewed}
         correctCount={sessionResult.correctCount}
         streakDays={streakDays}
+        bestSessionStreak={sessionResult.bestSessionStreak}
+        wordsLearned={wordsLearned}
+        totalWords={totalWords}
         onContinue={handleContinue}
         onGoHome={handleGoHome}
       />
