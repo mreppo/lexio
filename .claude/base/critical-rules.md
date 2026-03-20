@@ -27,3 +27,9 @@ These rules apply to ALL agents in ALL projects. They are non-negotiable.
 12. **Run tests** before considering work done.
 13. **Run the build** before considering work done.
 14. **Run type checking** before considering work done.
+
+## CI and Deployment
+
+15. **Wait for CI to pass** before merging any PR. Run `gh pr checks <pr-number> --watch` and do NOT proceed until all checks show ✓. Branch protection enforces this - merge will fail if you skip it.
+16. **Verify deployment** after merge. For projects that auto-deploy on push to main, wait 2 minutes then verify the deployment succeeded: `gh api repos/{owner}/{repo}/pages/builds --jq '.[0].status'` (for GitHub Pages) or check the project-specific deployment target.
+17. **Check Sentry** after deployment. If the project has Sentry configured, check for new errors in the latest release within 2 minutes of deployment.

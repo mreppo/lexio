@@ -152,6 +152,13 @@ src/
 - Ensure all tests pass before requesting merge
 - PR should be mergeable into `main` without conflicts
 
+### CI and Deployment
+
+- **Wait for CI to pass** before merging any PR. Run `gh pr checks <pr-number> --watch` and do NOT proceed until all checks show ✓. Branch protection is active on `main` - merge will fail if CI has not passed.
+- **Verify deployment** after merge. After any push to `main`, wait 2 minutes then check the GitHub Pages build status: `gh api repos/mreppo/lexio/pages/builds --jq '.[0].status'` (expected: `"built"`).
+- **Smoke check** the live site: `curl -s -o /dev/null -w "%{http_code}" https://mreppo.github.io/lexio/` (expected: `200`).
+- **Check Sentry** after deployment. Sentry is configured for this project - check for new unresolved errors within 2 minutes of deployment. Report any new errors as a comment on the issue.
+
 ---
 
 ## Testing
