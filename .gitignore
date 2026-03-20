@@ -34,3 +34,6 @@ test-results/
 # Local environment overrides (may contain secrets like VITE_SENTRY_DSN)
 .env.local
 .env.*.local
+
+# Test coverage reports
+coverage/

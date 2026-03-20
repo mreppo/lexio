@@ -8,22 +8,20 @@ import {
   Typography,
   Container,
   Button,
-  Tab,
-  Tabs,
 } from '@mui/material'
 import { createAppTheme } from './theme'
 import { useThemeMode } from './hooks/useThemeMode'
 import { LocalStorageService } from './services/storage'
 import { StorageContext, useStorage } from './hooks/useStorage'
-import {
-  useLanguagePairs,
-  LanguagePairSelector,
-  CreatePairDialog,
-  LanguagePairList,
-} from './features/language-pairs'
+import { useLanguagePairs, LanguagePairSelector, CreatePairDialog } from './features/language-pairs'
 import type { CreatePairInput } from './features/language-pairs'
 import { WordListScreen } from './features/words'
 import { QuizHub } from './features/quiz'
+import { DashboardScreen, useDashboard } from './features/dashboard'
+import { StatsScreen } from './features/stats'
+import { SettingsScreen } from './features/settings'
+import { BottomNav } from './components'
+import type { AppTab } from './components'
 import type { UserSettings } from './types'
 import { Sentry } from './services/sentry'
 
@@ -38,16 +36,16 @@ const storageService = new LocalStorageService()
  * Split from the outer App so context is available for all hooks.
  */
 function AppContent() {
-  const { mode } = useThemeMode(storageService)
+  const { preference: themePreference, mode, setPreference } = useThemeMode(storageService)
   const appTheme = useMemo(() => createAppTheme(mode), [mode])
 
-  const { pairs, activePair, loading, createPair, switchPair, deletePair } = useLanguagePairs()
+  const { pairs, activePair, loading: pairsLoading, createPair, switchPair } = useLanguagePairs()
 
   const [createDialogOpen, setCreateDialogOpen] = useState(false)
   // Whether this is the first launch (no pairs yet, after loading completes).
   const [isFirstLaunch, setIsFirstLaunch] = useState(false)
-  // Active tab
-  const [activeTab, setActiveTab] = useState<'quiz' | 'words' | 'pairs'>('quiz')
+  // Active navigation tab.
+  const [activeTab, setActiveTab] = useState<AppTab>('home')
 
   const storage = useStorage()
   const [settings, setSettings] = useState<UserSettings>({
@@ -64,11 +62,13 @@ function AppContent() {
   }, [storage])
 
   useEffect(() => {
-    if (!loading && pairs.length === 0) {
+    if (!pairsLoading && pairs.length === 0) {
       setIsFirstLaunch(true)
       setCreateDialogOpen(true)
     }
-  }, [loading, pairs.length])
+  }, [pairsLoading, pairs.length])
+
+  const dashboardData = useDashboard(activePair?.id ?? null, settings.dailyGoal)
 
   const handleCreatePair = useCallback(
     async (input: CreatePairInput): Promise<void> => {
@@ -85,6 +85,37 @@ function AppContent() {
   const handleCloseCreateDialog = useCallback(() => {
     setCreateDialogOpen(false)
   }, [])
+
+  /** Navigate to quiz tab (called from Dashboard quick-start button). */
+  const handleStartQuizFromDashboard = useCallback(() => {
+    setActiveTab('quiz')
+  }, [])
+
+  /** Handle settings change from QuizHub (quiz mode changes) and persist. */
+  const handleSettingsChange = useCallback((updated: UserSettings): void => {
+    setSettings(updated)
+  }, [])
+
+  /** Handle theme change from SettingsScreen. */
+  const handleThemeChange = useCallback(
+    (preference: UserSettings['theme']): void => {
+      void setPreference(preference)
+    },
+    [setPreference],
+  )
+
+  // When returning to the home tab, refresh dashboard data.
+  const handleTabChange = useCallback(
+    (tab: AppTab): void => {
+      setActiveTab(tab)
+      if (tab === 'home') {
+        dashboardData.refresh()
+      }
+    },
+    [dashboardData],
+  )
+
+  const showNav = !pairsLoading && pairs.length > 0
 
   return (
     <ThemeProvider theme={appTheme}>
@@ -105,30 +136,16 @@ function AppContent() {
           <LanguagePairSelector
             pairs={pairs}
             activePair={activePair}
-            loading={loading}
+            loading={pairsLoading}
             onSwitch={switchPair}
             onAddPair={handleOpenCreateDialog}
           />
         </Toolbar>
       </AppBar>
 
-      {/* Navigation tabs — only show when there are pairs */}
-      {!loading && pairs.length > 0 && (
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs
-            value={activeTab}
-            onChange={(_e, v: 'quiz' | 'words' | 'pairs') => setActiveTab(v)}
-            centered
-          >
-            <Tab label="Quiz" value="quiz" />
-            <Tab label="Words" value="words" />
-            <Tab label="Language pairs" value="pairs" />
-          </Tabs>
-        </Box>
-      )}
-
-      <Container maxWidth="sm" sx={{ py: 4 }}>
-        {!loading && (
+      {/* Main content — bottom padding makes room for the fixed BottomNav */}
+      <Container maxWidth="sm" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
+        {!pairsLoading && (
           <>
             {pairs.length === 0 ? (
               <Box sx={{ textAlign: 'center', py: 8 }}>
@@ -144,42 +161,46 @@ function AppContent() {
               </Box>
             ) : (
               <>
+                {activeTab === 'home' && (
+                  <DashboardScreen
+                    activePair={activePair}
+                    settings={settings}
+                    todayStats={dashboardData.todayStats}
+                    wordProgressList={dashboardData.wordProgressList}
+                    totalWords={dashboardData.totalWords}
+                    streakDays={dashboardData.streakDays}
+                    recentStats={dashboardData.recentStats}
+                    loading={dashboardData.loading}
+                    onStartQuiz={handleStartQuizFromDashboard}
+                  />
+                )}
+
                 {activeTab === 'quiz' && (
-                  <QuizHub pair={activePair} settings={settings} onSettingsChange={setSettings} />
+                  <QuizHub
+                    pair={activePair}
+                    settings={settings}
+                    onSettingsChange={handleSettingsChange}
+                  />
                 )}
 
                 {activeTab === 'words' && <WordListScreen activePair={activePair} />}
 
-                {activeTab === 'pairs' && (
-                  <Box>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        mb: 2,
-                      }}
-                    >
-                      <Typography variant="h6" fontWeight={700}>
-                        Language pairs
-                      </Typography>
-                      <Button variant="outlined" size="small" onClick={handleOpenCreateDialog}>
-                        Add pair
-                      </Button>
-                    </Box>
+                {activeTab === 'stats' && <StatsScreen />}
 
-                    <LanguagePairList
-                      pairs={pairs}
-                      activePairId={activePair?.id ?? null}
-                      onDelete={deletePair}
-                    />
-                  </Box>
+                {activeTab === 'settings' && (
+                  <SettingsScreen
+                    themePreference={themePreference}
+                    onThemeChange={handleThemeChange}
+                  />
                 )}
               </>
             )}
           </>
         )}
       </Container>
+
+      {/* Bottom navigation — only visible when there are language pairs */}
+      {showNav && <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />}
 
       <CreatePairDialog
         open={createDialogOpen}
