@@ -1,12 +1,16 @@
 import { useState, useCallback } from 'react'
 import { Box, Typography, Button, CircularProgress, Stack } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
+import UploadFileIcon from '@mui/icons-material/UploadFile'
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import type { Word, LanguagePair } from '@/types'
 import { useWords } from '../useWords'
 import type { CreateWordInput } from '../useWords'
+import type { ParsedWordRow } from '@/utils/importParser'
 import { WordList } from './WordList'
 import { WordFormDialog } from './WordFormDialog'
+import { ImportWordsDialog } from './ImportWordsDialog'
+import type { ImportSummary } from './ImportWordsDialog'
 import { PackBrowserDialog } from '@/features/starter-packs'
 
 export interface WordListScreenProps {
@@ -25,6 +29,7 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
   const [wordToEdit, setWordToEdit] = useState<Word | null>(null)
   const [quickAddMode, setQuickAddMode] = useState(false)
   const [packBrowserOpen, setPackBrowserOpen] = useState(false)
+  const [importOpen, setImportOpen] = useState(false)
 
   const handleOpenAdd = useCallback((quick = false) => {
     setWordToEdit(null)
@@ -56,6 +61,40 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
       return result !== null
     },
     [activePair, wordToEdit, addWord, updateWord],
+  )
+
+  const handleOpenImport = useCallback(() => {
+    setImportOpen(true)
+  }, [])
+
+  const handleCloseImport = useCallback(() => {
+    setImportOpen(false)
+  }, [])
+
+  const handleImport = useCallback(
+    async (rows: readonly ParsedWordRow[]): Promise<ImportSummary> => {
+      if (!activePair) return { added: 0, skippedDuplicates: 0, errors: 0 }
+
+      let added = 0
+      let skippedDuplicates = 0
+
+      for (const row of rows) {
+        const result = await addWord(activePair.id, {
+          source: row.source,
+          target: row.target,
+          notes: row.notes,
+          tags: ['imported'],
+        })
+        if (result === null) {
+          skippedDuplicates++
+        } else {
+          added++
+        }
+      }
+
+      return { added, skippedDuplicates, errors: 0 }
+    },
+    [activePair, addWord],
   )
 
   const handleOpenPackBrowser = useCallback(() => {
@@ -120,6 +159,9 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
             >
               Add your first word
             </Button>
+            <Button variant="outlined" startIcon={<UploadFileIcon />} onClick={handleOpenImport}>
+              Import
+            </Button>
             <Button
               variant="outlined"
               startIcon={<LibraryBooksIcon />}
@@ -145,6 +187,14 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
                 onClick={handleOpenPackBrowser}
               >
                 Packs
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<UploadFileIcon />}
+                onClick={handleOpenImport}
+              >
+                Import
               </Button>
               <Button variant="outlined" size="small" onClick={() => handleOpenAdd(true)}>
                 Quick add
@@ -188,6 +238,14 @@ export function WordListScreen({ activePair }: WordListScreenProps) {
         pairTargetCode={activePair.targetCode}
         onClose={handleClosePackBrowser}
         onInstalled={handlePackInstalled}
+      />
+
+      <ImportWordsDialog
+        open={importOpen}
+        activePair={activePair}
+        existingWords={words}
+        onClose={handleCloseImport}
+        onImport={handleImport}
       />
     </>
   )

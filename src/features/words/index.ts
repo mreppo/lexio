@@ -15,6 +15,7 @@ export type { SortOption, WordFilter, ConfidenceFilter, SortOptionConfig } from 
 export {
   WordFormDialog,
   DeleteWordDialog,
+  ImportWordsDialog,
   WordListItem,
   WordList,
   WordListScreen,
@@ -22,6 +23,8 @@ export {
 export type {
   WordFormDialogProps,
   DeleteWordDialogProps,
+  ImportWordsDialogProps,
+  ImportSummary,
   WordListItemProps,
   WordListProps,
   WordListScreenProps,
