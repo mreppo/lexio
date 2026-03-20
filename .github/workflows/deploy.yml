@@ -16,13 +16,15 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           # Full history needed for SonarCloud blame analysis
           fetch-depth: 0
+          # checkout@v6 defaults persist-credentials to false; set true for SonarCloud git blame
+          persist-credentials: true
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: 'npm'
@@ -55,7 +57,7 @@ jobs:
         run: npx playwright test
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: dist
 
