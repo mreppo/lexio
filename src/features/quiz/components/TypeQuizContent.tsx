@@ -32,6 +32,7 @@ export function TypeQuizContent({ session, pair, settings }: TypeQuizContentProp
     wordsCompleted,
     sessionGoal,
     correctCount,
+    sessionStreak,
     error,
   } = state
 
@@ -113,6 +114,7 @@ export function TypeQuizContent({ session, pair, settings }: TypeQuizContentProp
       wordsCompleted={wordsCompleted}
       sessionGoal={sessionGoal}
       correctCount={correctCount}
+      sessionStreak={sessionStreak}
       onEndSession={endSession}
     >
       {phase === 'question' && (

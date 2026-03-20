@@ -23,6 +23,7 @@ interface QuizLayoutProps {
   readonly wordsCompleted: number
   readonly sessionGoal: number
   readonly correctCount: number
+  readonly sessionStreak?: number
   readonly onEndSession: () => void
   readonly children: ReactNode
 }
@@ -35,12 +36,18 @@ export function QuizLayout({
   wordsCompleted,
   sessionGoal,
   correctCount,
+  sessionStreak,
   onEndSession,
   children,
 }: QuizLayoutProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <SessionProgress completed={wordsCompleted} total={sessionGoal} correct={correctCount} />
+      <SessionProgress
+        completed={wordsCompleted}
+        total={sessionGoal}
+        correct={correctCount}
+        sessionStreak={sessionStreak}
+      />
 
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Chip

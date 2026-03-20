@@ -1,12 +1,14 @@
 /**
  * SessionSummary - displayed when a quiz session ends.
  *
- * Shows words reviewed, accuracy, streak info, and an encouraging message.
- * Provides options to start a new session or return to the dashboard (home).
+ * Shows words reviewed, accuracy, streak info, words learned, and an
+ * encouraging message. Provides options to start a new session or return
+ * to the mode selector.
  */
 
 import { Box, Button, Paper, Typography, Divider } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined'
 
 interface SessionSummaryProps {
@@ -14,11 +16,17 @@ interface SessionSummaryProps {
   readonly wordsReviewed: number
   /** Total correct answers. */
   readonly correctCount: number
-  /** Current streak in days (consecutive days meeting the daily goal). */
+  /** Current daily streak in days (consecutive days meeting the daily goal). */
   readonly streakDays: number
+  /** Best consecutive-correct streak achieved within this session. */
+  readonly bestSessionStreak: number
+  /** Number of words learned (confidence >= threshold) in the active pair. */
+  readonly wordsLearned: number
+  /** Total words in the active pair. */
+  readonly totalWords: number
   /** Called when user wants to start another session. */
   readonly onContinue: () => void
-  /** Called when user wants to go back to the dashboard / home view. */
+  /** Called when user wants to go back to the mode selector. */
   readonly onGoHome: () => void
 }
 
@@ -38,6 +46,9 @@ export function SessionSummary({
   wordsReviewed,
   correctCount,
   streakDays,
+  bestSessionStreak,
+  wordsLearned,
+  totalWords,
   onContinue,
   onGoHome,
 }: SessionSummaryProps) {
@@ -158,9 +169,57 @@ export function SessionSummary({
             </Typography>
           </Box>
         </Box>
+
+        {/* Best in-session streak row */}
+        {bestSessionStreak >= 2 && (
+          <>
+            <Divider />
+            <Box sx={{ p: 2, textAlign: 'center' }}>
+              <Box
+                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5 }}
+              >
+                <LocalFireDepartmentIcon
+                  sx={{ color: 'warning.main', fontSize: 20 }}
+                  aria-hidden="true"
+                />
+                <Typography
+                  variant="h5"
+                  fontWeight={600}
+                  color="warning.main"
+                  aria-label={`Best in-session streak: ${bestSessionStreak} correct in a row`}
+                >
+                  {bestSessionStreak}
+                </Typography>
+              </Box>
+              <Typography variant="caption" color="text.secondary">
+                Best streak this session
+              </Typography>
+            </Box>
+          </>
+        )}
+
+        {/* Words learned row */}
+        {totalWords > 0 && (
+          <>
+            <Divider />
+            <Box sx={{ p: 2, textAlign: 'center' }}>
+              <Typography
+                variant="h5"
+                fontWeight={600}
+                color="primary.main"
+                aria-label={`${wordsLearned} of ${totalWords} words learned`}
+              >
+                {wordsLearned} / {totalWords}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Words learned
+              </Typography>
+            </Box>
+          </>
+        )}
       </Paper>
 
-      {/* Streak info */}
+      {/* Daily streak info */}
       {streakDays > 0 && (
         <Box
           sx={{

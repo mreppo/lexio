@@ -91,6 +91,7 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
     wordsCompleted,
     sessionGoal,
     correctCount,
+    sessionStreak,
     error,
   } = state
 
@@ -165,6 +166,7 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
       wordsCompleted={wordsCompleted}
       sessionGoal={sessionGoal}
       correctCount={correctCount}
+      sessionStreak={sessionStreak}
       onEndSession={endSession}
     >
       <Box
