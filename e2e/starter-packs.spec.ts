@@ -8,12 +8,15 @@
  *
  * Running against the production build (not dev server) ensures base-path
  * issues are caught here rather than in production.
+ *
+ * Onboarding is bypassed via localStorage pre-population. See
+ * `onboarding.spec.ts` for the onboarding wizard tests.
  */
 
 import { test, expect } from '@playwright/test'
 import {
-  resetAppState,
-  fillAndSubmitCreatePairDialog,
+  resetAndBypassOnboarding,
+  navigateTo,
   openPackBrowserFromWordsTab,
   installFirstAvailablePack,
 } from './helpers'
@@ -21,23 +24,15 @@ import {
 // ─── Test setup ───────────────────────────────────────────────────────────────
 
 test.beforeEach(async ({ page }) => {
-  await resetAppState(page)
+  // Bypass onboarding with the default EN-LV pair so the Words tab is accessible.
+  await resetAndBypassOnboarding(page)
 })
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
 test('install starter pack from empty state', async ({ page }) => {
-  // On first launch the app shows a Create Pair dialog.
-  // Fill in an EN-LV pair.
-  await fillAndSubmitCreatePairDialog(page, {
-    sourceLang: 'English',
-    sourceCode: 'en',
-    targetLang: 'Latvian',
-    targetCode: 'lv',
-  })
-
   // Navigate to the Words tab.
-  await page.getByRole('tab', { name: 'Words' }).click()
+  await navigateTo(page, 'Words')
 
   // The empty state should be visible.
   await expect(page.getByText('No words yet')).toBeVisible()
@@ -71,13 +66,7 @@ test('install starter pack from empty state', async ({ page }) => {
 })
 
 test('install starter pack from populated word list', async ({ page }) => {
-  // Create an EN-LV pair and then install a starter pack via the empty state.
-  await fillAndSubmitCreatePairDialog(page, {
-    sourceLang: 'English',
-    sourceCode: 'en',
-    targetLang: 'Latvian',
-    targetCode: 'lv',
-  })
+  // Install a starter pack via the empty state helper.
   await openPackBrowserFromWordsTab(page)
   await installFirstAvailablePack(page)
 
@@ -99,13 +88,33 @@ test('install starter pack from populated word list', async ({ page }) => {
 })
 
 test('reversed pack direction installs with swapped words', async ({ page }) => {
-  // Create an LV-EN pair (reversed relative to the EN-LV starter pack).
-  await fillAndSubmitCreatePairDialog(page, {
-    sourceLang: 'Latvian',
-    sourceCode: 'lv',
-    targetLang: 'English',
-    targetCode: 'en',
+  // The default pair is EN-LV. We need an LV-EN pair for the reversed test.
+  // Use bypassOnboarding with a custom reversed pair.
+  await page.goto('/')
+  await page.evaluate(() => localStorage.clear())
+  await page.evaluate(() => {
+    const reversedPair = {
+      id: 'test-lv-en-id',
+      sourceLang: 'Latvian',
+      sourceCode: 'lv',
+      targetLang: 'English',
+      targetCode: 'en',
+      createdAt: Date.now(),
+    }
+    localStorage.setItem('lexio:language-pairs', JSON.stringify([reversedPair]))
+    localStorage.setItem(
+      'lexio:settings',
+      JSON.stringify({
+        activePairId: 'test-lv-en-id',
+        quizMode: 'type',
+        dailyGoal: 20,
+        theme: 'dark',
+        typoTolerance: 1,
+      }),
+    )
   })
+  await page.reload()
+  await expect(page.getByText('Lexio').first()).toBeVisible({ timeout: 10_000 })
 
   await openPackBrowserFromWordsTab(page)
 

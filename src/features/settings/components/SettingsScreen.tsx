@@ -24,9 +24,6 @@ import {
   FormControlLabel,
   FormLabel,
   InputAdornment,
-  List,
-  ListItem,
-  ListItemText,
   Radio,
   RadioGroup,
   Slider,
@@ -45,6 +42,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import type { ThemePreference, UserSettings, LanguagePair } from '@/types'
 import { useStorage } from '@/hooks/useStorage'
+import { LanguagePairList } from '@/features/language-pairs'
 
 /** App version sourced from the bundler-injected env variable. */
 const APP_VERSION = __APP_VERSION__
@@ -77,15 +75,10 @@ export interface SettingsScreenProps {
   readonly onSettingsChange: (updated: UserSettings) => void
   /** All language pairs with their word counts. */
   readonly pairs: readonly LanguagePair[]
-  /** Word counts keyed by pairId. */
-  readonly wordCounts: Readonly<Record<string, number>>
   /** Open the create-pair dialog in the parent. */
   readonly onAddPair: () => void
-}
-
-interface PairWithCount {
-  pair: LanguagePair
-  wordCount: number
+  /** Delete a language pair and all its data. */
+  readonly onDeletePair: (pairId: string) => Promise<void>
 }
 
 export function SettingsScreen({
@@ -94,8 +87,8 @@ export function SettingsScreen({
   settings,
   onSettingsChange,
   pairs,
-  wordCounts,
   onAddPair,
+  onDeletePair,
 }: SettingsScreenProps) {
   const storage = useStorage()
 
@@ -117,13 +110,6 @@ export function SettingsScreen({
   const [resetAllDoubleConfirmOpen, setResetAllDoubleConfirmOpen] = useState(false)
   const [resetting, setResetting] = useState(false)
   const [resetError, setResetError] = useState<string | null>(null)
-
-  // --- Helpers ---
-
-  const pairsWithCounts: PairWithCount[] = pairs.map((pair) => ({
-    pair,
-    wordCount: wordCounts[pair.id] ?? 0,
-  }))
 
   // --- Preference handlers ---
 
@@ -463,39 +449,11 @@ export function SettingsScreen({
 
           <Divider sx={{ my: 1.5 }} />
 
-          {pairsWithCounts.length === 0 ? (
-            <Typography variant="body2" color="text.secondary" sx={{ py: 1 }}>
-              No language pairs yet.
-            </Typography>
-          ) : (
-            <List disablePadding>
-              {pairsWithCounts.map(({ pair, wordCount }, index) => (
-                <ListItem
-                  key={pair.id}
-                  disableGutters
-                  divider={index < pairsWithCounts.length - 1}
-                  sx={{ py: 1 }}
-                >
-                  <ListItemText
-                    primary={
-                      <Typography variant="body2" fontWeight={600}>
-                        {pair.sourceLang} → {pair.targetLang}
-                      </Typography>
-                    }
-                    secondary={`${wordCount} word${wordCount !== 1 ? 's' : ''}`}
-                  />
-                  {pair.id === settings.activePairId && (
-                    <Chip
-                      label="Active"
-                      size="small"
-                      color="primary"
-                      sx={{ height: 20, fontSize: '0.7rem' }}
-                    />
-                  )}
-                </ListItem>
-              ))}
-            </List>
-          )}
+          <LanguagePairList
+            pairs={[...pairs]}
+            activePairId={settings.activePairId}
+            onDelete={onDeletePair}
+          />
 
           <Button variant="outlined" size="small" onClick={onAddPair} sx={{ mt: 2 }} fullWidth>
             Add language pair

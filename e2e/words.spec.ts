@@ -3,31 +3,26 @@
  *
  * Covers the full add → edit → delete flow to ensure the form dialogs,
  * the word list, and the underlying storage all work end-to-end.
+ *
+ * Onboarding is bypassed via localStorage pre-population. See
+ * `onboarding.spec.ts` for the onboarding wizard tests.
  */
 
 import { test, expect } from '@playwright/test'
-import { resetAppState, fillAndSubmitCreatePairDialog } from './helpers'
+import { resetAndBypassOnboarding, navigateTo } from './helpers'
 
 // ─── Test setup ───────────────────────────────────────────────────────────────
 
 test.beforeEach(async ({ page }) => {
-  await resetAppState(page)
+  await resetAndBypassOnboarding(page)
 })
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
 test('add, edit, and delete a word', async ({ page }) => {
-  // ── Setup: create a language pair ────────────────────────────────────────
-  // On first launch the Create Pair dialog opens automatically.
-  await fillAndSubmitCreatePairDialog(page, {
-    sourceLang: 'English',
-    sourceCode: 'en',
-    targetLang: 'Latvian',
-    targetCode: 'lv',
-  })
-
-  // Navigate to the Words tab.
-  await page.getByRole('tab', { name: 'Words' }).click()
+  // ── Setup: navigate to Words tab ─────────────────────────────────────────
+  // The EN-LV pair is already active (injected via bypassOnboarding).
+  await navigateTo(page, 'Words')
   await expect(page.getByText('No words yet')).toBeVisible()
 
   // ── Add a word ───────────────────────────────────────────────────────────

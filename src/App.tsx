@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback, useEffect, useRef } from 'react'
+import { useMemo, useState, useCallback, useEffect } from 'react'
 import {
   ThemeProvider,
   CssBaseline,
@@ -44,7 +44,14 @@ function AppContent() {
 
   const { updateAvailable, applyUpdate, dismissUpdate } = useServiceWorker()
 
-  const { pairs, activePair, loading: pairsLoading, createPair, switchPair } = useLanguagePairs()
+  const {
+    pairs,
+    activePair,
+    loading: pairsLoading,
+    createPair,
+    switchPair,
+    deletePair,
+  } = useLanguagePairs()
 
   const [createDialogOpen, setCreateDialogOpen] = useState(false)
   /**
@@ -78,31 +85,6 @@ function AppContent() {
   }, [pairsLoading, pairs.length])
 
   const dashboardData = useDashboard(activePair?.id ?? null, settings.dailyGoal)
-
-  // Word counts per pair for the Settings screen language-pairs section.
-  const [wordCounts, setWordCounts] = useState<Record<string, number>>({})
-  // Track which pair IDs we have already fetched word counts for to avoid redundant fetches.
-  const fetchedPairIds = useRef<Set<string>>(new Set())
-
-  useEffect(() => {
-    const pairsToFetch = pairs.filter((p) => !fetchedPairIds.current.has(p.id))
-    if (pairsToFetch.length === 0) return
-    void Promise.all(
-      pairsToFetch.map(async (pair) => {
-        const words = await storage.getWords(pair.id)
-        return { id: pair.id, count: words.length }
-      }),
-    ).then((results) => {
-      setWordCounts((prev) => {
-        const next = { ...prev }
-        for (const { id, count } of results) {
-          next[id] = count
-          fetchedPairIds.current.add(id)
-        }
-        return next
-      })
-    })
-  }, [pairs, storage])
 
   /**
    * Called by OnboardingFlow step 2 to create a language pair.
@@ -252,8 +234,8 @@ function AppContent() {
                 settings={settings}
                 onSettingsChange={handleSettingsChange}
                 pairs={pairs}
-                wordCounts={wordCounts}
                 onAddPair={handleOpenCreateDialog}
+                onDeletePair={deletePair}
               />
             )}
           </Container>
