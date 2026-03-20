@@ -285,6 +285,14 @@ export async function getNextWords(
     })
   }
 
+  // Shuffle presentation order so the quiz doesn't feel deterministic.
+  // Selection is still priority-based - we picked the right words.
+  // Only the order the user sees them changes.
+  for (let i = selected.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[selected[i], selected[j]] = [selected[j], selected[i]]
+  }
+
   return selected
 }
 
