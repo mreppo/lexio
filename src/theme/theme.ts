@@ -134,6 +134,16 @@ function buildComponents() {
         html {
           scroll-behavior: smooth;
         }
+        body {
+          /* Ensure content does not overlap the iOS notch or home indicator.
+             env() variables are set when viewport-fit=cover is present in the
+             viewport meta tag. They fall back to 0 on non-notched devices. */
+          padding-top: env(safe-area-inset-top);
+          padding-left: env(safe-area-inset-left);
+          padding-right: env(safe-area-inset-right);
+          /* Bottom padding is handled per-component (e.g. BottomNav) so that
+             backgrounds can extend to the physical edge while content stays clear. */
+        }
       `,
     },
   }
