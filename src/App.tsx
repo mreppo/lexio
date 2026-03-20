@@ -8,6 +8,7 @@ import {
   Typography,
   Container,
   Button,
+  CircularProgress,
 } from '@mui/material'
 import { createAppTheme } from './theme'
 import { useThemeMode } from './hooks/useThemeMode'
@@ -20,9 +21,10 @@ import { QuizHub } from './features/quiz'
 import { DashboardScreen, useDashboard } from './features/dashboard'
 import { StatsScreen } from './features/stats'
 import { SettingsScreen } from './features/settings'
+import { OnboardingFlow } from './features/onboarding'
 import { BottomNav } from './components'
 import type { AppTab } from './components'
-import type { UserSettings } from './types'
+import type { LanguagePair, UserSettings } from './types'
 import { Sentry } from './services/sentry'
 
 /**
@@ -42,8 +44,12 @@ function AppContent() {
   const { pairs, activePair, loading: pairsLoading, createPair, switchPair } = useLanguagePairs()
 
   const [createDialogOpen, setCreateDialogOpen] = useState(false)
-  // Whether this is the first launch (no pairs yet, after loading completes).
-  const [isFirstLaunch, setIsFirstLaunch] = useState(false)
+  /**
+   * Whether the onboarding flow is active.
+   * Set to true once loading completes and no pairs exist.
+   * Set to false when the user completes the flow or when pairs are found.
+   */
+  const [showOnboarding, setShowOnboarding] = useState(false)
   // Active navigation tab.
   const [activeTab, setActiveTab] = useState<AppTab>('home')
 
@@ -61,10 +67,10 @@ function AppContent() {
     void storage.getSettings().then((s) => setSettings(s))
   }, [storage])
 
+  // Detect first launch: after pairs have loaded, show onboarding when none exist.
   useEffect(() => {
     if (!pairsLoading && pairs.length === 0) {
-      setIsFirstLaunch(true)
-      setCreateDialogOpen(true)
+      setShowOnboarding(true)
     }
   }, [pairsLoading, pairs.length])
 
@@ -95,10 +101,25 @@ function AppContent() {
     })
   }, [pairs, storage])
 
+  /**
+   * Called by OnboardingFlow step 2 to create a language pair.
+   * Returns the created LanguagePair so the flow can pass it to step 3.
+   */
+  const handleOnboardingCreatePair = useCallback(
+    async (input: CreatePairInput): Promise<LanguagePair> => {
+      return createPair(input, true)
+    },
+    [createPair],
+  )
+
+  /** Called when the user completes (or skips) the onboarding flow. */
+  const handleOnboardingComplete = useCallback(() => {
+    setShowOnboarding(false)
+  }, [])
+
   const handleCreatePair = useCallback(
     async (input: CreatePairInput): Promise<void> => {
       await createPair(input, true)
-      setIsFirstLaunch(false)
     },
     [createPair],
   )
@@ -140,104 +161,111 @@ function AppContent() {
     [dashboardData],
   )
 
-  const showNav = !pairsLoading && pairs.length > 0
+  const showNav = !pairsLoading && pairs.length > 0 && !showOnboarding
 
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
 
-      <AppBar position="static" color="default" elevation={1}>
-        <Toolbar sx={{ gap: 2 }}>
-          <Typography
-            variant="h6"
-            component="span"
-            sx={{ fontWeight: 700, color: 'primary.main', flexShrink: 0 }}
-          >
-            Lexio
-          </Typography>
+      {/* Onboarding: full-screen wizard, no app bar or nav */}
+      {!pairsLoading && showOnboarding && (
+        <OnboardingFlow
+          onComplete={handleOnboardingComplete}
+          onCreatePair={handleOnboardingCreatePair}
+        />
+      )}
 
-          <Box sx={{ flex: 1 }} />
+      {/* Loading spinner while pairs are being fetched */}
+      {pairsLoading && (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
 
-          <LanguagePairSelector
-            pairs={pairs}
-            activePair={activePair}
-            loading={pairsLoading}
-            onSwitch={switchPair}
-            onAddPair={handleOpenCreateDialog}
-          />
-        </Toolbar>
-      </AppBar>
+      {/* Main app shell — only shown after loading and when onboarding is complete */}
+      {!pairsLoading && !showOnboarding && (
+        <>
+          <AppBar position="static" color="default" elevation={1}>
+            <Toolbar sx={{ gap: 2 }}>
+              <Typography
+                variant="h6"
+                component="span"
+                sx={{ fontWeight: 700, color: 'primary.main', flexShrink: 0 }}
+              >
+                Lexio
+              </Typography>
 
-      {/* Main content — bottom padding makes room for the fixed BottomNav */}
-      <Container maxWidth="sm" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
-        {!pairsLoading && (
-          <>
-            {pairs.length === 0 ? (
-              <Box sx={{ textAlign: 'center', py: 8 }}>
-                <Typography variant="h5" gutterBottom fontWeight={700}>
-                  Welcome to Lexio
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                  Create your first language pair to get started.
-                </Typography>
-                <Button variant="contained" size="large" onClick={handleOpenCreateDialog}>
-                  Create language pair
-                </Button>
-              </Box>
-            ) : (
-              <>
-                {activeTab === 'home' && (
-                  <DashboardScreen
-                    activePair={activePair}
-                    settings={settings}
-                    todayStats={dashboardData.todayStats}
-                    wordProgressList={dashboardData.wordProgressList}
-                    totalWords={dashboardData.totalWords}
-                    streakDays={dashboardData.streakDays}
-                    recentStats={dashboardData.recentStats}
-                    loading={dashboardData.loading}
-                    onStartQuiz={handleStartQuizFromDashboard}
-                  />
-                )}
+              <Box sx={{ flex: 1 }} />
 
-                {activeTab === 'quiz' && (
-                  <QuizHub
-                    pair={activePair}
-                    settings={settings}
-                    onSettingsChange={handleSettingsChange}
-                  />
-                )}
+              <LanguagePairSelector
+                pairs={pairs}
+                activePair={activePair}
+                loading={pairsLoading}
+                onSwitch={switchPair}
+                onAddPair={handleOpenCreateDialog}
+              />
+            </Toolbar>
+          </AppBar>
 
-                {activeTab === 'words' && <WordListScreen activePair={activePair} />}
-
-                {activeTab === 'stats' && <StatsScreen />}
-
-                {activeTab === 'settings' && (
-                  <SettingsScreen
-                    themePreference={themePreference}
-                    onThemeChange={handleThemeChange}
-                    settings={settings}
-                    onSettingsChange={handleSettingsChange}
-                    pairs={pairs}
-                    wordCounts={wordCounts}
-                    onAddPair={handleOpenCreateDialog}
-                  />
-                )}
-              </>
+          {/* Main content — bottom padding makes room for the fixed BottomNav */}
+          <Container maxWidth="sm" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
+            {activeTab === 'home' && (
+              <DashboardScreen
+                activePair={activePair}
+                settings={settings}
+                todayStats={dashboardData.todayStats}
+                wordProgressList={dashboardData.wordProgressList}
+                totalWords={dashboardData.totalWords}
+                streakDays={dashboardData.streakDays}
+                recentStats={dashboardData.recentStats}
+                loading={dashboardData.loading}
+                onStartQuiz={handleStartQuizFromDashboard}
+              />
             )}
-          </>
-        )}
-      </Container>
 
-      {/* Bottom navigation — only visible when there are language pairs */}
-      {showNav && <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />}
+            {activeTab === 'quiz' && (
+              <QuizHub
+                pair={activePair}
+                settings={settings}
+                onSettingsChange={handleSettingsChange}
+              />
+            )}
 
-      <CreatePairDialog
-        open={createDialogOpen}
-        onClose={handleCloseCreateDialog}
-        onSubmit={handleCreatePair}
-        suggestDefault={isFirstLaunch}
-      />
+            {activeTab === 'words' && <WordListScreen activePair={activePair} />}
+
+            {activeTab === 'stats' && <StatsScreen />}
+
+            {activeTab === 'settings' && (
+              <SettingsScreen
+                themePreference={themePreference}
+                onThemeChange={handleThemeChange}
+                settings={settings}
+                onSettingsChange={handleSettingsChange}
+                pairs={pairs}
+                wordCounts={wordCounts}
+                onAddPair={handleOpenCreateDialog}
+              />
+            )}
+          </Container>
+
+          {/* Bottom navigation — only visible when there are language pairs */}
+          {showNav && <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />}
+
+          <CreatePairDialog
+            open={createDialogOpen}
+            onClose={handleCloseCreateDialog}
+            onSubmit={handleCreatePair}
+            suggestDefault={false}
+          />
+        </>
+      )}
     </ThemeProvider>
   )
 }
