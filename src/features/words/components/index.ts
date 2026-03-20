@@ -4,6 +4,9 @@ export type { WordFormDialogProps } from './WordFormDialog'
 export { DeleteWordDialog } from './DeleteWordDialog'
 export type { DeleteWordDialogProps } from './DeleteWordDialog'
 
+export { ImportWordsDialog } from './ImportWordsDialog'
+export type { ImportWordsDialogProps, ImportSummary } from './ImportWordsDialog'
+
 export { WordListItem } from './WordListItem'
 export type { WordListItemProps } from './WordListItem'
 
