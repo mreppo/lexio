@@ -4,34 +4,32 @@
  * Covers type mode, choice mode, and the empty/error state when no words are
  * available. The quiz session is started fresh from the Quiz tab each time;
  * there is no mocking — all state goes through the real app.
+ *
+ * Onboarding is bypassed via localStorage pre-population so these tests focus
+ * purely on quiz behaviour. See `onboarding.spec.ts` for the wizard flow.
  */
 
 import { test, expect } from '@playwright/test'
 import {
-  resetAppState,
-  fillAndSubmitCreatePairDialog,
+  resetAndBypassOnboarding,
+  navigateTo,
   openPackBrowserFromWordsTab,
   installFirstAvailablePack,
+  createLanguagePair,
 } from './helpers'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /**
- * Creates an EN-LV pair and installs the EN-LV starter pack so there are
- * enough words to run both type and choice quizzes.
+ * Installs the EN-LV starter pack so there are enough words to run both
+ * type and choice quizzes. Assumes onboarding has already been bypassed with
+ * the default EN-LV pair.
  */
-async function setupPairWithWords(page: Parameters<typeof resetAppState>[0]) {
-  await resetAppState(page)
-  await fillAndSubmitCreatePairDialog(page, {
-    sourceLang: 'English',
-    sourceCode: 'en',
-    targetLang: 'Latvian',
-    targetCode: 'lv',
-  })
+async function installStarterPackAndGoToQuiz(page: Parameters<typeof resetAndBypassOnboarding>[0]) {
   await openPackBrowserFromWordsTab(page)
   await installFirstAvailablePack(page)
   // Return to the Quiz tab for the test body.
-  await page.getByRole('tab', { name: 'Quiz' }).click()
+  await navigateTo(page, 'Quiz')
 }
 
 /**
@@ -39,7 +37,7 @@ async function setupPairWithWords(page: Parameters<typeof resetAppState>[0]) {
  * the current mode (e.g. "Start type mode quiz") so we match by text content
  * rather than the more-specific aria-label.
  */
-async function clickStartQuiz(page: Parameters<typeof resetAppState>[0]) {
+async function clickStartQuiz(page: Parameters<typeof resetAndBypassOnboarding>[0]) {
   // The button's visible text is "Start quiz"; match it.
   await page
     .locator('button')
@@ -50,13 +48,14 @@ async function clickStartQuiz(page: Parameters<typeof resetAppState>[0]) {
 // ─── Test setup ───────────────────────────────────────────────────────────────
 
 test.beforeEach(async ({ page }) => {
-  await resetAppState(page)
+  // Bypass onboarding with the default EN-LV pair for all quiz tests.
+  await resetAndBypassOnboarding(page)
 })
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
 test('complete a type-mode quiz session', async ({ page }) => {
-  await setupPairWithWords(page)
+  await installStarterPackAndGoToQuiz(page)
 
   // Mode selector should be visible.
   await expect(page.getByText('Choose your quiz mode')).toBeVisible()
@@ -107,7 +106,7 @@ test('complete a type-mode quiz session', async ({ page }) => {
 })
 
 test('complete a choice-mode quiz session', async ({ page }) => {
-  await setupPairWithWords(page)
+  await installStarterPackAndGoToQuiz(page)
 
   // Select Choice mode.
   await page.getByRole('radio', { name: /choice mode/i }).click()
@@ -152,20 +151,27 @@ test('complete a choice-mode quiz session', async ({ page }) => {
 })
 
 test('quiz handles empty word list gracefully', async ({ page }) => {
-  // Create a pair with 0 words (no starter pack installed).
-  await fillAndSubmitCreatePairDialog(page, {
+  // Add a second language pair with 0 words via the AppBar selector.
+  await createLanguagePair(page, {
     sourceLang: 'German',
     sourceCode: 'de',
     targetLang: 'English',
     targetCode: 'en',
   })
 
+  // Switch to the new German-English pair so it is active for the quiz.
+  await page.getByRole('button', { name: 'Select language pair' }).click()
+  await page.getByRole('menuitem', { name: /German.*English/i }).click()
+
   // Navigate to the Quiz tab.
-  await page.getByRole('tab', { name: 'Quiz' }).click()
+  await navigateTo(page, 'Quiz')
 
   // Select type mode and start.
   await page.getByRole('radio', { name: /type mode/i }).click()
-  await clickStartQuiz(page)
+  await page
+    .locator('button')
+    .filter({ hasText: /^Start quiz$/ })
+    .click()
 
   // The session should immediately finish (no words), showing the summary or
   // an error state. Either way the app must not crash.

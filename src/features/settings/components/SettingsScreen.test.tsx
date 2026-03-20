@@ -57,8 +57,8 @@ function renderSettings(
     onThemeChange?: (p: UserSettings['theme']) => void
     onSettingsChange?: (s: UserSettings) => void
     pairs?: readonly LanguagePair[]
-    wordCounts?: Record<string, number>
     onAddPair?: () => void
+    onDeletePair?: (pairId: string) => Promise<void>
   } = {},
 ) {
   const settings = overrides.settings ?? createMockSettings()
@@ -69,8 +69,8 @@ function renderSettings(
       settings={settings}
       onSettingsChange={overrides.onSettingsChange ?? vi.fn()}
       pairs={overrides.pairs ?? []}
-      wordCounts={overrides.wordCounts ?? {}}
       onAddPair={overrides.onAddPair ?? vi.fn()}
+      onDeletePair={overrides.onDeletePair ?? vi.fn().mockResolvedValue(undefined)}
     />,
     { wrapper: makeWrapper(storage) },
   )
@@ -113,20 +113,20 @@ describe('SettingsScreen', () => {
     expect(screen.getByText('Language pairs')).toBeInTheDocument()
   })
 
-  it('should render language pairs with word counts', () => {
+  it('should render language pairs in the list', () => {
     const pair = createMockPair({ id: 'p1', sourceLang: 'English', targetLang: 'Latvian' })
     renderSettings(storage, {
       pairs: [pair],
-      wordCounts: { p1: 42 },
     })
     expect(screen.getByText('English → Latvian')).toBeInTheDocument()
-    expect(screen.getByText('42 words')).toBeInTheDocument()
   })
 
-  it('should show "1 word" (singular) when pair has exactly one word', () => {
-    const pair = createMockPair({ id: 'p1' })
-    renderSettings(storage, { pairs: [pair], wordCounts: { p1: 1 } })
-    expect(screen.getByText('1 word')).toBeInTheDocument()
+  it('should show delete button for language pair', () => {
+    const pair = createMockPair({ id: 'p1', sourceLang: 'English', targetLang: 'Latvian' })
+    renderSettings(storage, { pairs: [pair] })
+    expect(
+      screen.getByRole('button', { name: /Delete English to Latvian pair/i }),
+    ).toBeInTheDocument()
   })
 
   it('should render the Data Management section', () => {
@@ -245,7 +245,6 @@ describe('SettingsScreen', () => {
     renderSettings(storage, {
       settings: createMockSettings({ activePairId: 'p1' }),
       pairs: [pair],
-      wordCounts: { p1: 5 },
     })
     expect(screen.getByText('Active')).toBeInTheDocument()
   })
@@ -485,6 +484,6 @@ describe('SettingsScreen', () => {
 
   it('should show "No language pairs yet" message when pairs list is empty', () => {
     renderSettings(storage, { pairs: [] })
-    expect(screen.getByText('No language pairs yet.')).toBeInTheDocument()
+    expect(screen.getByText(/No language pairs yet/i)).toBeInTheDocument()
   })
 })
