@@ -4,7 +4,7 @@
  * Accepts an already-running session and does not render its own finished state.
  */
 
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Box, Button, Typography, Alert } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
@@ -95,12 +95,28 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
     error,
   } = state
 
+  // Derived before early returns so it can be used in the useEffect below.
+  const isAnswered = selectedIndex !== -1
+
   const handleSelect = useCallback(
     (index: number): void => {
       void selectOption(index)
     },
     [selectOption],
   )
+
+  // Auto-advance after a short delay when the user selects the correct answer.
+  // For incorrect answers the user needs time to review, so we keep manual advance.
+  useEffect(() => {
+    if (!isAnswered || lastChoiceCorrect !== true) return
+
+    const AUTO_ADVANCE_DELAY_MS = 1200
+    const timer = setTimeout(() => {
+      advance()
+    }, AUTO_ADVANCE_DELAY_MS)
+
+    return () => clearTimeout(timer)
+  }, [isAnswered, lastChoiceCorrect, advance])
 
   if (pair === null) {
     return (
@@ -155,7 +171,6 @@ export function ChoiceQuizContent({ session, pair }: ChoiceQuizContentProps) {
   const toLang = direction === 'source-to-target' ? pair.targetLang : pair.sourceLang
   const questionText =
     direction === 'source-to-target' ? (currentWord?.source ?? '') : (currentWord?.target ?? '')
-  const isAnswered = selectedIndex !== -1
 
   return (
     <QuizLayout
