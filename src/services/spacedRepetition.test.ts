@@ -454,12 +454,14 @@ describe('getNextWords', () => {
     expect(result[0].word.id).toBe('overdue')
   })
 
-  it('should sort overdue words with most overdue first', async () => {
+  it('should include all overdue words regardless of presentation order', async () => {
     const word1 = makeWord('w1')
     const word2 = makeWord('w2')
     const word3 = makeWord('w3')
 
-    // w3 is most overdue (lowest nextReview), w1 is least overdue
+    // w3 is most overdue (lowest nextReview), w1 is least overdue.
+    // After the shuffle the exact positions are non-deterministic, so we only
+    // assert that all three overdue words appear in the result.
     const progressMap = new Map([
       ['w1', makeProgress('w1', { nextReview: NOW - 1000 })],
       ['w2', makeProgress('w2', { nextReview: NOW - 5000 })],
@@ -469,9 +471,10 @@ describe('getNextWords', () => {
 
     const result = await getNextWords(storage, 'pair-1', 3, NOW)
 
-    expect(result[0].word.id).toBe('w3') // most overdue
-    expect(result[1].word.id).toBe('w2')
-    expect(result[2].word.id).toBe('w1') // least overdue
+    const ids = result.map((r) => r.word.id)
+    expect(ids).toContain('w1')
+    expect(ids).toContain('w2')
+    expect(ids).toContain('w3')
   })
 
   it('should include new words when slots remain after overdue', async () => {
@@ -501,7 +504,9 @@ describe('getNextWords', () => {
     const word1 = makeWord('w1')
     const word2 = makeWord('w2')
 
-    // Not overdue, just low confidence
+    // Not overdue, just low confidence.
+    // After the shuffle presentation order is non-deterministic, so we only
+    // assert that both low-confidence words are included in the result.
     const progressMap = new Map([
       ['w1', makeProgress('w1', { nextReview: FUTURE, confidence: 0.1 })],
       ['w2', makeProgress('w2', { nextReview: FUTURE, confidence: 0.3 })],
@@ -511,9 +516,32 @@ describe('getNextWords', () => {
     const result = await getNextWords(storage, 'pair-1', 2, NOW)
 
     expect(result).toHaveLength(2)
-    // w1 should come first (lower confidence)
-    expect(result[0].word.id).toBe('w1')
-    expect(result[1].word.id).toBe('w2')
+    const ids = result.map((r) => r.word.id)
+    expect(ids).toContain('w1')
+    expect(ids).toContain('w2')
+  })
+
+  it('should return the same set of words regardless of shuffle', async () => {
+    // Verifies the shuffle preserves selection contents - no words are lost or duplicated.
+    const cfg = SPACED_REPETITION_CONFIG
+    const words = Array.from({ length: 10 }, (_, i) => makeWord(`w${i}`))
+    // Mix of overdue, new, and low-confidence to exercise all priority branches
+    const progressMap = new Map([
+      ['w0', makeProgress('w0', { nextReview: NOW - 2000 })],
+      ['w1', makeProgress('w1', { nextReview: NOW - 1000 })],
+      ['w2', makeProgress('w2', { nextReview: FUTURE, confidence: 0.1 })],
+      ['w3', makeProgress('w3', { nextReview: FUTURE, confidence: 0.2 })],
+    ])
+    const storage = makeMockStorage(words, progressMap)
+
+    const result = await getNextWords(storage, 'pair-1', cfg.MAX_NEW_WORDS_PER_BATCH + 4, NOW)
+
+    // The overdue words must be present
+    const ids = result.map((r) => r.word.id)
+    expect(ids).toContain('w0')
+    expect(ids).toContain('w1')
+    // No duplicates
+    expect(new Set(ids).size).toBe(ids.length)
   })
 
   it('should assign a direction to each word', async () => {
@@ -537,10 +565,12 @@ describe('getNextWords', () => {
 
     const result = await getNextWords(storage, 'pair-1', 2, NOW)
 
-    // Should still return them (lowest confidence first from the "low confidence" bucket)
+    // Should still return both (from the "low confidence" bucket).
+    // Presentation order is shuffled so we only check membership.
     expect(result).toHaveLength(2)
-    // w2 lower confidence (0.9 < 0.95), but actually w2=0.9 < w1=0.95, so w2 first
-    expect(result[0].word.id).toBe('w2')
+    const ids = result.map((r) => r.word.id)
+    expect(ids).toContain('w1')
+    expect(ids).toContain('w2')
   })
 })
 
