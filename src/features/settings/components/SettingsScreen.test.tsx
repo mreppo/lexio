@@ -30,7 +30,7 @@ import { createElement, type ReactNode } from 'react'
 // __APP_VERSION__ is declared in vite-env.d.ts; in tests it is undefined unless
 // the Vite define plugin runs — provide a fallback via globalThis.
 Object.defineProperty(globalThis, '__APP_VERSION__', {
-  value: '0.1.0',
+  value: '1.0.0',
   writable: true,
 })
 
@@ -143,7 +143,7 @@ describe('SettingsScreen', () => {
   it('should render the About section with version', () => {
     renderSettings(storage)
     expect(screen.getByText('About')).toBeInTheDocument()
-    expect(screen.getByText(/Version 0\.1\.0/)).toBeInTheDocument()
+    expect(screen.getByText(/Version 1\.0\.0/)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /View source on GitHub/i })).toBeInTheDocument()
   })
 
