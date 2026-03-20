@@ -20,13 +20,6 @@ beforeEach(() => {
 })
 
 describe('App', () => {
-  it('should render the Lexio brand name in the AppBar', async () => {
-    await act(async () => {
-      render(<App />)
-    })
-    expect(screen.getByText('Lexio')).toBeInTheDocument()
-  })
-
   it('should render inside a ThemeProvider (MUI CssBaseline present)', async () => {
     let container: Element
     await act(async () => {
@@ -37,21 +30,21 @@ describe('App', () => {
     expect(container!.firstChild).not.toBeNull()
   })
 
-  it('should show the welcome message when no pairs exist', async () => {
+  it('should show onboarding on first launch (no pairs in storage)', async () => {
     await act(async () => {
       render(<App />)
     })
-    // After loading completes, with no pairs stored, welcome screen appears
+    // After loading completes with no pairs, the onboarding welcome step is shown.
     await act(async () => {})
-    expect(screen.getByText('Welcome to Lexio')).toBeInTheDocument()
+    expect(screen.getByText('Get started')).toBeInTheDocument()
   })
 
-  it('should open the create pair dialog on first launch', async () => {
+  it('should show the Lexio heading in the onboarding welcome step on first launch', async () => {
     await act(async () => {
       render(<App />)
     })
     await act(async () => {})
-    // First launch triggers the dialog
-    expect(screen.getByRole('dialog', { name: /Add language pair/i })).toBeInTheDocument()
+    // The onboarding flow renders "Lexio" as the h3 heading on the welcome step.
+    expect(screen.getAllByText('Lexio').length).toBeGreaterThan(0)
   })
 })
