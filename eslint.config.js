@@ -6,7 +6,7 @@ import prettierConfig from 'eslint-config-prettier'
 
 export default tseslint.config(
   {
-    ignores: ['dist/', 'e2e/', '*.config.ts', '*.config.js', 'coverage/'],
+    ignores: ['dist/', 'e2e/', '*.config.ts', '*.config.js', 'coverage/', 'scripts/'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,

@@ -22,8 +22,9 @@ import { DashboardScreen, useDashboard } from './features/dashboard'
 import { StatsScreen } from './features/stats'
 import { SettingsScreen } from './features/settings'
 import { OnboardingFlow } from './features/onboarding'
-import { BottomNav } from './components'
+import { BottomNav, UpdateNotification } from './components'
 import type { AppTab } from './components'
+import { useServiceWorker } from './hooks/useServiceWorker'
 import type { LanguagePair, UserSettings } from './types'
 import { Sentry } from './services/sentry'
 
@@ -40,6 +41,8 @@ const storageService = new LocalStorageService()
 function AppContent() {
   const { preference: themePreference, mode, setPreference } = useThemeMode(storageService)
   const appTheme = useMemo(() => createAppTheme(mode), [mode])
+
+  const { updateAvailable, applyUpdate, dismissUpdate } = useServiceWorker()
 
   const { pairs, activePair, loading: pairsLoading, createPair, switchPair } = useLanguagePairs()
 
@@ -266,6 +269,8 @@ function AppContent() {
           />
         </>
       )}
+      {/* Update notification — shown when a new service worker is waiting */}
+      <UpdateNotification open={updateAvailable} onUpdate={applyUpdate} onDismiss={dismissUpdate} />
     </ThemeProvider>
   )
 }
