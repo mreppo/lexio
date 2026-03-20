@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback, useEffect } from 'react'
+import { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import {
   ThemeProvider,
   CssBaseline,
@@ -69,6 +69,31 @@ function AppContent() {
   }, [pairsLoading, pairs.length])
 
   const dashboardData = useDashboard(activePair?.id ?? null, settings.dailyGoal)
+
+  // Word counts per pair for the Settings screen language-pairs section.
+  const [wordCounts, setWordCounts] = useState<Record<string, number>>({})
+  // Track which pair IDs we have already fetched word counts for to avoid redundant fetches.
+  const fetchedPairIds = useRef<Set<string>>(new Set())
+
+  useEffect(() => {
+    const pairsToFetch = pairs.filter((p) => !fetchedPairIds.current.has(p.id))
+    if (pairsToFetch.length === 0) return
+    void Promise.all(
+      pairsToFetch.map(async (pair) => {
+        const words = await storage.getWords(pair.id)
+        return { id: pair.id, count: words.length }
+      }),
+    ).then((results) => {
+      setWordCounts((prev) => {
+        const next = { ...prev }
+        for (const { id, count } of results) {
+          next[id] = count
+          fetchedPairIds.current.add(id)
+        }
+        return next
+      })
+    })
+  }, [pairs, storage])
 
   const handleCreatePair = useCallback(
     async (input: CreatePairInput): Promise<void> => {
@@ -191,6 +216,11 @@ function AppContent() {
                   <SettingsScreen
                     themePreference={themePreference}
                     onThemeChange={handleThemeChange}
+                    settings={settings}
+                    onSettingsChange={handleSettingsChange}
+                    pairs={pairs}
+                    wordCounts={wordCounts}
+                    onAddPair={handleOpenCreateDialog}
                   />
                 )}
               </>
