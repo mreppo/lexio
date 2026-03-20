@@ -74,7 +74,7 @@ export function LanguagePairSelector({
         aria-haspopup="true"
         aria-expanded={open}
         sx={{
-          borderColor: 'rgba(255,255,255,0.3)',
+          borderColor: 'divider',
           color: 'text.primary',
           minWidth: 140,
           justifyContent: 'flex-start',
