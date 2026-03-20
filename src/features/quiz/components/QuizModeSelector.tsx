@@ -12,6 +12,7 @@ import KeyboardIcon from '@mui/icons-material/Keyboard'
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
 import ShuffleIcon from '@mui/icons-material/Shuffle'
 import type { QuizMode } from '@/types'
+import { DailyProgressCard } from './DailyProgressCard'
 
 // ─── Mode descriptors ─────────────────────────────────────────────────────────
 
@@ -52,11 +53,30 @@ interface QuizModeSelectorProps {
   readonly onModeChange: (mode: QuizMode) => void
   /** Called when the user is ready to start the session. */
   readonly onStart: () => void
+  /** Words already reviewed today (across all previous sessions). */
+  readonly wordsReviewedToday: number
+  /** Daily goal target. */
+  readonly dailyGoal: number
+  /** Current daily streak in days. */
+  readonly streakDays: number
+  /** Words whose confidence >= learned threshold in the active pair. */
+  readonly wordsLearned: number
+  /** Total words in the active pair. */
+  readonly totalWords: number
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function QuizModeSelector({ selectedMode, onModeChange, onStart }: QuizModeSelectorProps) {
+export function QuizModeSelector({
+  selectedMode,
+  onModeChange,
+  onStart,
+  wordsReviewedToday,
+  dailyGoal,
+  streakDays,
+  wordsLearned,
+  totalWords,
+}: QuizModeSelectorProps) {
   const handleSelect = useCallback(
     (mode: QuizMode): void => {
       onModeChange(mode)
@@ -70,6 +90,14 @@ export function QuizModeSelector({ selectedMode, onModeChange, onStart }: QuizMo
       role="region"
       aria-label="Quiz mode selection"
     >
+      <DailyProgressCard
+        wordsReviewedToday={wordsReviewedToday}
+        dailyGoal={dailyGoal}
+        streakDays={streakDays}
+        wordsLearned={wordsLearned}
+        totalWords={totalWords}
+      />
+
       <Typography variant="h6" fontWeight={700} textAlign="center">
         Choose your quiz mode
       </Typography>

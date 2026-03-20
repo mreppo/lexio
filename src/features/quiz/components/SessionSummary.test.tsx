@@ -29,6 +29,9 @@ interface RenderOptions {
   bestSessionStreak?: number
   wordsLearned?: number
   totalWords?: number
+  dailyGoalMet?: boolean
+  wordsReviewedToday?: number
+  dailyGoal?: number
   onContinue?: () => void
   onGoHome?: () => void
 }
@@ -40,6 +43,9 @@ function renderSummary({
   bestSessionStreak = 0,
   wordsLearned = 0,
   totalWords = 0,
+  dailyGoalMet = false,
+  wordsReviewedToday = 10,
+  dailyGoal = 20,
   onContinue = vi.fn(),
   onGoHome = vi.fn(),
 }: RenderOptions = {}) {
@@ -52,6 +58,9 @@ function renderSummary({
         bestSessionStreak={bestSessionStreak}
         wordsLearned={wordsLearned}
         totalWords={totalWords}
+        dailyGoalMet={dailyGoalMet}
+        wordsReviewedToday={wordsReviewedToday}
+        dailyGoal={dailyGoal}
         onContinue={onContinue}
         onGoHome={onGoHome}
       />
