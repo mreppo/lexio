@@ -30,3 +30,7 @@ dist-ssr
 e2e-results/
 playwright-report/
 test-results/
+
+# Local environment overrides (may contain secrets like VITE_SENTRY_DSN)
+.env.local
+.env.*.local

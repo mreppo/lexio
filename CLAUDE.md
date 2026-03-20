@@ -257,6 +257,21 @@ Never commit a `package-lock.json` that fails `npm ci`. The CI pipeline enforces
 
 ---
 
+## Sentry Error Tracking
+
+Sentry is initialised in `src/main.tsx` before React renders. The initialisation module lives in `src/services/sentry.ts`.
+
+Key points for agents:
+
+- **Sentry is optional.** If `VITE_SENTRY_DSN` is not set, `initSentry()` returns immediately and the app works identically. No errors, no console warnings.
+- **Do not add Sentry imports directly.** Import from `@/services/sentry` (which re-exports the `Sentry` namespace), not directly from `@sentry/react`.
+- **Do not add explicit `Sentry.captureException()` calls** to new code. Sentry captures unhandled errors and unhandled promise rejections globally. You only need manual capture for errors you explicitly swallow with `catch`.
+- **No PII in errors.** Do not include localStorage contents, user input values, or personal data in error context.
+- **ErrorBoundary is in `App.tsx`.** React render crashes are caught there and shown as a user-friendly fallback. You do not need to add error boundaries in individual features.
+- **Source maps** are enabled in production builds (`build.sourcemap: true` in `vite.config.ts`). The Sentry Vite plugin uploads them when `SENTRY_AUTH_TOKEN` is set in CI — this only affects the CI build, not local dev.
+
+---
+
 ## Important Reminders
 
 - **Never hardcode language-specific content** - the app is language-agnostic

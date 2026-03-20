@@ -25,6 +25,7 @@ import type { CreatePairInput } from './features/language-pairs'
 import { WordListScreen } from './features/words'
 import { QuizHub } from './features/quiz'
 import type { UserSettings } from './types'
+import { Sentry } from './services/sentry'
 
 /**
  * A single shared storage instance for the application.
@@ -190,10 +191,39 @@ function AppContent() {
   )
 }
 
+/**
+ * Fallback UI rendered when a React render crash is caught by the ErrorBoundary.
+ * Shows a user-friendly message and a button to retry.
+ */
+function ErrorFallback({
+  resetError,
+}: {
+  error: unknown
+  resetError: () => void
+  componentStack: string
+  eventId: string
+}): React.JSX.Element {
+  return (
+    <Box sx={{ textAlign: 'center', py: 8, px: 2 }}>
+      <Typography variant="h5" gutterBottom>
+        Something went wrong
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+        The error has been reported. Please try refreshing the page.
+      </Typography>
+      <Button variant="contained" onClick={resetError}>
+        Try again
+      </Button>
+    </Box>
+  )
+}
+
 export default function App() {
   return (
     <StorageContext.Provider value={storageService}>
-      <AppContent />
+      <Sentry.ErrorBoundary fallback={ErrorFallback}>
+        <AppContent />
+      </Sentry.ErrorBoundary>
     </StorageContext.Provider>
   )
 }
