@@ -231,3 +231,16 @@ export async function loadBestStreak(storage: StorageService, dailyGoal: number)
   const statsMap = new Map<string, DailyStats>(recentStats.map((s) => [s.date, s]))
   return calculateBestStreak(statsMap, dailyGoal)
 }
+
+/**
+ * Loads today's DailyStats entry from storage.
+ *
+ * Centralises the "today" date logic so callers don't need to import
+ * todayDateString separately.
+ *
+ * @param storage - The storage service.
+ * @returns Today's DailyStats, or null if none exists yet.
+ */
+export async function getTodayStats(storage: StorageService): Promise<DailyStats | null> {
+  return storage.getDailyStats(todayDateString())
+}

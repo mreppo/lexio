@@ -15,11 +15,16 @@ import { useState, useCallback, useEffect } from 'react'
 import { Box } from '@mui/material'
 import type { LanguagePair, UserSettings, QuizMode } from '@/types'
 import { useStorage } from '@/hooks/useStorage'
-import { updateDailyStatsAfterSession, loadCurrentStreak } from '@/services/streakService'
+import {
+  updateDailyStatsAfterSession,
+  loadCurrentStreak,
+  getTodayStats,
+} from '@/services/streakService'
 import { getWordsLearnedForPair } from '@/services/wordsLearnedService'
 import { QuizModeSelector } from './QuizModeSelector'
 import { SessionSummary } from './SessionSummary'
 import { ActiveQuizView } from './ActiveQuizView'
+import { GoalCelebration } from './GoalCelebration'
 
 interface QuizHubProps {
   readonly pair: LanguagePair | null
@@ -48,6 +53,18 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
   const [streakDays, setStreakDays] = useState(0)
   const [wordsLearned, setWordsLearned] = useState(0)
   const [totalWords, setTotalWords] = useState(0)
+  const [wordsReviewedToday, setWordsReviewedToday] = useState(0)
+
+  // Whether the goal was already met before the current session started.
+  // Used to decide whether to show the celebration at session end.
+  const [goalMetBeforeSession, setGoalMetBeforeSession] = useState(false)
+
+  // Whether to show the goal celebration overlay.
+  const [showCelebration, setShowCelebration] = useState(false)
+
+  // Words reviewed today at session end (before updating summary).
+  // Stored so SessionSummary can show accurate post-session totals.
+  const [wordsReviewedTodayAtEnd, setWordsReviewedTodayAtEnd] = useState(0)
 
   // Keep local selectedMode in sync when settings.quizMode changes externally.
   useEffect(() => {
@@ -58,6 +75,14 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
   useEffect(() => {
     void loadCurrentStreak(storage, settings.dailyGoal).then(setStreakDays)
   }, [storage, hubPhase, settings.dailyGoal])
+
+  // Reload today's stats whenever the hub phase changes to 'select'.
+  useEffect(() => {
+    if (hubPhase !== 'select') return
+    void getTodayStats(storage).then((stats) => {
+      setWordsReviewedToday(stats?.wordsReviewed ?? 0)
+    })
+  }, [storage, hubPhase])
 
   // Reload words learned whenever the hub phase changes or the pair changes.
   useEffect(() => {
@@ -83,8 +108,10 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
   )
 
   const handleStart = useCallback((): void => {
+    // Record whether the goal was already met before this session.
+    setGoalMetBeforeSession(wordsReviewedToday >= settings.dailyGoal)
     setHubPhase('active')
-  }, [])
+  }, [wordsReviewedToday, settings.dailyGoal])
 
   const handleSessionFinished = useCallback(
     (wordsReviewed: number, correctCount: number, bestSessionStreak: number): void => {
@@ -98,10 +125,26 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
         settings.dailyGoal,
       ).then(setStreakDays)
 
-      setHubPhase('summary')
+      // Calculate post-session total for today.
+      const newTotal = wordsReviewedToday + wordsReviewed
+      setWordsReviewedTodayAtEnd(newTotal)
+
+      // Show celebration only if the user just crossed the goal for the first time today.
+      const justCrossedGoal = !goalMetBeforeSession && newTotal >= settings.dailyGoal
+      if (justCrossedGoal) {
+        setShowCelebration(true)
+        // Transition to summary happens after celebration closes.
+      } else {
+        setHubPhase('summary')
+      }
     },
-    [storage, settings.dailyGoal],
+    [storage, settings.dailyGoal, wordsReviewedToday, goalMetBeforeSession],
   )
+
+  const handleCelebrationClose = useCallback((): void => {
+    setShowCelebration(false)
+    setHubPhase('summary')
+  }, [])
 
   const handleContinue = useCallback((): void => {
     setHubPhase('select')
@@ -112,13 +155,28 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
     setHubPhase('select')
   }, [])
 
+  const dailyGoalMet = wordsReviewedTodayAtEnd >= settings.dailyGoal
+
   if (hubPhase === 'select') {
     return (
-      <QuizModeSelector
-        selectedMode={selectedMode}
-        onModeChange={handleModeChange}
-        onStart={handleStart}
-      />
+      <>
+        <QuizModeSelector
+          selectedMode={selectedMode}
+          onModeChange={handleModeChange}
+          onStart={handleStart}
+          wordsReviewedToday={wordsReviewedToday}
+          dailyGoal={settings.dailyGoal}
+          streakDays={streakDays}
+          wordsLearned={wordsLearned}
+          totalWords={totalWords}
+        />
+        <GoalCelebration
+          open={showCelebration}
+          onClose={handleCelebrationClose}
+          dailyGoal={settings.dailyGoal}
+          streakDays={streakDays}
+        />
+      </>
     )
   }
 
@@ -131,6 +189,9 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
         bestSessionStreak={sessionResult.bestSessionStreak}
         wordsLearned={wordsLearned}
         totalWords={totalWords}
+        dailyGoalMet={dailyGoalMet}
+        wordsReviewedToday={wordsReviewedTodayAtEnd}
+        dailyGoal={settings.dailyGoal}
         onContinue={handleContinue}
         onGoHome={handleGoHome}
       />
@@ -138,13 +199,21 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
   }
 
   return (
-    <Box>
-      <ActiveQuizView
-        mode={selectedMode}
-        pair={pair}
-        settings={settings}
-        onSessionFinished={handleSessionFinished}
+    <>
+      <Box>
+        <ActiveQuizView
+          mode={selectedMode}
+          pair={pair}
+          settings={settings}
+          onSessionFinished={handleSessionFinished}
+        />
+      </Box>
+      <GoalCelebration
+        open={showCelebration}
+        onClose={handleCelebrationClose}
+        dailyGoal={settings.dailyGoal}
+        streakDays={streakDays}
       />
-    </Box>
+    </>
   )
 }

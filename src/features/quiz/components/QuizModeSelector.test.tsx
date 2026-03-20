@@ -15,14 +15,39 @@ import { ThemeProvider, createTheme } from '@mui/material'
 import { QuizModeSelector } from './QuizModeSelector'
 import type { QuizMode } from '@/types'
 
-function renderSelector(
-  selectedMode: QuizMode = 'type',
+interface RenderOptions {
+  selectedMode?: QuizMode
+  onModeChange?: ReturnType<typeof vi.fn>
+  onStart?: ReturnType<typeof vi.fn>
+  wordsReviewedToday?: number
+  dailyGoal?: number
+  streakDays?: number
+  wordsLearned?: number
+  totalWords?: number
+}
+
+function renderSelector({
+  selectedMode = 'type',
   onModeChange = vi.fn(),
   onStart = vi.fn(),
-) {
+  wordsReviewedToday = 0,
+  dailyGoal = 20,
+  streakDays = 0,
+  wordsLearned = 0,
+  totalWords = 0,
+}: RenderOptions = {}) {
   return render(
     <ThemeProvider theme={createTheme()}>
-      <QuizModeSelector selectedMode={selectedMode} onModeChange={onModeChange} onStart={onStart} />
+      <QuizModeSelector
+        selectedMode={selectedMode}
+        onModeChange={onModeChange}
+        onStart={onStart}
+        wordsReviewedToday={wordsReviewedToday}
+        dailyGoal={dailyGoal}
+        streakDays={streakDays}
+        wordsLearned={wordsLearned}
+        totalWords={totalWords}
+      />
     </ThemeProvider>,
   )
 }
@@ -49,7 +74,7 @@ describe('QuizModeSelector', () => {
 
   it('should call onStart when Start quiz is clicked', async () => {
     const onStart = vi.fn()
-    renderSelector('type', vi.fn(), onStart)
+    renderSelector({ onStart })
     const user = userEvent.setup()
     await user.click(screen.getByRole('button', { name: /start.*quiz/i }))
     expect(onStart).toHaveBeenCalledOnce()
@@ -57,7 +82,7 @@ describe('QuizModeSelector', () => {
 
   it('should call onModeChange with "choice" when Choice is clicked', async () => {
     const onModeChange = vi.fn()
-    renderSelector('type', onModeChange)
+    renderSelector({ onModeChange })
     const user = userEvent.setup()
     await user.click(screen.getByRole('radio', { name: /choice mode/i }))
     expect(onModeChange).toHaveBeenCalledWith('choice')
@@ -65,7 +90,7 @@ describe('QuizModeSelector', () => {
 
   it('should call onModeChange with "mixed" when Mixed is clicked', async () => {
     const onModeChange = vi.fn()
-    renderSelector('type', onModeChange)
+    renderSelector({ onModeChange })
     const user = userEvent.setup()
     await user.click(screen.getByRole('radio', { name: /mixed mode/i }))
     expect(onModeChange).toHaveBeenCalledWith('mixed')
@@ -73,20 +98,20 @@ describe('QuizModeSelector', () => {
 
   it('should call onModeChange with "type" when Type is clicked', async () => {
     const onModeChange = vi.fn()
-    renderSelector('choice', onModeChange)
+    renderSelector({ selectedMode: 'choice', onModeChange })
     const user = userEvent.setup()
     await user.click(screen.getByRole('radio', { name: /type mode/i }))
     expect(onModeChange).toHaveBeenCalledWith('type')
   })
 
   it('should mark the selected mode as aria-checked', () => {
-    renderSelector('mixed')
+    renderSelector({ selectedMode: 'mixed' })
     const mixedOption = screen.getByRole('radio', { name: /mixed mode/i })
     expect(mixedOption).toHaveAttribute('aria-checked', 'true')
   })
 
   it('should not mark unselected modes as aria-checked', () => {
-    renderSelector('mixed')
+    renderSelector({ selectedMode: 'mixed' })
     const typeOption = screen.getByRole('radio', { name: /type mode/i })
     const choiceOption = screen.getByRole('radio', { name: /choice mode/i })
     expect(typeOption).toHaveAttribute('aria-checked', 'false')

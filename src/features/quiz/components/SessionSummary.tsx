@@ -6,10 +6,11 @@
  * to the mode selector.
  */
 
-import { Box, Button, Paper, Typography, Divider } from '@mui/material'
+import { Box, Button, Chip, Paper, Typography, Divider } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined'
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 
 interface SessionSummaryProps {
   /** Total words reviewed in this session. */
@@ -24,6 +25,12 @@ interface SessionSummaryProps {
   readonly wordsLearned: number
   /** Total words in the active pair. */
   readonly totalWords: number
+  /** Whether the daily goal was met (including today's previous sessions). */
+  readonly dailyGoalMet: boolean
+  /** Total words reviewed today (including this session). */
+  readonly wordsReviewedToday: number
+  /** The daily goal target. */
+  readonly dailyGoal: number
   /** Called when user wants to start another session. */
   readonly onContinue: () => void
   /** Called when user wants to go back to the mode selector. */
@@ -49,6 +56,9 @@ export function SessionSummary({
   bestSessionStreak,
   wordsLearned,
   totalWords,
+  dailyGoalMet,
+  wordsReviewedToday,
+  dailyGoal,
   onContinue,
   onGoHome,
 }: SessionSummaryProps) {
@@ -218,6 +228,29 @@ export function SessionSummary({
           </>
         )}
       </Paper>
+
+      {/* Daily goal status */}
+      {dailyGoalMet ? (
+        <Box
+          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+          role="status"
+          aria-label="Daily goal met"
+        >
+          <Chip
+            icon={<EmojiEventsIcon />}
+            label="Daily goal met!"
+            color="success"
+            variant="filled"
+            sx={{ fontWeight: 700 }}
+          />
+        </Box>
+      ) : (
+        <Typography variant="body2" color="text.secondary" textAlign="center">
+          {dailyGoal - wordsReviewedToday > 0
+            ? `${dailyGoal - wordsReviewedToday} more word${dailyGoal - wordsReviewedToday !== 1 ? 's' : ''} to reach your daily goal`
+            : 'Keep reviewing to reach your daily goal'}
+        </Typography>
+      )}
 
       {/* Daily streak info */}
       {streakDays > 0 && (
