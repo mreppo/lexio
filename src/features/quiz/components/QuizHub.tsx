@@ -13,8 +13,9 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import { Box } from '@mui/material'
-import type { LanguagePair, UserSettings, QuizMode } from '@/types'
+import type { LanguagePair, UserSettings, QuizMode, CefrLevel } from '@/types'
 import { useStorage } from '@/hooks/useStorage'
+import { countWordsByLevel } from '@/utils/cefrFilter'
 import {
   updateDailyStatsAfterSession,
   loadCurrentStreak,
@@ -66,10 +67,42 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
   // Stored so SessionSummary can show accurate post-session totals.
   const [wordsReviewedTodayAtEnd, setWordsReviewedTodayAtEnd] = useState(0)
 
+  // Session-only level override. Initialised from settings on each 'select' phase.
+  // Reset to settings default when the user goes back to the select screen.
+  const [sessionLevels, setSessionLevels] = useState<readonly CefrLevel[]>(settings.selectedLevels)
+
+  // Word count per CEFR level for the active pair (used in LevelFilterBar).
+  const [wordCountByLevel, setWordCountByLevel] = useState<Record<CefrLevel, number>>({
+    A1: 0,
+    A2: 0,
+    B1: 0,
+    B2: 0,
+    C1: 0,
+    C2: 0,
+  })
+
   // Keep local selectedMode in sync when settings.quizMode changes externally.
   useEffect(() => {
     setSelectedMode(settings.quizMode)
   }, [settings.quizMode])
+
+  // Reset session levels to settings default when returning to select screen.
+  useEffect(() => {
+    if (hubPhase === 'select') {
+      setSessionLevels(settings.selectedLevels)
+    }
+  }, [hubPhase, settings.selectedLevels])
+
+  // Load word counts for the LevelFilterBar whenever the active pair changes.
+  useEffect(() => {
+    if (pair === null) {
+      setWordCountByLevel({ A1: 0, A2: 0, B1: 0, B2: 0, C1: 0, C2: 0 })
+      return
+    }
+    void storage.getWords(pair.id).then((words) => {
+      setWordCountByLevel(countWordsByLevel(words))
+    })
+  }, [storage, pair])
 
   // Reload streak from storage whenever the hub phase changes (e.g. after session).
   useEffect(() => {
@@ -169,6 +202,9 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
           streakDays={streakDays}
           wordsLearned={wordsLearned}
           totalWords={totalWords}
+          sessionLevels={sessionLevels}
+          wordCountByLevel={wordCountByLevel}
+          onSessionLevelsChange={setSessionLevels}
         />
         <GoalCelebration
           open={showCelebration}
@@ -205,6 +241,7 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
           mode={selectedMode}
           pair={pair}
           settings={settings}
+          sessionLevels={sessionLevels}
           onSessionFinished={handleSessionFinished}
         />
       </Box>

@@ -15,7 +15,8 @@ import {
 } from '@mui/material'
 import DownloadIcon from '@mui/icons-material/Download'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import type { StarterPack } from '@/types'
+import type { StarterPack, CefrLevel } from '@/types'
+import { isCefrLevel } from '@/utils/cefrFilter'
 import { listPacks, installPack, packMatchesPair } from '@/services/starterPacks'
 import type { InstallPackResult } from '@/services/starterPacks'
 import { useStorage } from '@/hooks/useStorage'
@@ -115,6 +116,25 @@ export function PackBrowserDialog({
           ...prev,
           [pack.id]: { status: 'done', result },
         }))
+
+        // Auto-add the pack's level to selectedLevels if the user has an active
+        // level filter (non-empty selectedLevels means a filter is applied).
+        // If selectedLevels is empty it means "all levels" — no update needed.
+        if (isCefrLevel(pack.level)) {
+          const packLevel = pack.level as CefrLevel
+          const currentSettings = await storage.getSettings()
+          if (
+            currentSettings.selectedLevels.length > 0 &&
+            !currentSettings.selectedLevels.includes(packLevel)
+          ) {
+            const updated = {
+              ...currentSettings,
+              selectedLevels: [...currentSettings.selectedLevels, packLevel],
+            }
+            await storage.saveSettings(updated)
+          }
+        }
+
         // Refresh the word list immediately so it is populated when the dialog closes.
         onInstalled()
         // Auto-close after a brief delay so the user can read the success message.

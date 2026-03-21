@@ -16,8 +16,10 @@ import type {
   QuizDirection,
   QuizMode,
   DailyStats,
+  CefrLevel,
 } from '@/types'
 import type { StorageService } from '@/services/storage/StorageService'
+import { filterWordsByLevels } from '@/utils/cefrFilter'
 
 // ─── Configuration ───────────────────────────────────────────────────────────
 // All algorithm parameters are here - change these to tune behaviour.
@@ -214,8 +216,13 @@ export async function getNextWords(
   pairId: string,
   count: number,
   now: number = Date.now(),
+  selectedLevels: readonly CefrLevel[] = [],
 ): Promise<WordForQuiz[]> {
-  const words = await storage.getWords(pairId)
+  const allWords = await storage.getWords(pairId)
+  if (allWords.length === 0) return []
+
+  // Apply CEFR level filter. Empty selectedLevels means "all words".
+  const words = filterWordsByLevels(allWords, selectedLevels)
   if (words.length === 0) return []
 
   // Load all existing progress records for this pair's words

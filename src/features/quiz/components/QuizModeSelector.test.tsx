@@ -13,7 +13,16 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ThemeProvider, createTheme } from '@mui/material'
 import { QuizModeSelector } from './QuizModeSelector'
-import type { QuizMode } from '@/types'
+import type { QuizMode, CefrLevel } from '@/types'
+
+const EMPTY_WORD_COUNTS: Record<CefrLevel, number> = {
+  A1: 0,
+  A2: 0,
+  B1: 0,
+  B2: 0,
+  C1: 0,
+  C2: 0,
+}
 
 interface RenderOptions {
   selectedMode?: QuizMode
@@ -24,6 +33,9 @@ interface RenderOptions {
   streakDays?: number
   wordsLearned?: number
   totalWords?: number
+  sessionLevels?: readonly CefrLevel[]
+  wordCountByLevel?: Record<CefrLevel, number>
+  onSessionLevelsChange?: ReturnType<typeof vi.fn>
 }
 
 function renderSelector({
@@ -35,6 +47,9 @@ function renderSelector({
   streakDays = 0,
   wordsLearned = 0,
   totalWords = 0,
+  sessionLevels = [],
+  wordCountByLevel = EMPTY_WORD_COUNTS,
+  onSessionLevelsChange = vi.fn(),
 }: RenderOptions = {}) {
   return render(
     <ThemeProvider theme={createTheme()}>
@@ -47,6 +62,9 @@ function renderSelector({
         streakDays={streakDays}
         wordsLearned={wordsLearned}
         totalWords={totalWords}
+        sessionLevels={sessionLevels}
+        wordCountByLevel={wordCountByLevel}
+        onSessionLevelsChange={onSessionLevelsChange}
       />
     </ThemeProvider>,
   )

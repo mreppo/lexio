@@ -65,6 +65,7 @@ export function createMockSettings(overrides: Partial<UserSettings> = {}): UserS
     dailyGoal: 20,
     theme: 'dark',
     typoTolerance: 1,
+    selectedLevels: [],
     ...overrides,
   }
 }

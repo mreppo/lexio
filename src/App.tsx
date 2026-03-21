@@ -70,6 +70,7 @@ function AppContent() {
     dailyGoal: 20,
     theme: 'system',
     typoTolerance: 1,
+    selectedLevels: [],
   })
 
   // Load settings on mount.

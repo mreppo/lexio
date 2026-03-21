@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useRef } from 'react'
-import type { LanguagePair, UserSettings, QuizMode } from '@/types'
+import type { LanguagePair, UserSettings, QuizMode, CefrLevel } from '@/types'
 import { useQuizSession } from '../useQuizSession'
 import { TypeQuizContent } from './TypeQuizContent'
 import { ChoiceQuizContent } from './ChoiceQuizContent'
@@ -16,6 +16,8 @@ interface ActiveQuizViewProps {
   readonly mode: QuizMode
   readonly pair: LanguagePair | null
   readonly settings: UserSettings
+  /** Session-only CEFR level override (not persisted). Empty = use settings default. */
+  readonly sessionLevels?: readonly CefrLevel[]
   /**
    * Called once when the session transitions to 'finished'.
    * Receives the final wordsReviewed, correctCount, and bestSessionStreak.
@@ -27,8 +29,14 @@ interface ActiveQuizViewProps {
   ) => void
 }
 
-export function ActiveQuizView({ mode, pair, settings, onSessionFinished }: ActiveQuizViewProps) {
-  const session = useQuizSession(pair, settings, mode)
+export function ActiveQuizView({
+  mode,
+  pair,
+  settings,
+  sessionLevels,
+  onSessionFinished,
+}: ActiveQuizViewProps) {
+  const session = useQuizSession(pair, settings, mode, sessionLevels)
   const { phase, wordsCompleted, correctCount, bestSessionStreak, currentMode } = session.state
 
   // Store onSessionFinished in a ref so the effect dep array only contains the

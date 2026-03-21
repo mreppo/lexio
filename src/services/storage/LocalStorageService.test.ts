@@ -196,6 +196,7 @@ describe('LocalStorageService', () => {
         dailyGoal: 10,
         theme: 'light',
         typoTolerance: 2,
+        selectedLevels: ['B1', 'B2'],
       }
       await service.saveSettings(settings)
       const retrieved = await service.getSettings()
@@ -304,6 +305,7 @@ describe('LocalStorageService', () => {
         dailyGoal: 30,
         theme: 'light',
         typoTolerance: 0,
+        selectedLevels: [],
       }
       const dailyStats: DailyStats = {
         date: '2026-03-01',
@@ -369,6 +371,7 @@ describe('LocalStorageService', () => {
         dailyGoal: 10,
         theme: 'light',
         typoTolerance: 1,
+        selectedLevels: [],
       })
       // Add a non-lexio key to ensure it survives
       localStorage.setItem('other-app:key', 'should-survive')
@@ -393,6 +396,7 @@ describe('LocalStorageService', () => {
         dailyGoal: 20,
         theme: 'dark',
         typoTolerance: 1,
+        selectedLevels: [],
       })
     })
 

@@ -574,6 +574,79 @@ describe('getNextWords', () => {
   })
 })
 
+// ─── getNextWords — CEFR level filtering ──────────────────────────────────────
+
+describe('getNextWords - CEFR level filtering', () => {
+  const NOW = 1_700_000_000_000
+
+  function makeWordWithTags(id: string, tags: string[]): Word {
+    return { ...makeWord(id), tags }
+  }
+
+  it('should return all words when selectedLevels is empty', async () => {
+    const words = [
+      makeWordWithTags('w-a1', ['A1']),
+      makeWordWithTags('w-b1', ['B1']),
+      makeWordWithTags('w-manual', []),
+    ]
+    const storage = makeMockStorage(words)
+    const result = await getNextWords(storage, 'pair-1', 10, NOW, [])
+    expect(result).toHaveLength(3)
+  })
+
+  it('should filter to a single selected level', async () => {
+    const words = [
+      makeWordWithTags('w-a1', ['A1']),
+      makeWordWithTags('w-b1', ['B1']),
+      makeWordWithTags('w-manual', []),
+    ]
+    const storage = makeMockStorage(words)
+    const result = await getNextWords(storage, 'pair-1', 10, NOW, ['B1'])
+    const ids = result.map((r) => r.word.id)
+    expect(ids).toContain('w-b1')
+    expect(ids).toContain('w-manual') // manual words always included
+    expect(ids).not.toContain('w-a1')
+  })
+
+  it('should filter to multiple selected levels', async () => {
+    const words = [
+      makeWordWithTags('w-a1', ['A1']),
+      makeWordWithTags('w-b1', ['B1']),
+      makeWordWithTags('w-b2', ['B2']),
+      makeWordWithTags('w-manual', []),
+    ]
+    const storage = makeMockStorage(words)
+    const result = await getNextWords(storage, 'pair-1', 10, NOW, ['B1', 'B2'])
+    const ids = result.map((r) => r.word.id)
+    expect(ids).toContain('w-b1')
+    expect(ids).toContain('w-b2')
+    expect(ids).toContain('w-manual')
+    expect(ids).not.toContain('w-a1')
+  })
+
+  it('should always include manually added words (no CEFR tags)', async () => {
+    const words = [
+      makeWordWithTags('w-b1', ['B1']),
+      makeWordWithTags('w-manual', []), // no CEFR tag
+      makeWordWithTags('w-tagged', ['food']), // non-CEFR tag
+    ]
+    const storage = makeMockStorage(words)
+    const result = await getNextWords(storage, 'pair-1', 10, NOW, ['C1'])
+    // C1 has no words but manual/non-CEFR tagged words are always included
+    const ids = result.map((r) => r.word.id)
+    expect(ids).toContain('w-manual')
+    expect(ids).toContain('w-tagged')
+    expect(ids).not.toContain('w-b1')
+  })
+
+  it('should return empty array when filter has no matching words and no manual words', async () => {
+    const words = [makeWordWithTags('w-a1', ['A1']), makeWordWithTags('w-b1', ['B1'])]
+    const storage = makeMockStorage(words)
+    const result = await getNextWords(storage, 'pair-1', 10, NOW, ['C2'])
+    expect(result).toHaveLength(0)
+  })
+})
+
 // ─── recordAttempt ────────────────────────────────────────────────────────────
 
 describe('recordAttempt', () => {

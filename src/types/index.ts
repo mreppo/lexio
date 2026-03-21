@@ -41,12 +41,22 @@ export interface WordProgress {
 
 export type ThemePreference = 'light' | 'dark' | 'system'
 
+export type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2'
+
+/** All CEFR levels in ascending order. */
+export const CEFR_LEVELS: readonly CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+
 export interface UserSettings {
   readonly activePairId: string | null
   readonly quizMode: QuizMode
   readonly dailyGoal: number
   readonly theme: ThemePreference
   readonly typoTolerance: number
+  /**
+   * CEFR levels the user wants to train.
+   * Empty array means "all levels" (no filtering applied).
+   */
+  readonly selectedLevels: readonly CefrLevel[]
 }
 
 export interface DailyStats {
