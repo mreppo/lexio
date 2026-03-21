@@ -3,12 +3,13 @@
  *
  * Sections:
  *  1. Preferences  - theme, quiz mode, daily goal, typo tolerance
- *  2. Language Pairs - list with word counts, links to pair management
- *  3. Data Management - export, import, reset progress, reset all
- *  4. About - version, GitHub link
+ *  2. Training levels - CEFR level multi-select filter
+ *  3. Language Pairs - list with word counts, links to pair management
+ *  4. Data Management - export, import, reset progress, reset all
+ *  5. About - version, GitHub link
  */
 
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import {
   Box,
   Button,
@@ -40,9 +41,11 @@ import UploadIcon from '@mui/icons-material/Upload'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
-import type { ThemePreference, UserSettings, LanguagePair } from '@/types'
+import type { ThemePreference, UserSettings, LanguagePair, CefrLevel } from '@/types'
 import { useStorage } from '@/hooks/useStorage'
 import { LanguagePairList } from '@/features/language-pairs'
+import { countWordsByLevel } from '@/utils/cefrFilter'
+import { CefrLevelSelector } from './CefrLevelSelector'
 
 /** App version sourced from the bundler-injected env variable. */
 const APP_VERSION = __APP_VERSION__
@@ -94,6 +97,27 @@ export function SettingsScreen({
 
   // --- Preferences state ---
   const [dailyGoalInput, setDailyGoalInput] = useState<string>(String(settings.dailyGoal))
+
+  // --- CEFR word counts state ---
+  const [wordCountByLevel, setWordCountByLevel] = useState<Record<CefrLevel, number>>({
+    A1: 0,
+    A2: 0,
+    B1: 0,
+    B2: 0,
+    C1: 0,
+    C2: 0,
+  })
+
+  // Reload word counts when the active pair changes.
+  useEffect(() => {
+    if (settings.activePairId === null) {
+      setWordCountByLevel({ A1: 0, A2: 0, B1: 0, B2: 0, C1: 0, C2: 0 })
+      return
+    }
+    void storage.getWords(settings.activePairId).then((words) => {
+      setWordCountByLevel(countWordsByLevel(words))
+    })
+  }, [storage, settings.activePairId])
 
   // --- Data management state ---
   const [exporting, setExporting] = useState(false)
@@ -154,6 +178,14 @@ export function SettingsScreen({
       const tolerance = Array.isArray(value) ? value[0] : value
       void storage.saveSettings({ ...settings, typoTolerance: tolerance })
       onSettingsChange({ ...settings, typoTolerance: tolerance })
+    },
+    [settings, onSettingsChange, storage],
+  )
+
+  const handleSelectedLevelsChange = useCallback(
+    (levels: readonly CefrLevel[]) => {
+      void storage.saveSettings({ ...settings, selectedLevels: levels })
+      onSettingsChange({ ...settings, selectedLevels: levels })
     },
     [settings, onSettingsChange, storage],
   )
@@ -440,7 +472,29 @@ export function SettingsScreen({
         </CardContent>
       </Card>
 
-      {/* ── 2. Language Pairs ── */}
+      {/* ── 2. CEFR Levels ── */}
+      <Card variant="outlined">
+        <CardContent sx={{ p: 2.5 }}>
+          <Typography variant="subtitle2" fontWeight={700} gutterBottom>
+            Training levels
+          </Typography>
+
+          <Divider sx={{ my: 1.5 }} />
+
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
+            Choose which CEFR levels to include in your quizzes. Your manually added words are
+            always included.
+          </Typography>
+
+          <CefrLevelSelector
+            selectedLevels={settings.selectedLevels}
+            wordCountByLevel={wordCountByLevel}
+            onChange={handleSelectedLevelsChange}
+          />
+        </CardContent>
+      </Card>
+
+      {/* ── 3. Language Pairs ── */}
       <Card variant="outlined">
         <CardContent sx={{ p: 2.5 }}>
           <Typography variant="subtitle2" fontWeight={700} gutterBottom>
@@ -461,7 +515,7 @@ export function SettingsScreen({
         </CardContent>
       </Card>
 
-      {/* ── 3. Data Management ── */}
+      {/* ── 4. Data Management ── */}
       <Card variant="outlined">
         <CardContent sx={{ p: 2.5 }}>
           <Typography variant="subtitle2" fontWeight={700} gutterBottom>
@@ -546,7 +600,7 @@ export function SettingsScreen({
         </CardContent>
       </Card>
 
-      {/* ── 4. About ── */}
+      {/* ── 5. About ── */}
       <Card variant="outlined">
         <CardContent sx={{ p: 2.5 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>

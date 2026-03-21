@@ -15,6 +15,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   dailyGoal: 20,
   theme: 'dark',
   typoTolerance: 1,
+  selectedLevels: [],
 }
 
 function readJson<T>(key: string): T | null {
@@ -138,7 +139,10 @@ export class LocalStorageService implements StorageService {
   // --- Settings ---
 
   async getSettings(): Promise<UserSettings> {
-    return readJson<UserSettings>(KEYS.SETTINGS) ?? DEFAULT_SETTINGS
+    const stored = readJson<Partial<UserSettings>>(KEYS.SETTINGS)
+    if (stored === null) return DEFAULT_SETTINGS
+    // Migrate existing settings that predate the selectedLevels field.
+    return { ...DEFAULT_SETTINGS, ...stored }
   }
 
   async saveSettings(settings: UserSettings): Promise<void> {

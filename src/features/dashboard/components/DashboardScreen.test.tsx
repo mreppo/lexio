@@ -13,6 +13,7 @@ const defaultSettings: UserSettings = {
   dailyGoal: 20,
   theme: 'dark',
   typoTolerance: 1,
+  selectedLevels: [],
 }
 
 const activePair: LanguagePair = {

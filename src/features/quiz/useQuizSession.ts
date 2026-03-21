@@ -13,8 +13,8 @@
  * - Tracks session progress against the daily goal.
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react'
-import type { Word, LanguagePair, UserSettings, QuizMode, QuizDirection } from '@/types'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
+import type { Word, LanguagePair, UserSettings, QuizMode, QuizDirection, CefrLevel } from '@/types'
 import type { AnswerMatchResult } from '@/utils/matching'
 import { matchAnswer } from '@/utils/matching'
 import { useStorage } from '@/hooks/useStorage'
@@ -150,16 +150,34 @@ export function selectModeForWord(
 /**
  * Manages a full quiz session for a given language pair and mode.
  *
- * @param pair     - The active language pair, or null if none selected.
- * @param settings - Current user settings (daily goal, typo tolerance).
- * @param mode     - The quiz mode: 'type', 'choice', or 'mixed'.
+ * @param pair           - The active language pair, or null if none selected.
+ * @param settings       - Current user settings (daily goal, typo tolerance).
+ * @param mode           - The quiz mode: 'type', 'choice', or 'mixed'.
+ * @param sessionLevels  - Optional session-level CEFR override. When provided it
+ *                         takes precedence over settings.selectedLevels for this
+ *                         session only (not persisted).
  */
 export function useQuizSession(
   pair: LanguagePair | null,
   settings: UserSettings,
   mode: QuizMode,
+  sessionLevels?: readonly CefrLevel[],
 ): UseQuizSessionResult {
   const storage = useStorage()
+
+  // Serialise to a stable string so loadWords only re-fires when the
+  // actual level values change, not just because a new array instance is passed.
+  const effectiveLevelsKey = JSON.stringify(sessionLevels ?? settings.selectedLevels)
+
+  // Effective levels: session override > settings preference.
+  // Memoised so the downstream useCallback gets a stable array reference.
+  const effectiveLevels = useMemo(
+    () => (sessionLevels ?? settings.selectedLevels) as readonly CefrLevel[],
+    // effectiveLevelsKey is a serialised representation of the array — safe to
+    // use as the sole dependency here because it changes iff the values change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [effectiveLevelsKey],
+  )
 
   const [phase, setPhase] = useState<SessionPhase>('loading')
   const [queue, setQueue] = useState<QueueItem[]>([])
@@ -213,7 +231,13 @@ export function useQuizSession(
         return
       }
 
-      const wordsForQuiz = await getNextWords(storage, pair.id, BATCH_SIZE)
+      const wordsForQuiz = await getNextWords(
+        storage,
+        pair.id,
+        BATCH_SIZE,
+        Date.now(),
+        effectiveLevels,
+      )
 
       if (!mountedRef.current) return
 
@@ -287,7 +311,7 @@ export function useQuizSession(
       setError(message)
       setPhase('finished')
     }
-  }, [storage, pair, mode])
+  }, [storage, pair, mode, effectiveLevels])
 
   // Load words on mount and whenever pair or mode changes.
   useEffect(() => {

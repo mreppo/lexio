@@ -11,8 +11,9 @@ import { Box, Button, Card, CardActionArea, CardContent, Typography } from '@mui
 import KeyboardIcon from '@mui/icons-material/Keyboard'
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
 import ShuffleIcon from '@mui/icons-material/Shuffle'
-import type { QuizMode } from '@/types'
+import type { QuizMode, CefrLevel } from '@/types'
 import { DailyProgressCard } from './DailyProgressCard'
+import { LevelFilterBar } from './LevelFilterBar'
 
 // ─── Mode descriptors ─────────────────────────────────────────────────────────
 
@@ -63,6 +64,12 @@ interface QuizModeSelectorProps {
   readonly wordsLearned: number
   /** Total words in the active pair. */
   readonly totalWords: number
+  /** Session-only level override (not persisted to settings). Empty = all levels. */
+  readonly sessionLevels: readonly CefrLevel[]
+  /** Word count per level for displaying counts in the level filter bar. */
+  readonly wordCountByLevel: Readonly<Record<CefrLevel, number>>
+  /** Called when the user changes the session-level filter. */
+  readonly onSessionLevelsChange: (levels: readonly CefrLevel[]) => void
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -76,6 +83,9 @@ export function QuizModeSelector({
   streakDays,
   wordsLearned,
   totalWords,
+  sessionLevels,
+  wordCountByLevel,
+  onSessionLevelsChange,
 }: QuizModeSelectorProps) {
   const handleSelect = useCallback(
     (mode: QuizMode): void => {
@@ -165,6 +175,12 @@ export function QuizModeSelector({
           )
         })}
       </Box>
+
+      <LevelFilterBar
+        sessionLevels={sessionLevels}
+        wordCountByLevel={wordCountByLevel}
+        onChange={onSessionLevelsChange}
+      />
 
       <Button
         variant="contained"
