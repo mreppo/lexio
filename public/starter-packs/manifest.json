@@ -1,3 +1,22 @@
 {
-  "packs": ["en-lv-b1b2", "ru-en-b1b2", "ru-lv-b1b2"]
+  "packs": [
+    "en-lv-a1",
+    "en-lv-a2",
+    "en-lv-b1",
+    "en-lv-b2",
+    "en-lv-c1",
+    "en-lv-c2",
+    "ru-en-a1",
+    "ru-en-a2",
+    "ru-en-b1",
+    "ru-en-b2",
+    "ru-en-c1",
+    "ru-en-c2",
+    "ru-lv-a1",
+    "ru-lv-a2",
+    "ru-lv-b1",
+    "ru-lv-b2",
+    "ru-lv-c1",
+    "ru-lv-c2"
+  ]
 }
