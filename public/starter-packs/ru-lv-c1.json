@@ -6,137 +6,665 @@
   "targetCode": "lv",
   "level": "C1",
   "words": [
-    { "source": "абстрактный", "target": "abstrakts", "tags": ["academic", "C1"] },
-    { "source": "анализ", "target": "analīze", "tags": ["academic", "C1"] },
-    { "source": "синтез", "target": "sintēze", "tags": ["academic", "C1"] },
-    { "source": "гипотеза", "target": "hipotēze", "tags": ["academic", "C1"] },
-    { "source": "доказательство", "target": "pierādījums", "tags": ["academic", "C1"] },
-    { "source": "методология", "target": "metodoloģija", "tags": ["academic", "C1"] },
-    { "source": "исследование", "target": "pētījums", "tags": ["academic", "C1"] },
-    { "source": "теория", "target": "teorija", "tags": ["academic", "C1"] },
-    { "source": "концепция", "target": "koncepcija", "tags": ["academic", "C1"] },
-    { "source": "парадигма", "target": "paradigma", "tags": ["academic", "C1"] },
-    { "source": "дискурс", "target": "diskurss", "tags": ["academic", "C1"] },
-    { "source": "аргументация", "target": "argumentācija", "tags": ["academic", "C1"] },
-    { "source": "обоснование", "target": "pamatojums", "tags": ["academic", "C1"] },
-    { "source": "вывод", "target": "secinājums", "tags": ["academic", "C1"] },
-    { "source": "утверждение", "target": "apgalvojums", "tags": ["academic", "C1"] },
-    { "source": "опровержение", "target": "atspēkojums", "tags": ["academic", "C1"] },
-    { "source": "критерий", "target": "kritērijs", "tags": ["academic", "C1"] },
-    { "source": "наблюдение", "target": "novērojums", "tags": ["academic", "C1"] },
-    { "source": "интерпретация", "target": "interpretācija", "tags": ["academic", "C1"] },
-    { "source": "контекст", "target": "konteksts", "tags": ["academic", "C1"] },
-    { "source": "правовая норма", "target": "likuma norma", "tags": ["law", "C1"] },
-    { "source": "юрисдикция", "target": "jurisdikcija", "tags": ["law", "C1"] },
-    { "source": "суд", "target": "tiesa", "tags": ["law", "C1"] },
-    { "source": "приговор", "target": "spriedums", "tags": ["law", "C1"] },
-    { "source": "обвинение", "target": "apsūdzība", "tags": ["law", "C1"] },
-    { "source": "защита", "target": "aizstāvība", "tags": ["law", "C1"] },
-    { "source": "доказать", "target": "pierādīt", "tags": ["law", "C1"] },
-    { "source": "регулировать", "target": "regulēt", "tags": ["law", "C1"] },
-    { "source": "диагностировать", "target": "diagnosticēt", "tags": ["medicine", "C1"] },
-    { "source": "симптом", "target": "simptoms", "tags": ["medicine", "C1"] },
-    { "source": "диагноз", "target": "diagnoze", "tags": ["medicine", "C1"] },
-    { "source": "терапия", "target": "terapija", "tags": ["medicine", "C1"] },
-    { "source": "рецепт", "target": "recepte", "tags": ["medicine", "C1"] },
-    { "source": "клинический", "target": "klīnisks", "tags": ["medicine", "C1"] },
-    { "source": "профилактический", "target": "profilaktisks", "tags": ["medicine", "C1"] },
-    { "source": "хронический", "target": "hronisks", "tags": ["medicine", "C1"] },
-    { "source": "острый", "target": "akūts", "tags": ["medicine", "C1"] },
-    { "source": "иммунная система", "target": "imūnsistēma", "tags": ["medicine", "C1"] },
-    { "source": "выручка", "target": "ieņēmumi", "tags": ["business", "C1"] },
-    { "source": "прибыль", "target": "peļņa", "tags": ["business", "C1"] },
-    { "source": "расходы", "target": "izdevumi", "tags": ["business", "C1"] },
-    { "source": "доля рынка", "target": "tirgus daļa", "tags": ["business", "C1"] },
-    { "source": "конкуренция", "target": "konkurence", "tags": ["business", "C1"] },
-    { "source": "цепочка поставок", "target": "piegādes ķēde", "tags": ["business", "C1"] },
-    { "source": "расширение", "target": "paplašināšanās", "tags": ["business", "C1"] },
-    { "source": "предпринимательство", "target": "uzņēmējdarbība", "tags": ["business", "C1"] },
-    { "source": "корпоративный", "target": "korporatīvs", "tags": ["business", "C1"] },
-    { "source": "точный", "target": "precīzs", "tags": ["adjectives", "C1"] },
-    { "source": "исчерпывающий", "target": "izsmeļošs", "tags": ["adjectives", "C1"] },
-    { "source": "систематический", "target": "sistemātisks", "tags": ["adjectives", "C1"] },
-    { "source": "критический", "target": "kritisks", "tags": ["adjectives", "C1"] },
-    { "source": "аналитический", "target": "analītisks", "tags": ["adjectives", "C1"] },
-    { "source": "объективный", "target": "objektīvs", "tags": ["adjectives", "C1"] },
-    { "source": "субъективный", "target": "subjektīvs", "tags": ["adjectives", "C1"] },
-    { "source": "логичный", "target": "loģisks", "tags": ["adjectives", "C1"] },
-    { "source": "рациональный", "target": "racionāls", "tags": ["adjectives", "C1"] },
-    { "source": "иррациональный", "target": "iracionāls", "tags": ["adjectives", "C1"] },
-    { "source": "недооценивать", "target": "nenovērtēt", "tags": ["verbs", "C1"] },
-    { "source": "переоценивать", "target": "pārvērtēt", "tags": ["verbs", "C1"] },
-    { "source": "формулировать", "target": "formulēt", "tags": ["verbs", "C1"] },
-    { "source": "анализировать", "target": "analizēt", "tags": ["verbs", "C1"] },
-    { "source": "расследовать", "target": "izzināt", "tags": ["verbs", "C1"] },
-    { "source": "применять", "target": "piemērot", "tags": ["verbs", "C1"] },
-    { "source": "оценивать", "target": "izvērtēt", "tags": ["verbs", "C1"] },
-    { "source": "иллюстрировать", "target": "ilustrēt", "tags": ["verbs", "C1"] },
-    { "source": "обосновывать", "target": "pamatot", "tags": ["verbs", "C1"] },
-    { "source": "консолидировать", "target": "nostiprināt", "tags": ["verbs", "C1"] },
-    { "source": "преподаватель", "target": "mācībspēks", "tags": ["academic", "C1"] },
-    { "source": "диссертация", "target": "disertācija", "tags": ["academic", "C1"] },
-    { "source": "статья", "target": "referāts", "tags": ["academic", "C1"] },
-    { "source": "семинар", "target": "seminārs", "tags": ["academic", "C1"] },
-    { "source": "симпозиум", "target": "simpozijs", "tags": ["academic", "C1"] },
-    { "source": "лекция", "target": "lekcija", "tags": ["academic", "C1"] },
-    { "source": "бакалавр", "target": "bakalaurs", "tags": ["academic", "C1"] },
-    { "source": "магистр", "target": "maģistrs", "tags": ["academic", "C1"] },
-    { "source": "аспирант", "target": "doktorants", "tags": ["academic", "C1"] },
-    { "source": "профессор", "target": "profesors", "tags": ["academic", "C1"] },
-    { "source": "официальный", "target": "formāls", "tags": ["register", "C1"] },
-    { "source": "неофициальный", "target": "neformāls", "tags": ["register", "C1"] },
-    { "source": "профессиональный", "target": "lietišķs", "tags": ["register", "C1"] },
-    { "source": "вежливый", "target": "pieklājīgs", "tags": ["register", "C1"] },
-    { "source": "сдержанный", "target": "atturīgs", "tags": ["register", "C1"] },
-    { "source": "выражение", "target": "izteiciens", "tags": ["register", "C1"] },
-    { "source": "поговорка", "target": "teiciens", "tags": ["register", "C1"] },
-    { "source": "идиома", "target": "idioma", "tags": ["register", "C1"] },
-    { "source": "словарный запас", "target": "vārdu krājums", "tags": ["register", "C1"] },
-    { "source": "терминология", "target": "terminoloģija", "tags": ["register", "C1"] },
-    { "source": "инфраструктура", "target": "infrastruktūra", "tags": ["social", "C1"] },
-    { "source": "институт", "target": "institūcija", "tags": ["social", "C1"] },
-    { "source": "бюрократия", "target": "birokrātija", "tags": ["social", "C1"] },
-    { "source": "политика", "target": "politika", "tags": ["social", "C1"] },
-    { "source": "дипломатия", "target": "diplomātija", "tags": ["social", "C1"] },
-    { "source": "международный", "target": "starptautisks", "tags": ["social", "C1"] },
-    { "source": "правительство", "target": "valdība", "tags": ["social", "C1"] },
-    { "source": "референдум", "target": "referendums", "tags": ["social", "C1"] },
-    { "source": "демократия", "target": "demokrātija", "tags": ["social", "C1"] },
-    { "source": "неумолимый", "target": "nepielūdzams", "tags": ["adjectives", "C1"] },
-    { "source": "неизбежный", "target": "nenovēršams", "tags": ["adjectives", "C1"] },
-    { "source": "значительный", "target": "nozīmīgs", "tags": ["adjectives", "C1"] },
-    { "source": "существенный", "target": "būtisks", "tags": ["adjectives", "C1"] },
-    { "source": "подходящий", "target": "atbilstošs", "tags": ["adjectives", "C1"] },
-    { "source": "устойчивый", "target": "ilgtspējīgs", "tags": ["adjectives", "C1"] },
-    { "source": "сложный", "target": "sarežģīts", "tags": ["adjectives", "C1"] },
-    { "source": "своеобразный", "target": "savdabīgs", "tags": ["adjectives", "C1"] },
-    { "source": "последствия", "target": "sekas", "tags": ["social", "C1"] },
-    { "source": "сравнительный", "target": "salīdzinošs", "tags": ["academic", "C1"] },
-    { "source": "количественный", "target": "kvantitatīvs", "tags": ["academic", "C1"] },
-    { "source": "качественный", "target": "kvalitatīvs", "tags": ["academic", "C1"] },
-    { "source": "эмпирический", "target": "empīrisks", "tags": ["academic", "C1"] },
-    { "source": "теоретический", "target": "teorētisks", "tags": ["academic", "C1"] },
-    { "source": "интегрировать", "target": "integrēt", "tags": ["verbs", "C1"] },
-    { "source": "координировать", "target": "koordinēt", "tags": ["verbs", "C1"] },
-    { "source": "реализовывать", "target": "īstenot", "tags": ["verbs", "C1"] },
-    { "source": "делегировать", "target": "delegēt", "tags": ["verbs", "C1"] },
-    { "source": "управлять", "target": "pārvaldīt", "tags": ["verbs", "C1"] },
-    { "source": "мониторить", "target": "uzraudzīt", "tags": ["verbs", "C1"] },
-    { "source": "оптимизировать", "target": "optimizēt", "tags": ["verbs", "C1"] },
-    { "source": "преодолевать", "target": "pārvarēt", "tags": ["verbs", "C1"] },
-    { "source": "обеспечивать", "target": "nodrošināt", "tags": ["verbs", "C1"] },
-    { "source": "стремиться", "target": "censties", "tags": ["verbs", "C1"] },
-    { "source": "ценить", "target": "novērtēt", "tags": ["verbs", "C1"] },
-    { "source": "пересматривать", "target": "pārskatīt", "tags": ["verbs", "C1"] },
-    { "source": "подтверждать", "target": "apstiprināt", "tags": ["verbs", "C1"] },
-    { "source": "оспаривать", "target": "apstrīdēt", "tags": ["verbs", "C1"] },
-    { "source": "поддерживать", "target": "atbalstīt", "tags": ["verbs", "C1"] },
-    { "source": "объединять", "target": "apvienot", "tags": ["verbs", "C1"] },
-    { "source": "адаптировать", "target": "adaptēt", "tags": ["verbs", "C1"] },
-    { "source": "ускорять", "target": "paātrināt", "tags": ["verbs", "C1"] },
-    { "source": "предлагать", "target": "ierosināt", "tags": ["verbs", "C1"] },
-    { "source": "убеждать", "target": "pārliecināt", "tags": ["verbs", "C1"] },
-    { "source": "приобретать", "target": "iegūt", "tags": ["verbs", "C1"] },
-    { "source": "расширять", "target": "paplašināt", "tags": ["verbs", "C1"] }
+    {
+      "source": "абстрактный",
+      "target": "abstrakts",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "анализ",
+      "target": "analīze",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "синтез",
+      "target": "sintēze",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "гипотеза",
+      "target": "hipotēze",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "доказательство",
+      "target": "pierādījums",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "методология",
+      "target": "metodoloģija",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "исследование",
+      "target": "pētījums",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "теория",
+      "target": "teorija",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "концепция",
+      "target": "koncepcija",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "парадигма",
+      "target": "paradigma",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "дискурс",
+      "target": "diskurss",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "аргументация",
+      "target": "argumentācija",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "обоснование",
+      "target": "pamatojums",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "вывод",
+      "target": "secinājums",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "утверждение",
+      "target": "apgalvojums",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "опровержение",
+      "target": "atspēkojums",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "критерий",
+      "target": "kritērijs",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "наблюдение",
+      "target": "novērojums",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "интерпретация",
+      "target": "interpretācija",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "контекст",
+      "target": "konteksts",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "правовая норма",
+      "target": "likuma norma",
+      "tags": ["law", "C1"]
+    },
+    {
+      "source": "юрисдикция",
+      "target": "jurisdikcija",
+      "tags": ["law", "C1"]
+    },
+    {
+      "source": "суд",
+      "target": "tiesa",
+      "tags": ["law", "C1"]
+    },
+    {
+      "source": "приговор",
+      "target": "spriedums",
+      "tags": ["law", "C1"]
+    },
+    {
+      "source": "обвинение",
+      "target": "apsūdzība",
+      "tags": ["law", "C1"]
+    },
+    {
+      "source": "защита",
+      "target": "aizstāvība",
+      "tags": ["law", "C1"]
+    },
+    {
+      "source": "доказать",
+      "target": "pierādīt",
+      "tags": ["law", "C1"]
+    },
+    {
+      "source": "регулировать",
+      "target": "regulēt",
+      "tags": ["law", "C1"]
+    },
+    {
+      "source": "диагностировать",
+      "target": "diagnosticēt",
+      "tags": ["medicine", "C1"]
+    },
+    {
+      "source": "симптом",
+      "target": "simptoms",
+      "tags": ["medicine", "C1"]
+    },
+    {
+      "source": "диагноз",
+      "target": "diagnoze",
+      "tags": ["medicine", "C1"]
+    },
+    {
+      "source": "терапия",
+      "target": "terapija",
+      "tags": ["medicine", "C1"]
+    },
+    {
+      "source": "рецепт",
+      "target": "recepte",
+      "tags": ["medicine", "C1"]
+    },
+    {
+      "source": "клинический",
+      "target": "klīnisks",
+      "tags": ["medicine", "C1"]
+    },
+    {
+      "source": "профилактический",
+      "target": "profilaktisks",
+      "tags": ["medicine", "C1"]
+    },
+    {
+      "source": "хронический",
+      "target": "hronisks",
+      "tags": ["medicine", "C1"]
+    },
+    {
+      "source": "острый",
+      "target": "akūts",
+      "tags": ["medicine", "C1"]
+    },
+    {
+      "source": "иммунная система",
+      "target": "imūnsistēma",
+      "tags": ["medicine", "C1"]
+    },
+    {
+      "source": "выручка",
+      "target": "ieņēmumi",
+      "tags": ["business", "C1"]
+    },
+    {
+      "source": "прибыль",
+      "target": "peļņa",
+      "tags": ["business", "C1"]
+    },
+    {
+      "source": "расходы",
+      "target": "izdevumi",
+      "tags": ["business", "C1"]
+    },
+    {
+      "source": "доля рынка",
+      "target": "tirgus daļa",
+      "tags": ["business", "C1"]
+    },
+    {
+      "source": "конкуренция",
+      "target": "konkurence",
+      "tags": ["business", "C1"]
+    },
+    {
+      "source": "цепочка поставок",
+      "target": "piegādes ķēde",
+      "tags": ["business", "C1"]
+    },
+    {
+      "source": "расширение",
+      "target": "paplašināšanās",
+      "tags": ["business", "C1"]
+    },
+    {
+      "source": "предпринимательство",
+      "target": "uzņēmējdarbība",
+      "tags": ["business", "C1"]
+    },
+    {
+      "source": "корпоративный",
+      "target": "korporatīvs",
+      "tags": ["business", "C1"]
+    },
+    {
+      "source": "точный",
+      "target": "precīzs",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "исчерпывающий",
+      "target": "izsmeļošs",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "систематический",
+      "target": "sistemātisks",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "критический",
+      "target": "kritisks",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "аналитический",
+      "target": "analītisks",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "объективный",
+      "target": "objektīvs",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "субъективный",
+      "target": "subjektīvs",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "логичный",
+      "target": "loģisks",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "рациональный",
+      "target": "racionāls",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "иррациональный",
+      "target": "iracionāls",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "недооценивать",
+      "target": "nenovērtēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "переоценивать",
+      "target": "pārvērtēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "формулировать",
+      "target": "formulēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "анализировать",
+      "target": "analizēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "расследовать",
+      "target": "izzināt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "применять",
+      "target": "piemērot",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "оценивать",
+      "target": "izvērtēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "иллюстрировать",
+      "target": "ilustrēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "обосновывать",
+      "target": "pamatot",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "консолидировать",
+      "target": "nostiprināt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "преподаватель",
+      "target": "mācībspēks",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "диссертация",
+      "target": "disertācija",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "статья",
+      "target": "referāts",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "семинар",
+      "target": "seminārs",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "симпозиум",
+      "target": "simpozijs",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "лекция",
+      "target": "lekcija",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "бакалавр",
+      "target": "bakalaurs",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "магистр",
+      "target": "maģistrs",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "аспирант",
+      "target": "doktorants",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "профессор",
+      "target": "profesors",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "официальный",
+      "target": "formāls",
+      "tags": ["register", "C1"]
+    },
+    {
+      "source": "неофициальный",
+      "target": "neformāls",
+      "tags": ["register", "C1"]
+    },
+    {
+      "source": "профессиональный",
+      "target": "lietišķs",
+      "tags": ["register", "C1"]
+    },
+    {
+      "source": "вежливый",
+      "target": "pieklājīgs",
+      "tags": ["register", "C1"]
+    },
+    {
+      "source": "сдержанный",
+      "target": "atturīgs",
+      "tags": ["register", "C1"]
+    },
+    {
+      "source": "выражение",
+      "target": "izteiciens",
+      "tags": ["register", "C1"]
+    },
+    {
+      "source": "поговорка",
+      "target": "teiciens",
+      "tags": ["register", "C1"]
+    },
+    {
+      "source": "идиома",
+      "target": "idioma",
+      "tags": ["register", "C1"]
+    },
+    {
+      "source": "словарный запас",
+      "target": "vārdu krājums",
+      "tags": ["register", "C1"]
+    },
+    {
+      "source": "терминология",
+      "target": "terminoloģija",
+      "tags": ["register", "C1"]
+    },
+    {
+      "source": "инфраструктура",
+      "target": "infrastruktūra",
+      "tags": ["social", "C1"]
+    },
+    {
+      "source": "институт",
+      "target": "institūcija",
+      "tags": ["social", "C1"]
+    },
+    {
+      "source": "бюрократия",
+      "target": "birokrātija",
+      "tags": ["social", "C1"]
+    },
+    {
+      "source": "политика",
+      "target": "politika",
+      "tags": ["social", "C1"]
+    },
+    {
+      "source": "дипломатия",
+      "target": "diplomātija",
+      "tags": ["social", "C1"]
+    },
+    {
+      "source": "международный",
+      "target": "starptautisks",
+      "tags": ["social", "C1"]
+    },
+    {
+      "source": "правительство",
+      "target": "valdība",
+      "tags": ["social", "C1"]
+    },
+    {
+      "source": "референдум",
+      "target": "referendums",
+      "tags": ["social", "C1"]
+    },
+    {
+      "source": "демократия",
+      "target": "demokrātija",
+      "tags": ["social", "C1"]
+    },
+    {
+      "source": "неумолимый",
+      "target": "nepielūdzams",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "неизбежный",
+      "target": "nenovēršams",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "значительный",
+      "target": "nozīmīgs",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "существенный",
+      "target": "būtisks",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "подходящий",
+      "target": "atbilstošs",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "устойчивый",
+      "target": "ilgtspējīgs",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "сложный",
+      "target": "sarežģīts",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "своеобразный",
+      "target": "savdabīgs",
+      "tags": ["adjectives", "C1"]
+    },
+    {
+      "source": "последствия",
+      "target": "sekas",
+      "tags": ["social", "C1"]
+    },
+    {
+      "source": "сравнительный",
+      "target": "salīdzinošs",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "количественный",
+      "target": "kvantitatīvs",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "качественный",
+      "target": "kvalitatīvs",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "эмпирический",
+      "target": "empīrisks",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "теоретический",
+      "target": "teorētisks",
+      "tags": ["academic", "C1"]
+    },
+    {
+      "source": "интегрировать",
+      "target": "integrēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "координировать",
+      "target": "koordinēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "реализовывать",
+      "target": "īstenot",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "делегировать",
+      "target": "delegēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "управлять",
+      "target": "pārvaldīt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "мониторить",
+      "target": "uzraudzīt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "оптимизировать",
+      "target": "optimizēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "преодолевать",
+      "target": "pārvarēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "обеспечивать",
+      "target": "nodrošināt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "стремиться",
+      "target": "censties",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "ценить",
+      "target": "novērtēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "пересматривать",
+      "target": "pārskatīt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "подтверждать",
+      "target": "apstiprināt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "оспаривать",
+      "target": "apstrīdēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "поддерживать",
+      "target": "atbalstīt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "объединять",
+      "target": "apvienot",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "адаптировать",
+      "target": "adaptēt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "ускорять",
+      "target": "paātrināt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "предлагать",
+      "target": "ierosināt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "убеждать",
+      "target": "pārliecināt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "приобретать",
+      "target": "iegūt",
+      "tags": ["verbs", "C1"]
+    },
+    {
+      "source": "расширять",
+      "target": "paplašināt",
+      "tags": ["verbs", "C1"]
+    }
   ]
 }

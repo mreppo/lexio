@@ -6,124 +6,600 @@
   "targetCode": "en",
   "level": "C2",
   "words": [
-    { "source": "меланхолия", "target": "melancholy", "tags": ["emotions", "C2"] },
-    { "source": "ностальгия", "target": "nostalgia", "tags": ["emotions", "C2"] },
-    { "source": "эйфория", "target": "euphoria", "tags": ["emotions", "C2"] },
-    { "source": "апатия", "target": "apathy", "tags": ["emotions", "C2"] },
-    { "source": "амбивалентность", "target": "ambivalence", "tags": ["emotions", "C2"] },
-    { "source": "тревога", "target": "unease", "tags": ["emotions", "C2"] },
-    { "source": "наивность", "target": "naivety", "tags": ["emotions", "C2"] },
-    { "source": "ирония", "target": "irony", "tags": ["emotions", "C2"] },
-    { "source": "сарказм", "target": "sarcasm", "tags": ["emotions", "C2"] },
-    { "source": "презрение", "target": "contempt", "tags": ["emotions", "C2"] },
-    { "source": "честолюбие", "target": "ambition", "tags": ["emotions", "C2"] },
-    { "source": "невинность", "target": "innocence", "tags": ["emotions", "C2"] },
-    { "source": "восхищение", "target": "admiration", "tags": ["emotions", "C2"] },
-    { "source": "благоговение", "target": "awe", "tags": ["emotions", "C2"] },
-    { "source": "недоверие", "target": "distrust", "tags": ["emotions", "C2"] },
-    { "source": "энтузиазм", "target": "enthusiasm", "tags": ["emotions", "C2"] },
-    { "source": "отчуждение", "target": "alienation", "tags": ["emotions", "C2"] },
-    { "source": "эмпатия", "target": "empathy", "tags": ["emotions", "C2"] },
-    { "source": "смирение", "target": "humility", "tags": ["emotions", "C2"] },
-    { "source": "гордость", "target": "pride", "tags": ["emotions", "C2"] },
-    { "source": "коренное население", "target": "indigenous people", "tags": ["social", "C2"] },
-    { "source": "колониализм", "target": "colonialism", "tags": ["social", "C2"] },
-    { "source": "ассимиляция", "target": "assimilation", "tags": ["social", "C2"] },
-    { "source": "аккультурация", "target": "acculturation", "tags": ["social", "C2"] },
-    { "source": "этноцентризм", "target": "ethnocentrism", "tags": ["social", "C2"] },
-    { "source": "плюрализм", "target": "pluralism", "tags": ["social", "C2"] },
-    { "source": "гегемония", "target": "hegemony", "tags": ["social", "C2"] },
-    { "source": "дискриминация", "target": "discrimination", "tags": ["social", "C2"] },
-    { "source": "эмансипация", "target": "emancipation", "tags": ["social", "C2"] },
-    { "source": "сегрегация", "target": "segregation", "tags": ["social", "C2"] },
-    { "source": "афоризм", "target": "aphorism", "tags": ["literary", "C2"] },
-    { "source": "метафора", "target": "metaphor", "tags": ["literary", "C2"] },
-    { "source": "аллегория", "target": "allegory", "tags": ["literary", "C2"] },
-    { "source": "эпитет", "target": "epithet", "tags": ["literary", "C2"] },
-    { "source": "олицетворение", "target": "personification", "tags": ["literary", "C2"] },
-    { "source": "иронизировать", "target": "to ironise", "tags": ["literary", "C2"] },
-    { "source": "возникать", "target": "to emerge", "tags": ["literary", "C2"] },
-    { "source": "исчезать", "target": "to vanish", "tags": ["literary", "C2"] },
-    { "source": "мерцать", "target": "to glimmer", "tags": ["literary", "C2"] },
-    { "source": "дрожать", "target": "to tremble", "tags": ["literary", "C2"] },
-    { "source": "квинтэссенция", "target": "quintessence", "tags": ["academic", "C2"] },
-    { "source": "аксиома", "target": "axiom", "tags": ["academic", "C2"] },
-    { "source": "тавтология", "target": "tautology", "tags": ["academic", "C2"] },
-    { "source": "парадокс", "target": "paradox", "tags": ["academic", "C2"] },
-    { "source": "эпистемический", "target": "epistemic", "tags": ["academic", "C2"] },
-    { "source": "онтологический", "target": "ontological", "tags": ["academic", "C2"] },
-    { "source": "феноменология", "target": "phenomenology", "tags": ["academic", "C2"] },
-    { "source": "герменевтика", "target": "hermeneutics", "tags": ["academic", "C2"] },
-    { "source": "диалектика", "target": "dialectics", "tags": ["academic", "C2"] },
-    { "source": "прагматизм", "target": "pragmatism", "tags": ["academic", "C2"] },
-    { "source": "великодушный", "target": "magnanimous", "tags": ["archaic", "C2"] },
-    { "source": "великолепие", "target": "splendour", "tags": ["archaic", "C2"] },
-    { "source": "блеск", "target": "brilliance", "tags": ["archaic", "C2"] },
-    { "source": "осязаемый", "target": "tangible", "tags": ["archaic", "C2"] },
-    { "source": "неосязаемый", "target": "intangible", "tags": ["archaic", "C2"] },
-    { "source": "двусмысленный", "target": "ambiguous", "tags": ["register", "C2"] },
-    { "source": "нейтральный", "target": "neutral", "tags": ["register", "C2"] },
-    { "source": "тонкий", "target": "subtle", "tags": ["register", "C2"] },
-    { "source": "утончённый", "target": "refined", "tags": ["register", "C2"] },
-    { "source": "экспрессивный", "target": "expressive", "tags": ["register", "C2"] },
-    { "source": "суггестивный", "target": "suggestive", "tags": ["register", "C2"] },
-    { "source": "благозвучный", "target": "euphonious", "tags": ["register", "C2"] },
-    { "source": "ассонанс", "target": "assonance", "tags": ["register", "C2"] },
-    { "source": "аллитерация", "target": "alliteration", "tags": ["register", "C2"] },
-    { "source": "неоднозначность", "target": "ambiguity", "tags": ["register", "C2"] },
-    { "source": "художественный", "target": "artistic", "tags": ["register", "C2"] },
-    { "source": "эстетический", "target": "aesthetic", "tags": ["register", "C2"] },
-    { "source": "романтический", "target": "romantic", "tags": ["register", "C2"] },
-    { "source": "символический", "target": "symbolic", "tags": ["register", "C2"] },
-    { "source": "мистический", "target": "mystical", "tags": ["register", "C2"] },
-    { "source": "эклектический", "target": "eclectic", "tags": ["academic", "C2"] },
-    { "source": "синергия", "target": "synergy", "tags": ["academic", "C2"] },
-    { "source": "холистический", "target": "holistic", "tags": ["academic", "C2"] },
-    { "source": "редукционизм", "target": "reductionism", "tags": ["academic", "C2"] },
-    { "source": "детерминизм", "target": "determinism", "tags": ["academic", "C2"] },
-    { "source": "релятивизм", "target": "relativism", "tags": ["academic", "C2"] },
-    { "source": "нигилизм", "target": "nihilism", "tags": ["academic", "C2"] },
-    { "source": "скептицизм", "target": "scepticism", "tags": ["academic", "C2"] },
-    { "source": "эмпиризм", "target": "empiricism", "tags": ["academic", "C2"] },
-    { "source": "рационализм", "target": "rationalism", "tags": ["academic", "C2"] },
-    { "source": "в переносном смысле", "target": "figuratively", "tags": ["literary", "C2"] },
-    { "source": "в буквальном смысле", "target": "literally", "tags": ["literary", "C2"] },
-    { "source": "риторика", "target": "rhetoric", "tags": ["literary", "C2"] },
-    { "source": "полемика", "target": "polemic", "tags": ["literary", "C2"] },
-    { "source": "эпиграмма", "target": "epigram", "tags": ["literary", "C2"] },
-    { "source": "сатира", "target": "satire", "tags": ["literary", "C2"] },
-    { "source": "пародия", "target": "parody", "tags": ["literary", "C2"] },
-    { "source": "аналогия", "target": "analogy", "tags": ["literary", "C2"] },
-    { "source": "метонимия", "target": "metonymy", "tags": ["literary", "C2"] },
-    { "source": "экзистенциальный", "target": "existential", "tags": ["academic", "C2"] },
-    { "source": "трансцендентный", "target": "transcendent", "tags": ["academic", "C2"] },
-    { "source": "метафизический", "target": "metaphysical", "tags": ["academic", "C2"] },
-    { "source": "эпистемология", "target": "epistemology", "tags": ["academic", "C2"] },
-    { "source": "телеологический", "target": "teleological", "tags": ["academic", "C2"] },
-    { "source": "деонтологический", "target": "deontological", "tags": ["academic", "C2"] },
-    { "source": "консеквенциализм", "target": "consequentialism", "tags": ["academic", "C2"] },
-    { "source": "утилитаризм", "target": "utilitarianism", "tags": ["academic", "C2"] },
-    { "source": "морализаторство", "target": "moralism", "tags": ["academic", "C2"] },
-    { "source": "непоправимый", "target": "irremediable", "tags": ["archaic", "C2"] },
-    { "source": "необратимый", "target": "irreversible", "tags": ["archaic", "C2"] },
-    { "source": "печаль", "target": "sorrow", "tags": ["archaic", "C2"] },
-    { "source": "томиться", "target": "to languish", "tags": ["archaic", "C2"] },
-    { "source": "лелеять", "target": "to cherish", "tags": ["archaic", "C2"] },
-    { "source": "вздыхать", "target": "to sigh", "tags": ["archaic", "C2"] },
-    { "source": "прослеживать", "target": "to trace", "tags": ["verbs", "C2"] },
-    { "source": "вспоминать", "target": "to reminisce", "tags": ["verbs", "C2"] },
-    { "source": "воплощать", "target": "to embody", "tags": ["verbs", "C2"] },
-    { "source": "проявляться", "target": "to manifest", "tags": ["verbs", "C2"] },
-    { "source": "искоренять", "target": "to eradicate", "tags": ["verbs", "C2"] },
-    { "source": "укореняться", "target": "to take root", "tags": ["verbs", "C2"] },
-    { "source": "преодолевать", "target": "to transcend", "tags": ["verbs", "C2"] },
-    { "source": "нормативный", "target": "normative", "tags": ["academic", "C2"] },
-    { "source": "дескриптивный", "target": "descriptive", "tags": ["academic", "C2"] },
-    { "source": "прескриптивный", "target": "prescriptive", "tags": ["academic", "C2"] },
-    { "source": "символика", "target": "symbolism", "tags": ["literary", "C2"] },
-    { "source": "гипербола", "target": "hyperbole", "tags": ["literary", "C2"] },
-    { "source": "литота", "target": "litotes", "tags": ["literary", "C2"] },
-    { "source": "общественное мнение", "target": "public opinion", "tags": ["social", "C2"] },
-    { "source": "приток", "target": "influx", "tags": ["social", "C2"] }
+    {
+      "source": "меланхолия",
+      "target": "melancholy",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "ностальгия",
+      "target": "nostalgia",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "эйфория",
+      "target": "euphoria",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "апатия",
+      "target": "apathy",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "амбивалентность",
+      "target": "ambivalence",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "тревога",
+      "target": "unease",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "наивность",
+      "target": "naivety",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "ирония",
+      "target": "irony",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "сарказм",
+      "target": "sarcasm",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "презрение",
+      "target": "contempt",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "честолюбие",
+      "target": "ambition",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "невинность",
+      "target": "innocence",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "восхищение",
+      "target": "admiration",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "благоговение",
+      "target": "awe",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "недоверие",
+      "target": "distrust",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "энтузиазм",
+      "target": "enthusiasm",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "отчуждение",
+      "target": "alienation",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "эмпатия",
+      "target": "empathy",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "смирение",
+      "target": "humility",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "гордость",
+      "target": "pride",
+      "tags": ["emotions", "C2"]
+    },
+    {
+      "source": "коренное население",
+      "target": "indigenous people",
+      "tags": ["social", "C2"]
+    },
+    {
+      "source": "колониализм",
+      "target": "colonialism",
+      "tags": ["social", "C2"]
+    },
+    {
+      "source": "ассимиляция",
+      "target": "assimilation",
+      "tags": ["social", "C2"]
+    },
+    {
+      "source": "аккультурация",
+      "target": "acculturation",
+      "tags": ["social", "C2"]
+    },
+    {
+      "source": "этноцентризм",
+      "target": "ethnocentrism",
+      "tags": ["social", "C2"]
+    },
+    {
+      "source": "плюрализм",
+      "target": "pluralism",
+      "tags": ["social", "C2"]
+    },
+    {
+      "source": "гегемония",
+      "target": "hegemony",
+      "tags": ["social", "C2"]
+    },
+    {
+      "source": "дискриминация",
+      "target": "discrimination",
+      "tags": ["social", "C2"]
+    },
+    {
+      "source": "эмансипация",
+      "target": "emancipation",
+      "tags": ["social", "C2"]
+    },
+    {
+      "source": "сегрегация",
+      "target": "segregation",
+      "tags": ["social", "C2"]
+    },
+    {
+      "source": "афоризм",
+      "target": "aphorism",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "метафора",
+      "target": "metaphor",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "аллегория",
+      "target": "allegory",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "эпитет",
+      "target": "epithet",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "олицетворение",
+      "target": "personification",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "иронизировать",
+      "target": "to ironise",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "возникать",
+      "target": "to emerge",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "исчезать",
+      "target": "to vanish",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "мерцать",
+      "target": "to glimmer",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "дрожать",
+      "target": "to tremble",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "квинтэссенция",
+      "target": "quintessence",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "аксиома",
+      "target": "axiom",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "тавтология",
+      "target": "tautology",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "парадокс",
+      "target": "paradox",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "эпистемический",
+      "target": "epistemic",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "онтологический",
+      "target": "ontological",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "феноменология",
+      "target": "phenomenology",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "герменевтика",
+      "target": "hermeneutics",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "диалектика",
+      "target": "dialectics",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "прагматизм",
+      "target": "pragmatism",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "великодушный",
+      "target": "magnanimous",
+      "tags": ["archaic", "C2"]
+    },
+    {
+      "source": "великолепие",
+      "target": "splendour",
+      "tags": ["archaic", "C2"]
+    },
+    {
+      "source": "блеск",
+      "target": "brilliance",
+      "tags": ["archaic", "C2"]
+    },
+    {
+      "source": "осязаемый",
+      "target": "tangible",
+      "tags": ["archaic", "C2"]
+    },
+    {
+      "source": "неосязаемый",
+      "target": "intangible",
+      "tags": ["archaic", "C2"]
+    },
+    {
+      "source": "двусмысленный",
+      "target": "ambiguous",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "нейтральный",
+      "target": "neutral",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "тонкий",
+      "target": "subtle",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "утончённый",
+      "target": "refined",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "экспрессивный",
+      "target": "expressive",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "суггестивный",
+      "target": "suggestive",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "благозвучный",
+      "target": "euphonious",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "ассонанс",
+      "target": "assonance",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "аллитерация",
+      "target": "alliteration",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "неоднозначность",
+      "target": "ambiguity",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "художественный",
+      "target": "artistic",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "эстетический",
+      "target": "aesthetic",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "романтический",
+      "target": "romantic",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "символический",
+      "target": "symbolic",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "мистический",
+      "target": "mystical",
+      "tags": ["register", "C2"]
+    },
+    {
+      "source": "эклектический",
+      "target": "eclectic",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "синергия",
+      "target": "synergy",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "холистический",
+      "target": "holistic",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "редукционизм",
+      "target": "reductionism",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "детерминизм",
+      "target": "determinism",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "релятивизм",
+      "target": "relativism",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "нигилизм",
+      "target": "nihilism",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "скептицизм",
+      "target": "scepticism",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "эмпиризм",
+      "target": "empiricism",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "рационализм",
+      "target": "rationalism",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "в переносном смысле",
+      "target": "figuratively",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "в буквальном смысле",
+      "target": "literally",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "риторика",
+      "target": "rhetoric",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "полемика",
+      "target": "polemic",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "эпиграмма",
+      "target": "epigram",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "сатира",
+      "target": "satire",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "пародия",
+      "target": "parody",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "аналогия",
+      "target": "analogy",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "метонимия",
+      "target": "metonymy",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "экзистенциальный",
+      "target": "existential",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "трансцендентный",
+      "target": "transcendent",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "метафизический",
+      "target": "metaphysical",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "эпистемология",
+      "target": "epistemology",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "телеологический",
+      "target": "teleological",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "деонтологический",
+      "target": "deontological",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "консеквенциализм",
+      "target": "consequentialism",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "утилитаризм",
+      "target": "utilitarianism",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "морализаторство",
+      "target": "moralism",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "непоправимый",
+      "target": "irremediable",
+      "tags": ["archaic", "C2"]
+    },
+    {
+      "source": "необратимый",
+      "target": "irreversible",
+      "tags": ["archaic", "C2"]
+    },
+    {
+      "source": "печаль",
+      "target": "sorrow",
+      "tags": ["archaic", "C2"]
+    },
+    {
+      "source": "томиться",
+      "target": "to languish",
+      "tags": ["archaic", "C2"]
+    },
+    {
+      "source": "лелеять",
+      "target": "to cherish",
+      "tags": ["archaic", "C2"]
+    },
+    {
+      "source": "вздыхать",
+      "target": "to sigh",
+      "tags": ["archaic", "C2"]
+    },
+    {
+      "source": "прослеживать",
+      "target": "to trace",
+      "tags": ["verbs", "C2"]
+    },
+    {
+      "source": "вспоминать",
+      "target": "to reminisce",
+      "tags": ["verbs", "C2"]
+    },
+    {
+      "source": "воплощать",
+      "target": "to embody",
+      "tags": ["verbs", "C2"]
+    },
+    {
+      "source": "проявляться",
+      "target": "to manifest",
+      "tags": ["verbs", "C2"]
+    },
+    {
+      "source": "искоренять",
+      "target": "to eradicate",
+      "tags": ["verbs", "C2"]
+    },
+    {
+      "source": "укореняться",
+      "target": "to take root",
+      "tags": ["verbs", "C2"]
+    },
+    {
+      "source": "преодолевать",
+      "target": "to transcend",
+      "tags": ["verbs", "C2"]
+    },
+    {
+      "source": "нормативный",
+      "target": "normative",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "дескриптивный",
+      "target": "descriptive",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "прескриптивный",
+      "target": "prescriptive",
+      "tags": ["academic", "C2"]
+    },
+    {
+      "source": "символика",
+      "target": "symbolism",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "гипербола",
+      "target": "hyperbole",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "литота",
+      "target": "litotes",
+      "tags": ["literary", "C2"]
+    },
+    {
+      "source": "общественное мнение",
+      "target": "public opinion",
+      "tags": ["social", "C2"]
+    },
+    {
+      "source": "приток",
+      "target": "influx",
+      "tags": ["social", "C2"]
+    }
   ]
 }

@@ -6,150 +6,720 @@
   "targetCode": "en",
   "level": "A2",
   "words": [
-    { "source": "iepirkšanās", "target": "shopping", "tags": ["shopping", "A2"] },
-    { "source": "veikals", "target": "store", "tags": ["shopping", "A2"] },
-    { "source": "cena", "target": "price", "tags": ["shopping", "A2"] },
-    { "source": "lēts", "target": "cheap", "tags": ["shopping", "A2"] },
-    { "source": "dārgs", "target": "expensive", "tags": ["shopping", "A2"] },
-    { "source": "nauda", "target": "money", "tags": ["shopping", "A2"] },
-    { "source": "rēķins", "target": "receipt", "tags": ["shopping", "A2"] },
-    { "source": "atlaides", "target": "discount", "tags": ["shopping", "A2"] },
-    { "source": "izmērs", "target": "size", "tags": ["shopping", "A2"] },
-    { "source": "kaste", "target": "box", "tags": ["shopping", "A2"] },
-    { "source": "maiss", "target": "bag", "tags": ["shopping", "A2"] },
-    { "source": "kārta", "target": "queue", "tags": ["shopping", "A2"] },
-    { "source": "ceļš", "target": "road", "tags": ["directions", "A2"] },
-    { "source": "stūris", "target": "corner", "tags": ["directions", "A2"] },
-    { "source": "krusts", "target": "crossroads", "tags": ["directions", "A2"] },
-    { "source": "tilts", "target": "bridge", "tags": ["directions", "A2"] },
-    { "source": "stacija", "target": "station", "tags": ["directions", "A2"] },
-    { "source": "apstādīšanās vieta", "target": "stop", "tags": ["directions", "A2"] },
-    { "source": "tuvumā", "target": "nearby", "tags": ["directions", "A2"] },
-    { "source": "tālu", "target": "far", "tags": ["directions", "A2"] },
-    { "source": "aiz", "target": "behind", "tags": ["directions", "A2"] },
-    { "source": "priekšā", "target": "in front of", "tags": ["directions", "A2"] },
-    { "source": "blakus", "target": "next to", "tags": ["directions", "A2"] },
-    { "source": "laika apstākļi", "target": "weather", "tags": ["weather", "A2"] },
-    { "source": "saulains", "target": "sunny", "tags": ["weather", "A2"] },
-    { "source": "mākoņains", "target": "cloudy", "tags": ["weather", "A2"] },
-    { "source": "lietains", "target": "rainy", "tags": ["weather", "A2"] },
-    { "source": "vējaini", "target": "windy", "tags": ["weather", "A2"] },
-    { "source": "sniegains", "target": "snowy", "tags": ["weather", "A2"] },
-    { "source": "silts", "target": "warm", "tags": ["weather", "A2"] },
-    { "source": "auksts", "target": "cold", "tags": ["weather", "A2"] },
-    { "source": "pērkons", "target": "thunder", "tags": ["weather", "A2"] },
-    { "source": "zibens", "target": "lightning", "tags": ["weather", "A2"] },
-    { "source": "vāji", "target": "ill", "tags": ["health", "A2"] },
-    { "source": "galvassāpes", "target": "headache", "tags": ["health", "A2"] },
-    { "source": "drudzis", "target": "fever", "tags": ["health", "A2"] },
-    { "source": "klepus", "target": "cough", "tags": ["health", "A2"] },
-    { "source": "iesnas", "target": "cold", "tags": ["health", "A2"] },
-    { "source": "sāpes", "target": "pain", "tags": ["health", "A2"] },
-    { "source": "ārsts", "target": "doctor", "tags": ["health", "A2"] },
-    { "source": "zāles", "target": "medicine", "tags": ["health", "A2"] },
-    { "source": "slimnīca", "target": "hospital", "tags": ["health", "A2"] },
-    { "source": "aptieka", "target": "pharmacy", "tags": ["health", "A2"] },
-    { "source": "veselīgs", "target": "healthy", "tags": ["health", "A2"] },
-    { "source": "sportot", "target": "to exercise", "tags": ["hobbies", "A2"] },
-    { "source": "lasīt", "target": "to read", "tags": ["hobbies", "A2"] },
-    { "source": "klausīties mūziku", "target": "to listen to music", "tags": ["hobbies", "A2"] },
-    { "source": "skatīties televizoru", "target": "to watch TV", "tags": ["hobbies", "A2"] },
-    { "source": "ceļot", "target": "to travel", "tags": ["hobbies", "A2"] },
-    { "source": "gatavot", "target": "to cook", "tags": ["hobbies", "A2"] },
-    { "source": "zīmēt", "target": "to draw", "tags": ["hobbies", "A2"] },
-    { "source": "fotografēt", "target": "to photograph", "tags": ["hobbies", "A2"] },
-    { "source": "spēlēt", "target": "to play", "tags": ["hobbies", "A2"] },
-    { "source": "dejot", "target": "to dance", "tags": ["hobbies", "A2"] },
-    { "source": "dziedāt", "target": "to sing", "tags": ["hobbies", "A2"] },
-    { "source": "peldēties", "target": "to swim", "tags": ["hobbies", "A2"] },
-    { "source": "braukt ar velosipēdu", "target": "to cycle", "tags": ["hobbies", "A2"] },
-    { "source": "interesants", "target": "interesting", "tags": ["adjectives", "A2"] },
-    { "source": "garlaicīgs", "target": "boring", "tags": ["adjectives", "A2"] },
-    { "source": "jautrs", "target": "fun", "tags": ["adjectives", "A2"] },
-    { "source": "aizraujoši", "target": "exciting", "tags": ["adjectives", "A2"] },
-    { "source": "grūts", "target": "difficult", "tags": ["adjectives", "A2"] },
-    { "source": "viegls", "target": "easy", "tags": ["adjectives", "A2"] },
-    { "source": "dārgais", "target": "dear", "tags": ["adjectives", "A2"] },
-    { "source": "draudzīgs", "target": "friendly", "tags": ["adjectives", "A2"] },
-    { "source": "gudrs", "target": "clever", "tags": ["adjectives", "A2"] },
-    { "source": "muļķīgs", "target": "silly", "tags": ["adjectives", "A2"] },
-    { "source": "laipns", "target": "kind", "tags": ["adjectives", "A2"] },
-    { "source": "uzticams", "target": "honest", "tags": ["adjectives", "A2"] },
-    { "source": "laimīgs", "target": "happy", "tags": ["adjectives", "A2"] },
-    { "source": "skumīgs", "target": "sad", "tags": ["adjectives", "A2"] },
-    { "source": "noguris", "target": "tired", "tags": ["adjectives", "A2"] },
-    { "source": "izsalcis", "target": "hungry", "tags": ["adjectives", "A2"] },
-    { "source": "izslāpis", "target": "thirsty", "tags": ["adjectives", "A2"] },
-    { "source": "dikts", "target": "scared", "tags": ["adjectives", "A2"] },
-    { "source": "pārsteigts", "target": "surprised", "tags": ["adjectives", "A2"] },
-    { "source": "apģērbs", "target": "clothes", "tags": ["clothing", "A2"] },
-    { "source": "krekls", "target": "shirt", "tags": ["clothing", "A2"] },
-    { "source": "bikses", "target": "trousers", "tags": ["clothing", "A2"] },
-    { "source": "kleita", "target": "dress", "tags": ["clothing", "A2"] },
-    { "source": "jaka", "target": "jacket", "tags": ["clothing", "A2"] },
-    { "source": "kurpes", "target": "shoes", "tags": ["clothing", "A2"] },
-    { "source": "cepure", "target": "hat", "tags": ["clothing", "A2"] },
-    { "source": "zeķes", "target": "socks", "tags": ["clothing", "A2"] },
-    { "source": "džemperis", "target": "sweater", "tags": ["clothing", "A2"] },
-    { "source": "mētelis", "target": "coat", "tags": ["clothing", "A2"] },
-    { "source": "kafejnīca", "target": "café", "tags": ["food-drink", "A2"] },
-    { "source": "ēdienkarte", "target": "menu", "tags": ["food-drink", "A2"] },
-    { "source": "galdiņš", "target": "table", "tags": ["food-drink", "A2"] },
-    { "source": "pasūtīt", "target": "to order", "tags": ["food-drink", "A2"] },
-    { "source": "vārīts", "target": "boiled", "tags": ["food-drink", "A2"] },
-    { "source": "cepts", "target": "fried", "tags": ["food-drink", "A2"] },
-    { "source": "svaigs", "target": "fresh", "tags": ["food-drink", "A2"] },
-    { "source": "salds", "target": "sweet", "tags": ["food-drink", "A2"] },
-    { "source": "skābs", "target": "sour", "tags": ["food-drink", "A2"] },
-    { "source": "sāļš", "target": "salty", "tags": ["food-drink", "A2"] },
-    { "source": "asa", "target": "spicy", "tags": ["food-drink", "A2"] },
-    { "source": "sula", "target": "juice", "tags": ["food-drink", "A2"] },
-    { "source": "gaļas ēdiens", "target": "main course", "tags": ["food-drink", "A2"] },
-    { "source": "deserts", "target": "dessert", "tags": ["food-drink", "A2"] },
-    { "source": "stundu", "target": "hour", "tags": ["time", "A2"] },
-    { "source": "agrāk", "target": "earlier", "tags": ["time", "A2"] },
-    { "source": "vēlāk", "target": "later", "tags": ["time", "A2"] },
-    { "source": "bieži", "target": "often", "tags": ["time", "A2"] },
-    { "source": "dažreiz", "target": "sometimes", "tags": ["time", "A2"] },
-    { "source": "nekad", "target": "never", "tags": ["time", "A2"] },
-    { "source": "vienmēr", "target": "always", "tags": ["time", "A2"] },
-    { "source": "tūlīt", "target": "soon", "tags": ["time", "A2"] },
-    { "source": "vēl", "target": "still", "tags": ["time", "A2"] },
-    { "source": "jau", "target": "already", "tags": ["time", "A2"] },
-    { "source": "kaimiņš", "target": "neighbour", "tags": ["social", "A2"] },
-    { "source": "klasesbiedrs", "target": "classmate", "tags": ["social", "A2"] },
-    { "source": "paziņa", "target": "acquaintance", "tags": ["social", "A2"] },
-    { "source": "kolēģis", "target": "colleague", "tags": ["social", "A2"] },
-    { "source": "skolotājs", "target": "teacher", "tags": ["social", "A2"] },
-    { "source": "students", "target": "student", "tags": ["social", "A2"] },
-    { "source": "ierēdnis", "target": "official", "tags": ["social", "A2"] },
-    { "source": "svešvaloda", "target": "foreign language", "tags": ["social", "A2"] },
-    { "source": "vārds", "target": "word", "tags": ["social", "A2"] },
-    { "source": "valoda", "target": "language", "tags": ["social", "A2"] },
-    { "source": "skaits", "target": "number", "tags": ["social", "A2"] },
-    { "source": "vēstule", "target": "letter", "tags": ["social", "A2"] },
-    { "source": "adrese", "target": "address", "tags": ["social", "A2"] },
-    { "source": "tālrunis", "target": "telephone", "tags": ["objects", "A2"] },
-    { "source": "dators", "target": "computer", "tags": ["objects", "A2"] },
-    { "source": "pulkstenis", "target": "clock", "tags": ["objects", "A2"] },
-    { "source": "bildē", "target": "picture", "tags": ["objects", "A2"] },
-    { "source": "mūzika", "target": "music", "tags": ["objects", "A2"] },
-    { "source": "filma", "target": "film", "tags": ["objects", "A2"] },
-    { "source": "krāsas", "target": "colours", "tags": ["objects", "A2"] },
-    { "source": "braukt", "target": "to travel", "tags": ["verbs", "A2"] },
-    { "source": "strādāt", "target": "to work", "tags": ["verbs", "A2"] },
-    { "source": "mācīties", "target": "to study", "tags": ["verbs", "A2"] },
-    { "source": "prasīt", "target": "to ask", "tags": ["verbs", "A2"] },
-    { "source": "atbildēt", "target": "to answer", "tags": ["verbs", "A2"] },
-    { "source": "solīt", "target": "to promise", "tags": ["verbs", "A2"] },
-    { "source": "aizmirst", "target": "to forget", "tags": ["verbs", "A2"] },
-    { "source": "atcerēties", "target": "to remember", "tags": ["verbs", "A2"] },
-    { "source": "gaidīt", "target": "to wait", "tags": ["verbs", "A2"] },
-    { "source": "atrast", "target": "to find", "tags": ["verbs", "A2"] },
-    { "source": "pazaudēt", "target": "to lose", "tags": ["verbs", "A2"] },
-    { "source": "mainīt", "target": "to change", "tags": ["verbs", "A2"] },
-    { "source": "atgriezties", "target": "to return", "tags": ["verbs", "A2"] },
-    { "source": "sākt", "target": "to start", "tags": ["verbs", "A2"] },
-    { "source": "beigt", "target": "to finish", "tags": ["verbs", "A2"] }
+    {
+      "source": "iepirkšanās",
+      "target": "shopping",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "veikals",
+      "target": "store",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "cena",
+      "target": "price",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "lēts",
+      "target": "cheap",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "dārgs",
+      "target": "expensive",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "rēķins",
+      "target": "receipt",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "atlaides",
+      "target": "discount",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "izmērs",
+      "target": "size",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "kaste",
+      "target": "box",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "maiss",
+      "target": "bag",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "kārta",
+      "target": "queue",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "ceļš",
+      "target": "road",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "stūris",
+      "target": "corner",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "krusts",
+      "target": "crossroads",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "tilts",
+      "target": "bridge",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "stacija",
+      "target": "station",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "apstādīšanās vieta",
+      "target": "stop",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "tuvumā",
+      "target": "nearby",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "tālu",
+      "target": "far",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "aiz",
+      "target": "behind",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "priekšā",
+      "target": "in front of",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "blakus",
+      "target": "next to",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "laika apstākļi",
+      "target": "weather",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "saulains",
+      "target": "sunny",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "mākoņains",
+      "target": "cloudy",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "lietains",
+      "target": "rainy",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "vējaini",
+      "target": "windy",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "sniegains",
+      "target": "snowy",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "silts",
+      "target": "warm",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "pērkons",
+      "target": "thunder",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "zibens",
+      "target": "lightning",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "vāji",
+      "target": "ill",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "galvassāpes",
+      "target": "headache",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "drudzis",
+      "target": "fever",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "klepus",
+      "target": "cough",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "iesnas",
+      "target": "cold",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "sāpes",
+      "target": "pain",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "ārsts",
+      "target": "doctor",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "zāles",
+      "target": "medicine",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "slimnīca",
+      "target": "hospital",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "aptieka",
+      "target": "pharmacy",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "veselīgs",
+      "target": "healthy",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "sportot",
+      "target": "to exercise",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "lasīt",
+      "target": "to read",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "klausīties mūziku",
+      "target": "to listen to music",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "skatīties televizoru",
+      "target": "to watch TV",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "ceļot",
+      "target": "to travel",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "gatavot",
+      "target": "to cook",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "zīmēt",
+      "target": "to draw",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "fotografēt",
+      "target": "to photograph",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "spēlēt",
+      "target": "to play",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "dejot",
+      "target": "to dance",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "dziedāt",
+      "target": "to sing",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "peldēties",
+      "target": "to swim",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "braukt ar velosipēdu",
+      "target": "to cycle",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "interesants",
+      "target": "interesting",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "garlaicīgs",
+      "target": "boring",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "jautrs",
+      "target": "fun",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "aizraujoši",
+      "target": "exciting",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "grūts",
+      "target": "difficult",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "viegls",
+      "target": "easy",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "dārgais",
+      "target": "dear",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "draudzīgs",
+      "target": "friendly",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "gudrs",
+      "target": "clever",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "muļķīgs",
+      "target": "silly",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "laipns",
+      "target": "kind",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "uzticams",
+      "target": "honest",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "laimīgs",
+      "target": "happy",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "skumīgs",
+      "target": "sad",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "noguris",
+      "target": "tired",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "izsalcis",
+      "target": "hungry",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "izslāpis",
+      "target": "thirsty",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "dikts",
+      "target": "scared",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "pārsteigts",
+      "target": "surprised",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "apģērbs",
+      "target": "clothes",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "krekls",
+      "target": "shirt",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "bikses",
+      "target": "trousers",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "kleita",
+      "target": "dress",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "jaka",
+      "target": "jacket",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "kurpes",
+      "target": "shoes",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "cepure",
+      "target": "hat",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "zeķes",
+      "target": "socks",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "džemperis",
+      "target": "sweater",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "mētelis",
+      "target": "coat",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "kafejnīca",
+      "target": "café",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "ēdienkarte",
+      "target": "menu",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "galdiņš",
+      "target": "table",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "pasūtīt",
+      "target": "to order",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "vārīts",
+      "target": "boiled",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "cepts",
+      "target": "fried",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "svaigs",
+      "target": "fresh",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "salds",
+      "target": "sweet",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "skābs",
+      "target": "sour",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "sāļš",
+      "target": "salty",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "asa",
+      "target": "spicy",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "sula",
+      "target": "juice",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "gaļas ēdiens",
+      "target": "main course",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "deserts",
+      "target": "dessert",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "stundu",
+      "target": "hour",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "agrāk",
+      "target": "earlier",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "vēlāk",
+      "target": "later",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "bieži",
+      "target": "often",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "dažreiz",
+      "target": "sometimes",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "nekad",
+      "target": "never",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "vienmēr",
+      "target": "always",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "tūlīt",
+      "target": "soon",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "vēl",
+      "target": "still",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "jau",
+      "target": "already",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "kaimiņš",
+      "target": "neighbour",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "klasesbiedrs",
+      "target": "classmate",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "paziņa",
+      "target": "acquaintance",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "kolēģis",
+      "target": "colleague",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "skolotājs",
+      "target": "teacher",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "students",
+      "target": "student",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "ierēdnis",
+      "target": "official",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "svešvaloda",
+      "target": "foreign language",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "vārds",
+      "target": "word",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "valoda",
+      "target": "language",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "skaits",
+      "target": "number",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "vēstule",
+      "target": "letter",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "adrese",
+      "target": "address",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "tālrunis",
+      "target": "telephone",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "dators",
+      "target": "computer",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "pulkstenis",
+      "target": "clock",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "bildē",
+      "target": "picture",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "mūzika",
+      "target": "music",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "filma",
+      "target": "film",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "krāsas",
+      "target": "colours",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "braukt",
+      "target": "to travel",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "strādāt",
+      "target": "to work",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "mācīties",
+      "target": "to study",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "prasīt",
+      "target": "to ask",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "atbildēt",
+      "target": "to answer",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "solīt",
+      "target": "to promise",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "aizmirst",
+      "target": "to forget",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "atcerēties",
+      "target": "to remember",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "gaidīt",
+      "target": "to wait",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "atrast",
+      "target": "to find",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "pazaudēt",
+      "target": "to lose",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "mainīt",
+      "target": "to change",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "atgriezties",
+      "target": "to return",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "sākt",
+      "target": "to start",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "beigt",
+      "target": "to finish",
+      "tags": ["verbs", "A2"]
+    }
   ]
 }

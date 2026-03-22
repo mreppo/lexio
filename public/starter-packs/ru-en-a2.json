@@ -6,145 +6,695 @@
   "targetCode": "en",
   "level": "A2",
   "words": [
-    { "source": "покупки", "target": "shopping", "tags": ["shopping", "A2"] },
-    { "source": "магазин", "target": "store", "tags": ["shopping", "A2"] },
-    { "source": "цена", "target": "price", "tags": ["shopping", "A2"] },
-    { "source": "дешёвый", "target": "cheap", "tags": ["shopping", "A2"] },
-    { "source": "дорогой", "target": "expensive", "tags": ["shopping", "A2"] },
-    { "source": "деньги", "target": "money", "tags": ["shopping", "A2"] },
-    { "source": "чек", "target": "receipt", "tags": ["shopping", "A2"] },
-    { "source": "скидка", "target": "discount", "tags": ["shopping", "A2"] },
-    { "source": "размер", "target": "size", "tags": ["shopping", "A2"] },
-    { "source": "коробка", "target": "box", "tags": ["shopping", "A2"] },
-    { "source": "пакет", "target": "bag", "tags": ["shopping", "A2"] },
-    { "source": "очередь", "target": "queue", "tags": ["shopping", "A2"] },
-    { "source": "дорога", "target": "road", "tags": ["directions", "A2"] },
-    { "source": "угол", "target": "corner", "tags": ["directions", "A2"] },
-    { "source": "перекрёсток", "target": "crossroads", "tags": ["directions", "A2"] },
-    { "source": "мост", "target": "bridge", "tags": ["directions", "A2"] },
-    { "source": "вокзал", "target": "station", "tags": ["directions", "A2"] },
-    { "source": "остановка", "target": "stop", "tags": ["directions", "A2"] },
-    { "source": "рядом", "target": "nearby", "tags": ["directions", "A2"] },
-    { "source": "далеко", "target": "far", "tags": ["directions", "A2"] },
-    { "source": "за", "target": "behind", "tags": ["directions", "A2"] },
-    { "source": "перед", "target": "in front of", "tags": ["directions", "A2"] },
-    { "source": "рядом с", "target": "next to", "tags": ["directions", "A2"] },
-    { "source": "погода", "target": "weather", "tags": ["weather", "A2"] },
-    { "source": "солнечный", "target": "sunny", "tags": ["weather", "A2"] },
-    { "source": "облачный", "target": "cloudy", "tags": ["weather", "A2"] },
-    { "source": "дождливый", "target": "rainy", "tags": ["weather", "A2"] },
-    { "source": "ветреный", "target": "windy", "tags": ["weather", "A2"] },
-    { "source": "снежный", "target": "snowy", "tags": ["weather", "A2"] },
-    { "source": "тёплый", "target": "warm", "tags": ["weather", "A2"] },
-    { "source": "холодный", "target": "cold", "tags": ["weather", "A2"] },
-    { "source": "гром", "target": "thunder", "tags": ["weather", "A2"] },
-    { "source": "молния", "target": "lightning", "tags": ["weather", "A2"] },
-    { "source": "больной", "target": "ill", "tags": ["health", "A2"] },
-    { "source": "головная боль", "target": "headache", "tags": ["health", "A2"] },
-    { "source": "жар", "target": "fever", "tags": ["health", "A2"] },
-    { "source": "кашель", "target": "cough", "tags": ["health", "A2"] },
-    { "source": "насморк", "target": "cold", "tags": ["health", "A2"] },
-    { "source": "боль", "target": "pain", "tags": ["health", "A2"] },
-    { "source": "врач", "target": "doctor", "tags": ["health", "A2"] },
-    { "source": "лекарство", "target": "medicine", "tags": ["health", "A2"] },
-    { "source": "больница", "target": "hospital", "tags": ["health", "A2"] },
-    { "source": "аптека", "target": "pharmacy", "tags": ["health", "A2"] },
-    { "source": "здоровый", "target": "healthy", "tags": ["health", "A2"] },
-    { "source": "заниматься спортом", "target": "to exercise", "tags": ["hobbies", "A2"] },
-    { "source": "читать", "target": "to read", "tags": ["hobbies", "A2"] },
-    { "source": "слушать музыку", "target": "to listen to music", "tags": ["hobbies", "A2"] },
-    { "source": "смотреть телевизор", "target": "to watch TV", "tags": ["hobbies", "A2"] },
-    { "source": "путешествовать", "target": "to travel", "tags": ["hobbies", "A2"] },
-    { "source": "готовить", "target": "to cook", "tags": ["hobbies", "A2"] },
-    { "source": "рисовать", "target": "to draw", "tags": ["hobbies", "A2"] },
-    { "source": "фотографировать", "target": "to photograph", "tags": ["hobbies", "A2"] },
-    { "source": "играть", "target": "to play", "tags": ["hobbies", "A2"] },
-    { "source": "танцевать", "target": "to dance", "tags": ["hobbies", "A2"] },
-    { "source": "петь", "target": "to sing", "tags": ["hobbies", "A2"] },
-    { "source": "плавать", "target": "to swim", "tags": ["hobbies", "A2"] },
-    { "source": "ездить на велосипеде", "target": "to cycle", "tags": ["hobbies", "A2"] },
-    { "source": "интересный", "target": "interesting", "tags": ["adjectives", "A2"] },
-    { "source": "скучный", "target": "boring", "tags": ["adjectives", "A2"] },
-    { "source": "весёлый", "target": "fun", "tags": ["adjectives", "A2"] },
-    { "source": "захватывающий", "target": "exciting", "tags": ["adjectives", "A2"] },
-    { "source": "трудный", "target": "difficult", "tags": ["adjectives", "A2"] },
-    { "source": "лёгкий", "target": "easy", "tags": ["adjectives", "A2"] },
-    { "source": "дружелюбный", "target": "friendly", "tags": ["adjectives", "A2"] },
-    { "source": "умный", "target": "clever", "tags": ["adjectives", "A2"] },
-    { "source": "глупый", "target": "silly", "tags": ["adjectives", "A2"] },
-    { "source": "добрый", "target": "kind", "tags": ["adjectives", "A2"] },
-    { "source": "честный", "target": "honest", "tags": ["adjectives", "A2"] },
-    { "source": "счастливый", "target": "happy", "tags": ["adjectives", "A2"] },
-    { "source": "грустный", "target": "sad", "tags": ["adjectives", "A2"] },
-    { "source": "усталый", "target": "tired", "tags": ["adjectives", "A2"] },
-    { "source": "голодный", "target": "hungry", "tags": ["adjectives", "A2"] },
-    { "source": "жаждущий", "target": "thirsty", "tags": ["adjectives", "A2"] },
-    { "source": "испуганный", "target": "scared", "tags": ["adjectives", "A2"] },
-    { "source": "удивлённый", "target": "surprised", "tags": ["adjectives", "A2"] },
-    { "source": "одежда", "target": "clothes", "tags": ["clothing", "A2"] },
-    { "source": "рубашка", "target": "shirt", "tags": ["clothing", "A2"] },
-    { "source": "брюки", "target": "trousers", "tags": ["clothing", "A2"] },
-    { "source": "платье", "target": "dress", "tags": ["clothing", "A2"] },
-    { "source": "куртка", "target": "jacket", "tags": ["clothing", "A2"] },
-    { "source": "туфли", "target": "shoes", "tags": ["clothing", "A2"] },
-    { "source": "шляпа", "target": "hat", "tags": ["clothing", "A2"] },
-    { "source": "носки", "target": "socks", "tags": ["clothing", "A2"] },
-    { "source": "свитер", "target": "sweater", "tags": ["clothing", "A2"] },
-    { "source": "пальто", "target": "coat", "tags": ["clothing", "A2"] },
-    { "source": "кафе", "target": "café", "tags": ["food-drink", "A2"] },
-    { "source": "меню", "target": "menu", "tags": ["food-drink", "A2"] },
-    { "source": "заказать", "target": "to order", "tags": ["food-drink", "A2"] },
-    { "source": "варёный", "target": "boiled", "tags": ["food-drink", "A2"] },
-    { "source": "жареный", "target": "fried", "tags": ["food-drink", "A2"] },
-    { "source": "свежий", "target": "fresh", "tags": ["food-drink", "A2"] },
-    { "source": "сладкий", "target": "sweet", "tags": ["food-drink", "A2"] },
-    { "source": "кислый", "target": "sour", "tags": ["food-drink", "A2"] },
-    { "source": "солёный", "target": "salty", "tags": ["food-drink", "A2"] },
-    { "source": "острый", "target": "spicy", "tags": ["food-drink", "A2"] },
-    { "source": "сок", "target": "juice", "tags": ["food-drink", "A2"] },
-    { "source": "основное блюдо", "target": "main course", "tags": ["food-drink", "A2"] },
-    { "source": "десерт", "target": "dessert", "tags": ["food-drink", "A2"] },
-    { "source": "раньше", "target": "earlier", "tags": ["time", "A2"] },
-    { "source": "позже", "target": "later", "tags": ["time", "A2"] },
-    { "source": "часто", "target": "often", "tags": ["time", "A2"] },
-    { "source": "иногда", "target": "sometimes", "tags": ["time", "A2"] },
-    { "source": "никогда", "target": "never", "tags": ["time", "A2"] },
-    { "source": "всегда", "target": "always", "tags": ["time", "A2"] },
-    { "source": "скоро", "target": "soon", "tags": ["time", "A2"] },
-    { "source": "ещё", "target": "still", "tags": ["time", "A2"] },
-    { "source": "уже", "target": "already", "tags": ["time", "A2"] },
-    { "source": "сосед", "target": "neighbour", "tags": ["social", "A2"] },
-    { "source": "одноклассник", "target": "classmate", "tags": ["social", "A2"] },
-    { "source": "знакомый", "target": "acquaintance", "tags": ["social", "A2"] },
-    { "source": "коллега", "target": "colleague", "tags": ["social", "A2"] },
-    { "source": "учитель", "target": "teacher", "tags": ["social", "A2"] },
-    { "source": "студент", "target": "student", "tags": ["social", "A2"] },
-    { "source": "иностранный язык", "target": "foreign language", "tags": ["social", "A2"] },
-    { "source": "слово", "target": "word", "tags": ["social", "A2"] },
-    { "source": "язык", "target": "language", "tags": ["social", "A2"] },
-    { "source": "число", "target": "number", "tags": ["social", "A2"] },
-    { "source": "письмо", "target": "letter", "tags": ["social", "A2"] },
-    { "source": "адрес", "target": "address", "tags": ["social", "A2"] },
-    { "source": "телефон", "target": "telephone", "tags": ["objects", "A2"] },
-    { "source": "компьютер", "target": "computer", "tags": ["objects", "A2"] },
-    { "source": "часы", "target": "clock", "tags": ["objects", "A2"] },
-    { "source": "картина", "target": "picture", "tags": ["objects", "A2"] },
-    { "source": "музыка", "target": "music", "tags": ["objects", "A2"] },
-    { "source": "фильм", "target": "film", "tags": ["objects", "A2"] },
-    { "source": "ехать", "target": "to travel", "tags": ["verbs", "A2"] },
-    { "source": "работать", "target": "to work", "tags": ["verbs", "A2"] },
-    { "source": "учиться", "target": "to study", "tags": ["verbs", "A2"] },
-    { "source": "спрашивать", "target": "to ask", "tags": ["verbs", "A2"] },
-    { "source": "отвечать", "target": "to answer", "tags": ["verbs", "A2"] },
-    { "source": "обещать", "target": "to promise", "tags": ["verbs", "A2"] },
-    { "source": "забывать", "target": "to forget", "tags": ["verbs", "A2"] },
-    { "source": "помнить", "target": "to remember", "tags": ["verbs", "A2"] },
-    { "source": "ждать", "target": "to wait", "tags": ["verbs", "A2"] },
-    { "source": "найти", "target": "to find", "tags": ["verbs", "A2"] },
-    { "source": "потерять", "target": "to lose", "tags": ["verbs", "A2"] },
-    { "source": "изменить", "target": "to change", "tags": ["verbs", "A2"] },
-    { "source": "вернуться", "target": "to return", "tags": ["verbs", "A2"] },
-    { "source": "начать", "target": "to start", "tags": ["verbs", "A2"] },
-    { "source": "закончить", "target": "to finish", "tags": ["verbs", "A2"] }
+    {
+      "source": "покупки",
+      "target": "shopping",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "магазин",
+      "target": "store",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "цена",
+      "target": "price",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "дешёвый",
+      "target": "cheap",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "дорогой",
+      "target": "expensive",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "чек",
+      "target": "receipt",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "скидка",
+      "target": "discount",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "размер",
+      "target": "size",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "коробка",
+      "target": "box",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "пакет",
+      "target": "bag",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "очередь",
+      "target": "queue",
+      "tags": ["shopping", "A2"]
+    },
+    {
+      "source": "дорога",
+      "target": "road",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "угол",
+      "target": "corner",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "перекрёсток",
+      "target": "crossroads",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "мост",
+      "target": "bridge",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "вокзал",
+      "target": "station",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "остановка",
+      "target": "stop",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "рядом",
+      "target": "nearby",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "далеко",
+      "target": "far",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "за",
+      "target": "behind",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "перед",
+      "target": "in front of",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "рядом с",
+      "target": "next to",
+      "tags": ["directions", "A2"]
+    },
+    {
+      "source": "погода",
+      "target": "weather",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "солнечный",
+      "target": "sunny",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "облачный",
+      "target": "cloudy",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "дождливый",
+      "target": "rainy",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "ветреный",
+      "target": "windy",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "снежный",
+      "target": "snowy",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "тёплый",
+      "target": "warm",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "гром",
+      "target": "thunder",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "молния",
+      "target": "lightning",
+      "tags": ["weather", "A2"]
+    },
+    {
+      "source": "больной",
+      "target": "ill",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "головная боль",
+      "target": "headache",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "жар",
+      "target": "fever",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "кашель",
+      "target": "cough",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "насморк",
+      "target": "cold",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "боль",
+      "target": "pain",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "врач",
+      "target": "doctor",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "лекарство",
+      "target": "medicine",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "больница",
+      "target": "hospital",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "аптека",
+      "target": "pharmacy",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "здоровый",
+      "target": "healthy",
+      "tags": ["health", "A2"]
+    },
+    {
+      "source": "заниматься спортом",
+      "target": "to exercise",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "читать",
+      "target": "to read",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "слушать музыку",
+      "target": "to listen to music",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "смотреть телевизор",
+      "target": "to watch TV",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "путешествовать",
+      "target": "to travel",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "готовить",
+      "target": "to cook",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "рисовать",
+      "target": "to draw",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "фотографировать",
+      "target": "to photograph",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "играть",
+      "target": "to play",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "танцевать",
+      "target": "to dance",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "петь",
+      "target": "to sing",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "плавать",
+      "target": "to swim",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "ездить на велосипеде",
+      "target": "to cycle",
+      "tags": ["hobbies", "A2"]
+    },
+    {
+      "source": "интересный",
+      "target": "interesting",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "скучный",
+      "target": "boring",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "весёлый",
+      "target": "fun",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "захватывающий",
+      "target": "exciting",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "трудный",
+      "target": "difficult",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "лёгкий",
+      "target": "easy",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "дружелюбный",
+      "target": "friendly",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "умный",
+      "target": "clever",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "глупый",
+      "target": "silly",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "добрый",
+      "target": "kind",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "честный",
+      "target": "honest",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "счастливый",
+      "target": "happy",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "грустный",
+      "target": "sad",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "усталый",
+      "target": "tired",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "голодный",
+      "target": "hungry",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "жаждущий",
+      "target": "thirsty",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "испуганный",
+      "target": "scared",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "удивлённый",
+      "target": "surprised",
+      "tags": ["adjectives", "A2"]
+    },
+    {
+      "source": "одежда",
+      "target": "clothes",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "рубашка",
+      "target": "shirt",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "брюки",
+      "target": "trousers",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "платье",
+      "target": "dress",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "куртка",
+      "target": "jacket",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "туфли",
+      "target": "shoes",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "шляпа",
+      "target": "hat",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "носки",
+      "target": "socks",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "свитер",
+      "target": "sweater",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "пальто",
+      "target": "coat",
+      "tags": ["clothing", "A2"]
+    },
+    {
+      "source": "кафе",
+      "target": "café",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "меню",
+      "target": "menu",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "заказать",
+      "target": "to order",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "варёный",
+      "target": "boiled",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "жареный",
+      "target": "fried",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "свежий",
+      "target": "fresh",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "сладкий",
+      "target": "sweet",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "кислый",
+      "target": "sour",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "солёный",
+      "target": "salty",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "острый",
+      "target": "spicy",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "сок",
+      "target": "juice",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "основное блюдо",
+      "target": "main course",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "десерт",
+      "target": "dessert",
+      "tags": ["food-drink", "A2"]
+    },
+    {
+      "source": "раньше",
+      "target": "earlier",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "позже",
+      "target": "later",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "часто",
+      "target": "often",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "иногда",
+      "target": "sometimes",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "никогда",
+      "target": "never",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "всегда",
+      "target": "always",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "скоро",
+      "target": "soon",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "ещё",
+      "target": "still",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "уже",
+      "target": "already",
+      "tags": ["time", "A2"]
+    },
+    {
+      "source": "сосед",
+      "target": "neighbour",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "одноклассник",
+      "target": "classmate",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "знакомый",
+      "target": "acquaintance",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "коллега",
+      "target": "colleague",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "учитель",
+      "target": "teacher",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "студент",
+      "target": "student",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "иностранный язык",
+      "target": "foreign language",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "слово",
+      "target": "word",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "язык",
+      "target": "language",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "число",
+      "target": "number",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "письмо",
+      "target": "letter",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "адрес",
+      "target": "address",
+      "tags": ["social", "A2"]
+    },
+    {
+      "source": "телефон",
+      "target": "telephone",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "компьютер",
+      "target": "computer",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "часы",
+      "target": "clock",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "картина",
+      "target": "picture",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "музыка",
+      "target": "music",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "фильм",
+      "target": "film",
+      "tags": ["objects", "A2"]
+    },
+    {
+      "source": "ехать",
+      "target": "to travel",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "работать",
+      "target": "to work",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "учиться",
+      "target": "to study",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "спрашивать",
+      "target": "to ask",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "отвечать",
+      "target": "to answer",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "обещать",
+      "target": "to promise",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "забывать",
+      "target": "to forget",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "помнить",
+      "target": "to remember",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "ждать",
+      "target": "to wait",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "найти",
+      "target": "to find",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "потерять",
+      "target": "to lose",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "изменить",
+      "target": "to change",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "вернуться",
+      "target": "to return",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "начать",
+      "target": "to start",
+      "tags": ["verbs", "A2"]
+    },
+    {
+      "source": "закончить",
+      "target": "to finish",
+      "tags": ["verbs", "A2"]
+    }
   ]
 }
