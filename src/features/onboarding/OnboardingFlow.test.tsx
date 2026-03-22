@@ -46,10 +46,10 @@ function makeStorageMock(): StorageService {
 function makePair(overrides: Partial<LanguagePair> = {}): LanguagePair {
   return {
     id: 'pair-1',
-    sourceLang: 'English',
-    sourceCode: 'en',
-    targetLang: 'Latvian',
-    targetCode: 'lv',
+    sourceLang: 'Latvian',
+    sourceCode: 'lv',
+    targetLang: 'English',
+    targetCode: 'en',
     createdAt: Date.now(),
     ...overrides,
   }
@@ -57,7 +57,7 @@ function makePair(overrides: Partial<LanguagePair> = {}): LanguagePair {
 
 /**
  * Creates a typed mock for the onCreatePair callback.
- * Returns the EN-LV pair by default.
+ * Returns the LV-EN pair by default (matches the demo pair direction).
  */
 function makeCreatePairMock(
   returnValue: LanguagePair = makePair(),
@@ -69,11 +69,12 @@ function renderFlow(
   onComplete = vi.fn(),
   onCreatePair: (input: CreatePairInput) => Promise<LanguagePair> = makeCreatePairMock(),
   storageMock: StorageService = makeStorageMock(),
+  autoDemo = false,
 ) {
   return render(
     <StorageContext.Provider value={storageMock}>
       <ThemeProvider theme={mockTheme}>
-        <OnboardingFlow onComplete={onComplete} onCreatePair={onCreatePair} />
+        <OnboardingFlow onComplete={onComplete} onCreatePair={onCreatePair} autoDemo={autoDemo} />
       </ThemeProvider>
     </StorageContext.Provider>,
   )
@@ -93,7 +94,8 @@ describe('OnboardingFlow', () => {
   describe('Step 1: Welcome', () => {
     it('should render the welcome step by default', () => {
       renderFlow()
-      expect(screen.getByText('Get started')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /try it now/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /set up my own/i })).toBeInTheDocument()
       // The "Lexio" heading is present in the welcome step.
       expect(screen.getAllByText('Lexio').length).toBeGreaterThan(0)
     })
@@ -103,30 +105,143 @@ describe('OnboardingFlow', () => {
       expect(screen.getByText(/active recall and spaced repetition/i)).toBeInTheDocument()
     })
 
-    it('should advance to the language pair step when "Get started" is clicked', async () => {
+    it('should advance to the language pair step when "Set up my own" is clicked', async () => {
       renderFlow()
-      await userEvent.click(screen.getByRole('button', { name: /get started/i }))
+      await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
       expect(screen.getByText(/create your first language pair/i)).toBeInTheDocument()
     })
 
-    it('should show a progress stepper with 4 steps', () => {
+    it('should not show stepper dots on the welcome step', () => {
       renderFlow()
-      // MobileStepper renders dot elements; we check 4 dots are rendered.
       const dots = document.querySelectorAll('.MuiMobileStepper-dot')
-      expect(dots.length).toBe(4)
+      expect(dots.length).toBe(0)
     })
   })
 
-  describe('Step 2: Language Pair', () => {
+  describe('Instant demo path', () => {
+    it('should call onCreatePair with EN-LV pair when "Try it now" is clicked', async () => {
+      const onCreatePair = makeCreatePairMock()
+      // Mock fetch to return the A1 pack so the demo can run.
+      const mockPack = {
+        id: 'en-lv-a1',
+        name: 'English-Latvian A1',
+        description: 'Test pack',
+        sourceCode: 'lv',
+        targetCode: 'en',
+        level: 'A1',
+        words: [{ source: 'sveiki', target: 'hello', tags: ['A1'] }],
+      }
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue({
+          ok: true,
+          json: () => Promise.resolve(mockPack),
+        }),
+      )
+      renderFlow(vi.fn(), onCreatePair)
+      await act(async () => {
+        await userEvent.click(screen.getByRole('button', { name: /try it now/i }))
+      })
+      await waitFor(() => {
+        expect(onCreatePair).toHaveBeenCalledWith({
+          sourceLang: 'Latvian',
+          sourceCode: 'lv',
+          targetLang: 'English',
+          targetCode: 'en',
+        })
+      })
+    })
+
+    it('should call onComplete with "quiz" tab when demo succeeds', async () => {
+      const onComplete = vi.fn()
+      const onCreatePair = makeCreatePairMock()
+      const mockPack = {
+        id: 'en-lv-a1',
+        name: 'English-Latvian A1',
+        description: 'Test pack',
+        sourceCode: 'lv',
+        targetCode: 'en',
+        level: 'A1',
+        words: [{ source: 'sveiki', target: 'hello', tags: ['A1'] }],
+      }
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue({
+          ok: true,
+          json: () => Promise.resolve(mockPack),
+        }),
+      )
+      renderFlow(onComplete, onCreatePair)
+      await act(async () => {
+        await userEvent.click(screen.getByRole('button', { name: /try it now/i }))
+      })
+      await waitFor(() => {
+        expect(onComplete).toHaveBeenCalledWith('quiz')
+      })
+    })
+
+    it('should show loading state while demo is running', async () => {
+      const onCreatePair = makeCreatePairMock()
+      // Never-resolving promise to keep loading state active.
+      vi.stubGlobal('fetch', vi.fn().mockReturnValue(new Promise<never>(() => {})))
+      renderFlow(vi.fn(), onCreatePair)
+      // Trigger demo but do not await fully — just start it.
+      await userEvent.click(screen.getByRole('button', { name: /try it now/i }))
+      // Check that loading state is shown immediately.
+      expect(screen.getByRole('button', { name: /setting up/i })).toBeInTheDocument()
+    })
+
+    it('should fall back to manual flow when demo fails', async () => {
+      const onCreatePair = vi
+        .fn<(input: CreatePairInput) => Promise<LanguagePair>>()
+        .mockRejectedValue(new Error('network error'))
+      renderFlow(vi.fn(), onCreatePair)
+      await act(async () => {
+        await userEvent.click(screen.getByRole('button', { name: /try it now/i }))
+      })
+      await waitFor(() => {
+        expect(screen.getByText(/create your first language pair/i)).toBeInTheDocument()
+      })
+    })
+
+    it('should auto-trigger demo when autoDemo is true', async () => {
+      const onComplete = vi.fn()
+      const onCreatePair = makeCreatePairMock()
+      const mockPack = {
+        id: 'en-lv-a1',
+        name: 'English-Latvian A1',
+        description: 'Test pack',
+        sourceCode: 'lv',
+        targetCode: 'en',
+        level: 'A1',
+        words: [{ source: 'sveiki', target: 'hello', tags: ['A1'] }],
+      }
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue({
+          ok: true,
+          json: () => Promise.resolve(mockPack),
+        }),
+      )
+      await act(async () => {
+        renderFlow(onComplete, onCreatePair, makeStorageMock(), true)
+      })
+      await waitFor(() => {
+        expect(onComplete).toHaveBeenCalledWith('quiz')
+      })
+    })
+  })
+
+  describe('Manual flow: Step 2: Language Pair', () => {
     async function advanceToStep2() {
       renderFlow()
-      await userEvent.click(screen.getByRole('button', { name: /get started/i }))
+      await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
     }
 
-    it('should pre-fill with EN-LV default pair', async () => {
+    it('should pre-fill with LV-EN default pair', async () => {
       await advanceToStep2()
       const inputs = screen.getAllByRole('combobox')
-      // First autocomplete is source language.
+      // First autocomplete is source language (Latvian for the manual flow default).
       expect(inputs[0]).toHaveValue('English (en)')
     })
 
@@ -139,7 +254,7 @@ describe('OnboardingFlow', () => {
     it('should call onCreatePair when Continue is clicked with valid form', async () => {
       const onCreatePair = makeCreatePairMock()
       renderFlow(vi.fn(), onCreatePair)
-      await userEvent.click(screen.getByRole('button', { name: /get started/i }))
+      await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
       await userEvent.click(screen.getByRole('button', { name: /continue/i }))
       expect(onCreatePair).toHaveBeenCalledWith({
         sourceLang: 'English',
@@ -172,7 +287,7 @@ describe('OnboardingFlow', () => {
     it('should advance to add words step after pair creation', async () => {
       const onCreatePair = makeCreatePairMock()
       renderFlow(vi.fn(), onCreatePair)
-      await userEvent.click(screen.getByRole('button', { name: /get started/i }))
+      await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
       await act(async () => {
         await userEvent.click(screen.getByRole('button', { name: /continue/i }))
       })
@@ -180,13 +295,19 @@ describe('OnboardingFlow', () => {
         expect(screen.getByText(/add your first words/i)).toBeInTheDocument()
       })
     })
+
+    it('should show stepper with 3 dots when in manual flow', async () => {
+      await advanceToStep2()
+      const dots = document.querySelectorAll('.MuiMobileStepper-dot')
+      expect(dots.length).toBe(3)
+    })
   })
 
-  describe('Step 3: Add Words', () => {
+  describe('Manual flow: Step 3: Add Words', () => {
     async function advanceToStep3() {
       const onCreatePair = makeCreatePairMock()
       renderFlow(vi.fn(), onCreatePair)
-      await userEvent.click(screen.getByRole('button', { name: /get started/i }))
+      await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
       await act(async () => {
         await userEvent.click(screen.getByRole('button', { name: /continue/i }))
       })
@@ -218,11 +339,11 @@ describe('OnboardingFlow', () => {
     })
   })
 
-  describe('Step 4: Tutorial', () => {
+  describe('Manual flow: Step 4: Tutorial', () => {
     async function advanceToStep4() {
       const onCreatePair = makeCreatePairMock()
       renderFlow(vi.fn(), onCreatePair)
-      await userEvent.click(screen.getByRole('button', { name: /get started/i }))
+      await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
       await act(async () => {
         await userEvent.click(screen.getByRole('button', { name: /continue/i }))
       })
@@ -271,7 +392,7 @@ describe('OnboardingFlow', () => {
           </ThemeProvider>
         </StorageContext.Provider>,
       )
-      await userEvent.click(screen.getByRole('button', { name: /get started/i }))
+      await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
       await act(async () => {
         await userEvent.click(screen.getByRole('button', { name: /continue/i }))
       })
@@ -283,6 +404,8 @@ describe('OnboardingFlow', () => {
       await userEvent.click(screen.getByRole('button', { name: /next/i }))
       await userEvent.click(screen.getByRole('button', { name: /start learning!/i }))
       expect(onComplete).toHaveBeenCalledTimes(1)
+      // Manual path should call onComplete without arguments (no tab navigation).
+      expect(onComplete).toHaveBeenCalledWith()
     })
 
     it('should call onComplete when "Skip tutorial" is clicked', async () => {
@@ -294,7 +417,7 @@ describe('OnboardingFlow', () => {
           </ThemeProvider>
         </StorageContext.Provider>,
       )
-      await userEvent.click(screen.getByRole('button', { name: /get started/i }))
+      await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
       await act(async () => {
         await userEvent.click(screen.getByRole('button', { name: /continue/i }))
       })
@@ -315,7 +438,7 @@ describe('First-launch detection (App integration)', () => {
       render(<App />)
     })
     await act(async () => {})
-    expect(screen.getByText('Get started')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /try it now/i })).toBeInTheDocument()
   })
 
   it('should show the dashboard (skip onboarding) when a pair already exists in storage', async () => {
@@ -339,8 +462,8 @@ describe('First-launch detection (App integration)', () => {
       render(<App />)
     })
     await act(async () => {})
-    // The main app bar "Lexio" brand is present, and onboarding "Get started" is absent.
-    expect(screen.queryByText('Get started')).not.toBeInTheDocument()
+    // The main app bar "Lexio" brand is present, and onboarding "Try it now" is absent.
+    expect(screen.queryByRole('button', { name: /try it now/i })).not.toBeInTheDocument()
     // AppBar Lexio heading is present.
     expect(screen.getAllByText('Lexio').length).toBeGreaterThan(0)
   })

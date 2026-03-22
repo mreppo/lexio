@@ -36,7 +36,7 @@ describe('App', () => {
     })
     // After loading completes with no pairs, the onboarding welcome step is shown.
     await act(async () => {})
-    expect(screen.getByText('Get started')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /try it now/i })).toBeInTheDocument()
   })
 
   it('should show the Lexio heading in the onboarding welcome step on first launch', async () => {

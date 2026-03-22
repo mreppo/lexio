@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback, useEffect } from 'react'
+import { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import {
   ThemeProvider,
   CssBaseline,
@@ -53,6 +53,13 @@ function AppContent() {
     deletePair,
   } = useLanguagePairs()
 
+  /**
+   * Whether the `?demo=true` query parameter is present in the URL.
+   * Read once on mount via a ref so it's stable across renders.
+   * When true, the OnboardingFlow will auto-trigger the instant demo path.
+   */
+  const autoDemoRef = useRef(new URLSearchParams(window.location.search).get('demo') === 'true')
+
   const [createDialogOpen, setCreateDialogOpen] = useState(false)
   /**
    * Whether the onboarding flow is active.
@@ -99,8 +106,11 @@ function AppContent() {
   )
 
   /** Called when the user completes (or skips) the onboarding flow. */
-  const handleOnboardingComplete = useCallback(() => {
+  const handleOnboardingComplete = useCallback((goToTab?: 'quiz') => {
     setShowOnboarding(false)
+    if (goToTab) {
+      setActiveTab(goToTab)
+    }
   }, [])
 
   const handleCreatePair = useCallback(
@@ -158,6 +168,7 @@ function AppContent() {
         <OnboardingFlow
           onComplete={handleOnboardingComplete}
           onCreatePair={handleOnboardingCreatePair}
+          autoDemo={autoDemoRef.current}
         />
       )}
 
