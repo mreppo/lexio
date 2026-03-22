@@ -1,16 +1,21 @@
-import { Box, Typography, Button } from '@mui/material'
+import { Box, Typography, Button, CircularProgress } from '@mui/material'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
+import BoltIcon from '@mui/icons-material/Bolt'
 
 export interface WelcomeStepProps {
-  readonly onNext: () => void
+  readonly onDemo: () => void
+  readonly onManualSetup: () => void
+  /** True while the instant demo is being set up (pair + pack install). */
+  readonly demoLoading?: boolean
 }
 
 /**
- * Step 1 of the onboarding flow.
- * Displays the app name, tagline, and a "Get started" call to action.
- * Clean, inviting layout centred on the screen.
+ * Combined Welcome step of the onboarding flow.
+ * Offers two paths:
+ *   - "Try it now" — instant demo with auto-created EN-LV pair and A1 pack
+ *   - "Set up my own" — manual language pair creation (full 3-step flow)
  */
-export function WelcomeStep({ onNext }: WelcomeStepProps) {
+export function WelcomeStep({ onDemo, onManualSetup, demoLoading = false }: WelcomeStepProps) {
   return (
     <Box
       sx={{
@@ -35,14 +40,38 @@ export function WelcomeStep({ onNext }: WelcomeStepProps) {
         </Typography>
       </Box>
 
-      <Button
-        variant="contained"
-        size="large"
-        onClick={onNext}
-        sx={{ mt: 2, px: 6, py: 1.5, borderRadius: 3, fontSize: '1.1rem' }}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 1.5,
+          mt: 2,
+          width: '100%',
+          maxWidth: 320,
+        }}
       >
-        Get started
-      </Button>
+        <Button
+          variant="contained"
+          size="large"
+          onClick={onDemo}
+          disabled={demoLoading}
+          startIcon={demoLoading ? <CircularProgress size={20} color="inherit" /> : <BoltIcon />}
+          sx={{ px: 6, py: 1.5, borderRadius: 3, fontSize: '1.1rem', width: '100%' }}
+        >
+          {demoLoading ? 'Setting up…' : 'Try it now'}
+        </Button>
+
+        <Button
+          variant="outlined"
+          size="large"
+          onClick={onManualSetup}
+          disabled={demoLoading}
+          sx={{ px: 4, py: 1.5, borderRadius: 3, width: '100%' }}
+        >
+          Set up my own
+        </Button>
+      </Box>
     </Box>
   )
 }
