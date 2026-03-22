@@ -433,12 +433,18 @@ describe('OnboardingFlow', () => {
 describe('First-launch detection (App integration)', () => {
   it('should show onboarding when no language pairs exist in storage', async () => {
     localStorage.clear()
+    // Navigate to the /app route so the main app shell (and its onboarding) is rendered.
+    window.location.hash = '#/app'
     const { default: App } = await import('@/App')
     await act(async () => {
       render(<App />)
     })
+    // Allow Suspense + lazy loading and async storage reads to complete.
     await act(async () => {})
-    expect(screen.getByRole('button', { name: /try it now/i })).toBeInTheDocument()
+    await act(async () => {})
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: /try it now/i })).toBeInTheDocument(),
+    )
   })
 
   it('should show the dashboard (skip onboarding) when a pair already exists in storage', async () => {
@@ -457,12 +463,15 @@ describe('First-launch detection (App integration)', () => {
       }),
     )
 
+    // Navigate to the /app route so the main app shell is rendered.
+    window.location.hash = '#/app'
     const { default: App } = await import('@/App')
     await act(async () => {
       render(<App />)
     })
     await act(async () => {})
-    // The main app bar "Lexio" brand is present, and onboarding "Try it now" is absent.
+    // The main app bar "Lexio" brand is present, and the onboarding "Try it now"
+    // (from OnboardingFlow, not the landing page) is absent because pairs exist.
     expect(screen.queryByRole('button', { name: /try it now/i })).not.toBeInTheDocument()
     // AppBar Lexio heading is present.
     expect(screen.getAllByText('Lexio').length).toBeGreaterThan(0)

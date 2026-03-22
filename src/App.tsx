@@ -1,273 +1,25 @@
-import { useMemo, useState, useCallback, useEffect, useRef } from 'react'
-import {
-  ThemeProvider,
-  CssBaseline,
-  Box,
-  AppBar,
-  Toolbar,
-  Typography,
-  Container,
-  Button,
-  CircularProgress,
-} from '@mui/material'
+import { lazy, Suspense } from 'react'
+import { Box, CircularProgress, Button, Typography } from '@mui/material'
+import { ThemeProvider, CssBaseline } from '@mui/material'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { createAppTheme } from './theme'
-import { useThemeMode } from './hooks/useThemeMode'
 import { LocalStorageService } from './services/storage'
-import { StorageContext, useStorage } from './hooks/useStorage'
-import { useLanguagePairs, LanguagePairSelector, CreatePairDialog } from './features/language-pairs'
-import type { CreatePairInput } from './features/language-pairs'
-import { WordListScreen } from './features/words'
-import { QuizHub } from './features/quiz'
-import { DashboardScreen, useDashboard } from './features/dashboard'
-import { StatsScreen } from './features/stats'
-import { SettingsScreen } from './features/settings'
-import { OnboardingFlow } from './features/onboarding'
-import { BottomNav, UpdateNotification } from './components'
-import type { AppTab } from './components'
-import { useServiceWorker } from './hooks/useServiceWorker'
-import type { LanguagePair, UserSettings } from './types'
+import { StorageContext } from './hooks/useStorage'
+import { LandingPage } from './features/landing'
 import { Sentry } from './services/sentry'
 
 /**
- * A single shared storage instance for the application.
- * Created outside of the component to avoid re-instantiation on every render.
+ * A single shared storage instance for the entire application.
+ * Created here (entry point) so both the landing page and the lazy-loaded
+ * app shell share the same instance via StorageContext.
  */
 const storageService = new LocalStorageService()
 
 /**
- * Inner app component that consumes the storage context.
- * Split from the outer App so context is available for all hooks.
+ * Lazy-loaded app shell so the main app bundle is not downloaded when
+ * a visitor views only the landing page.
  */
-function AppContent() {
-  const { preference: themePreference, mode, setPreference } = useThemeMode(storageService)
-  const appTheme = useMemo(() => createAppTheme(mode), [mode])
-
-  const { updateAvailable, applyUpdate, dismissUpdate } = useServiceWorker()
-
-  const {
-    pairs,
-    activePair,
-    loading: pairsLoading,
-    createPair,
-    switchPair,
-    deletePair,
-  } = useLanguagePairs()
-
-  /**
-   * Whether the `?demo=true` query parameter is present in the URL.
-   * Read once on mount via a ref so it's stable across renders.
-   * When true, the OnboardingFlow will auto-trigger the instant demo path.
-   */
-  const autoDemoRef = useRef(new URLSearchParams(window.location.search).get('demo') === 'true')
-
-  const [createDialogOpen, setCreateDialogOpen] = useState(false)
-  /**
-   * Whether the onboarding flow is active.
-   * Set to true once loading completes and no pairs exist.
-   * Set to false when the user completes the flow or when pairs are found.
-   */
-  const [showOnboarding, setShowOnboarding] = useState(false)
-  // Active navigation tab.
-  const [activeTab, setActiveTab] = useState<AppTab>('home')
-
-  const storage = useStorage()
-  const [settings, setSettings] = useState<UserSettings>({
-    activePairId: null,
-    quizMode: 'type',
-    dailyGoal: 20,
-    theme: 'system',
-    typoTolerance: 1,
-    selectedLevels: [],
-  })
-
-  // Load settings on mount.
-  useEffect(() => {
-    void storage.getSettings().then((s) => setSettings(s))
-  }, [storage])
-
-  // Detect first launch: after pairs have loaded, show onboarding when none exist.
-  useEffect(() => {
-    if (!pairsLoading && pairs.length === 0) {
-      setShowOnboarding(true)
-    }
-  }, [pairsLoading, pairs.length])
-
-  const dashboardData = useDashboard(activePair?.id ?? null, settings.dailyGoal)
-
-  /**
-   * Called by OnboardingFlow step 2 to create a language pair.
-   * Returns the created LanguagePair so the flow can pass it to step 3.
-   */
-  const handleOnboardingCreatePair = useCallback(
-    async (input: CreatePairInput): Promise<LanguagePair> => {
-      return createPair(input, true)
-    },
-    [createPair],
-  )
-
-  /** Called when the user completes (or skips) the onboarding flow. */
-  const handleOnboardingComplete = useCallback((goToTab?: 'quiz') => {
-    setShowOnboarding(false)
-    if (goToTab) {
-      setActiveTab(goToTab)
-    }
-  }, [])
-
-  const handleCreatePair = useCallback(
-    async (input: CreatePairInput): Promise<void> => {
-      await createPair(input, true)
-    },
-    [createPair],
-  )
-
-  const handleOpenCreateDialog = useCallback(() => {
-    setCreateDialogOpen(true)
-  }, [])
-
-  const handleCloseCreateDialog = useCallback(() => {
-    setCreateDialogOpen(false)
-  }, [])
-
-  /** Navigate to quiz tab (called from Dashboard quick-start button). */
-  const handleStartQuizFromDashboard = useCallback(() => {
-    setActiveTab('quiz')
-  }, [])
-
-  /** Handle settings change from QuizHub (quiz mode changes) and persist. */
-  const handleSettingsChange = useCallback((updated: UserSettings): void => {
-    setSettings(updated)
-  }, [])
-
-  /** Handle theme change from SettingsScreen. */
-  const handleThemeChange = useCallback(
-    (preference: UserSettings['theme']): void => {
-      void setPreference(preference)
-    },
-    [setPreference],
-  )
-
-  // When returning to the home tab, refresh dashboard data.
-  const handleTabChange = useCallback(
-    (tab: AppTab): void => {
-      setActiveTab(tab)
-      if (tab === 'home') {
-        dashboardData.refresh()
-      }
-    },
-    [dashboardData],
-  )
-
-  const showNav = !pairsLoading && pairs.length > 0 && !showOnboarding
-
-  return (
-    <ThemeProvider theme={appTheme}>
-      <CssBaseline />
-
-      {/* Onboarding: full-screen wizard, no app bar or nav */}
-      {!pairsLoading && showOnboarding && (
-        <OnboardingFlow
-          onComplete={handleOnboardingComplete}
-          onCreatePair={handleOnboardingCreatePair}
-          autoDemo={autoDemoRef.current}
-        />
-      )}
-
-      {/* Loading spinner while pairs are being fetched */}
-      {pairsLoading && (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      )}
-
-      {/* Main app shell — only shown after loading and when onboarding is complete */}
-      {!pairsLoading && !showOnboarding && (
-        <>
-          <AppBar position="static" color="default" elevation={1}>
-            <Toolbar sx={{ gap: 2 }}>
-              <Typography
-                variant="h6"
-                component="span"
-                sx={{ fontWeight: 700, color: 'primary.main', flexShrink: 0 }}
-              >
-                Lexio
-              </Typography>
-
-              <Box sx={{ flex: 1 }} />
-
-              <LanguagePairSelector
-                pairs={pairs}
-                activePair={activePair}
-                loading={pairsLoading}
-                onSwitch={switchPair}
-                onAddPair={handleOpenCreateDialog}
-              />
-            </Toolbar>
-          </AppBar>
-
-          {/* Main content — bottom padding makes room for the fixed BottomNav */}
-          <Container maxWidth="sm" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
-            {activeTab === 'home' && (
-              <DashboardScreen
-                activePair={activePair}
-                settings={settings}
-                todayStats={dashboardData.todayStats}
-                wordProgressList={dashboardData.wordProgressList}
-                totalWords={dashboardData.totalWords}
-                streakDays={dashboardData.streakDays}
-                recentStats={dashboardData.recentStats}
-                loading={dashboardData.loading}
-                onStartQuiz={handleStartQuizFromDashboard}
-              />
-            )}
-
-            {activeTab === 'quiz' && (
-              <QuizHub
-                pair={activePair}
-                settings={settings}
-                onSettingsChange={handleSettingsChange}
-              />
-            )}
-
-            {activeTab === 'words' && <WordListScreen activePair={activePair} />}
-
-            {activeTab === 'stats' && <StatsScreen />}
-
-            {activeTab === 'settings' && (
-              <SettingsScreen
-                themePreference={themePreference}
-                onThemeChange={handleThemeChange}
-                settings={settings}
-                onSettingsChange={handleSettingsChange}
-                pairs={pairs}
-                onAddPair={handleOpenCreateDialog}
-                onDeletePair={deletePair}
-              />
-            )}
-          </Container>
-
-          {/* Bottom navigation — only visible when there are language pairs */}
-          {showNav && <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />}
-
-          <CreatePairDialog
-            open={createDialogOpen}
-            onClose={handleCloseCreateDialog}
-            onSubmit={handleCreatePair}
-            suggestDefault={false}
-          />
-        </>
-      )}
-      {/* Update notification — shown when a new service worker is waiting */}
-      <UpdateNotification open={updateAvailable} onUpdate={applyUpdate} onDismiss={dismissUpdate} />
-    </ThemeProvider>
-  )
-}
+const LazyAppShell = lazy(() => import('./AppContent'))
 
 /**
  * Fallback UI rendered when a React render crash is caught by the ErrorBoundary.
@@ -296,11 +48,61 @@ function ErrorFallback({
   )
 }
 
+/**
+ * Dark theme singleton for the landing page.
+ * Created once outside the component to avoid unnecessary re-creation on renders.
+ */
+const landingDarkTheme = createAppTheme('dark')
+
+/**
+ * Theme wrapper for the landing page route.
+ * The landing page always uses dark mode for consistent visual presentation.
+ */
+function LandingThemeWrapper(): React.JSX.Element {
+  return (
+    <ThemeProvider theme={landingDarkTheme}>
+      <CssBaseline />
+      <LandingPage />
+    </ThemeProvider>
+  )
+}
+
 export default function App() {
   return (
     <StorageContext.Provider value={storageService}>
       <Sentry.ErrorBoundary fallback={ErrorFallback}>
-        <AppContent />
+        <HashRouter>
+          <Routes>
+            {/* Landing page — shown at the root hash route */}
+            <Route path="/" element={<LandingThemeWrapper />} />
+
+            {/* Main app — lazy-loaded so the bundle is not fetched on landing page visits */}
+            <Route
+              path="/app"
+              element={
+                <Suspense
+                  fallback={
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        minHeight: '100vh',
+                      }}
+                    >
+                      <CircularProgress />
+                    </Box>
+                  }
+                >
+                  <LazyAppShell />
+                </Suspense>
+              }
+            />
+
+            {/* Redirect any unknown route to the landing page */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </HashRouter>
       </Sentry.ErrorBoundary>
     </StorageContext.Provider>
   )
