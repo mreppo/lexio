@@ -3,13 +3,17 @@
  *
  * Unlike the other spec files, these tests do NOT bypass onboarding — they
  * explicitly clear localStorage and interact with the multi-step wizard to
- * verify it works end-to-end. This is Option A from issue #77.
+ * verify it works end-to-end.
  *
- * Steps tested:
- *   Step 1 (Welcome)        - "Get started" button
- *   Step 2 (Language Pair)  - Accept EN-LV default and click "Continue"
- *   Step 3 (Add Words)      - Skip for now
- *   Step 4 (Tutorial)       - Click through slides and "Start learning!"
+ * Two paths tested:
+ *   Instant demo path:
+ *     Step 1 (Welcome) → "Try it now" → quiz (skips wizard entirely)
+ *
+ *   Manual path:
+ *     Step 1 (Welcome)        - "Set up my own" button
+ *     Step 2 (Language Pair)  - Accept EN-LV default and click "Continue"
+ *     Step 3 (Add Words)      - Skip for now
+ *     Step 4 (Tutorial)       - Click through slides and "Start learning!"
  *
  * After completing the wizard the test verifies that the main app shell is
  * visible: AppBar, BottomNav, and the Home tab content.
@@ -27,13 +31,14 @@ test.beforeEach(async ({ page }) => {
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
-test('complete onboarding wizard end-to-end', async ({ page }) => {
+test('complete onboarding wizard end-to-end (manual path)', async ({ page }) => {
   // ── Step 1: Welcome ───────────────────────────────────────────────────────
   // The welcome screen should be visible after clearing state.
   await expect(page.getByRole('heading', { name: 'Lexio' })).toBeVisible({ timeout: 10_000 })
   await expect(page.getByText(/Learn vocabulary in any language/i)).toBeVisible()
 
-  await page.getByRole('button', { name: 'Get started' }).click()
+  // Use "Set up my own" to go through the manual 3-step flow.
+  await page.getByRole('button', { name: 'Set up my own' }).click()
 
   // ── Step 2: Language Pair ─────────────────────────────────────────────────
   // The form is pre-filled with EN-LV defaults; just click Continue.
@@ -71,7 +76,7 @@ test('complete onboarding wizard end-to-end', async ({ page }) => {
 test('complete onboarding with custom language pair', async ({ page }) => {
   // ── Step 1: Welcome ───────────────────────────────────────────────────────
   await expect(page.getByRole('heading', { name: 'Lexio' })).toBeVisible({ timeout: 10_000 })
-  await page.getByRole('button', { name: 'Get started' }).click()
+  await page.getByRole('button', { name: 'Set up my own' }).click()
 
   // ── Step 2: Language Pair — choose German-English via quick-select chip ───
   await expect(page.getByText('Create your first language pair')).toBeVisible({ timeout: 5_000 })
@@ -106,16 +111,21 @@ test('complete onboarding with custom language pair', async ({ page }) => {
   await expect(langPairButton).toContainText(/English|German/i)
 })
 
-test('onboarding step progress dots are visible', async ({ page }) => {
-  // Verify the MobileStepper dots are rendered as the user progresses.
+test('onboarding welcome step shows both CTAs', async ({ page }) => {
+  // Verify both the demo and manual setup buttons are visible on the welcome step.
+  await expect(page.getByRole('heading', { name: 'Lexio' })).toBeVisible({ timeout: 10_000 })
+  await expect(page.getByRole('button', { name: 'Try it now' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Set up my own' })).toBeVisible()
+})
+
+test('onboarding step progress dots are visible in manual flow', async ({ page }) => {
+  // Verify the MobileStepper dots are rendered as the user progresses through manual flow.
   await expect(page.getByRole('heading', { name: 'Lexio' })).toBeVisible({ timeout: 10_000 })
 
-  // Step 1 — one dot should be active (first position).
-  // The MobileStepper renders progress dots but they are not interactive;
-  // we just check the welcome step is on screen.
-  await expect(page.getByRole('button', { name: 'Get started' })).toBeVisible()
+  // Welcome step has no stepper dots.
+  await expect(page.getByRole('button', { name: 'Set up my own' })).toBeVisible()
 
-  await page.getByRole('button', { name: 'Get started' }).click()
+  await page.getByRole('button', { name: 'Set up my own' }).click()
 
   // Step 2 — language pair form visible.
   await expect(page.getByText('Create your first language pair')).toBeVisible({ timeout: 5_000 })
