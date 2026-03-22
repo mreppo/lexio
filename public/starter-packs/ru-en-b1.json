@@ -6,223 +6,625 @@
   "targetCode": "en",
   "level": "B1",
   "words": [
-    { "source": "книга", "target": "book", "tags": ["objects", "B1"] },
-    { "source": "вода", "target": "water", "tags": ["food-drink", "B1"] },
-    { "source": "хлеб", "target": "bread", "tags": ["food-drink", "B1"] },
-    { "source": "мясо", "target": "meat", "tags": ["food-drink", "B1"] },
-    { "source": "молоко", "target": "milk", "tags": ["food-drink", "B1"] },
-    { "source": "яйцо", "target": "egg", "tags": ["food-drink", "B1"] },
-    { "source": "сыр", "target": "cheese", "tags": ["food-drink", "B1"] },
-    { "source": "масло", "target": "butter", "tags": ["food-drink", "B1"] },
-    { "source": "фрукт", "target": "fruit", "tags": ["food-drink", "B1"] },
-    { "source": "овощ", "target": "vegetable", "tags": ["food-drink", "B1"] },
-    { "source": "яблоко", "target": "apple", "tags": ["food-drink", "B1"] },
-    { "source": "банан", "target": "banana", "tags": ["food-drink", "B1"] },
-    { "source": "апельсин", "target": "orange", "tags": ["food-drink", "B1"] },
-    { "source": "помидор", "target": "tomato", "tags": ["food-drink", "B1"] },
-    { "source": "картофель", "target": "potato", "tags": ["food-drink", "B1"] },
-    { "source": "кофе", "target": "coffee", "tags": ["food-drink", "B1"] },
-    { "source": "чай", "target": "tea", "tags": ["food-drink", "B1"] },
-    { "source": "пиво", "target": "beer", "tags": ["food-drink", "B1"] },
-    { "source": "сахар", "target": "sugar", "tags": ["food-drink", "B1"] },
-    { "source": "соль", "target": "salt", "tags": ["food-drink", "B1"] },
-    { "source": "рис", "target": "rice", "tags": ["food-drink", "B1"] },
-    { "source": "суп", "target": "soup", "tags": ["food-drink", "B1"] },
-    { "source": "салат", "target": "salad", "tags": ["food-drink", "B1"] },
-    { "source": "обед", "target": "lunch", "tags": ["food-drink", "B1"] },
-    { "source": "ужин", "target": "dinner", "tags": ["food-drink", "B1"] },
-    { "source": "завтрак", "target": "breakfast", "tags": ["food-drink", "B1"] },
-    { "source": "ресторан", "target": "restaurant", "tags": ["food-drink", "travel", "B1"] },
-    { "source": "гостиница", "target": "hotel", "tags": ["travel", "B1"] },
-    { "source": "аэропорт", "target": "airport", "tags": ["travel", "B1"] },
-    { "source": "самолёт", "target": "airplane", "tags": ["travel", "B1"] },
-    { "source": "поезд", "target": "train", "tags": ["travel", "B1"] },
-    { "source": "автобус", "target": "bus", "tags": ["travel", "B1"] },
-    { "source": "машина", "target": "car", "tags": ["travel", "B1"] },
-    { "source": "билет", "target": "ticket", "tags": ["travel", "B1"] },
-    { "source": "паспорт", "target": "passport", "tags": ["travel", "B1"] },
-    { "source": "карта", "target": "map", "tags": ["travel", "B1"] },
-    { "source": "улица", "target": "street", "tags": ["travel", "B1"] },
-    { "source": "город", "target": "city", "tags": ["travel", "B1"] },
-    { "source": "страна", "target": "country", "tags": ["travel", "B1"] },
-    { "source": "багаж", "target": "luggage", "tags": ["travel", "B1"] },
-    { "source": "работа", "target": "work", "tags": ["work", "B1"] },
-    { "source": "офис", "target": "office", "tags": ["work", "B1"] },
-    { "source": "встреча", "target": "meeting", "tags": ["work", "B1"] },
-    { "source": "коллега", "target": "colleague", "tags": ["work", "B1"] },
-    { "source": "начальник", "target": "boss", "tags": ["work", "B1"] },
-    { "source": "отпуск", "target": "holiday", "tags": ["work", "travel", "B1"] },
-    { "source": "радость", "target": "joy", "tags": ["emotions", "B1"] },
-    { "source": "грусть", "target": "sadness", "tags": ["emotions", "B1"] },
-    { "source": "страх", "target": "fear", "tags": ["emotions", "B1"] },
-    { "source": "злость", "target": "anger", "tags": ["emotions", "B1"] },
-    { "source": "удивление", "target": "surprise", "tags": ["emotions", "B1"] },
-    { "source": "любовь", "target": "love", "tags": ["emotions", "B1"] },
-    { "source": "волнение", "target": "excitement", "tags": ["emotions", "B1"] },
-    { "source": "лес", "target": "forest", "tags": ["nature", "B1"] },
-    { "source": "море", "target": "sea", "tags": ["nature", "B1"] },
-    { "source": "озеро", "target": "lake", "tags": ["nature", "B1"] },
-    { "source": "река", "target": "river", "tags": ["nature", "B1"] },
-    { "source": "гора", "target": "mountain", "tags": ["nature", "B1"] },
-    { "source": "деревня", "target": "countryside", "tags": ["nature", "B1"] },
-    { "source": "солнце", "target": "sun", "tags": ["nature", "B1"] },
-    { "source": "луна", "target": "moon", "tags": ["nature", "B1"] },
-    { "source": "звезда", "target": "star", "tags": ["nature", "B1"] },
-    { "source": "дождь", "target": "rain", "tags": ["nature", "B1"] },
-    { "source": "снег", "target": "snow", "tags": ["nature", "B1"] },
-    { "source": "ветер", "target": "wind", "tags": ["nature", "B1"] },
-    { "source": "облака", "target": "clouds", "tags": ["nature", "B1"] },
-    { "source": "зима", "target": "winter", "tags": ["nature", "B1"] },
-    { "source": "лето", "target": "summer", "tags": ["nature", "B1"] },
-    { "source": "весна", "target": "spring", "tags": ["nature", "B1"] },
-    { "source": "осень", "target": "autumn", "tags": ["nature", "B1"] },
-    { "source": "дерево", "target": "tree", "tags": ["nature", "B1"] },
-    { "source": "цветок", "target": "flower", "tags": ["nature", "B1"] },
-    { "source": "трава", "target": "grass", "tags": ["nature", "B1"] },
-    { "source": "комната", "target": "room", "tags": ["home", "B1"] },
-    { "source": "кухня", "target": "kitchen", "tags": ["home", "B1"] },
-    { "source": "спальня", "target": "bedroom", "tags": ["home", "B1"] },
-    { "source": "ванная", "target": "bathroom", "tags": ["home", "B1"] },
-    { "source": "гостиная", "target": "living room", "tags": ["home", "B1"] },
-    { "source": "дверь", "target": "door", "tags": ["home", "B1"] },
-    { "source": "окно", "target": "window", "tags": ["home", "B1"] },
-    { "source": "стол", "target": "table", "tags": ["home", "B1"] },
-    { "source": "стул", "target": "chair", "tags": ["home", "B1"] },
-    { "source": "диван", "target": "sofa", "tags": ["home", "B1"] },
-    { "source": "кровать", "target": "bed", "tags": ["home", "B1"] },
-    { "source": "подушка", "target": "pillow", "tags": ["home", "B1"] },
-    { "source": "одеяло", "target": "blanket", "tags": ["home", "B1"] },
-    { "source": "зеркало", "target": "mirror", "tags": ["home", "B1"] },
-    { "source": "лампа", "target": "lamp", "tags": ["home", "B1"] },
-    { "source": "пол", "target": "floor", "tags": ["home", "B1"] },
-    { "source": "потолок", "target": "ceiling", "tags": ["home", "B1"] },
-    { "source": "стена", "target": "wall", "tags": ["home", "B1"] },
-    { "source": "крыша", "target": "roof", "tags": ["home", "B1"] },
-    { "source": "сад", "target": "garden", "tags": ["home", "B1"] },
-    { "source": "голова", "target": "head", "tags": ["body", "B1"] },
-    { "source": "лицо", "target": "face", "tags": ["body", "B1"] },
-    { "source": "глаза", "target": "eyes", "tags": ["body", "B1"] },
-    { "source": "уши", "target": "ears", "tags": ["body", "B1"] },
-    { "source": "нос", "target": "nose", "tags": ["body", "B1"] },
-    { "source": "рот", "target": "mouth", "tags": ["body", "B1"] },
-    { "source": "зубы", "target": "teeth", "tags": ["body", "B1"] },
-    { "source": "шея", "target": "neck", "tags": ["body", "B1"] },
-    { "source": "плечи", "target": "shoulders", "tags": ["body", "B1"] },
-    { "source": "рука", "target": "hand", "tags": ["body", "B1"] },
-    { "source": "пальцы", "target": "fingers", "tags": ["body", "B1"] },
-    { "source": "нога", "target": "leg", "tags": ["body", "B1"] },
-    { "source": "колено", "target": "knee", "tags": ["body", "B1"] },
-    { "source": "стопа", "target": "foot", "tags": ["body", "B1"] },
-    { "source": "сердце", "target": "heart", "tags": ["body", "B1"] },
-    { "source": "день", "target": "day", "tags": ["time", "B1"] },
-    { "source": "ночь", "target": "night", "tags": ["time", "B1"] },
-    { "source": "утро", "target": "morning", "tags": ["time", "B1"] },
-    { "source": "вечер", "target": "evening", "tags": ["time", "B1"] },
-    { "source": "неделя", "target": "week", "tags": ["time", "B1"] },
-    { "source": "месяц", "target": "month", "tags": ["time", "B1"] },
-    { "source": "год", "target": "year", "tags": ["time", "B1"] },
-    { "source": "час", "target": "hour", "tags": ["time", "B1"] },
-    { "source": "минута", "target": "minute", "tags": ["time", "B1"] },
-    { "source": "секунда", "target": "second", "tags": ["time", "B1"] },
-    { "source": "сейчас", "target": "now", "tags": ["time", "B1"] },
-    { "source": "вчера", "target": "yesterday", "tags": ["time", "B1"] },
-    { "source": "завтра", "target": "tomorrow", "tags": ["time", "B1"] },
-    { "source": "говорить", "target": "to speak", "tags": ["verbs", "B1"] },
-    { "source": "слушать", "target": "to listen", "tags": ["verbs", "B1"] },
-    { "source": "читать", "target": "to read", "tags": ["verbs", "B1"] },
-    { "source": "писать", "target": "to write", "tags": ["verbs", "B1"] },
-    { "source": "есть", "target": "to eat", "tags": ["verbs", "B1"] },
-    { "source": "пить", "target": "to drink", "tags": ["verbs", "B1"] },
-    { "source": "спать", "target": "to sleep", "tags": ["verbs", "B1"] },
-    { "source": "идти", "target": "to walk", "tags": ["verbs", "B1"] },
-    { "source": "бежать", "target": "to run", "tags": ["verbs", "B1"] },
-    { "source": "работать", "target": "to work", "tags": ["verbs", "B1"] },
-    { "source": "играть", "target": "to play", "tags": ["verbs", "B1"] },
-    { "source": "учиться", "target": "to learn", "tags": ["verbs", "B1"] },
-    { "source": "думать", "target": "to think", "tags": ["verbs", "B1"] },
-    { "source": "знать", "target": "to know", "tags": ["verbs", "B1"] },
-    { "source": "понимать", "target": "to understand", "tags": ["verbs", "B1"] },
-    { "source": "отвечать", "target": "to answer", "tags": ["verbs", "B1"] },
-    { "source": "спрашивать", "target": "to ask", "tags": ["verbs", "B1"] },
-    { "source": "помогать", "target": "to help", "tags": ["verbs", "B1"] },
-    { "source": "покупать", "target": "to buy", "tags": ["verbs", "B1"] },
-    { "source": "приходить", "target": "to come", "tags": ["verbs", "B1"] },
-    { "source": "уходить", "target": "to go", "tags": ["verbs", "B1"] },
-    { "source": "возвращаться", "target": "to return", "tags": ["verbs", "B1"] },
-    { "source": "забывать", "target": "to forget", "tags": ["verbs", "B1"] },
-    { "source": "помнить", "target": "to remember", "tags": ["verbs", "B1"] },
-    { "source": "открывать", "target": "to open", "tags": ["verbs", "B1"] },
-    { "source": "закрывать", "target": "to close", "tags": ["verbs", "B1"] },
-    { "source": "хороший", "target": "good", "tags": ["adjectives", "B1"] },
-    { "source": "плохой", "target": "bad", "tags": ["adjectives", "B1"] },
-    { "source": "большой", "target": "big", "tags": ["adjectives", "B1"] },
-    { "source": "маленький", "target": "small", "tags": ["adjectives", "B1"] },
-    { "source": "новый", "target": "new", "tags": ["adjectives", "B1"] },
-    { "source": "старый", "target": "old", "tags": ["adjectives", "B1"] },
-    { "source": "быстрый", "target": "fast", "tags": ["adjectives", "B1"] },
-    { "source": "медленный", "target": "slow", "tags": ["adjectives", "B1"] },
-    { "source": "горячий", "target": "hot", "tags": ["adjectives", "B1"] },
-    { "source": "холодный", "target": "cold", "tags": ["adjectives", "B1"] },
-    { "source": "красивый", "target": "beautiful", "tags": ["adjectives", "B1"] },
-    { "source": "некрасивый", "target": "ugly", "tags": ["adjectives", "B1"] },
-    { "source": "сильный", "target": "strong", "tags": ["adjectives", "B1"] },
-    { "source": "слабый", "target": "weak", "tags": ["adjectives", "B1"] },
-    { "source": "важный", "target": "important", "tags": ["adjectives", "B1"] },
-    { "source": "интересный", "target": "interesting", "tags": ["adjectives", "B1"] },
-    { "source": "трудный", "target": "difficult", "tags": ["adjectives", "B1"] },
-    { "source": "лёгкий", "target": "easy", "tags": ["adjectives", "B1"] },
-    { "source": "безопасный", "target": "safe", "tags": ["adjectives", "B1"] },
-    { "source": "чистый", "target": "clean", "tags": ["adjectives", "B1"] },
-    { "source": "грязный", "target": "dirty", "tags": ["adjectives", "B1"] },
-    { "source": "полный", "target": "full", "tags": ["adjectives", "B1"] },
-    { "source": "пустой", "target": "empty", "tags": ["adjectives", "B1"] },
-    { "source": "свободный", "target": "free", "tags": ["adjectives", "B1"] },
-    { "source": "телефон", "target": "phone", "tags": ["objects", "B1"] },
-    { "source": "компьютер", "target": "computer", "tags": ["objects", "B1"] },
-    { "source": "экран", "target": "screen", "tags": ["objects", "B1"] },
-    { "source": "клавиатура", "target": "keyboard", "tags": ["objects", "B1"] },
-    { "source": "мышь", "target": "mouse", "tags": ["objects", "B1"] },
-    { "source": "интернет", "target": "internet", "tags": ["objects", "B1"] },
-    { "source": "сумка", "target": "bag", "tags": ["objects", "B1"] },
-    { "source": "кошелёк", "target": "wallet", "tags": ["objects", "B1"] },
-    { "source": "часы", "target": "watch", "tags": ["objects", "B1"] },
-    { "source": "очки", "target": "glasses", "tags": ["objects", "B1"] },
-    { "source": "ключ", "target": "key", "tags": ["objects", "B1"] },
-    { "source": "ручка", "target": "pen", "tags": ["objects", "B1"] },
-    { "source": "бумага", "target": "paper", "tags": ["objects", "B1"] },
-    { "source": "деньги", "target": "money", "tags": ["objects", "B1"] },
-    { "source": "цена", "target": "price", "tags": ["objects", "B1"] },
-    { "source": "счёт", "target": "bill", "tags": ["objects", "B1"] },
-    { "source": "семья", "target": "family", "tags": ["social", "B1"] },
-    { "source": "друг", "target": "friend", "tags": ["social", "B1"] },
-    { "source": "сосед", "target": "neighbour", "tags": ["social", "B1"] },
-    { "source": "ребёнок", "target": "child", "tags": ["social", "B1"] },
-    { "source": "родители", "target": "parents", "tags": ["social", "B1"] },
-    { "source": "сестра", "target": "sister", "tags": ["social", "B1"] },
-    { "source": "брат", "target": "brother", "tags": ["social", "B1"] },
-    { "source": "муж", "target": "husband", "tags": ["social", "B1"] },
-    { "source": "жена", "target": "wife", "tags": ["social", "B1"] },
-    { "source": "учитель", "target": "teacher", "tags": ["social", "work", "B1"] },
-    { "source": "студент", "target": "student", "tags": ["social", "B1"] },
-    { "source": "врач", "target": "doctor", "tags": ["social", "work", "B1"] },
-    { "source": "больница", "target": "hospital", "tags": ["social", "B1"] },
-    { "source": "аптека", "target": "pharmacy", "tags": ["social", "B1"] },
-    { "source": "рынок", "target": "market", "tags": ["social", "B1"] },
-    { "source": "магазин", "target": "shop", "tags": ["social", "B1"] },
-    { "source": "банк", "target": "bank", "tags": ["social", "B1"] },
-    { "source": "школа", "target": "school", "tags": ["social", "B1"] },
-    { "source": "университет", "target": "university", "tags": ["social", "B1"] },
-    { "source": "музей", "target": "museum", "tags": ["social", "travel", "B1"] },
-    { "source": "библиотека", "target": "library", "tags": ["social", "B1"] },
-    { "source": "парк", "target": "park", "tags": ["social", "nature", "B1"] },
-    { "source": "кино", "target": "cinema", "tags": ["social", "B1"] },
-    { "source": "праздник", "target": "celebration", "tags": ["social", "B1"] },
-    { "source": "спорт", "target": "sport", "tags": ["social", "B1"] },
-    { "source": "здоровье", "target": "health", "tags": ["body", "B1"] },
-    { "source": "болезнь", "target": "illness", "tags": ["body", "B1"] },
-    { "source": "боль", "target": "pain", "tags": ["body", "B1"] },
-    { "source": "лекарство", "target": "medicine", "tags": ["body", "B1"] },
-    { "source": "дом", "target": "house", "tags": ["home", "B1"] },
-    { "source": "квартира", "target": "apartment", "tags": ["home", "B1"] }
+    {
+      "source": "масло",
+      "target": "butter",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "фрукт",
+      "target": "fruit",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "овощ",
+      "target": "vegetable",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "апельсин",
+      "target": "orange",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "помидор",
+      "target": "tomato",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "картофель",
+      "target": "potato",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "пиво",
+      "target": "beer",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "соль",
+      "target": "salt",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "суп",
+      "target": "soup",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "салат",
+      "target": "salad",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "обед",
+      "target": "lunch",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "ужин",
+      "target": "dinner",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "завтрак",
+      "target": "breakfast",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "ресторан",
+      "target": "restaurant",
+      "tags": ["food-drink", "travel", "B1"]
+    },
+    {
+      "source": "гостиница",
+      "target": "hotel",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "аэропорт",
+      "target": "airport",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "самолёт",
+      "target": "airplane",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "поезд",
+      "target": "train",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "билет",
+      "target": "ticket",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "паспорт",
+      "target": "passport",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "карта",
+      "target": "map",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "багаж",
+      "target": "luggage",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "работа",
+      "target": "work",
+      "tags": ["work", "B1"]
+    },
+    {
+      "source": "офис",
+      "target": "office",
+      "tags": ["work", "B1"]
+    },
+    {
+      "source": "встреча",
+      "target": "meeting",
+      "tags": ["work", "B1"]
+    },
+    {
+      "source": "начальник",
+      "target": "boss",
+      "tags": ["work", "B1"]
+    },
+    {
+      "source": "отпуск",
+      "target": "holiday",
+      "tags": ["work", "travel", "B1"]
+    },
+    {
+      "source": "радость",
+      "target": "joy",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "грусть",
+      "target": "sadness",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "страх",
+      "target": "fear",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "злость",
+      "target": "anger",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "удивление",
+      "target": "surprise",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "любовь",
+      "target": "love",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "волнение",
+      "target": "excitement",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "лес",
+      "target": "forest",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "море",
+      "target": "sea",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "озеро",
+      "target": "lake",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "река",
+      "target": "river",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "гора",
+      "target": "mountain",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "деревня",
+      "target": "countryside",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "луна",
+      "target": "moon",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "звезда",
+      "target": "star",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "ветер",
+      "target": "wind",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "облака",
+      "target": "clouds",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "зима",
+      "target": "winter",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "лето",
+      "target": "summer",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "весна",
+      "target": "spring",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "осень",
+      "target": "autumn",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "трава",
+      "target": "grass",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "кухня",
+      "target": "kitchen",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "спальня",
+      "target": "bedroom",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "ванная",
+      "target": "bathroom",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "гостиная",
+      "target": "living room",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "диван",
+      "target": "sofa",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "подушка",
+      "target": "pillow",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "одеяло",
+      "target": "blanket",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "зеркало",
+      "target": "mirror",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "лампа",
+      "target": "lamp",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "пол",
+      "target": "floor",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "потолок",
+      "target": "ceiling",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "стена",
+      "target": "wall",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "крыша",
+      "target": "roof",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "сад",
+      "target": "garden",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "лицо",
+      "target": "face",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "зубы",
+      "target": "teeth",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "шея",
+      "target": "neck",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "плечи",
+      "target": "shoulders",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "пальцы",
+      "target": "fingers",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "колено",
+      "target": "knee",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "стопа",
+      "target": "foot",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "час",
+      "target": "hour",
+      "tags": ["time", "B1"]
+    },
+    {
+      "source": "минута",
+      "target": "minute",
+      "tags": ["time", "B1"]
+    },
+    {
+      "source": "секунда",
+      "target": "second",
+      "tags": ["time", "B1"]
+    },
+    {
+      "source": "говорить",
+      "target": "to speak",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "слушать",
+      "target": "to listen",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "писать",
+      "target": "to write",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "идти",
+      "target": "to walk",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "бежать",
+      "target": "to run",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "учиться",
+      "target": "to learn",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "думать",
+      "target": "to think",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "знать",
+      "target": "to know",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "понимать",
+      "target": "to understand",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "помогать",
+      "target": "to help",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "покупать",
+      "target": "to buy",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "приходить",
+      "target": "to come",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "уходить",
+      "target": "to go",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "возвращаться",
+      "target": "to return",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "открывать",
+      "target": "to open",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "закрывать",
+      "target": "to close",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "быстрый",
+      "target": "fast",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "медленный",
+      "target": "slow",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "красивый",
+      "target": "beautiful",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "некрасивый",
+      "target": "ugly",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "сильный",
+      "target": "strong",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "слабый",
+      "target": "weak",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "важный",
+      "target": "important",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "безопасный",
+      "target": "safe",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "чистый",
+      "target": "clean",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "грязный",
+      "target": "dirty",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "полный",
+      "target": "full",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "пустой",
+      "target": "empty",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "свободный",
+      "target": "free",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "экран",
+      "target": "screen",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "клавиатура",
+      "target": "keyboard",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "мышь",
+      "target": "mouse",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "интернет",
+      "target": "internet",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "кошелёк",
+      "target": "wallet",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "часы",
+      "target": "watch",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "очки",
+      "target": "glasses",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "бумага",
+      "target": "paper",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "счёт",
+      "target": "bill",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "родители",
+      "target": "parents",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "рынок",
+      "target": "market",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "банк",
+      "target": "bank",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "университет",
+      "target": "university",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "музей",
+      "target": "museum",
+      "tags": ["social", "travel", "B1"]
+    },
+    {
+      "source": "библиотека",
+      "target": "library",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "парк",
+      "target": "park",
+      "tags": ["social", "nature", "B1"]
+    },
+    {
+      "source": "кино",
+      "target": "cinema",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "праздник",
+      "target": "celebration",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "спорт",
+      "target": "sport",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "здоровье",
+      "target": "health",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "болезнь",
+      "target": "illness",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "квартира",
+      "target": "apartment",
+      "tags": ["home", "B1"]
+    }
   ]
 }

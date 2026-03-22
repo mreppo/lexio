@@ -6,223 +6,630 @@
   "targetCode": "en",
   "level": "B1",
   "words": [
-    { "source": "grāmata", "target": "book", "tags": ["objects", "B1"] },
-    { "source": "ceļojums", "target": "journey", "tags": ["travel", "B1"] },
-    { "source": "māja", "target": "house", "tags": ["home", "B1"] },
-    { "source": "ūdens", "target": "water", "tags": ["food-drink", "B1"] },
-    { "source": "maize", "target": "bread", "tags": ["food-drink", "B1"] },
-    { "source": "gaļa", "target": "meat", "tags": ["food-drink", "B1"] },
-    { "source": "piens", "target": "milk", "tags": ["food-drink", "B1"] },
-    { "source": "ola", "target": "egg", "tags": ["food-drink", "B1"] },
-    { "source": "siers", "target": "cheese", "tags": ["food-drink", "B1"] },
-    { "source": "sviests", "target": "butter", "tags": ["food-drink", "B1"] },
-    { "source": "auglis", "target": "fruit", "tags": ["food-drink", "B1"] },
-    { "source": "dārzenis", "target": "vegetable", "tags": ["food-drink", "B1"] },
-    { "source": "ābols", "target": "apple", "tags": ["food-drink", "B1"] },
-    { "source": "banāns", "target": "banana", "tags": ["food-drink", "B1"] },
-    { "source": "apelsīns", "target": "orange", "tags": ["food-drink", "B1"] },
-    { "source": "tomāts", "target": "tomato", "tags": ["food-drink", "B1"] },
-    { "source": "kartupelis", "target": "potato", "tags": ["food-drink", "B1"] },
-    { "source": "kafija", "target": "coffee", "tags": ["food-drink", "B1"] },
-    { "source": "tēja", "target": "tea", "tags": ["food-drink", "B1"] },
-    { "source": "alus", "target": "beer", "tags": ["food-drink", "B1"] },
-    { "source": "cukurs", "target": "sugar", "tags": ["food-drink", "B1"] },
-    { "source": "sāls", "target": "salt", "tags": ["food-drink", "B1"] },
-    { "source": "rīsi", "target": "rice", "tags": ["food-drink", "B1"] },
-    { "source": "zupa", "target": "soup", "tags": ["food-drink", "B1"] },
-    { "source": "salāti", "target": "salad", "tags": ["food-drink", "B1"] },
-    { "source": "pusdienas", "target": "lunch", "tags": ["food-drink", "B1"] },
-    { "source": "vakariņas", "target": "dinner", "tags": ["food-drink", "B1"] },
-    { "source": "brokastis", "target": "breakfast", "tags": ["food-drink", "B1"] },
-    { "source": "restorāns", "target": "restaurant", "tags": ["food-drink", "travel", "B1"] },
-    { "source": "viesnīca", "target": "hotel", "tags": ["travel", "B1"] },
-    { "source": "lidosta", "target": "airport", "tags": ["travel", "B1"] },
-    { "source": "lidmašīna", "target": "airplane", "tags": ["travel", "B1"] },
-    { "source": "vilciens", "target": "train", "tags": ["travel", "B1"] },
-    { "source": "autobuss", "target": "bus", "tags": ["travel", "B1"] },
-    { "source": "auto", "target": "car", "tags": ["travel", "B1"] },
-    { "source": "biļete", "target": "ticket", "tags": ["travel", "B1"] },
-    { "source": "pase", "target": "passport", "tags": ["travel", "B1"] },
-    { "source": "karte", "target": "map", "tags": ["travel", "B1"] },
-    { "source": "iela", "target": "street", "tags": ["travel", "B1"] },
-    { "source": "pilsēta", "target": "city", "tags": ["travel", "B1"] },
-    { "source": "valsts", "target": "country", "tags": ["travel", "B1"] },
-    { "source": "bagāža", "target": "luggage", "tags": ["travel", "B1"] },
-    { "source": "darbs", "target": "work", "tags": ["work", "B1"] },
-    { "source": "birojs", "target": "office", "tags": ["work", "B1"] },
-    { "source": "sanāksme", "target": "meeting", "tags": ["work", "B1"] },
-    { "source": "kolēģis", "target": "colleague", "tags": ["work", "B1"] },
-    { "source": "priekšnieks", "target": "boss", "tags": ["work", "B1"] },
-    { "source": "atvaļinājums", "target": "holiday", "tags": ["work", "travel", "B1"] },
-    { "source": "prieks", "target": "joy", "tags": ["emotions", "B1"] },
-    { "source": "skumjas", "target": "sadness", "tags": ["emotions", "B1"] },
-    { "source": "bailes", "target": "fear", "tags": ["emotions", "B1"] },
-    { "source": "dusmas", "target": "anger", "tags": ["emotions", "B1"] },
-    { "source": "pārsteigums", "target": "surprise", "tags": ["emotions", "B1"] },
-    { "source": "mīlestība", "target": "love", "tags": ["emotions", "B1"] },
-    { "source": "uztraukums", "target": "excitement", "tags": ["emotions", "B1"] },
-    { "source": "meža", "target": "forest", "tags": ["nature", "B1"] },
-    { "source": "jūra", "target": "sea", "tags": ["nature", "B1"] },
-    { "source": "ezers", "target": "lake", "tags": ["nature", "B1"] },
-    { "source": "upe", "target": "river", "tags": ["nature", "B1"] },
-    { "source": "kalns", "target": "mountain", "tags": ["nature", "B1"] },
-    { "source": "lauki", "target": "countryside", "tags": ["nature", "B1"] },
-    { "source": "saule", "target": "sun", "tags": ["nature", "B1"] },
-    { "source": "mēness", "target": "moon", "tags": ["nature", "B1"] },
-    { "source": "zvaigzne", "target": "star", "tags": ["nature", "B1"] },
-    { "source": "lietus", "target": "rain", "tags": ["nature", "B1"] },
-    { "source": "sniegs", "target": "snow", "tags": ["nature", "B1"] },
-    { "source": "vējš", "target": "wind", "tags": ["nature", "B1"] },
-    { "source": "mākoņi", "target": "clouds", "tags": ["nature", "B1"] },
-    { "source": "ziema", "target": "winter", "tags": ["nature", "B1"] },
-    { "source": "vasara", "target": "summer", "tags": ["nature", "B1"] },
-    { "source": "pavasaris", "target": "spring", "tags": ["nature", "B1"] },
-    { "source": "rudens", "target": "autumn", "tags": ["nature", "B1"] },
-    { "source": "koks", "target": "tree", "tags": ["nature", "B1"] },
-    { "source": "puķe", "target": "flower", "tags": ["nature", "B1"] },
-    { "source": "zāle", "target": "grass", "tags": ["nature", "B1"] },
-    { "source": "istaba", "target": "room", "tags": ["home", "B1"] },
-    { "source": "virtuve", "target": "kitchen", "tags": ["home", "B1"] },
-    { "source": "guļamistaba", "target": "bedroom", "tags": ["home", "B1"] },
-    { "source": "vannas istaba", "target": "bathroom", "tags": ["home", "B1"] },
-    { "source": "viesistaba", "target": "living room", "tags": ["home", "B1"] },
-    { "source": "durvis", "target": "door", "tags": ["home", "B1"] },
-    { "source": "logs", "target": "window", "tags": ["home", "B1"] },
-    { "source": "galds", "target": "table", "tags": ["home", "B1"] },
-    { "source": "krēsls", "target": "chair", "tags": ["home", "B1"] },
-    { "source": "dīvāns", "target": "sofa", "tags": ["home", "B1"] },
-    { "source": "gulta", "target": "bed", "tags": ["home", "B1"] },
-    { "source": "spilvens", "target": "pillow", "tags": ["home", "B1"] },
-    { "source": "sega", "target": "blanket", "tags": ["home", "B1"] },
-    { "source": "spogulis", "target": "mirror", "tags": ["home", "B1"] },
-    { "source": "lampa", "target": "lamp", "tags": ["home", "B1"] },
-    { "source": "grīda", "target": "floor", "tags": ["home", "B1"] },
-    { "source": "griesti", "target": "ceiling", "tags": ["home", "B1"] },
-    { "source": "siena", "target": "wall", "tags": ["home", "B1"] },
-    { "source": "jumts", "target": "roof", "tags": ["home", "B1"] },
-    { "source": "dārzs", "target": "garden", "tags": ["home", "B1"] },
-    { "source": "galva", "target": "head", "tags": ["body", "B1"] },
-    { "source": "seja", "target": "face", "tags": ["body", "B1"] },
-    { "source": "acis", "target": "eyes", "tags": ["body", "B1"] },
-    { "source": "ausis", "target": "ears", "tags": ["body", "B1"] },
-    { "source": "deguns", "target": "nose", "tags": ["body", "B1"] },
-    { "source": "mute", "target": "mouth", "tags": ["body", "B1"] },
-    { "source": "zobi", "target": "teeth", "tags": ["body", "B1"] },
-    { "source": "kakls", "target": "neck", "tags": ["body", "B1"] },
-    { "source": "pleci", "target": "shoulders", "tags": ["body", "B1"] },
-    { "source": "roka", "target": "hand", "tags": ["body", "B1"] },
-    { "source": "pirksti", "target": "fingers", "tags": ["body", "B1"] },
-    { "source": "kāja", "target": "leg", "tags": ["body", "B1"] },
-    { "source": "celis", "target": "knee", "tags": ["body", "B1"] },
-    { "source": "pēda", "target": "foot", "tags": ["body", "B1"] },
-    { "source": "sirds", "target": "heart", "tags": ["body", "B1"] },
-    { "source": "diena", "target": "day", "tags": ["time", "B1"] },
-    { "source": "nakts", "target": "night", "tags": ["time", "B1"] },
-    { "source": "rīts", "target": "morning", "tags": ["time", "B1"] },
-    { "source": "vakars", "target": "evening", "tags": ["time", "B1"] },
-    { "source": "nedēļa", "target": "week", "tags": ["time", "B1"] },
-    { "source": "mēnesis", "target": "month", "tags": ["time", "B1"] },
-    { "source": "gads", "target": "year", "tags": ["time", "B1"] },
-    { "source": "stunda", "target": "hour", "tags": ["time", "B1"] },
-    { "source": "minūte", "target": "minute", "tags": ["time", "B1"] },
-    { "source": "sekunde", "target": "second", "tags": ["time", "B1"] },
-    { "source": "tagad", "target": "now", "tags": ["time", "B1"] },
-    { "source": "vakar", "target": "yesterday", "tags": ["time", "B1"] },
-    { "source": "rīt", "target": "tomorrow", "tags": ["time", "B1"] },
-    { "source": "runāt", "target": "to speak", "tags": ["verbs", "B1"] },
-    { "source": "klausīties", "target": "to listen", "tags": ["verbs", "B1"] },
-    { "source": "lasīt", "target": "to read", "tags": ["verbs", "B1"] },
-    { "source": "rakstīt", "target": "to write", "tags": ["verbs", "B1"] },
-    { "source": "ēst", "target": "to eat", "tags": ["verbs", "B1"] },
-    { "source": "dzert", "target": "to drink", "tags": ["verbs", "B1"] },
-    { "source": "gulēt", "target": "to sleep", "tags": ["verbs", "B1"] },
-    { "source": "staigāt", "target": "to walk", "tags": ["verbs", "B1"] },
-    { "source": "skriet", "target": "to run", "tags": ["verbs", "B1"] },
-    { "source": "strādāt", "target": "to work", "tags": ["verbs", "B1"] },
-    { "source": "spēlēt", "target": "to play", "tags": ["verbs", "B1"] },
-    { "source": "mācīties", "target": "to learn", "tags": ["verbs", "B1"] },
-    { "source": "domāt", "target": "to think", "tags": ["verbs", "B1"] },
-    { "source": "zināt", "target": "to know", "tags": ["verbs", "B1"] },
-    { "source": "saprast", "target": "to understand", "tags": ["verbs", "B1"] },
-    { "source": "atbildēt", "target": "to answer", "tags": ["verbs", "B1"] },
-    { "source": "jautāt", "target": "to ask", "tags": ["verbs", "B1"] },
-    { "source": "palīdzēt", "target": "to help", "tags": ["verbs", "B1"] },
-    { "source": "pirkt", "target": "to buy", "tags": ["verbs", "B1"] },
-    { "source": "nākt", "target": "to come", "tags": ["verbs", "B1"] },
-    { "source": "iet", "target": "to go", "tags": ["verbs", "B1"] },
-    { "source": "atgriezties", "target": "to return", "tags": ["verbs", "B1"] },
-    { "source": "aizmirst", "target": "to forget", "tags": ["verbs", "B1"] },
-    { "source": "atcerēties", "target": "to remember", "tags": ["verbs", "B1"] },
-    { "source": "atvērt", "target": "to open", "tags": ["verbs", "B1"] },
-    { "source": "aizvērt", "target": "to close", "tags": ["verbs", "B1"] },
-    { "source": "labi", "target": "good", "tags": ["adjectives", "B1"] },
-    { "source": "slikti", "target": "bad", "tags": ["adjectives", "B1"] },
-    { "source": "liels", "target": "big", "tags": ["adjectives", "B1"] },
-    { "source": "mazs", "target": "small", "tags": ["adjectives", "B1"] },
-    { "source": "jauns", "target": "new", "tags": ["adjectives", "B1"] },
-    { "source": "vecs", "target": "old", "tags": ["adjectives", "B1"] },
-    { "source": "ātrs", "target": "fast", "tags": ["adjectives", "B1"] },
-    { "source": "lēns", "target": "slow", "tags": ["adjectives", "B1"] },
-    { "source": "karsts", "target": "hot", "tags": ["adjectives", "B1"] },
-    { "source": "auksts", "target": "cold", "tags": ["adjectives", "B1"] },
-    { "source": "skaists", "target": "beautiful", "tags": ["adjectives", "B1"] },
-    { "source": "neglīts", "target": "ugly", "tags": ["adjectives", "B1"] },
-    { "source": "stiprs", "target": "strong", "tags": ["adjectives", "B1"] },
-    { "source": "vājš", "target": "weak", "tags": ["adjectives", "B1"] },
-    { "source": "svarīgs", "target": "important", "tags": ["adjectives", "B1"] },
-    { "source": "interesants", "target": "interesting", "tags": ["adjectives", "B1"] },
-    { "source": "grūts", "target": "difficult", "tags": ["adjectives", "B1"] },
-    { "source": "viegls", "target": "easy", "tags": ["adjectives", "B1"] },
-    { "source": "drošs", "target": "safe", "tags": ["adjectives", "B1"] },
-    { "source": "tīrs", "target": "clean", "tags": ["adjectives", "B1"] },
-    { "source": "netīrs", "target": "dirty", "tags": ["adjectives", "B1"] },
-    { "source": "pilns", "target": "full", "tags": ["adjectives", "B1"] },
-    { "source": "tukšs", "target": "empty", "tags": ["adjectives", "B1"] },
-    { "source": "brīvs", "target": "free", "tags": ["adjectives", "B1"] },
-    { "source": "telefons", "target": "phone", "tags": ["objects", "B1"] },
-    { "source": "dators", "target": "computer", "tags": ["objects", "B1"] },
-    { "source": "ekrāns", "target": "screen", "tags": ["objects", "B1"] },
-    { "source": "klaviatūra", "target": "keyboard", "tags": ["objects", "B1"] },
-    { "source": "pele", "target": "mouse", "tags": ["objects", "B1"] },
-    { "source": "internets", "target": "internet", "tags": ["objects", "B1"] },
-    { "source": "soma", "target": "bag", "tags": ["objects", "B1"] },
-    { "source": "maks", "target": "wallet", "tags": ["objects", "B1"] },
-    { "source": "pulkstenis", "target": "watch", "tags": ["objects", "B1"] },
-    { "source": "brilles", "target": "glasses", "tags": ["objects", "B1"] },
-    { "source": "atslēga", "target": "key", "tags": ["objects", "B1"] },
-    { "source": "pildspalva", "target": "pen", "tags": ["objects", "B1"] },
-    { "source": "papīrs", "target": "paper", "tags": ["objects", "B1"] },
-    { "source": "nauda", "target": "money", "tags": ["objects", "B1"] },
-    { "source": "cena", "target": "price", "tags": ["objects", "B1"] },
-    { "source": "rēķins", "target": "bill", "tags": ["objects", "B1"] },
-    { "source": "ģimene", "target": "family", "tags": ["social", "B1"] },
-    { "source": "draugs", "target": "friend", "tags": ["social", "B1"] },
-    { "source": "kaimiņš", "target": "neighbour", "tags": ["social", "B1"] },
-    { "source": "bērns", "target": "child", "tags": ["social", "B1"] },
-    { "source": "vecāki", "target": "parents", "tags": ["social", "B1"] },
-    { "source": "māsa", "target": "sister", "tags": ["social", "B1"] },
-    { "source": "brālis", "target": "brother", "tags": ["social", "B1"] },
-    { "source": "vīrs", "target": "husband", "tags": ["social", "B1"] },
-    { "source": "sieva", "target": "wife", "tags": ["social", "B1"] },
-    { "source": "skolotājs", "target": "teacher", "tags": ["social", "work", "B1"] },
-    { "source": "students", "target": "student", "tags": ["social", "B1"] },
-    { "source": "ārsts", "target": "doctor", "tags": ["social", "work", "B1"] },
-    { "source": "slimnīca", "target": "hospital", "tags": ["social", "B1"] },
-    { "source": "aptiekā", "target": "pharmacy", "tags": ["social", "B1"] },
-    { "source": "tirgus", "target": "market", "tags": ["social", "B1"] },
-    { "source": "veikals", "target": "shop", "tags": ["social", "B1"] },
-    { "source": "banka", "target": "bank", "tags": ["social", "B1"] },
-    { "source": "skolā", "target": "school", "tags": ["social", "B1"] },
-    { "source": "universitāte", "target": "university", "tags": ["social", "B1"] },
-    { "source": "muzejs", "target": "museum", "tags": ["social", "travel", "B1"] },
-    { "source": "bibliotēka", "target": "library", "tags": ["social", "B1"] },
-    { "source": "parks", "target": "park", "tags": ["social", "nature", "B1"] },
-    { "source": "kino", "target": "cinema", "tags": ["social", "B1"] },
-    { "source": "svētki", "target": "celebration", "tags": ["social", "B1"] },
-    { "source": "sports", "target": "sport", "tags": ["social", "B1"] },
-    { "source": "veselība", "target": "health", "tags": ["body", "B1"] },
-    { "source": "slimība", "target": "illness", "tags": ["body", "B1"] },
-    { "source": "sāpes", "target": "pain", "tags": ["body", "B1"] },
-    { "source": "zāles", "target": "medicine", "tags": ["body", "B1"] }
+    {
+      "source": "ceļojums",
+      "target": "journey",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "sviests",
+      "target": "butter",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "auglis",
+      "target": "fruit",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "dārzenis",
+      "target": "vegetable",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "apelsīns",
+      "target": "orange",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "tomāts",
+      "target": "tomato",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "kartupelis",
+      "target": "potato",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "alus",
+      "target": "beer",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "sāls",
+      "target": "salt",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "zupa",
+      "target": "soup",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "salāti",
+      "target": "salad",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "pusdienas",
+      "target": "lunch",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "vakariņas",
+      "target": "dinner",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "brokastis",
+      "target": "breakfast",
+      "tags": ["food-drink", "B1"]
+    },
+    {
+      "source": "restorāns",
+      "target": "restaurant",
+      "tags": ["food-drink", "travel", "B1"]
+    },
+    {
+      "source": "viesnīca",
+      "target": "hotel",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "lidosta",
+      "target": "airport",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "lidmašīna",
+      "target": "airplane",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "vilciens",
+      "target": "train",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "auto",
+      "target": "car",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "biļete",
+      "target": "ticket",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "pase",
+      "target": "passport",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "karte",
+      "target": "map",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "bagāža",
+      "target": "luggage",
+      "tags": ["travel", "B1"]
+    },
+    {
+      "source": "darbs",
+      "target": "work",
+      "tags": ["work", "B1"]
+    },
+    {
+      "source": "birojs",
+      "target": "office",
+      "tags": ["work", "B1"]
+    },
+    {
+      "source": "sanāksme",
+      "target": "meeting",
+      "tags": ["work", "B1"]
+    },
+    {
+      "source": "priekšnieks",
+      "target": "boss",
+      "tags": ["work", "B1"]
+    },
+    {
+      "source": "atvaļinājums",
+      "target": "holiday",
+      "tags": ["work", "travel", "B1"]
+    },
+    {
+      "source": "prieks",
+      "target": "joy",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "skumjas",
+      "target": "sadness",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "bailes",
+      "target": "fear",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "dusmas",
+      "target": "anger",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "pārsteigums",
+      "target": "surprise",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "mīlestība",
+      "target": "love",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "uztraukums",
+      "target": "excitement",
+      "tags": ["emotions", "B1"]
+    },
+    {
+      "source": "meža",
+      "target": "forest",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "jūra",
+      "target": "sea",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "ezers",
+      "target": "lake",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "upe",
+      "target": "river",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "kalns",
+      "target": "mountain",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "lauki",
+      "target": "countryside",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "mēness",
+      "target": "moon",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "zvaigzne",
+      "target": "star",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "vējš",
+      "target": "wind",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "mākoņi",
+      "target": "clouds",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "ziema",
+      "target": "winter",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "vasara",
+      "target": "summer",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "pavasaris",
+      "target": "spring",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "rudens",
+      "target": "autumn",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "zāle",
+      "target": "grass",
+      "tags": ["nature", "B1"]
+    },
+    {
+      "source": "virtuve",
+      "target": "kitchen",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "guļamistaba",
+      "target": "bedroom",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "vannas istaba",
+      "target": "bathroom",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "viesistaba",
+      "target": "living room",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "dīvāns",
+      "target": "sofa",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "spilvens",
+      "target": "pillow",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "sega",
+      "target": "blanket",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "spogulis",
+      "target": "mirror",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "lampa",
+      "target": "lamp",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "grīda",
+      "target": "floor",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "griesti",
+      "target": "ceiling",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "siena",
+      "target": "wall",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "jumts",
+      "target": "roof",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "dārzs",
+      "target": "garden",
+      "tags": ["home", "B1"]
+    },
+    {
+      "source": "seja",
+      "target": "face",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "zobi",
+      "target": "teeth",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "kakls",
+      "target": "neck",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "pleci",
+      "target": "shoulders",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "pirksti",
+      "target": "fingers",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "celis",
+      "target": "knee",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "pēda",
+      "target": "foot",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "stunda",
+      "target": "hour",
+      "tags": ["time", "B1"]
+    },
+    {
+      "source": "minūte",
+      "target": "minute",
+      "tags": ["time", "B1"]
+    },
+    {
+      "source": "sekunde",
+      "target": "second",
+      "tags": ["time", "B1"]
+    },
+    {
+      "source": "runāt",
+      "target": "to speak",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "klausīties",
+      "target": "to listen",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "rakstīt",
+      "target": "to write",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "staigāt",
+      "target": "to walk",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "skriet",
+      "target": "to run",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "mācīties",
+      "target": "to learn",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "domāt",
+      "target": "to think",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "zināt",
+      "target": "to know",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "saprast",
+      "target": "to understand",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "jautāt",
+      "target": "to ask",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "palīdzēt",
+      "target": "to help",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "pirkt",
+      "target": "to buy",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "atvērt",
+      "target": "to open",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "aizvērt",
+      "target": "to close",
+      "tags": ["verbs", "B1"]
+    },
+    {
+      "source": "ātrs",
+      "target": "fast",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "lēns",
+      "target": "slow",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "skaists",
+      "target": "beautiful",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "neglīts",
+      "target": "ugly",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "stiprs",
+      "target": "strong",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "vājš",
+      "target": "weak",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "svarīgs",
+      "target": "important",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "drošs",
+      "target": "safe",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "tīrs",
+      "target": "clean",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "netīrs",
+      "target": "dirty",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "pilns",
+      "target": "full",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "tukšs",
+      "target": "empty",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "brīvs",
+      "target": "free",
+      "tags": ["adjectives", "B1"]
+    },
+    {
+      "source": "ekrāns",
+      "target": "screen",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "klaviatūra",
+      "target": "keyboard",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "pele",
+      "target": "mouse",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "internets",
+      "target": "internet",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "maks",
+      "target": "wallet",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "pulkstenis",
+      "target": "watch",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "brilles",
+      "target": "glasses",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "papīrs",
+      "target": "paper",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "rēķins",
+      "target": "bill",
+      "tags": ["objects", "B1"]
+    },
+    {
+      "source": "vecāki",
+      "target": "parents",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "aptiekā",
+      "target": "pharmacy",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "tirgus",
+      "target": "market",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "banka",
+      "target": "bank",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "skolā",
+      "target": "school",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "universitāte",
+      "target": "university",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "muzejs",
+      "target": "museum",
+      "tags": ["social", "travel", "B1"]
+    },
+    {
+      "source": "bibliotēka",
+      "target": "library",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "parks",
+      "target": "park",
+      "tags": ["social", "nature", "B1"]
+    },
+    {
+      "source": "kino",
+      "target": "cinema",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "svētki",
+      "target": "celebration",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "sports",
+      "target": "sport",
+      "tags": ["social", "B1"]
+    },
+    {
+      "source": "veselība",
+      "target": "health",
+      "tags": ["body", "B1"]
+    },
+    {
+      "source": "slimība",
+      "target": "illness",
+      "tags": ["body", "B1"]
+    }
   ]
 }
