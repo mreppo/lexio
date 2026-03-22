@@ -58,7 +58,7 @@ export default defineConfig({
         name: 'Lexio - Vocabulary Trainer',
         short_name: 'Lexio',
         description: 'Learn vocabulary in any language with spaced repetition',
-        start_url: '/lexio/',
+        start_url: '/lexio/#/app',
         scope: '/lexio/',
         display: 'standalone',
         background_color: '#0a0f1a',
