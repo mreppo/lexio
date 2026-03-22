@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Dark background matching the app theme (#0a0f1a) -->
+  <rect width="32" height="32" rx="4" fill="#0a0f1a" />
+  <!-- Amber "L" lettermark matching primary brand colour (#f59e0b) -->
+  <path d="M9 7 L9 25 L23 25 L23 21 L13 21 L13 7 Z" fill="#f59e0b" />
+</svg>
