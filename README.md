@@ -1,5 +1,9 @@
 # Lexio
 
+[![Deploy](https://github.com/mreppo/lexio/actions/workflows/deploy.yml/badge.svg)](https://github.com/mreppo/lexio/actions/workflows/deploy.yml)
+[![Licence: MIT](https://img.shields.io/badge/Licence-MIT-blue.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://mreppo.github.io/lexio/)
+
 A language-agnostic vocabulary trainer with spaced repetition. Learn any language pair through active recall quizzes.
 
 ## Features
@@ -37,4 +41,4 @@ npm run build    # Production build
 
 ## Licence
 
-MIT
+MIT - see [LICENSE](LICENSE) for details.
