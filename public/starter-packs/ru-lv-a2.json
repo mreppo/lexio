@@ -9,687 +9,1098 @@
     {
       "source": "покупки",
       "target": "iepirkšanās",
-      "tags": ["shopping", "A2"]
+      "tags": [
+        "shopping",
+        "A2"
+      ]
     },
     {
       "source": "цена",
       "target": "cena",
-      "tags": ["shopping", "A2"]
+      "tags": [
+        "shopping",
+        "A2"
+      ]
     },
     {
       "source": "дешёвый",
       "target": "lēts",
-      "tags": ["shopping", "A2"]
+      "tags": [
+        "shopping",
+        "A2"
+      ]
     },
     {
       "source": "дорогой",
       "target": "dārgs",
-      "tags": ["shopping", "A2"]
+      "tags": [
+        "shopping",
+        "A2"
+      ]
     },
     {
       "source": "чек",
       "target": "čeks",
-      "tags": ["shopping", "A2"]
+      "tags": [
+        "shopping",
+        "A2"
+      ]
     },
     {
       "source": "скидка",
       "target": "atlaide",
-      "tags": ["shopping", "A2"]
+      "tags": [
+        "shopping",
+        "A2"
+      ]
     },
     {
       "source": "размер",
       "target": "izmērs",
-      "tags": ["shopping", "A2"]
+      "tags": [
+        "shopping",
+        "A2"
+      ]
     },
     {
       "source": "коробка",
       "target": "kaste",
-      "tags": ["shopping", "A2"]
+      "tags": [
+        "shopping",
+        "A2"
+      ]
     },
     {
       "source": "пакет",
       "target": "maiss",
-      "tags": ["shopping", "A2"]
+      "tags": [
+        "shopping",
+        "A2"
+      ]
     },
     {
       "source": "очередь",
       "target": "rinda",
-      "tags": ["shopping", "A2"]
+      "tags": [
+        "shopping",
+        "A2"
+      ]
     },
     {
       "source": "дорога",
       "target": "ceļš",
-      "tags": ["directions", "A2"]
+      "tags": [
+        "directions",
+        "A2"
+      ]
     },
     {
       "source": "угол",
       "target": "stūris",
-      "tags": ["directions", "A2"]
+      "tags": [
+        "directions",
+        "A2"
+      ]
     },
     {
       "source": "перекрёсток",
       "target": "krustojums",
-      "tags": ["directions", "A2"]
+      "tags": [
+        "directions",
+        "A2"
+      ]
     },
     {
       "source": "мост",
       "target": "tilts",
-      "tags": ["directions", "A2"]
+      "tags": [
+        "directions",
+        "A2"
+      ]
     },
     {
       "source": "вокзал",
       "target": "stacija",
-      "tags": ["directions", "A2"]
+      "tags": [
+        "directions",
+        "A2"
+      ]
     },
     {
       "source": "остановка",
       "target": "pietura",
-      "tags": ["directions", "A2"]
+      "tags": [
+        "directions",
+        "A2"
+      ]
     },
     {
       "source": "рядом",
       "target": "netālu",
-      "tags": ["directions", "A2"]
+      "tags": [
+        "directions",
+        "A2"
+      ]
     },
     {
       "source": "далеко",
       "target": "tālu",
-      "tags": ["directions", "A2"]
+      "tags": [
+        "directions",
+        "A2"
+      ]
     },
     {
       "source": "за",
       "target": "aiz",
-      "tags": ["directions", "A2"]
+      "tags": [
+        "directions",
+        "A2"
+      ]
     },
     {
       "source": "перед",
       "target": "priekšā",
-      "tags": ["directions", "A2"]
+      "tags": [
+        "directions",
+        "A2"
+      ]
     },
     {
       "source": "рядом с",
       "target": "blakus",
-      "tags": ["directions", "A2"]
+      "tags": [
+        "directions",
+        "A2"
+      ]
     },
     {
       "source": "погода",
       "target": "laiks",
-      "tags": ["weather", "A2"]
+      "tags": [
+        "weather",
+        "A2"
+      ]
     },
     {
       "source": "солнечный",
       "target": "saulains",
-      "tags": ["weather", "A2"]
+      "tags": [
+        "weather",
+        "A2"
+      ]
     },
     {
       "source": "облачный",
       "target": "mākoņains",
-      "tags": ["weather", "A2"]
+      "tags": [
+        "weather",
+        "A2"
+      ]
     },
     {
       "source": "дождливый",
       "target": "lietains",
-      "tags": ["weather", "A2"]
+      "tags": [
+        "weather",
+        "A2"
+      ]
     },
     {
       "source": "ветреный",
       "target": "vējaini",
-      "tags": ["weather", "A2"]
+      "tags": [
+        "weather",
+        "A2"
+      ]
     },
     {
       "source": "снежный",
       "target": "sniegains",
-      "tags": ["weather", "A2"]
+      "tags": [
+        "weather",
+        "A2"
+      ]
     },
     {
       "source": "тёплый",
       "target": "silts",
-      "tags": ["weather", "A2"]
+      "tags": [
+        "weather",
+        "A2"
+      ]
     },
     {
       "source": "гром",
       "target": "pērkons",
-      "tags": ["weather", "A2"]
+      "tags": [
+        "weather",
+        "A2"
+      ]
     },
     {
       "source": "молния",
       "target": "zibens",
-      "tags": ["weather", "A2"]
+      "tags": [
+        "weather",
+        "A2"
+      ]
     },
     {
       "source": "больной",
       "target": "slims",
-      "tags": ["health", "A2"]
+      "tags": [
+        "health",
+        "A2"
+      ]
     },
     {
       "source": "головная боль",
       "target": "galvassāpes",
-      "tags": ["health", "A2"]
+      "tags": [
+        "health",
+        "A2"
+      ]
     },
     {
       "source": "жар",
       "target": "drudzis",
-      "tags": ["health", "A2"]
+      "tags": [
+        "health",
+        "A2"
+      ]
     },
     {
       "source": "кашель",
       "target": "klepus",
-      "tags": ["health", "A2"]
+      "tags": [
+        "health",
+        "A2"
+      ]
     },
     {
       "source": "насморк",
       "target": "iesnas",
-      "tags": ["health", "A2"]
+      "tags": [
+        "health",
+        "A2"
+      ]
     },
     {
       "source": "боль",
       "target": "sāpes",
-      "tags": ["health", "A2"]
+      "tags": [
+        "health",
+        "A2"
+      ]
     },
     {
       "source": "врач",
       "target": "ārsts",
-      "tags": ["health", "A2"]
+      "tags": [
+        "health",
+        "A2"
+      ]
     },
     {
       "source": "лекарство",
       "target": "zāles",
-      "tags": ["health", "A2"]
+      "tags": [
+        "health",
+        "A2"
+      ]
     },
     {
       "source": "больница",
       "target": "slimnīca",
-      "tags": ["health", "A2"]
+      "tags": [
+        "health",
+        "A2"
+      ]
     },
     {
       "source": "аптека",
       "target": "aptieka",
-      "tags": ["health", "A2"]
+      "tags": [
+        "health",
+        "A2"
+      ]
     },
     {
       "source": "здоровый",
       "target": "vesels",
-      "tags": ["health", "A2"]
+      "tags": [
+        "health",
+        "A2"
+      ]
     },
     {
       "source": "заниматься спортом",
       "target": "sportot",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "читать",
       "target": "lasīt",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "слушать музыку",
       "target": "klausīties mūziku",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "смотреть телевизор",
       "target": "skatīties televizoru",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "путешествовать",
       "target": "ceļot",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "готовить",
       "target": "gatavot",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "рисовать",
       "target": "zīmēt",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "фотографировать",
       "target": "fotografēt",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "играть",
       "target": "spēlēt",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "танцевать",
       "target": "dejot",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "петь",
       "target": "dziedāt",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "плавать",
       "target": "peldēties",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "ездить на велосипеде",
       "target": "braukt ar velosipēdu",
-      "tags": ["hobbies", "A2"]
+      "tags": [
+        "hobbies",
+        "A2"
+      ]
     },
     {
       "source": "интересный",
       "target": "interesants",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "скучный",
       "target": "garlaicīgs",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "весёлый",
       "target": "jautrs",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "захватывающий",
       "target": "aizraujošs",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "трудный",
       "target": "grūts",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "лёгкий",
       "target": "viegls",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "дружелюбный",
       "target": "draudzīgs",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "умный",
       "target": "gudrs",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "глупый",
       "target": "muļķīgs",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "добрый",
       "target": "laipns",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "честный",
       "target": "godīgs",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "счастливый",
       "target": "laimīgs",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "грустный",
       "target": "skumīgs",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "усталый",
       "target": "noguris",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "голодный",
       "target": "izsalcis",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "жаждущий",
       "target": "izslāpis",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "испуганный",
       "target": "nobijies",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "удивлённый",
       "target": "pārsteigts",
-      "tags": ["adjectives", "A2"]
+      "tags": [
+        "adjectives",
+        "A2"
+      ]
     },
     {
       "source": "одежда",
       "target": "apģērbs",
-      "tags": ["clothing", "A2"]
+      "tags": [
+        "clothing",
+        "A2"
+      ]
     },
     {
       "source": "рубашка",
       "target": "krekls",
-      "tags": ["clothing", "A2"]
+      "tags": [
+        "clothing",
+        "A2"
+      ]
     },
     {
       "source": "брюки",
       "target": "bikses",
-      "tags": ["clothing", "A2"]
+      "tags": [
+        "clothing",
+        "A2"
+      ]
     },
     {
       "source": "платье",
       "target": "kleita",
-      "tags": ["clothing", "A2"]
+      "tags": [
+        "clothing",
+        "A2"
+      ]
     },
     {
       "source": "куртка",
       "target": "jaka",
-      "tags": ["clothing", "A2"]
+      "tags": [
+        "clothing",
+        "A2"
+      ]
     },
     {
       "source": "туфли",
       "target": "kurpes",
-      "tags": ["clothing", "A2"]
+      "tags": [
+        "clothing",
+        "A2"
+      ]
     },
     {
       "source": "шляпа",
       "target": "cepure",
-      "tags": ["clothing", "A2"]
+      "tags": [
+        "clothing",
+        "A2"
+      ]
     },
     {
       "source": "носки",
       "target": "zeķes",
-      "tags": ["clothing", "A2"]
+      "tags": [
+        "clothing",
+        "A2"
+      ]
     },
     {
       "source": "свитер",
       "target": "džemperis",
-      "tags": ["clothing", "A2"]
+      "tags": [
+        "clothing",
+        "A2"
+      ]
     },
     {
       "source": "пальто",
       "target": "mētelis",
-      "tags": ["clothing", "A2"]
+      "tags": [
+        "clothing",
+        "A2"
+      ]
     },
     {
       "source": "кафе",
       "target": "kafejnīca",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "меню",
       "target": "ēdienkarte",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "заказать",
       "target": "pasūtīt",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "варёный",
       "target": "vārīts",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "жареный",
       "target": "cepts",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "свежий",
       "target": "svaigs",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "сладкий",
       "target": "salds",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "кислый",
       "target": "skābs",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "солёный",
       "target": "sāļš",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "острый",
       "target": "ass",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "сок",
       "target": "sula",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "основное блюдо",
       "target": "otrais ēdiens",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "десерт",
       "target": "deserts",
-      "tags": ["food-drink", "A2"]
+      "tags": [
+        "food-drink",
+        "A2"
+      ]
     },
     {
       "source": "раньше",
       "target": "agrāk",
-      "tags": ["time", "A2"]
+      "tags": [
+        "time",
+        "A2"
+      ]
     },
     {
       "source": "позже",
       "target": "vēlāk",
-      "tags": ["time", "A2"]
+      "tags": [
+        "time",
+        "A2"
+      ]
     },
     {
       "source": "часто",
       "target": "bieži",
-      "tags": ["time", "A2"]
+      "tags": [
+        "time",
+        "A2"
+      ]
     },
     {
       "source": "иногда",
       "target": "dažreiz",
-      "tags": ["time", "A2"]
+      "tags": [
+        "time",
+        "A2"
+      ]
     },
     {
       "source": "никогда",
       "target": "nekad",
-      "tags": ["time", "A2"]
+      "tags": [
+        "time",
+        "A2"
+      ]
     },
     {
       "source": "всегда",
       "target": "vienmēr",
-      "tags": ["time", "A2"]
+      "tags": [
+        "time",
+        "A2"
+      ]
     },
     {
       "source": "скоро",
       "target": "drīz",
-      "tags": ["time", "A2"]
+      "tags": [
+        "time",
+        "A2"
+      ]
     },
     {
       "source": "ещё",
       "target": "vēl",
-      "tags": ["time", "A2"]
+      "tags": [
+        "time",
+        "A2"
+      ]
     },
     {
       "source": "уже",
       "target": "jau",
-      "tags": ["time", "A2"]
+      "tags": [
+        "time",
+        "A2"
+      ]
     },
     {
       "source": "сосед",
       "target": "kaimiņš",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "одноклассник",
       "target": "klasesbiedrs",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "знакомый",
       "target": "paziņa",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "коллега",
       "target": "kolēģis",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "учитель",
       "target": "skolotājs",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "студент",
       "target": "students",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "иностранный язык",
       "target": "svešvaloda",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "слово",
       "target": "vārds",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "язык",
       "target": "valoda",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "число",
       "target": "skaitlis",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "письмо",
       "target": "vēstule",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "адрес",
       "target": "adrese",
-      "tags": ["social", "A2"]
+      "tags": [
+        "social",
+        "A2"
+      ]
     },
     {
       "source": "телефон",
       "target": "tālrunis",
-      "tags": ["objects", "A2"]
+      "tags": [
+        "objects",
+        "A2"
+      ]
     },
     {
       "source": "компьютер",
       "target": "dators",
-      "tags": ["objects", "A2"]
+      "tags": [
+        "objects",
+        "A2"
+      ]
     },
     {
       "source": "часы",
       "target": "pulkstenis",
-      "tags": ["objects", "A2"]
+      "tags": [
+        "objects",
+        "A2"
+      ]
     },
     {
       "source": "картина",
       "target": "bilde",
-      "tags": ["objects", "A2"]
+      "tags": [
+        "objects",
+        "A2"
+      ]
     },
     {
       "source": "музыка",
       "target": "mūzika",
-      "tags": ["objects", "A2"]
+      "tags": [
+        "objects",
+        "A2"
+      ]
     },
     {
       "source": "фильм",
       "target": "filma",
-      "tags": ["objects", "A2"]
+      "tags": [
+        "objects",
+        "A2"
+      ]
     },
     {
       "source": "ехать",
       "target": "braukt",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "работать",
       "target": "strādāt",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "учиться",
       "target": "mācīties",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "спрашивать",
       "target": "jautāt",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "отвечать",
       "target": "atbildēt",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "обещать",
       "target": "apsolīt",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "забывать",
       "target": "aizmirst",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "помнить",
       "target": "atcerēties",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "ждать",
       "target": "gaidīt",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "найти",
       "target": "atrast",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "потерять",
       "target": "pazaudēt",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "изменить",
       "target": "mainīt",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "вернуться",
       "target": "atgriezties",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "начать",
       "target": "sākt",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     },
     {
       "source": "закончить",
       "target": "beigt",
-      "tags": ["verbs", "A2"]
+      "tags": [
+        "verbs",
+        "A2"
+      ]
     }
   ]
 }

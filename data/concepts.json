@@ -1,0 +1,2690 @@
+{
+  "greetings_hello": {
+    "tags": ["greetings"]
+  },
+  "greetings_hi": {
+    "tags": ["greetings"]
+  },
+  "greetings_goodbye": {
+    "tags": ["greetings"]
+  },
+  "greetings_please": {
+    "tags": ["greetings"]
+  },
+  "greetings_thank_you": {
+    "tags": ["greetings"]
+  },
+  "greetings_yes": {
+    "tags": ["greetings"]
+  },
+  "greetings_no": {
+    "tags": ["greetings"]
+  },
+  "greetings_sorry": {
+    "tags": ["greetings"]
+  },
+  "greetings_good_morning": {
+    "tags": ["greetings"]
+  },
+  "greetings_good_afternoon": {
+    "tags": ["greetings"]
+  },
+  "greetings_good_evening": {
+    "tags": ["greetings"]
+  },
+  "greetings_see_you_later": {
+    "tags": ["greetings"]
+  },
+  "numbers_one": {
+    "tags": ["numbers"]
+  },
+  "numbers_two": {
+    "tags": ["numbers"]
+  },
+  "numbers_three": {
+    "tags": ["numbers"]
+  },
+  "numbers_four": {
+    "tags": ["numbers"]
+  },
+  "numbers_five": {
+    "tags": ["numbers"]
+  },
+  "numbers_six": {
+    "tags": ["numbers"]
+  },
+  "numbers_seven": {
+    "tags": ["numbers"]
+  },
+  "numbers_eight": {
+    "tags": ["numbers"]
+  },
+  "numbers_nine": {
+    "tags": ["numbers"]
+  },
+  "numbers_ten": {
+    "tags": ["numbers"]
+  },
+  "numbers_eleven": {
+    "tags": ["numbers"]
+  },
+  "numbers_twelve": {
+    "tags": ["numbers"]
+  },
+  "numbers_thirteen": {
+    "tags": ["numbers"]
+  },
+  "numbers_fourteen": {
+    "tags": ["numbers"]
+  },
+  "numbers_fifteen": {
+    "tags": ["numbers"]
+  },
+  "numbers_sixteen": {
+    "tags": ["numbers"]
+  },
+  "numbers_seventeen": {
+    "tags": ["numbers"]
+  },
+  "numbers_eighteen": {
+    "tags": ["numbers"]
+  },
+  "numbers_nineteen": {
+    "tags": ["numbers"]
+  },
+  "numbers_twenty": {
+    "tags": ["numbers"]
+  },
+  "colours_red": {
+    "tags": ["colours"]
+  },
+  "colours_blue": {
+    "tags": ["colours"]
+  },
+  "colours_green": {
+    "tags": ["colours"]
+  },
+  "colours_yellow": {
+    "tags": ["colours"]
+  },
+  "colours_white": {
+    "tags": ["colours"]
+  },
+  "colours_black": {
+    "tags": ["colours"]
+  },
+  "colours_orange": {
+    "tags": ["colours"]
+  },
+  "colours_pink": {
+    "tags": ["colours"]
+  },
+  "colours_purple": {
+    "tags": ["colours"]
+  },
+  "colours_brown": {
+    "tags": ["colours"]
+  },
+  "colours_grey": {
+    "tags": ["colours"]
+  },
+  "family_mother": {
+    "tags": ["family"]
+  },
+  "family_father": {
+    "tags": ["family"]
+  },
+  "family_sister": {
+    "tags": ["family"]
+  },
+  "family_brother": {
+    "tags": ["family"]
+  },
+  "family_grandmother": {
+    "tags": ["family"]
+  },
+  "family_grandfather": {
+    "tags": ["family"]
+  },
+  "family_child": {
+    "tags": ["family"]
+  },
+  "family_son": {
+    "tags": ["family"]
+  },
+  "family_daughter": {
+    "tags": ["family"]
+  },
+  "family_husband": {
+    "tags": ["family"]
+  },
+  "family_wife": {
+    "tags": ["family"]
+  },
+  "family_family": {
+    "tags": ["family"]
+  },
+  "food_drink_water": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_milk": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_bread": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_egg": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_apple": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_banana": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_coffee": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_tea": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_cheese": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_meat": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_rice": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_sugar": {
+    "tags": ["food-drink"]
+  },
+  "days_monday": {
+    "tags": ["days"]
+  },
+  "days_tuesday": {
+    "tags": ["days"]
+  },
+  "days_wednesday": {
+    "tags": ["days"]
+  },
+  "days_thursday": {
+    "tags": ["days"]
+  },
+  "days_friday": {
+    "tags": ["days"]
+  },
+  "days_saturday": {
+    "tags": ["days"]
+  },
+  "days_sunday": {
+    "tags": ["days"]
+  },
+  "months_january": {
+    "tags": ["months"]
+  },
+  "months_february": {
+    "tags": ["months"]
+  },
+  "months_march": {
+    "tags": ["months"]
+  },
+  "months_april": {
+    "tags": ["months"]
+  },
+  "months_may": {
+    "tags": ["months"]
+  },
+  "months_june": {
+    "tags": ["months"]
+  },
+  "months_july": {
+    "tags": ["months"]
+  },
+  "months_august": {
+    "tags": ["months"]
+  },
+  "months_september": {
+    "tags": ["months"]
+  },
+  "months_october": {
+    "tags": ["months"]
+  },
+  "months_november": {
+    "tags": ["months"]
+  },
+  "months_december": {
+    "tags": ["months"]
+  },
+  "verbs_to_be": {
+    "tags": ["verbs"]
+  },
+  "verbs_is": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_have": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_go": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_want": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_like": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_come": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_see": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_hear": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_eat": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_drink": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_sleep": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_sit": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_stand": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_talk": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_give": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_take": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_look": {
+    "tags": ["verbs"]
+  },
+  "adjectives_good": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_bad": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_big": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_small": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_hot": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_cold": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_new": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_old": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_long": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_short": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_tall": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_low": {
+    "tags": ["adjectives"]
+  },
+  "pronouns_i": {
+    "tags": ["pronouns"]
+  },
+  "pronouns_you": {
+    "tags": ["pronouns"]
+  },
+  "pronouns_he": {
+    "tags": ["pronouns"]
+  },
+  "pronouns_she": {
+    "tags": ["pronouns"]
+  },
+  "pronouns_we": {
+    "tags": ["pronouns"]
+  },
+  "pronouns_they": {
+    "tags": ["pronouns"]
+  },
+  "pronouns_it": {
+    "tags": ["pronouns"]
+  },
+  "home_house": {
+    "tags": ["home"]
+  },
+  "home_room": {
+    "tags": ["home"]
+  },
+  "home_door": {
+    "tags": ["home"]
+  },
+  "home_window": {
+    "tags": ["home"]
+  },
+  "home_table": {
+    "tags": ["home"]
+  },
+  "home_chair": {
+    "tags": ["home"]
+  },
+  "home_bed": {
+    "tags": ["home"]
+  },
+  "social_person": {
+    "tags": ["social"]
+  },
+  "social_man": {
+    "tags": ["social"]
+  },
+  "social_woman": {
+    "tags": ["social"]
+  },
+  "social_boy": {
+    "tags": ["social"]
+  },
+  "social_girl": {
+    "tags": ["social"]
+  },
+  "social_friend": {
+    "tags": ["social"]
+  },
+  "social_name": {
+    "tags": ["social"]
+  },
+  "social_age": {
+    "tags": ["social"]
+  },
+  "nature_animal": {
+    "tags": ["nature"]
+  },
+  "nature_dog": {
+    "tags": ["nature"]
+  },
+  "nature_cat": {
+    "tags": ["nature"]
+  },
+  "nature_bird": {
+    "tags": ["nature"]
+  },
+  "nature_fish": {
+    "tags": ["nature"]
+  },
+  "nature_tree": {
+    "tags": ["nature"]
+  },
+  "nature_flower": {
+    "tags": ["nature"]
+  },
+  "nature_sun": {
+    "tags": ["nature"]
+  },
+  "nature_rain": {
+    "tags": ["nature"]
+  },
+  "nature_snow": {
+    "tags": ["nature"]
+  },
+  "objects_phone": {
+    "tags": ["objects"]
+  },
+  "objects_book": {
+    "tags": ["objects"]
+  },
+  "objects_pen": {
+    "tags": ["objects"]
+  },
+  "objects_bag": {
+    "tags": ["objects"]
+  },
+  "objects_key": {
+    "tags": ["objects"]
+  },
+  "objects_money": {
+    "tags": ["objects"]
+  },
+  "social_shop": {
+    "tags": ["social"]
+  },
+  "social_school": {
+    "tags": ["social"]
+  },
+  "travel_car": {
+    "tags": ["travel"]
+  },
+  "travel_bus": {
+    "tags": ["travel"]
+  },
+  "travel_street": {
+    "tags": ["travel"]
+  },
+  "travel_city": {
+    "tags": ["travel"]
+  },
+  "travel_country": {
+    "tags": ["travel"]
+  },
+  "directions_here": {
+    "tags": ["directions"]
+  },
+  "directions_there": {
+    "tags": ["directions"]
+  },
+  "directions_to_the_right": {
+    "tags": ["directions"]
+  },
+  "directions_to_the_left": {
+    "tags": ["directions"]
+  },
+  "directions_straight_ahead": {
+    "tags": ["directions"]
+  },
+  "directions_up": {
+    "tags": ["directions"]
+  },
+  "directions_down": {
+    "tags": ["directions"]
+  },
+  "time_day": {
+    "tags": ["time"]
+  },
+  "time_night": {
+    "tags": ["time"]
+  },
+  "time_morning": {
+    "tags": ["time"]
+  },
+  "time_evening": {
+    "tags": ["time"]
+  },
+  "time_now": {
+    "tags": ["time"]
+  },
+  "time_yesterday": {
+    "tags": ["time"]
+  },
+  "time_tomorrow": {
+    "tags": ["time"]
+  },
+  "time_today": {
+    "tags": ["time"]
+  },
+  "time_week": {
+    "tags": ["time"]
+  },
+  "time_month": {
+    "tags": ["time"]
+  },
+  "time_year": {
+    "tags": ["time"]
+  },
+  "body_head": {
+    "tags": ["body"]
+  },
+  "body_hand": {
+    "tags": ["body"]
+  },
+  "body_leg": {
+    "tags": ["body"]
+  },
+  "body_eyes": {
+    "tags": ["body"]
+  },
+  "body_ears": {
+    "tags": ["body"]
+  },
+  "body_nose": {
+    "tags": ["body"]
+  },
+  "body_mouth": {
+    "tags": ["body"]
+  },
+  "body_heart": {
+    "tags": ["body"]
+  },
+  "shopping_shopping": {
+    "tags": ["shopping"]
+  },
+  "shopping_store": {
+    "tags": ["shopping"]
+  },
+  "shopping_price": {
+    "tags": ["shopping"]
+  },
+  "shopping_cheap": {
+    "tags": ["shopping"]
+  },
+  "shopping_expensive": {
+    "tags": ["shopping"]
+  },
+  "shopping_receipt": {
+    "tags": ["shopping"]
+  },
+  "shopping_discount": {
+    "tags": ["shopping"]
+  },
+  "shopping_size": {
+    "tags": ["shopping"]
+  },
+  "shopping_box": {
+    "tags": ["shopping"]
+  },
+  "shopping_bag": {
+    "tags": ["shopping"]
+  },
+  "shopping_queue": {
+    "tags": ["shopping"]
+  },
+  "directions_road": {
+    "tags": ["directions"]
+  },
+  "directions_corner": {
+    "tags": ["directions"]
+  },
+  "directions_crossroads": {
+    "tags": ["directions"]
+  },
+  "directions_bridge": {
+    "tags": ["directions"]
+  },
+  "directions_station": {
+    "tags": ["directions"]
+  },
+  "directions_stop": {
+    "tags": ["directions"]
+  },
+  "directions_nearby": {
+    "tags": ["directions"]
+  },
+  "directions_far": {
+    "tags": ["directions"]
+  },
+  "directions_behind": {
+    "tags": ["directions"]
+  },
+  "directions_in_front_of": {
+    "tags": ["directions"]
+  },
+  "directions_next_to": {
+    "tags": ["directions"]
+  },
+  "weather_weather": {
+    "tags": ["weather"]
+  },
+  "weather_sunny": {
+    "tags": ["weather"]
+  },
+  "weather_cloudy": {
+    "tags": ["weather"]
+  },
+  "weather_rainy": {
+    "tags": ["weather"]
+  },
+  "weather_windy": {
+    "tags": ["weather"]
+  },
+  "weather_snowy": {
+    "tags": ["weather"]
+  },
+  "weather_warm": {
+    "tags": ["weather"]
+  },
+  "weather_thunder": {
+    "tags": ["weather"]
+  },
+  "weather_lightning": {
+    "tags": ["weather"]
+  },
+  "health_ill": {
+    "tags": ["health"]
+  },
+  "health_headache": {
+    "tags": ["health"]
+  },
+  "health_fever": {
+    "tags": ["health"]
+  },
+  "health_cough": {
+    "tags": ["health"]
+  },
+  "health_cold": {
+    "tags": ["health"]
+  },
+  "health_pain": {
+    "tags": ["health"]
+  },
+  "health_doctor": {
+    "tags": ["health"]
+  },
+  "health_medicine": {
+    "tags": ["health"]
+  },
+  "health_hospital": {
+    "tags": ["health"]
+  },
+  "health_pharmacy": {
+    "tags": ["health"]
+  },
+  "health_healthy": {
+    "tags": ["health"]
+  },
+  "hobbies_to_exercise": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_read": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_listen_to_music": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_watch_tv": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_travel": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_cook": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_draw": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_photograph": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_play": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_dance": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_sing": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_swim": {
+    "tags": ["hobbies"]
+  },
+  "hobbies_to_cycle": {
+    "tags": ["hobbies"]
+  },
+  "adjectives_interesting": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_boring": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_fun": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_exciting": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_difficult": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_easy": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_dear": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_friendly": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_clever": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_silly": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_kind": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_honest": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_happy": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_sad": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_tired": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_hungry": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_thirsty": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_scared": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_surprised": {
+    "tags": ["adjectives"]
+  },
+  "clothing_clothes": {
+    "tags": ["clothing"]
+  },
+  "clothing_shirt": {
+    "tags": ["clothing"]
+  },
+  "clothing_trousers": {
+    "tags": ["clothing"]
+  },
+  "clothing_dress": {
+    "tags": ["clothing"]
+  },
+  "clothing_jacket": {
+    "tags": ["clothing"]
+  },
+  "clothing_shoes": {
+    "tags": ["clothing"]
+  },
+  "clothing_hat": {
+    "tags": ["clothing"]
+  },
+  "clothing_socks": {
+    "tags": ["clothing"]
+  },
+  "clothing_sweater": {
+    "tags": ["clothing"]
+  },
+  "clothing_coat": {
+    "tags": ["clothing"]
+  },
+  "food_drink_caf": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_menu": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_table": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_to_order": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_boiled": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_fried": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_fresh": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_sweet": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_sour": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_salty": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_spicy": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_juice": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_main_course": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_dessert": {
+    "tags": ["food-drink"]
+  },
+  "time_hour": {
+    "tags": ["time"]
+  },
+  "time_earlier": {
+    "tags": ["time"]
+  },
+  "time_later": {
+    "tags": ["time"]
+  },
+  "time_often": {
+    "tags": ["time"]
+  },
+  "time_sometimes": {
+    "tags": ["time"]
+  },
+  "time_never": {
+    "tags": ["time"]
+  },
+  "time_always": {
+    "tags": ["time"]
+  },
+  "time_soon": {
+    "tags": ["time"]
+  },
+  "time_still": {
+    "tags": ["time"]
+  },
+  "time_already": {
+    "tags": ["time"]
+  },
+  "social_neighbour": {
+    "tags": ["social"]
+  },
+  "social_classmate": {
+    "tags": ["social"]
+  },
+  "social_acquaintance": {
+    "tags": ["social"]
+  },
+  "social_colleague": {
+    "tags": ["social"]
+  },
+  "social_teacher": {
+    "tags": ["social"]
+  },
+  "social_student": {
+    "tags": ["social"]
+  },
+  "social_official": {
+    "tags": ["social"]
+  },
+  "social_foreign_language": {
+    "tags": ["social"]
+  },
+  "social_word": {
+    "tags": ["social"]
+  },
+  "social_language": {
+    "tags": ["social"]
+  },
+  "social_number": {
+    "tags": ["social"]
+  },
+  "social_letter": {
+    "tags": ["social"]
+  },
+  "social_address": {
+    "tags": ["social"]
+  },
+  "objects_telephone": {
+    "tags": ["objects"]
+  },
+  "objects_computer": {
+    "tags": ["objects"]
+  },
+  "objects_clock": {
+    "tags": ["objects"]
+  },
+  "objects_picture": {
+    "tags": ["objects"]
+  },
+  "objects_music": {
+    "tags": ["objects"]
+  },
+  "objects_film": {
+    "tags": ["objects"]
+  },
+  "objects_colours": {
+    "tags": ["objects"]
+  },
+  "verbs_to_travel": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_work": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_study": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_ask": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_answer": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_promise": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_forget": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_remember": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_wait": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_find": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_lose": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_change": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_return": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_start": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_finish": {
+    "tags": ["verbs"]
+  },
+  "travel_journey": {
+    "tags": ["travel"]
+  },
+  "food_drink_butter": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_fruit": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_vegetable": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_orange": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_tomato": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_potato": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_beer": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_salt": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_soup": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_salad": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_lunch": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_dinner": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_breakfast": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_restaurant": {
+    "tags": ["food-drink", "travel"]
+  },
+  "travel_hotel": {
+    "tags": ["travel"]
+  },
+  "travel_airport": {
+    "tags": ["travel"]
+  },
+  "travel_airplane": {
+    "tags": ["travel"]
+  },
+  "travel_train": {
+    "tags": ["travel"]
+  },
+  "travel_car_2": {
+    "tags": ["travel"]
+  },
+  "travel_ticket": {
+    "tags": ["travel"]
+  },
+  "travel_passport": {
+    "tags": ["travel"]
+  },
+  "travel_map": {
+    "tags": ["travel"]
+  },
+  "travel_luggage": {
+    "tags": ["travel"]
+  },
+  "work_work": {
+    "tags": ["work"]
+  },
+  "work_office": {
+    "tags": ["work"]
+  },
+  "work_meeting": {
+    "tags": ["work"]
+  },
+  "work_boss": {
+    "tags": ["work"]
+  },
+  "work_holiday": {
+    "tags": ["work", "travel"]
+  },
+  "emotions_joy": {
+    "tags": ["emotions"]
+  },
+  "emotions_sadness": {
+    "tags": ["emotions"]
+  },
+  "emotions_fear": {
+    "tags": ["emotions"]
+  },
+  "emotions_anger": {
+    "tags": ["emotions"]
+  },
+  "emotions_surprise": {
+    "tags": ["emotions"]
+  },
+  "emotions_love": {
+    "tags": ["emotions"]
+  },
+  "emotions_excitement": {
+    "tags": ["emotions"]
+  },
+  "nature_forest": {
+    "tags": ["nature"]
+  },
+  "nature_sea": {
+    "tags": ["nature"]
+  },
+  "nature_lake": {
+    "tags": ["nature"]
+  },
+  "nature_river": {
+    "tags": ["nature"]
+  },
+  "nature_mountain": {
+    "tags": ["nature"]
+  },
+  "nature_countryside": {
+    "tags": ["nature"]
+  },
+  "nature_moon": {
+    "tags": ["nature"]
+  },
+  "nature_star": {
+    "tags": ["nature"]
+  },
+  "nature_wind": {
+    "tags": ["nature"]
+  },
+  "nature_clouds": {
+    "tags": ["nature"]
+  },
+  "nature_winter": {
+    "tags": ["nature"]
+  },
+  "nature_summer": {
+    "tags": ["nature"]
+  },
+  "nature_spring": {
+    "tags": ["nature"]
+  },
+  "nature_autumn": {
+    "tags": ["nature"]
+  },
+  "nature_grass": {
+    "tags": ["nature"]
+  },
+  "home_kitchen": {
+    "tags": ["home"]
+  },
+  "home_bedroom": {
+    "tags": ["home"]
+  },
+  "home_bathroom": {
+    "tags": ["home"]
+  },
+  "home_living_room": {
+    "tags": ["home"]
+  },
+  "home_sofa": {
+    "tags": ["home"]
+  },
+  "home_pillow": {
+    "tags": ["home"]
+  },
+  "home_blanket": {
+    "tags": ["home"]
+  },
+  "home_mirror": {
+    "tags": ["home"]
+  },
+  "home_lamp": {
+    "tags": ["home"]
+  },
+  "home_floor": {
+    "tags": ["home"]
+  },
+  "home_ceiling": {
+    "tags": ["home"]
+  },
+  "home_wall": {
+    "tags": ["home"]
+  },
+  "home_roof": {
+    "tags": ["home"]
+  },
+  "home_garden": {
+    "tags": ["home"]
+  },
+  "body_face": {
+    "tags": ["body"]
+  },
+  "body_teeth": {
+    "tags": ["body"]
+  },
+  "body_neck": {
+    "tags": ["body"]
+  },
+  "body_shoulders": {
+    "tags": ["body"]
+  },
+  "body_fingers": {
+    "tags": ["body"]
+  },
+  "body_knee": {
+    "tags": ["body"]
+  },
+  "body_foot": {
+    "tags": ["body"]
+  },
+  "time_hour_2": {
+    "tags": ["time"]
+  },
+  "time_minute": {
+    "tags": ["time"]
+  },
+  "time_second": {
+    "tags": ["time"]
+  },
+  "verbs_to_speak": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_listen": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_write": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_walk": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_run": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_learn": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_think": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_know": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_understand": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_ask_2": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_help": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_buy": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_open": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_close": {
+    "tags": ["verbs"]
+  },
+  "adjectives_fast": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_slow": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_beautiful": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_ugly": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_strong": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_weak": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_important": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_safe": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_clean": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_dirty": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_full": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_empty": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_free": {
+    "tags": ["adjectives"]
+  },
+  "objects_screen": {
+    "tags": ["objects"]
+  },
+  "objects_keyboard": {
+    "tags": ["objects"]
+  },
+  "objects_mouse": {
+    "tags": ["objects"]
+  },
+  "objects_internet": {
+    "tags": ["objects"]
+  },
+  "objects_wallet": {
+    "tags": ["objects"]
+  },
+  "objects_watch": {
+    "tags": ["objects"]
+  },
+  "objects_glasses": {
+    "tags": ["objects"]
+  },
+  "objects_paper": {
+    "tags": ["objects"]
+  },
+  "objects_bill": {
+    "tags": ["objects"]
+  },
+  "social_parents": {
+    "tags": ["social"]
+  },
+  "social_pharmacy": {
+    "tags": ["social"]
+  },
+  "social_market": {
+    "tags": ["social"]
+  },
+  "social_bank": {
+    "tags": ["social"]
+  },
+  "social_school_2": {
+    "tags": ["social"]
+  },
+  "social_university": {
+    "tags": ["social"]
+  },
+  "social_museum": {
+    "tags": ["social", "travel"]
+  },
+  "social_library": {
+    "tags": ["social"]
+  },
+  "social_park": {
+    "tags": ["social", "nature"]
+  },
+  "social_cinema": {
+    "tags": ["social"]
+  },
+  "social_celebration": {
+    "tags": ["social"]
+  },
+  "social_sport": {
+    "tags": ["social"]
+  },
+  "body_health": {
+    "tags": ["body"]
+  },
+  "body_illness": {
+    "tags": ["body"]
+  },
+  "food_drink_wine": {
+    "tags": ["food-drink"]
+  },
+  "travel_border": {
+    "tags": ["travel"]
+  },
+  "travel_currency": {
+    "tags": ["travel"]
+  },
+  "travel_travelling": {
+    "tags": ["travel"]
+  },
+  "travel_stay": {
+    "tags": ["travel"]
+  },
+  "travel_reservation": {
+    "tags": ["travel"]
+  },
+  "work_salary": {
+    "tags": ["work"]
+  },
+  "work_project": {
+    "tags": ["work"]
+  },
+  "work_deadline": {
+    "tags": ["work"]
+  },
+  "work_report": {
+    "tags": ["work"]
+  },
+  "work_presentation": {
+    "tags": ["work"]
+  },
+  "work_company": {
+    "tags": ["work"]
+  },
+  "work_client": {
+    "tags": ["work"]
+  },
+  "work_job_interview": {
+    "tags": ["work"]
+  },
+  "work_career": {
+    "tags": ["work"]
+  },
+  "emotions_hatred": {
+    "tags": ["emotions"]
+  },
+  "emotions_hope": {
+    "tags": ["emotions"]
+  },
+  "emotions_disappointment": {
+    "tags": ["emotions"]
+  },
+  "emotions_relief": {
+    "tags": ["emotions"]
+  },
+  "emotions_shame": {
+    "tags": ["emotions"]
+  },
+  "emotions_loneliness": {
+    "tags": ["emotions"]
+  },
+  "emotions_gratitude": {
+    "tags": ["emotions"]
+  },
+  "home_basement": {
+    "tags": ["home"]
+  },
+  "body_lungs": {
+    "tags": ["body"]
+  },
+  "body_blood_pressure": {
+    "tags": ["body"]
+  },
+  "body_temperature": {
+    "tags": ["body"]
+  },
+  "time_past": {
+    "tags": ["time"]
+  },
+  "time_future": {
+    "tags": ["time"]
+  },
+  "time_schedule": {
+    "tags": ["time", "work"]
+  },
+  "verbs_to_sell": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_decide": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_check": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_plan": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_organise": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_improve": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_achieve": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_choose": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_discuss": {
+    "tags": ["verbs"]
+  },
+  "adjectives_dangerous": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_busy": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_successful": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_creative": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_reliable": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_flexible": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_effective": {
+    "tags": ["adjectives"]
+  },
+  "objects_software": {
+    "tags": ["objects"]
+  },
+  "objects_application": {
+    "tags": ["objects"]
+  },
+  "objects_battery": {
+    "tags": ["objects"]
+  },
+  "objects_charger": {
+    "tags": ["objects"]
+  },
+  "social_stranger": {
+    "tags": ["social"]
+  },
+  "social_theatre": {
+    "tags": ["social"]
+  },
+  "social_gathering": {
+    "tags": ["social"]
+  },
+  "body_treatment": {
+    "tags": ["body"]
+  },
+  "body_operation": {
+    "tags": ["body"]
+  },
+  "body_allergy": {
+    "tags": ["body"]
+  },
+  "body_symptoms": {
+    "tags": ["body"]
+  },
+  "work_consultation": {
+    "tags": ["work"]
+  },
+  "work_contract": {
+    "tags": ["work"]
+  },
+  "work_investment": {
+    "tags": ["work"]
+  },
+  "work_budget": {
+    "tags": ["work"]
+  },
+  "work_taxes": {
+    "tags": ["work"]
+  },
+  "work_insurance": {
+    "tags": ["work"]
+  },
+  "work_legislation": {
+    "tags": ["work"]
+  },
+  "home_apartment": {
+    "tags": ["home"]
+  },
+  "social_post_office": {
+    "tags": ["social"]
+  },
+  "objects_package": {
+    "tags": ["objects"]
+  },
+  "social_song": {
+    "tags": ["social"]
+  },
+  "social_dance": {
+    "tags": ["social"]
+  },
+  "objects_photograph": {
+    "tags": ["objects"]
+  },
+  "objects_colour": {
+    "tags": ["objects"]
+  },
+  "objects_shape": {
+    "tags": ["objects"]
+  },
+  "objects_sound": {
+    "tags": ["objects"]
+  },
+  "objects_smell": {
+    "tags": ["objects"]
+  },
+  "objects_taste": {
+    "tags": ["objects"]
+  },
+  "social_sentence": {
+    "tags": ["social"]
+  },
+  "social_question": {
+    "tags": ["social"]
+  },
+  "social_answer": {
+    "tags": ["social"]
+  },
+  "social_problem": {
+    "tags": ["social"]
+  },
+  "social_solution": {
+    "tags": ["social"]
+  },
+  "social_idea": {
+    "tags": ["social"]
+  },
+  "social_opinion": {
+    "tags": ["social"]
+  },
+  "social_information": {
+    "tags": ["social"]
+  },
+  "social_news": {
+    "tags": ["social"]
+  },
+  "social_event": {
+    "tags": ["social"]
+  },
+  "social_opportunity": {
+    "tags": ["social"]
+  },
+  "social_experience": {
+    "tags": ["social"]
+  },
+  "social_knowledge": {
+    "tags": ["social"]
+  },
+  "social_education": {
+    "tags": ["social"]
+  },
+  "social_society": {
+    "tags": ["social"]
+  },
+  "social_culture": {
+    "tags": ["social"]
+  },
+  "nature_environment": {
+    "tags": ["nature"]
+  },
+  "nature_climate": {
+    "tags": ["nature"]
+  },
+  "nature_energy": {
+    "tags": ["nature"]
+  },
+  "nature_resources": {
+    "tags": ["nature"]
+  },
+  "nature_pollution": {
+    "tags": ["nature"]
+  },
+  "work_development": {
+    "tags": ["work"]
+  },
+  "work_strategy": {
+    "tags": ["work"]
+  },
+  "work_goal": {
+    "tags": ["work"]
+  },
+  "work_result": {
+    "tags": ["work"]
+  },
+  "work_process": {
+    "tags": ["work"]
+  },
+  "work_system": {
+    "tags": ["work"]
+  },
+  "objects_technology": {
+    "tags": ["objects"]
+  },
+  "objects_device": {
+    "tags": ["objects"]
+  },
+  "objects_connection": {
+    "tags": ["objects"]
+  },
+  "objects_security": {
+    "tags": ["objects"]
+  },
+  "social_privacy": {
+    "tags": ["social"]
+  },
+  "social_rights": {
+    "tags": ["social"]
+  },
+  "social_responsibility": {
+    "tags": ["social"]
+  },
+  "social_decision": {
+    "tags": ["social"]
+  },
+  "social_agreement": {
+    "tags": ["social"]
+  },
+  "social_conflict": {
+    "tags": ["social"]
+  },
+  "social_cooperation": {
+    "tags": ["social"]
+  },
+  "social_criticism": {
+    "tags": ["social"]
+  },
+  "social_assessment": {
+    "tags": ["social"]
+  },
+  "work_overview": {
+    "tags": ["work"]
+  },
+  "social_perspective": {
+    "tags": ["social"]
+  },
+  "work_approach": {
+    "tags": ["work"]
+  },
+  "social_challenge": {
+    "tags": ["social"]
+  },
+  "work_risk": {
+    "tags": ["work"]
+  },
+  "work_accountability": {
+    "tags": ["work"]
+  },
+  "work_efficiency": {
+    "tags": ["work"]
+  },
+  "work_quality": {
+    "tags": ["work"]
+  },
+  "work_standard": {
+    "tags": ["work"]
+  },
+  "work_achievement": {
+    "tags": ["work"]
+  },
+  "social_impact": {
+    "tags": ["social"]
+  },
+  "social_balance": {
+    "tags": ["social"]
+  },
+  "work_priority": {
+    "tags": ["work"]
+  },
+  "work_innovation": {
+    "tags": ["work"]
+  },
+  "academic_abstract": {
+    "tags": ["academic"]
+  },
+  "academic_analysis": {
+    "tags": ["academic"]
+  },
+  "academic_synthesis": {
+    "tags": ["academic"]
+  },
+  "academic_hypothesis": {
+    "tags": ["academic"]
+  },
+  "academic_evidence": {
+    "tags": ["academic"]
+  },
+  "academic_methodology": {
+    "tags": ["academic"]
+  },
+  "academic_research": {
+    "tags": ["academic"]
+  },
+  "academic_theory": {
+    "tags": ["academic"]
+  },
+  "academic_concept": {
+    "tags": ["academic"]
+  },
+  "academic_paradigm": {
+    "tags": ["academic"]
+  },
+  "academic_discourse": {
+    "tags": ["academic"]
+  },
+  "academic_argumentation": {
+    "tags": ["academic"]
+  },
+  "academic_justification": {
+    "tags": ["academic"]
+  },
+  "academic_conclusion": {
+    "tags": ["academic"]
+  },
+  "academic_assertion": {
+    "tags": ["academic"]
+  },
+  "academic_refutation": {
+    "tags": ["academic"]
+  },
+  "academic_criterion": {
+    "tags": ["academic"]
+  },
+  "academic_observation": {
+    "tags": ["academic"]
+  },
+  "academic_interpretation": {
+    "tags": ["academic"]
+  },
+  "academic_context": {
+    "tags": ["academic"]
+  },
+  "law_legal_provision": {
+    "tags": ["law"]
+  },
+  "law_jurisdiction": {
+    "tags": ["law"]
+  },
+  "law_court": {
+    "tags": ["law"]
+  },
+  "law_verdict": {
+    "tags": ["law"]
+  },
+  "law_prosecution": {
+    "tags": ["law"]
+  },
+  "law_defence": {
+    "tags": ["law"]
+  },
+  "law_to_prove": {
+    "tags": ["law"]
+  },
+  "law_law_enforcement": {
+    "tags": ["law"]
+  },
+  "law_to_regulate": {
+    "tags": ["law"]
+  },
+  "law_to_hold_accountable": {
+    "tags": ["law"]
+  },
+  "medicine_to_diagnose": {
+    "tags": ["medicine"]
+  },
+  "medicine_symptom": {
+    "tags": ["medicine"]
+  },
+  "medicine_diagnosis": {
+    "tags": ["medicine"]
+  },
+  "medicine_therapy": {
+    "tags": ["medicine"]
+  },
+  "medicine_prescription": {
+    "tags": ["medicine"]
+  },
+  "medicine_clinical": {
+    "tags": ["medicine"]
+  },
+  "medicine_preventive": {
+    "tags": ["medicine"]
+  },
+  "medicine_chronic": {
+    "tags": ["medicine"]
+  },
+  "medicine_acute": {
+    "tags": ["medicine"]
+  },
+  "medicine_immune_system": {
+    "tags": ["medicine"]
+  },
+  "business_revenue": {
+    "tags": ["business"]
+  },
+  "business_profit": {
+    "tags": ["business"]
+  },
+  "business_expenditure": {
+    "tags": ["business"]
+  },
+  "business_portfolio": {
+    "tags": ["business"]
+  },
+  "business_market_share": {
+    "tags": ["business"]
+  },
+  "business_competition": {
+    "tags": ["business"]
+  },
+  "business_supply_chain": {
+    "tags": ["business"]
+  },
+  "business_expansion": {
+    "tags": ["business"]
+  },
+  "business_entrepreneurship": {
+    "tags": ["business"]
+  },
+  "business_corporate": {
+    "tags": ["business"]
+  },
+  "adjectives_precise": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_comprehensive": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_systematic": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_critical": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_analytical": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_objective": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_subjective": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_logical": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_rational": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_irrational": {
+    "tags": ["adjectives"]
+  },
+  "verbs_to_underestimate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_overestimate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_formulate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_analyse": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_investigate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_apply": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_evaluate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_illustrate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_substantiate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_consolidate": {
+    "tags": ["verbs"]
+  },
+  "academic_faculty_member": {
+    "tags": ["academic"]
+  },
+  "academic_dissertation": {
+    "tags": ["academic"]
+  },
+  "academic_paper": {
+    "tags": ["academic"]
+  },
+  "academic_seminar": {
+    "tags": ["academic"]
+  },
+  "academic_symposium": {
+    "tags": ["academic"]
+  },
+  "academic_lecture": {
+    "tags": ["academic"]
+  },
+  "academic_bachelor": {
+    "tags": ["academic"]
+  },
+  "academic_master": {
+    "tags": ["academic"]
+  },
+  "academic_doctoral_student": {
+    "tags": ["academic"]
+  },
+  "academic_professor": {
+    "tags": ["academic"]
+  },
+  "register_formal": {
+    "tags": ["register"]
+  },
+  "register_informal": {
+    "tags": ["register"]
+  },
+  "register_professional": {
+    "tags": ["register"]
+  },
+  "register_polite": {
+    "tags": ["register"]
+  },
+  "register_reserved": {
+    "tags": ["register"]
+  },
+  "register_expression": {
+    "tags": ["register"]
+  },
+  "register_saying": {
+    "tags": ["register"]
+  },
+  "register_idiom": {
+    "tags": ["register"]
+  },
+  "register_vocabulary": {
+    "tags": ["register"]
+  },
+  "register_terminology": {
+    "tags": ["register"]
+  },
+  "social_infrastructure": {
+    "tags": ["social"]
+  },
+  "social_institution": {
+    "tags": ["social"]
+  },
+  "social_bureaucracy": {
+    "tags": ["social"]
+  },
+  "social_policy": {
+    "tags": ["social"]
+  },
+  "social_diplomacy": {
+    "tags": ["social"]
+  },
+  "social_international": {
+    "tags": ["social"]
+  },
+  "social_government": {
+    "tags": ["social"]
+  },
+  "social_parliamentary": {
+    "tags": ["social"]
+  },
+  "social_referendum": {
+    "tags": ["social"]
+  },
+  "social_democracy": {
+    "tags": ["social"]
+  },
+  "adjectives_relentless": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_inevitable": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_significant": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_essential": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_appropriate": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_unjustified": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_sustainable": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_complex": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_peculiar": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_transient": {
+    "tags": ["adjectives"]
+  },
+  "social_consequences": {
+    "tags": ["social"]
+  },
+  "social_impact_assessment": {
+    "tags": ["social"]
+  },
+  "academic_comparative": {
+    "tags": ["academic"]
+  },
+  "academic_quantitative": {
+    "tags": ["academic"]
+  },
+  "academic_qualitative": {
+    "tags": ["academic"]
+  },
+  "academic_empirical": {
+    "tags": ["academic"]
+  },
+  "academic_theoretical": {
+    "tags": ["academic"]
+  },
+  "verbs_to_integrate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_coordinate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_oversee": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_implement": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_delegate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_manage": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_monitor": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_facilitate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_optimise": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_communicate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_overcome": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_ensure": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_strive": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_appreciate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_foster": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_revise": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_update": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_systematise": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_differentiate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_confirm": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_dispute": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_support": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_unite": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_adapt": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_accelerate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_propose": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_demonstrate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_persuade": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_acquire": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_expand": {
+    "tags": ["verbs"]
+  },
+  "emotions_melancholy": {
+    "tags": ["emotions"]
+  },
+  "emotions_nostalgia": {
+    "tags": ["emotions"]
+  },
+  "emotions_euphoria": {
+    "tags": ["emotions"]
+  },
+  "emotions_apathy": {
+    "tags": ["emotions"]
+  },
+  "emotions_ambivalence": {
+    "tags": ["emotions"]
+  },
+  "emotions_unease": {
+    "tags": ["emotions"]
+  },
+  "emotions_naivety": {
+    "tags": ["emotions"]
+  },
+  "emotions_irony": {
+    "tags": ["emotions"]
+  },
+  "emotions_sarcasm": {
+    "tags": ["emotions"]
+  },
+  "emotions_contempt": {
+    "tags": ["emotions"]
+  },
+  "emotions_ambition": {
+    "tags": ["emotions"]
+  },
+  "emotions_innocence": {
+    "tags": ["emotions"]
+  },
+  "emotions_admiration": {
+    "tags": ["emotions"]
+  },
+  "emotions_awe": {
+    "tags": ["emotions"]
+  },
+  "emotions_distrust": {
+    "tags": ["emotions"]
+  },
+  "emotions_enthusiasm": {
+    "tags": ["emotions"]
+  },
+  "emotions_alienation": {
+    "tags": ["emotions"]
+  },
+  "emotions_empathy": {
+    "tags": ["emotions"]
+  },
+  "emotions_humility": {
+    "tags": ["emotions"]
+  },
+  "emotions_pride": {
+    "tags": ["emotions"]
+  },
+  "social_indigenous_people": {
+    "tags": ["social"]
+  },
+  "social_colonialism": {
+    "tags": ["social"]
+  },
+  "social_assimilation": {
+    "tags": ["social"]
+  },
+  "social_acculturation": {
+    "tags": ["social"]
+  },
+  "social_ethnocentrism": {
+    "tags": ["social"]
+  },
+  "social_pluralism": {
+    "tags": ["social"]
+  },
+  "social_hegemony": {
+    "tags": ["social"]
+  },
+  "social_discrimination": {
+    "tags": ["social"]
+  },
+  "social_emancipation": {
+    "tags": ["social"]
+  },
+  "social_segregation": {
+    "tags": ["social"]
+  },
+  "literary_aphorism": {
+    "tags": ["literary"]
+  },
+  "literary_metaphor": {
+    "tags": ["literary"]
+  },
+  "literary_allegory": {
+    "tags": ["literary"]
+  },
+  "literary_epithet": {
+    "tags": ["literary"]
+  },
+  "literary_personification": {
+    "tags": ["literary"]
+  },
+  "literary_to_ironise": {
+    "tags": ["literary"]
+  },
+  "literary_to_emerge": {
+    "tags": ["literary"]
+  },
+  "literary_to_vanish": {
+    "tags": ["literary"]
+  },
+  "literary_to_glimmer": {
+    "tags": ["literary"]
+  },
+  "literary_to_tremble": {
+    "tags": ["literary"]
+  },
+  "academic_quintessence": {
+    "tags": ["academic"]
+  },
+  "academic_axiom": {
+    "tags": ["academic"]
+  },
+  "academic_tautology": {
+    "tags": ["academic"]
+  },
+  "academic_paradox": {
+    "tags": ["academic"]
+  },
+  "academic_epistemic": {
+    "tags": ["academic"]
+  },
+  "academic_ontological": {
+    "tags": ["academic"]
+  },
+  "academic_phenomenology": {
+    "tags": ["academic"]
+  },
+  "academic_hermeneutics": {
+    "tags": ["academic"]
+  },
+  "academic_dialectics": {
+    "tags": ["academic"]
+  },
+  "academic_pragmatism": {
+    "tags": ["academic"]
+  },
+  "archaic_misfortune": {
+    "tags": ["archaic"]
+  },
+  "archaic_magnanimous": {
+    "tags": ["archaic"]
+  },
+  "archaic_splendour": {
+    "tags": ["archaic"]
+  },
+  "archaic_brilliance": {
+    "tags": ["archaic"]
+  },
+  "archaic_tangible": {
+    "tags": ["archaic"]
+  },
+  "archaic_intangible": {
+    "tags": ["archaic"]
+  },
+  "register_ambiguous": {
+    "tags": ["register"]
+  },
+  "register_neutral": {
+    "tags": ["register"]
+  },
+  "register_subtle": {
+    "tags": ["register"]
+  },
+  "register_refined": {
+    "tags": ["register"]
+  },
+  "register_expressive": {
+    "tags": ["register"]
+  },
+  "register_suggestive": {
+    "tags": ["register"]
+  },
+  "register_euphonious": {
+    "tags": ["register"]
+  },
+  "register_assonance": {
+    "tags": ["register"]
+  },
+  "register_alliteration": {
+    "tags": ["register"]
+  },
+  "register_ambiguity": {
+    "tags": ["register"]
+  },
+  "register_artistic": {
+    "tags": ["register"]
+  },
+  "register_aesthetic": {
+    "tags": ["register"]
+  },
+  "register_romantic": {
+    "tags": ["register"]
+  },
+  "register_symbolic": {
+    "tags": ["register"]
+  },
+  "register_mystical": {
+    "tags": ["register"]
+  },
+  "academic_eclectic": {
+    "tags": ["academic"]
+  },
+  "academic_synergy": {
+    "tags": ["academic"]
+  },
+  "academic_holistic": {
+    "tags": ["academic"]
+  },
+  "academic_reductionism": {
+    "tags": ["academic"]
+  },
+  "academic_determinism": {
+    "tags": ["academic"]
+  },
+  "academic_relativism": {
+    "tags": ["academic"]
+  },
+  "academic_nihilism": {
+    "tags": ["academic"]
+  },
+  "academic_scepticism": {
+    "tags": ["academic"]
+  },
+  "academic_empiricism": {
+    "tags": ["academic"]
+  },
+  "academic_rationalism": {
+    "tags": ["academic"]
+  },
+  "literary_figuratively": {
+    "tags": ["literary"]
+  },
+  "literary_literally": {
+    "tags": ["literary"]
+  },
+  "literary_rhetoric": {
+    "tags": ["literary"]
+  },
+  "literary_polemic": {
+    "tags": ["literary"]
+  },
+  "literary_epigram": {
+    "tags": ["literary"]
+  },
+  "literary_satire": {
+    "tags": ["literary"]
+  },
+  "literary_parody": {
+    "tags": ["literary"]
+  },
+  "literary_analogy": {
+    "tags": ["literary"]
+  },
+  "literary_metonymy": {
+    "tags": ["literary"]
+  },
+  "literary_aesopian_language": {
+    "tags": ["literary"]
+  },
+  "academic_existential": {
+    "tags": ["academic"]
+  },
+  "academic_transcendent": {
+    "tags": ["academic"]
+  },
+  "academic_metaphysical": {
+    "tags": ["academic"]
+  },
+  "academic_epistemology": {
+    "tags": ["academic"]
+  },
+  "academic_nominalist": {
+    "tags": ["academic"]
+  },
+  "academic_teleological": {
+    "tags": ["academic"]
+  },
+  "academic_deontological": {
+    "tags": ["academic"]
+  },
+  "academic_consequentialism": {
+    "tags": ["academic"]
+  },
+  "academic_utilitarianism": {
+    "tags": ["academic"]
+  },
+  "academic_moralism": {
+    "tags": ["academic"]
+  },
+  "archaic_irremediable": {
+    "tags": ["archaic"]
+  },
+  "archaic_irreversible": {
+    "tags": ["archaic"]
+  },
+  "archaic_sorrow": {
+    "tags": ["archaic"]
+  },
+  "archaic_dawn": {
+    "tags": ["archaic"]
+  },
+  "archaic_evening_breeze": {
+    "tags": ["archaic"]
+  },
+  "archaic_daybreak": {
+    "tags": ["archaic"]
+  },
+  "archaic_to_languish": {
+    "tags": ["archaic"]
+  },
+  "archaic_to_cherish": {
+    "tags": ["archaic"]
+  },
+  "archaic_to_sigh": {
+    "tags": ["archaic"]
+  },
+  "archaic_to_fortify_oneself": {
+    "tags": ["archaic"]
+  },
+  "verbs_to_trace": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_reminisce": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_embody": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_manifest": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_eradicate": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_take_root": {
+    "tags": ["verbs"]
+  },
+  "verbs_to_transcend": {
+    "tags": ["verbs"]
+  },
+  "emotions_arousal": {
+    "tags": ["emotions"]
+  },
+  "social_influx": {
+    "tags": ["social"]
+  },
+  "social_public_opinion": {
+    "tags": ["social"]
+  },
+  "academic_normative": {
+    "tags": ["academic"]
+  },
+  "academic_descriptive": {
+    "tags": ["academic"]
+  },
+  "academic_prescriptive": {
+    "tags": ["academic"]
+  },
+  "literary_ligature": {
+    "tags": ["literary"]
+  },
+  "literary_signature": {
+    "tags": ["literary"]
+  },
+  "literary_symbolism": {
+    "tags": ["literary"]
+  },
+  "literary_ekphrasis": {
+    "tags": ["literary"]
+  },
+  "literary_hyperbole": {
+    "tags": ["literary"]
+  },
+  "literary_litotes": {
+    "tags": ["literary"]
+  },
+  "greetings_bye": {
+    "tags": ["greetings"]
+  },
+  "verbs_lv_pieder_t": {
+    "tags": ["verbs"]
+  },
+  "adjectives_lv_labs": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_lv_slikts": {
+    "tags": ["adjectives"]
+  },
+  "shopping_lv_eks": {
+    "tags": ["shopping"]
+  },
+  "shopping_lv_atlaide": {
+    "tags": ["shopping"]
+  },
+  "shopping_lv_rinda": {
+    "tags": ["shopping"]
+  },
+  "directions_lv_krustojums": {
+    "tags": ["directions"]
+  },
+  "directions_lv_pietura": {
+    "tags": ["directions"]
+  },
+  "directions_lv_net_lu": {
+    "tags": ["directions"]
+  },
+  "weather_lv_laiks": {
+    "tags": ["weather"]
+  },
+  "health_lv_slims": {
+    "tags": ["health"]
+  },
+  "health_lv_vesels": {
+    "tags": ["health"]
+  },
+  "adjectives_lv_aizraujo_s": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_lv_god_gs": {
+    "tags": ["adjectives"]
+  },
+  "adjectives_lv_nobijies": {
+    "tags": ["adjectives"]
+  },
+  "food_drink_lv_ass": {
+    "tags": ["food-drink"]
+  },
+  "food_drink_lv_otrais_diens": {
+    "tags": ["food-drink"]
+  },
+  "time_lv_dr_z": {
+    "tags": ["time"]
+  },
+  "social_lv_skaitlis": {
+    "tags": ["social"]
+  },
+  "objects_lv_bilde": {
+    "tags": ["objects"]
+  },
+  "verbs_lv_apsol_t": {
+    "tags": ["verbs"]
+  },
+  "nature_lv_me_s": {
+    "tags": ["nature"]
+  },
+  "medicine_lv_diagnostic_t": {
+    "tags": ["medicine"]
+  },
+  "adjectives_lv_kritisks": {
+    "tags": ["adjectives"]
+  },
+  "emotions_lv_eiforija": {
+    "tags": ["emotions"]
+  },
+  "emotions_lv_apatija": {
+    "tags": ["emotions"]
+  },
+  "academic_lv_aksioma": {
+    "tags": ["academic"]
+  },
+  "archaic_lv_di_cilt_gs": {
+    "tags": ["archaic"]
+  },
+  "register_lv_skan_gs": {
+    "tags": ["register"]
+  },
+  "register_lv_neskaidr_ba": {
+    "tags": ["register"]
+  },
+  "register_lv_mistisks": {
+    "tags": ["register"]
+  },
+  "academic_lv_holistisks": {
+    "tags": ["academic"]
+  },
+  "archaic_lv_neatjaunojams": {
+    "tags": ["archaic"]
+  },
+  "archaic_lv_b_das": {
+    "tags": ["archaic"]
+  },
+  "verbs_lv_izn_d_t": {
+    "tags": ["verbs"]
+  }
+}
