@@ -44,7 +44,7 @@ const STORAGE_KEYS = {
  * tests that do not cover the onboarding flow.
  */
 export async function resetAppState(page: Page): Promise<void> {
-  await page.goto('/')
+  await page.goto('/#/app')
   await page.evaluate(() => localStorage.clear())
   await page.reload()
 }
@@ -114,7 +114,8 @@ export async function bypassOnboarding(
       }),
     },
   )
-  await page.reload()
+  // Navigate to the app route (HashRouter) so the main app shell loads.
+  await page.goto('/#/app')
 
   // Wait for the main app shell to be visible (AppBar title).
   await expect(page.getByText('Lexio').first()).toBeVisible({ timeout: 10_000 })
@@ -129,7 +130,7 @@ export async function resetAndBypassOnboarding(
   page: Page,
   options: BypassOnboardingOptions = {},
 ): Promise<void> {
-  await page.goto('/')
+  await page.goto('/#/app')
   await page.evaluate(() => localStorage.clear())
   await bypassOnboarding(page, options)
 }
