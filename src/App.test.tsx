@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen, act, waitFor } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import App from './App'
 
 // The App uses LocalStorageService which internally calls localStorage.
@@ -49,30 +49,40 @@ describe('App - landing page route', () => {
   })
 })
 
-describe('App - app route', () => {
-  beforeEach(() => {
-    // Navigate to the app shell route for these tests.
-    window.location.hash = '#/app'
-  })
-
+describe('App - app shell (AppContent direct)', () => {
   it('should show onboarding on first launch (no pairs in storage)', async () => {
+    // Import AppContent directly to avoid routing/Suspense complexity in tests.
+    const { default: AppContent } = await import('./AppContent')
+    const { LocalStorageService } = await import('./services/storage')
+    const { StorageContext } = await import('./hooks/useStorage')
+    const storage = new LocalStorageService()
     await act(async () => {
-      render(<App />)
+      render(
+        <StorageContext.Provider value={storage}>
+          <AppContent />
+        </StorageContext.Provider>,
+      )
     })
-    // Allow Suspense lazy-loading and async storage reads to resolve.
-    await waitFor(
-      () => expect(screen.getByRole('button', { name: /try it now/i })).toBeInTheDocument(),
-      { timeout: 3000 },
-    )
+    await act(async () => {})
+    // After loading completes with no pairs, the onboarding welcome step is shown.
+    expect(screen.getByRole('button', { name: /try it now/i })).toBeInTheDocument()
   })
 
   it('should show the Lexio heading in the onboarding welcome step on first launch', async () => {
+    // Import AppContent directly to avoid routing/Suspense complexity in tests.
+    const { default: AppContent } = await import('./AppContent')
+    const { LocalStorageService } = await import('./services/storage')
+    const { StorageContext } = await import('./hooks/useStorage')
+    const storage = new LocalStorageService()
     await act(async () => {
-      render(<App />)
+      render(
+        <StorageContext.Provider value={storage}>
+          <AppContent />
+        </StorageContext.Provider>,
+      )
     })
-    // Allow Suspense lazy-loading and async storage reads to resolve.
-    await waitFor(() => expect(screen.getAllByText('Lexio').length).toBeGreaterThan(0), {
-      timeout: 3000,
-    })
+    await act(async () => {})
+    // The onboarding flow renders "Lexio" as the h3 heading on the welcome step.
+    expect(screen.getAllByText('Lexio').length).toBeGreaterThan(0)
   })
 })

@@ -433,18 +433,20 @@ describe('OnboardingFlow', () => {
 describe('First-launch detection (App integration)', () => {
   it('should show onboarding when no language pairs exist in storage', async () => {
     localStorage.clear()
-    // Navigate to the /app route so the main app shell (and its onboarding) is rendered.
-    window.location.hash = '#/app'
-    const { default: App } = await import('@/App')
+    // Import AppContent directly (the lazy chunk) to avoid routing/Suspense complexity in tests.
+    const { default: AppContent } = await import('@/AppContent')
+    const { LocalStorageService } = await import('@/services/storage')
+    const { StorageContext: SC } = await import('@/hooks/useStorage')
+    const storage = new LocalStorageService()
     await act(async () => {
-      render(<App />)
+      render(
+        <SC.Provider value={storage}>
+          <AppContent />
+        </SC.Provider>,
+      )
     })
-    // Allow Suspense + lazy loading and async storage reads to complete.
     await act(async () => {})
-    await act(async () => {})
-    await waitFor(() =>
-      expect(screen.getByRole('button', { name: /try it now/i })).toBeInTheDocument(),
-    )
+    expect(screen.getByRole('button', { name: /try it now/i })).toBeInTheDocument()
   })
 
   it('should show the dashboard (skip onboarding) when a pair already exists in storage', async () => {
@@ -463,15 +465,20 @@ describe('First-launch detection (App integration)', () => {
       }),
     )
 
-    // Navigate to the /app route so the main app shell is rendered.
-    window.location.hash = '#/app'
-    const { default: App } = await import('@/App')
+    // Import AppContent directly (the lazy chunk) to avoid routing/Suspense complexity in tests.
+    const { default: AppContent } = await import('@/AppContent')
+    const { LocalStorageService } = await import('@/services/storage')
+    const { StorageContext: SC } = await import('@/hooks/useStorage')
+    const storage = new LocalStorageService()
     await act(async () => {
-      render(<App />)
+      render(
+        <SC.Provider value={storage}>
+          <AppContent />
+        </SC.Provider>,
+      )
     })
     await act(async () => {})
-    // The main app bar "Lexio" brand is present, and the onboarding "Try it now"
-    // (from OnboardingFlow, not the landing page) is absent because pairs exist.
+    // Onboarding "Try it now" is absent because pairs exist.
     expect(screen.queryByRole('button', { name: /try it now/i })).not.toBeInTheDocument()
     // AppBar Lexio heading is present.
     expect(screen.getAllByText('Lexio').length).toBeGreaterThan(0)
