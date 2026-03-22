@@ -1,3 +1,5 @@
 export { BottomNav } from './BottomNav'
 export type { BottomNavProps, AppTab } from './BottomNav'
 export { UpdateNotification } from './UpdateNotification'
+export { BrandedLoader } from './BrandedLoader'
+export { TabTransition } from './TabTransition'

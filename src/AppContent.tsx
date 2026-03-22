@@ -7,7 +7,6 @@ import {
   Toolbar,
   Typography,
   Container,
-  CircularProgress,
 } from '@mui/material'
 import { createAppTheme } from './theme'
 import { useThemeMode } from './hooks/useThemeMode'
@@ -20,7 +19,7 @@ import { DashboardScreen, useDashboard } from './features/dashboard'
 import { StatsScreen } from './features/stats'
 import { SettingsScreen } from './features/settings'
 import { OnboardingFlow } from './features/onboarding'
-import { BottomNav, UpdateNotification } from './components'
+import { BottomNav, UpdateNotification, BrandedLoader, TabTransition } from './components'
 import type { AppTab } from './components'
 import { useServiceWorker } from './hooks/useServiceWorker'
 import type { LanguagePair, UserSettings } from './types'
@@ -177,7 +176,7 @@ function AppContent(): React.JSX.Element {
         />
       )}
 
-      {/* Loading spinner while pairs are being fetched */}
+      {/* Branded loading state while pairs are being fetched */}
       {pairsLoading && (
         <Box
           sx={{
@@ -187,7 +186,7 @@ function AppContent(): React.JSX.Element {
             minHeight: '100vh',
           }}
         >
-          <CircularProgress />
+          <BrandedLoader label="Loading Lexio" showWordmark />
         </Box>
       )}
 
@@ -218,43 +217,45 @@ function AppContent(): React.JSX.Element {
 
           {/* Main content — bottom padding makes room for the fixed BottomNav */}
           <Container maxWidth="sm" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
-            {activeTab === 'home' && (
-              <DashboardScreen
-                activePair={activePair}
-                settings={settings}
-                todayStats={dashboardData.todayStats}
-                wordProgressList={dashboardData.wordProgressList}
-                totalWords={dashboardData.totalWords}
-                streakDays={dashboardData.streakDays}
-                recentStats={dashboardData.recentStats}
-                loading={dashboardData.loading}
-                onStartQuiz={handleStartQuizFromDashboard}
-              />
-            )}
+            <TabTransition activeTab={activeTab}>
+              {activeTab === 'home' && (
+                <DashboardScreen
+                  activePair={activePair}
+                  settings={settings}
+                  todayStats={dashboardData.todayStats}
+                  wordProgressList={dashboardData.wordProgressList}
+                  totalWords={dashboardData.totalWords}
+                  streakDays={dashboardData.streakDays}
+                  recentStats={dashboardData.recentStats}
+                  loading={dashboardData.loading}
+                  onStartQuiz={handleStartQuizFromDashboard}
+                />
+              )}
 
-            {activeTab === 'quiz' && (
-              <QuizHub
-                pair={activePair}
-                settings={settings}
-                onSettingsChange={handleSettingsChange}
-              />
-            )}
+              {activeTab === 'quiz' && (
+                <QuizHub
+                  pair={activePair}
+                  settings={settings}
+                  onSettingsChange={handleSettingsChange}
+                />
+              )}
 
-            {activeTab === 'words' && <WordListScreen activePair={activePair} />}
+              {activeTab === 'words' && <WordListScreen activePair={activePair} />}
 
-            {activeTab === 'stats' && <StatsScreen />}
+              {activeTab === 'stats' && <StatsScreen />}
 
-            {activeTab === 'settings' && (
-              <SettingsScreen
-                themePreference={themePreference}
-                onThemeChange={handleThemeChange}
-                settings={settings}
-                onSettingsChange={handleSettingsChange}
-                pairs={pairs}
-                onAddPair={handleOpenCreateDialog}
-                onDeletePair={deletePair}
-              />
-            )}
+              {activeTab === 'settings' && (
+                <SettingsScreen
+                  themePreference={themePreference}
+                  onThemeChange={handleThemeChange}
+                  settings={settings}
+                  onSettingsChange={handleSettingsChange}
+                  pairs={pairs}
+                  onAddPair={handleOpenCreateDialog}
+                  onDeletePair={deletePair}
+                />
+              )}
+            </TabTransition>
           </Container>
 
           {/* Bottom navigation — only visible when there are language pairs */}

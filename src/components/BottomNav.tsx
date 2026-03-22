@@ -5,6 +5,11 @@
  * On desktop viewports the bar still renders at the bottom to keep
  * the mobile-first experience consistent; it could be promoted to a
  * sidebar variant in a future enhancement.
+ *
+ * Visual polish:
+ * - Active tab icon scales up with a spring-like transition
+ * - Colour transitions are smooth on tap
+ * All animations respect `prefers-reduced-motion`.
  */
 
 import { Paper, BottomNavigation, BottomNavigationAction } from '@mui/material'
@@ -73,6 +78,32 @@ export function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
             value={value}
             icon={icon}
             aria-label={`Navigate to ${label}`}
+            sx={{
+              // Smooth colour transition on active state change.
+              transition: 'color 0.2s ease',
+              '& .MuiBottomNavigationAction-label': {
+                transition: 'font-size 0.2s ease, opacity 0.2s ease',
+              },
+              // Active icon scales up with a spring-like overshoot.
+              '&.Mui-selected': {
+                '& svg': {
+                  transform: 'scale(1.15)',
+                  transition: 'transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                },
+              },
+              '& svg': {
+                transition: 'transform 0.2s ease',
+              },
+              // Disable all transitions when reduced motion is preferred.
+              '@media (prefers-reduced-motion: reduce)': {
+                transition: 'none',
+                '& .MuiBottomNavigationAction-label': { transition: 'none' },
+                '&.Mui-selected': {
+                  '& svg': { transform: 'none', transition: 'none' },
+                },
+                '& svg': { transition: 'none' },
+              },
+            }}
           />
         ))}
       </BottomNavigation>
