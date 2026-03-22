@@ -90,7 +90,7 @@ test('install starter pack from populated word list', async ({ page }) => {
 test('reversed pack direction installs with swapped words', async ({ page }) => {
   // The default pair is EN-LV. We need an LV-EN pair for the reversed test.
   // Use bypassOnboarding with a custom reversed pair.
-  await page.goto('/')
+  await page.goto('/#/app')
   await page.evaluate(() => localStorage.clear())
   await page.evaluate(() => {
     const reversedPair = {
@@ -113,7 +113,7 @@ test('reversed pack direction installs with swapped words', async ({ page }) => 
       }),
     )
   })
-  await page.reload()
+  await page.goto('/#/app')
   await expect(page.getByText('Lexio').first()).toBeVisible({ timeout: 10_000 })
 
   await openPackBrowserFromWordsTab(page)
