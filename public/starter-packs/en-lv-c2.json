@@ -9,652 +9,1042 @@
     {
       "source": "melanholija",
       "target": "melancholy",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "nostalģija",
       "target": "nostalgia",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "eifōrija",
       "target": "euphoria",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "apātija",
       "target": "apathy",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "ambivalence",
       "target": "ambivalence",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "nemiers",
       "target": "unease",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "naivums",
       "target": "naivety",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "ironija",
       "target": "irony",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "sarkasms",
       "target": "sarcasm",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "nicinājums",
       "target": "contempt",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "godkārība",
       "target": "ambition",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "nevainīgums",
       "target": "innocence",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "apbrīna",
       "target": "admiration",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "bijāšana",
       "target": "awe",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "neuzticēšanās",
       "target": "distrust",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "entuziasms",
       "target": "enthusiasm",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "atsvešinātība",
       "target": "alienation",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "empātija",
       "target": "empathy",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "pazemība",
       "target": "humility",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "lepnums",
       "target": "pride",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "pamatiedzīvotāji",
       "target": "indigenous people",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "koloniālisms",
       "target": "colonialism",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "asimilācija",
       "target": "assimilation",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "akulturācija",
       "target": "acculturation",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "etnocentrisms",
       "target": "ethnocentrism",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "plurālisms",
       "target": "pluralism",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "hegemonija",
       "target": "hegemony",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "diskriminācija",
       "target": "discrimination",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "emancipācija",
       "target": "emancipation",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "segregācija",
       "target": "segregation",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "aforisms",
       "target": "aphorism",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "metafora",
       "target": "metaphor",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "alegorija",
       "target": "allegory",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "epitets",
       "target": "epithet",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "personifikācija",
       "target": "personification",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "ironizēt",
       "target": "to ironise",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "parādīties",
       "target": "to emerge",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "izzust",
       "target": "to vanish",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "mirdzeties",
       "target": "to glimmer",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "drebēt",
       "target": "to tremble",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "kvintesence",
       "target": "quintessence",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "aksiomasavstarpējas",
       "target": "axiom",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "tautologija",
       "target": "tautology",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "paradokss",
       "target": "paradox",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "epistemisks",
       "target": "epistemic",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "ontologs",
       "target": "ontological",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "fenomenoloģija",
       "target": "phenomenology",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "hermeneitika",
       "target": "hermeneutics",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "dialektika",
       "target": "dialectics",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "pragmatisms",
       "target": "pragmatism",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "liksnis",
       "target": "misfortune",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "diždabonīgs",
       "target": "magnanimous",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "krāšņums",
       "target": "splendour",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "spožums",
       "target": "brilliance",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "tverams",
       "target": "tangible",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "netverams",
       "target": "intangible",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "divdomīgs",
       "target": "ambiguous",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "neitrāls",
       "target": "neutral",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "smalks",
       "target": "subtle",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "izsmalcināts",
       "target": "refined",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "ekspresīvs",
       "target": "expressive",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "sugestīvs",
       "target": "suggestive",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "eufonisks",
       "target": "euphonious",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "assonanse",
       "target": "assonance",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "aliterācija",
       "target": "alliteration",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "ambiguitāte",
       "target": "ambiguity",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "māksliniecisks",
       "target": "artistic",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "estētisks",
       "target": "aesthetic",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "romantisks",
       "target": "romantic",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "simbolisks",
       "target": "symbolic",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "mistiski",
       "target": "mystical",
-      "tags": ["register", "C2"]
+      "tags": [
+        "register",
+        "C2"
+      ]
     },
     {
       "source": "eklektisks",
       "target": "eclectic",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "sinērgija",
       "target": "synergy",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "holisktisks",
       "target": "holistic",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "reduktīvisms",
       "target": "reductionism",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "determinisms",
       "target": "determinism",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "relativisms",
       "target": "relativism",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "nihilisms",
       "target": "nihilism",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "skepticisms",
       "target": "scepticism",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "empirisms",
       "target": "empiricism",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "racionālisms",
       "target": "rationalism",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "pārnestā nozīmē",
       "target": "figuratively",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "tiešā nozīmē",
       "target": "literally",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "retorika",
       "target": "rhetoric",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "polemika",
       "target": "polemic",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "epigramma",
       "target": "epigram",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "satīra",
       "target": "satire",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "parodija",
       "target": "parody",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "analoģija",
       "target": "analogy",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "metonīmija",
       "target": "metonymy",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "ezopiskais valoda",
       "target": "Aesopian language",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "eksistenciāls",
       "target": "existential",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "transcendentāls",
       "target": "transcendent",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "metafizisks",
       "target": "metaphysical",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "epistemologs",
       "target": "epistemology",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "nominālistisks",
       "target": "nominalist",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "teleologs",
       "target": "teleological",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "deontologs",
       "target": "deontological",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "konsekvenciālisms",
       "target": "consequentialism",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "utilitārisms",
       "target": "utilitarianism",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "morālisms",
       "target": "moralism",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "neizpērkams",
       "target": "irremediable",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "neatgriezenisks",
       "target": "irreversible",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "bēdīgums",
       "target": "sorrow",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "gausme",
       "target": "dawn",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "vakarvēja",
       "target": "evening breeze",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "rīta ausma",
       "target": "daybreak",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "nīkuļot",
       "target": "to languish",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "lolot",
       "target": "to cherish",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "nopūsties",
       "target": "to sigh",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "nocietināties",
       "target": "to fortify oneself",
-      "tags": ["archaic", "C2"]
+      "tags": [
+        "archaic",
+        "C2"
+      ]
     },
     {
       "source": "izsekot",
       "target": "to trace",
-      "tags": ["verbs", "C2"]
+      "tags": [
+        "verbs",
+        "C2"
+      ]
     },
     {
       "source": "atsaukt atmiņā",
       "target": "to reminisce",
-      "tags": ["verbs", "C2"]
+      "tags": [
+        "verbs",
+        "C2"
+      ]
     },
     {
       "source": "iemieso",
       "target": "to embody",
-      "tags": ["verbs", "C2"]
+      "tags": [
+        "verbs",
+        "C2"
+      ]
     },
     {
       "source": "izpausties",
       "target": "to manifest",
-      "tags": ["verbs", "C2"]
+      "tags": [
+        "verbs",
+        "C2"
+      ]
     },
     {
       "source": "novākt",
       "target": "to eradicate",
-      "tags": ["verbs", "C2"]
+      "tags": [
+        "verbs",
+        "C2"
+      ]
     },
     {
       "source": "iesakņoties",
       "target": "to take root",
-      "tags": ["verbs", "C2"]
+      "tags": [
+        "verbs",
+        "C2"
+      ]
     },
     {
       "source": "pārvarēt",
       "target": "to transcend",
-      "tags": ["verbs", "C2"]
+      "tags": [
+        "verbs",
+        "C2"
+      ]
     },
     {
       "source": "uzbudinājums",
       "target": "arousal",
-      "tags": ["emotions", "C2"]
+      "tags": [
+        "emotions",
+        "C2"
+      ]
     },
     {
       "source": "pieplūdums",
       "target": "influx",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "sabiedriskā doma",
       "target": "public opinion",
-      "tags": ["social", "C2"]
+      "tags": [
+        "social",
+        "C2"
+      ]
     },
     {
       "source": "normatīvs",
       "target": "normative",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "deskriptīvs",
       "target": "descriptive",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "preskriptīvs",
       "target": "prescriptive",
-      "tags": ["academic", "C2"]
+      "tags": [
+        "academic",
+        "C2"
+      ]
     },
     {
       "source": "saistvielas",
       "target": "ligature",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "paraksts",
       "target": "signature",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "simbolika",
       "target": "symbolism",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "ekfrāze",
       "target": "ekphrasis",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "hiperbola",
       "target": "hyperbole",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     },
     {
       "source": "litota",
       "target": "litotes",
-      "tags": ["literary", "C2"]
+      "tags": [
+        "literary",
+        "C2"
+      ]
     }
   ]
 }

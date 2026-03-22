@@ -9,642 +9,1027 @@
     {
       "source": "vīns",
       "target": "wine",
-      "tags": ["food-drink", "B2"]
+      "tags": [
+        "food-drink",
+        "B2"
+      ]
     },
     {
       "source": "robeža",
       "target": "border",
-      "tags": ["travel", "B2"]
+      "tags": [
+        "travel",
+        "B2"
+      ]
     },
     {
       "source": "valūta",
       "target": "currency",
-      "tags": ["travel", "B2"]
+      "tags": [
+        "travel",
+        "B2"
+      ]
     },
     {
       "source": "ceļojot",
       "target": "travelling",
-      "tags": ["travel", "B2"]
+      "tags": [
+        "travel",
+        "B2"
+      ]
     },
     {
       "source": "uzturēšanās",
       "target": "stay",
-      "tags": ["travel", "B2"]
+      "tags": [
+        "travel",
+        "B2"
+      ]
     },
     {
       "source": "rezervācija",
       "target": "reservation",
-      "tags": ["travel", "B2"]
+      "tags": [
+        "travel",
+        "B2"
+      ]
     },
     {
       "source": "alga",
       "target": "salary",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "projekts",
       "target": "project",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "termiņš",
       "target": "deadline",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "ziņojums",
       "target": "report",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "prezentācija",
       "target": "presentation",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "uzņēmums",
       "target": "company",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "klients",
       "target": "client",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "darba intervija",
       "target": "job interview",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "karjera",
       "target": "career",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "naids",
       "target": "hatred",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "cerība",
       "target": "hope",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "vilšanās",
       "target": "disappointment",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "atvieglojums",
       "target": "relief",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "kauns",
       "target": "shame",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "vientulība",
       "target": "loneliness",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "pateicība",
       "target": "gratitude",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "pagrabstāvs",
       "target": "basement",
-      "tags": ["home", "B2"]
+      "tags": [
+        "home",
+        "B2"
+      ]
     },
     {
       "source": "plaušas",
       "target": "lungs",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "asinsspiediens",
       "target": "blood pressure",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "temperatūra",
       "target": "temperature",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "pagātne",
       "target": "past",
-      "tags": ["time", "B2"]
+      "tags": [
+        "time",
+        "B2"
+      ]
     },
     {
       "source": "nākotne",
       "target": "future",
-      "tags": ["time", "B2"]
+      "tags": [
+        "time",
+        "B2"
+      ]
     },
     {
       "source": "grafiks",
       "target": "schedule",
-      "tags": ["time", "work", "B2"]
+      "tags": [
+        "time",
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "pārdot",
       "target": "to sell",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "lemt",
       "target": "to decide",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "pārbaudīt",
       "target": "to check",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "plānot",
       "target": "to plan",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "organizēt",
       "target": "to organise",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "uzlabot",
       "target": "to improve",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "sasniegt",
       "target": "to achieve",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "izvēlēties",
       "target": "to choose",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "apspriest",
       "target": "to discuss",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "bīstams",
       "target": "dangerous",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "aizņemts",
       "target": "busy",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "veiksmīgs",
       "target": "successful",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "radošs",
       "target": "creative",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "uzticams",
       "target": "reliable",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "elastīgs",
       "target": "flexible",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "efektīvs",
       "target": "effective",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "programma",
       "target": "software",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "aplikācija",
       "target": "application",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "baterija",
       "target": "battery",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "lādētājs",
       "target": "charger",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "svešinieks",
       "target": "stranger",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "teātris",
       "target": "theatre",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "pulcēšanās",
       "target": "gathering",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "ārstēšana",
       "target": "treatment",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "operācija",
       "target": "operation",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "alerģija",
       "target": "allergy",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "simptomi",
       "target": "symptoms",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "konsultācija",
       "target": "consultation",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "līgums",
       "target": "contract",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "investīcija",
       "target": "investment",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "budžets",
       "target": "budget",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "nodokļi",
       "target": "taxes",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "apdrošināšana",
       "target": "insurance",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "tiesību akti",
       "target": "legislation",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "dzīvoklis",
       "target": "apartment",
-      "tags": ["home", "B2"]
+      "tags": [
+        "home",
+        "B2"
+      ]
     },
     {
       "source": "pasts",
       "target": "post office",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "sūtījums",
       "target": "package",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "dziesma",
       "target": "song",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "deja",
       "target": "dance",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "fotogrāfija",
       "target": "photograph",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "krāsa",
       "target": "colour",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "forma",
       "target": "shape",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "skaņa",
       "target": "sound",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "smarža",
       "target": "smell",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "garša",
       "target": "taste",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "teikums",
       "target": "sentence",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "jautājums",
       "target": "question",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "atbilde",
       "target": "answer",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "problēma",
       "target": "problem",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "risinājums",
       "target": "solution",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "ideja",
       "target": "idea",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "viedoklis",
       "target": "opinion",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "informācija",
       "target": "information",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "ziņas",
       "target": "news",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "notikums",
       "target": "event",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "iespēja",
       "target": "opportunity",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "pieredze",
       "target": "experience",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "zināšanas",
       "target": "knowledge",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "izglītība",
       "target": "education",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "sabiedrība",
       "target": "society",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "kultūra",
       "target": "culture",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "vide",
       "target": "environment",
-      "tags": ["nature", "B2"]
+      "tags": [
+        "nature",
+        "B2"
+      ]
     },
     {
       "source": "klimats",
       "target": "climate",
-      "tags": ["nature", "B2"]
+      "tags": [
+        "nature",
+        "B2"
+      ]
     },
     {
       "source": "enerģija",
       "target": "energy",
-      "tags": ["nature", "B2"]
+      "tags": [
+        "nature",
+        "B2"
+      ]
     },
     {
       "source": "resursi",
       "target": "resources",
-      "tags": ["nature", "B2"]
+      "tags": [
+        "nature",
+        "B2"
+      ]
     },
     {
       "source": "piesārņojums",
       "target": "pollution",
-      "tags": ["nature", "B2"]
+      "tags": [
+        "nature",
+        "B2"
+      ]
     },
     {
       "source": "attīstība",
       "target": "development",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "stratēģija",
       "target": "strategy",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "mērķis",
       "target": "goal",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "rezultāts",
       "target": "result",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "process",
       "target": "process",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "sistēma",
       "target": "system",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "tehnoloģija",
       "target": "technology",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "ierīce",
       "target": "device",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "savienojums",
       "target": "connection",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "drošība",
       "target": "security",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "privātums",
       "target": "privacy",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "tiesības",
       "target": "rights",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "pienākums",
       "target": "responsibility",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "lēmums",
       "target": "decision",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "vienošanās",
       "target": "agreement",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "konflikts",
       "target": "conflict",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "sadarbība",
       "target": "cooperation",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "kritika",
       "target": "criticism",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "novērtējums",
       "target": "assessment",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "pārskats",
       "target": "overview",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "perspektīva",
       "target": "perspective",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "pieejas",
       "target": "approach",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "izaicinājums",
       "target": "challenge",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "riski",
       "target": "risk",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "atbildība",
       "target": "accountability",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "efektivitāte",
       "target": "efficiency",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "kvalitāte",
       "target": "quality",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "standarts",
       "target": "standard",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "sasniegums",
       "target": "achievement",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "ietekme",
       "target": "impact",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "līdzsvars",
       "target": "balance",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "prioritāte",
       "target": "priority",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "inovācija",
       "target": "innovation",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     }
   ]
 }

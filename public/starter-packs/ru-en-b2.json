@@ -9,607 +9,971 @@
     {
       "source": "путешествие",
       "target": "journey",
-      "tags": ["travel", "B2"]
+      "tags": [
+        "travel",
+        "B2"
+      ]
     },
     {
       "source": "вино",
       "target": "wine",
-      "tags": ["food-drink", "B2"]
+      "tags": [
+        "food-drink",
+        "B2"
+      ]
     },
     {
       "source": "граница",
       "target": "border",
-      "tags": ["travel", "B2"]
+      "tags": [
+        "travel",
+        "B2"
+      ]
     },
     {
       "source": "валюта",
       "target": "currency",
-      "tags": ["travel", "B2"]
+      "tags": [
+        "travel",
+        "B2"
+      ]
     },
     {
       "source": "бронирование",
       "target": "reservation",
-      "tags": ["travel", "B2"]
+      "tags": [
+        "travel",
+        "B2"
+      ]
     },
     {
       "source": "зарплата",
       "target": "salary",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "проект",
       "target": "project",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "дедлайн",
       "target": "deadline",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "отчёт",
       "target": "report",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "презентация",
       "target": "presentation",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "компания",
       "target": "company",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "клиент",
       "target": "client",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "собеседование",
       "target": "job interview",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "карьера",
       "target": "career",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "ненависть",
       "target": "hatred",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "надежда",
       "target": "hope",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "разочарование",
       "target": "disappointment",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "облегчение",
       "target": "relief",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "стыд",
       "target": "shame",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "одиночество",
       "target": "loneliness",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "благодарность",
       "target": "gratitude",
-      "tags": ["emotions", "B2"]
+      "tags": [
+        "emotions",
+        "B2"
+      ]
     },
     {
       "source": "подвал",
       "target": "basement",
-      "tags": ["home", "B2"]
+      "tags": [
+        "home",
+        "B2"
+      ]
     },
     {
       "source": "лёгкие",
       "target": "lungs",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "давление",
       "target": "blood pressure",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "температура",
       "target": "temperature",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "прошлое",
       "target": "past",
-      "tags": ["time", "B2"]
+      "tags": [
+        "time",
+        "B2"
+      ]
     },
     {
       "source": "будущее",
       "target": "future",
-      "tags": ["time", "B2"]
+      "tags": [
+        "time",
+        "B2"
+      ]
     },
     {
       "source": "расписание",
       "target": "schedule",
-      "tags": ["time", "work", "B2"]
+      "tags": [
+        "time",
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "продавать",
       "target": "to sell",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
-      "source": "менять",
+      "source": "изменить",
       "target": "to change",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "решать",
       "target": "to decide",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "проверять",
       "target": "to check",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "планировать",
       "target": "to plan",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "организовывать",
       "target": "to organise",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "улучшать",
       "target": "to improve",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "достигать",
       "target": "to achieve",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "выбирать",
       "target": "to choose",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "обсуждать",
       "target": "to discuss",
-      "tags": ["verbs", "B2"]
+      "tags": [
+        "verbs",
+        "B2"
+      ]
     },
     {
       "source": "опасный",
       "target": "dangerous",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "занятой",
       "target": "busy",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "успешный",
       "target": "successful",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "творческий",
       "target": "creative",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "надёжный",
       "target": "reliable",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "гибкий",
       "target": "flexible",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "эффективный",
       "target": "effective",
-      "tags": ["adjectives", "B2"]
+      "tags": [
+        "adjectives",
+        "B2"
+      ]
     },
     {
       "source": "программа",
       "target": "software",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "приложение",
       "target": "application",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "батарея",
       "target": "battery",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "зарядное устройство",
       "target": "charger",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "незнакомец",
       "target": "stranger",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "театр",
       "target": "theatre",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "лечение",
       "target": "treatment",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "операция",
       "target": "operation",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "аллергия",
       "target": "allergy",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "симптомы",
       "target": "symptoms",
-      "tags": ["body", "B2"]
+      "tags": [
+        "body",
+        "B2"
+      ]
     },
     {
       "source": "консультация",
       "target": "consultation",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "договор",
       "target": "contract",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "инвестиция",
       "target": "investment",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "бюджет",
       "target": "budget",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "налоги",
       "target": "taxes",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "страховка",
       "target": "insurance",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "почта",
       "target": "post office",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "посылка",
       "target": "package",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "песня",
       "target": "song",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "танец",
       "target": "dance",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "фотография",
       "target": "photograph",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "цвет",
       "target": "colour",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "форма",
       "target": "shape",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "звук",
       "target": "sound",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "запах",
       "target": "smell",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "вкус",
       "target": "taste",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "предложение",
       "target": "sentence",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "вопрос",
       "target": "question",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "ответ",
       "target": "answer",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "проблема",
       "target": "problem",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "решение",
       "target": "solution",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "идея",
       "target": "idea",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "мнение",
       "target": "opinion",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "информация",
       "target": "information",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "новости",
       "target": "news",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "событие",
       "target": "event",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "возможность",
       "target": "opportunity",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "опыт",
       "target": "experience",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "знания",
       "target": "knowledge",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "образование",
       "target": "education",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "общество",
       "target": "society",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "культура",
       "target": "culture",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "окружающая среда",
       "target": "environment",
-      "tags": ["nature", "B2"]
+      "tags": [
+        "nature",
+        "B2"
+      ]
     },
     {
       "source": "климат",
       "target": "climate",
-      "tags": ["nature", "B2"]
+      "tags": [
+        "nature",
+        "B2"
+      ]
     },
     {
       "source": "энергия",
       "target": "energy",
-      "tags": ["nature", "B2"]
+      "tags": [
+        "nature",
+        "B2"
+      ]
     },
     {
       "source": "ресурсы",
       "target": "resources",
-      "tags": ["nature", "B2"]
+      "tags": [
+        "nature",
+        "B2"
+      ]
     },
     {
       "source": "загрязнение",
       "target": "pollution",
-      "tags": ["nature", "B2"]
+      "tags": [
+        "nature",
+        "B2"
+      ]
     },
     {
       "source": "развитие",
       "target": "development",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "стратегия",
       "target": "strategy",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "цель",
       "target": "goal",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "результат",
       "target": "result",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "процесс",
       "target": "process",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "система",
       "target": "system",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "технология",
       "target": "technology",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "устройство",
       "target": "device",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "подключение",
       "target": "connection",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "безопасность",
       "target": "security",
-      "tags": ["objects", "B2"]
+      "tags": [
+        "objects",
+        "B2"
+      ]
     },
     {
       "source": "конфиденциальность",
       "target": "privacy",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "права",
       "target": "rights",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "обязанность",
       "target": "responsibility",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "решение",
       "target": "decision",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "соглашение",
       "target": "agreement",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "конфликт",
       "target": "conflict",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "сотрудничество",
       "target": "cooperation",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "критика",
       "target": "criticism",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "оценка",
       "target": "assessment",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "перспектива",
       "target": "perspective",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "вызов",
       "target": "challenge",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "риск",
       "target": "risk",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "качество",
       "target": "quality",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "стандарт",
       "target": "standard",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "достижение",
       "target": "achievement",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "влияние",
       "target": "impact",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "баланс",
       "target": "balance",
-      "tags": ["social", "B2"]
+      "tags": [
+        "social",
+        "B2"
+      ]
     },
     {
       "source": "приоритет",
       "target": "priority",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     },
     {
       "source": "инновация",
       "target": "innovation",
-      "tags": ["work", "B2"]
+      "tags": [
+        "work",
+        "B2"
+      ]
     }
   ]
 }

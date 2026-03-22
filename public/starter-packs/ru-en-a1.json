@@ -9,932 +9,1490 @@
     {
       "source": "привет",
       "target": "hello",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "пока",
       "target": "bye",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "до свидания",
       "target": "goodbye",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "пожалуйста",
       "target": "please",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "спасибо",
       "target": "thank you",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "да",
       "target": "yes",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "нет",
       "target": "no",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "извините",
       "target": "sorry",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "доброе утро",
       "target": "good morning",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "добрый день",
       "target": "good afternoon",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "добрый вечер",
       "target": "good evening",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "до встречи",
       "target": "see you later",
-      "tags": ["greetings", "A1"]
+      "tags": [
+        "greetings",
+        "A1"
+      ]
     },
     {
       "source": "один",
       "target": "one",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "два",
       "target": "two",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "три",
       "target": "three",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "четыре",
       "target": "four",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "пять",
       "target": "five",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "шесть",
       "target": "six",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "семь",
       "target": "seven",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "восемь",
       "target": "eight",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "девять",
       "target": "nine",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "десять",
       "target": "ten",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "одиннадцать",
       "target": "eleven",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "двенадцать",
       "target": "twelve",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "тринадцать",
       "target": "thirteen",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "четырнадцать",
       "target": "fourteen",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "пятнадцать",
       "target": "fifteen",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "шестнадцать",
       "target": "sixteen",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "семнадцать",
       "target": "seventeen",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "восемнадцать",
       "target": "eighteen",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "девятнадцать",
       "target": "nineteen",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "двадцать",
       "target": "twenty",
-      "tags": ["numbers", "A1"]
+      "tags": [
+        "numbers",
+        "A1"
+      ]
     },
     {
       "source": "красный",
       "target": "red",
-      "tags": ["colours", "A1"]
+      "tags": [
+        "colours",
+        "A1"
+      ]
     },
     {
       "source": "синий",
       "target": "blue",
-      "tags": ["colours", "A1"]
+      "tags": [
+        "colours",
+        "A1"
+      ]
     },
     {
       "source": "зелёный",
       "target": "green",
-      "tags": ["colours", "A1"]
+      "tags": [
+        "colours",
+        "A1"
+      ]
     },
     {
       "source": "жёлтый",
       "target": "yellow",
-      "tags": ["colours", "A1"]
+      "tags": [
+        "colours",
+        "A1"
+      ]
     },
     {
       "source": "белый",
       "target": "white",
-      "tags": ["colours", "A1"]
+      "tags": [
+        "colours",
+        "A1"
+      ]
     },
     {
       "source": "чёрный",
       "target": "black",
-      "tags": ["colours", "A1"]
+      "tags": [
+        "colours",
+        "A1"
+      ]
     },
     {
       "source": "оранжевый",
       "target": "orange",
-      "tags": ["colours", "A1"]
+      "tags": [
+        "colours",
+        "A1"
+      ]
     },
     {
       "source": "розовый",
       "target": "pink",
-      "tags": ["colours", "A1"]
+      "tags": [
+        "colours",
+        "A1"
+      ]
     },
     {
       "source": "фиолетовый",
       "target": "purple",
-      "tags": ["colours", "A1"]
+      "tags": [
+        "colours",
+        "A1"
+      ]
     },
     {
       "source": "коричневый",
       "target": "brown",
-      "tags": ["colours", "A1"]
+      "tags": [
+        "colours",
+        "A1"
+      ]
     },
     {
       "source": "серый",
       "target": "grey",
-      "tags": ["colours", "A1"]
+      "tags": [
+        "colours",
+        "A1"
+      ]
     },
     {
       "source": "мама",
       "target": "mother",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "папа",
       "target": "father",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "сестра",
       "target": "sister",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "брат",
       "target": "brother",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "бабушка",
       "target": "grandmother",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "дедушка",
       "target": "grandfather",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "ребёнок",
       "target": "child",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "сын",
       "target": "son",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "дочь",
       "target": "daughter",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "муж",
       "target": "husband",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "жена",
       "target": "wife",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "семья",
       "target": "family",
-      "tags": ["family", "A1"]
+      "tags": [
+        "family",
+        "A1"
+      ]
     },
     {
       "source": "вода",
       "target": "water",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "молоко",
       "target": "milk",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "хлеб",
       "target": "bread",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "яйцо",
       "target": "egg",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "яблоко",
       "target": "apple",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "банан",
       "target": "banana",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "кофе",
       "target": "coffee",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "чай",
       "target": "tea",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "сыр",
       "target": "cheese",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "мясо",
       "target": "meat",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "рис",
       "target": "rice",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "сахар",
       "target": "sugar",
-      "tags": ["food-drink", "A1"]
+      "tags": [
+        "food-drink",
+        "A1"
+      ]
     },
     {
       "source": "понедельник",
       "target": "Monday",
-      "tags": ["days", "A1"]
+      "tags": [
+        "days",
+        "A1"
+      ]
     },
     {
       "source": "вторник",
       "target": "Tuesday",
-      "tags": ["days", "A1"]
+      "tags": [
+        "days",
+        "A1"
+      ]
     },
     {
       "source": "среда",
       "target": "Wednesday",
-      "tags": ["days", "A1"]
+      "tags": [
+        "days",
+        "A1"
+      ]
     },
     {
       "source": "четверг",
       "target": "Thursday",
-      "tags": ["days", "A1"]
+      "tags": [
+        "days",
+        "A1"
+      ]
     },
     {
       "source": "пятница",
       "target": "Friday",
-      "tags": ["days", "A1"]
+      "tags": [
+        "days",
+        "A1"
+      ]
     },
     {
       "source": "суббота",
       "target": "Saturday",
-      "tags": ["days", "A1"]
+      "tags": [
+        "days",
+        "A1"
+      ]
     },
     {
       "source": "воскресенье",
       "target": "Sunday",
-      "tags": ["days", "A1"]
+      "tags": [
+        "days",
+        "A1"
+      ]
     },
     {
       "source": "январь",
       "target": "January",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "февраль",
       "target": "February",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "март",
       "target": "March",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "апрель",
       "target": "April",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "май",
       "target": "May",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "июнь",
       "target": "June",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "июль",
       "target": "July",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "август",
       "target": "August",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "сентябрь",
       "target": "September",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "октябрь",
       "target": "October",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "ноябрь",
       "target": "November",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "декабрь",
       "target": "December",
-      "tags": ["months", "A1"]
+      "tags": [
+        "months",
+        "A1"
+      ]
     },
     {
       "source": "быть",
       "target": "to be",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "иметь",
       "target": "to have",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "идти",
       "target": "to go",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "хотеть",
       "target": "to want",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "любить",
       "target": "to like",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "прийти",
       "target": "to come",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "видеть",
       "target": "to see",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "слышать",
       "target": "to hear",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "есть",
       "target": "to eat",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "пить",
       "target": "to drink",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "спать",
       "target": "to sleep",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "сидеть",
       "target": "to sit",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "стоять",
       "target": "to stand",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "говорить",
       "target": "to talk",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "дать",
       "target": "to give",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "взять",
       "target": "to take",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "смотреть",
       "target": "to look",
-      "tags": ["verbs", "A1"]
+      "tags": [
+        "verbs",
+        "A1"
+      ]
     },
     {
       "source": "хороший",
       "target": "good",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "плохой",
       "target": "bad",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "большой",
       "target": "big",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "маленький",
       "target": "small",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "горячий",
       "target": "hot",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "холодный",
       "target": "cold",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "новый",
       "target": "new",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "старый",
       "target": "old",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "длинный",
       "target": "long",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "короткий",
       "target": "short",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "высокий",
       "target": "tall",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "низкий",
       "target": "low",
-      "tags": ["adjectives", "A1"]
+      "tags": [
+        "adjectives",
+        "A1"
+      ]
     },
     {
       "source": "я",
       "target": "I",
-      "tags": ["pronouns", "A1"]
+      "tags": [
+        "pronouns",
+        "A1"
+      ]
     },
     {
       "source": "ты",
       "target": "you",
-      "tags": ["pronouns", "A1"]
+      "tags": [
+        "pronouns",
+        "A1"
+      ]
     },
     {
       "source": "он",
       "target": "he",
-      "tags": ["pronouns", "A1"]
+      "tags": [
+        "pronouns",
+        "A1"
+      ]
     },
     {
       "source": "она",
       "target": "she",
-      "tags": ["pronouns", "A1"]
+      "tags": [
+        "pronouns",
+        "A1"
+      ]
     },
     {
       "source": "мы",
       "target": "we",
-      "tags": ["pronouns", "A1"]
+      "tags": [
+        "pronouns",
+        "A1"
+      ]
     },
     {
       "source": "они",
       "target": "they",
-      "tags": ["pronouns", "A1"]
+      "tags": [
+        "pronouns",
+        "A1"
+      ]
     },
     {
       "source": "оно",
       "target": "it",
-      "tags": ["pronouns", "A1"]
+      "tags": [
+        "pronouns",
+        "A1"
+      ]
     },
     {
       "source": "дом",
       "target": "house",
-      "tags": ["home", "A1"]
+      "tags": [
+        "home",
+        "A1"
+      ]
     },
     {
       "source": "комната",
       "target": "room",
-      "tags": ["home", "A1"]
+      "tags": [
+        "home",
+        "A1"
+      ]
     },
     {
       "source": "дверь",
       "target": "door",
-      "tags": ["home", "A1"]
+      "tags": [
+        "home",
+        "A1"
+      ]
     },
     {
       "source": "окно",
       "target": "window",
-      "tags": ["home", "A1"]
+      "tags": [
+        "home",
+        "A1"
+      ]
     },
     {
       "source": "стол",
       "target": "table",
-      "tags": ["home", "A1"]
+      "tags": [
+        "home",
+        "A1"
+      ]
     },
     {
       "source": "стул",
       "target": "chair",
-      "tags": ["home", "A1"]
+      "tags": [
+        "home",
+        "A1"
+      ]
     },
     {
       "source": "кровать",
       "target": "bed",
-      "tags": ["home", "A1"]
+      "tags": [
+        "home",
+        "A1"
+      ]
     },
     {
       "source": "человек",
       "target": "person",
-      "tags": ["social", "A1"]
+      "tags": [
+        "social",
+        "A1"
+      ]
     },
     {
       "source": "мужчина",
       "target": "man",
-      "tags": ["social", "A1"]
+      "tags": [
+        "social",
+        "A1"
+      ]
     },
     {
       "source": "женщина",
       "target": "woman",
-      "tags": ["social", "A1"]
+      "tags": [
+        "social",
+        "A1"
+      ]
     },
     {
       "source": "мальчик",
       "target": "boy",
-      "tags": ["social", "A1"]
+      "tags": [
+        "social",
+        "A1"
+      ]
     },
     {
       "source": "девочка",
       "target": "girl",
-      "tags": ["social", "A1"]
+      "tags": [
+        "social",
+        "A1"
+      ]
     },
     {
       "source": "друг",
       "target": "friend",
-      "tags": ["social", "A1"]
+      "tags": [
+        "social",
+        "A1"
+      ]
     },
     {
       "source": "имя",
       "target": "name",
-      "tags": ["social", "A1"]
+      "tags": [
+        "social",
+        "A1"
+      ]
     },
     {
       "source": "возраст",
       "target": "age",
-      "tags": ["social", "A1"]
+      "tags": [
+        "social",
+        "A1"
+      ]
     },
     {
       "source": "животное",
       "target": "animal",
-      "tags": ["nature", "A1"]
+      "tags": [
+        "nature",
+        "A1"
+      ]
     },
     {
       "source": "собака",
       "target": "dog",
-      "tags": ["nature", "A1"]
+      "tags": [
+        "nature",
+        "A1"
+      ]
     },
     {
       "source": "кошка",
       "target": "cat",
-      "tags": ["nature", "A1"]
+      "tags": [
+        "nature",
+        "A1"
+      ]
     },
     {
       "source": "птица",
       "target": "bird",
-      "tags": ["nature", "A1"]
+      "tags": [
+        "nature",
+        "A1"
+      ]
     },
     {
       "source": "рыба",
       "target": "fish",
-      "tags": ["nature", "A1"]
+      "tags": [
+        "nature",
+        "A1"
+      ]
     },
     {
       "source": "дерево",
       "target": "tree",
-      "tags": ["nature", "A1"]
+      "tags": [
+        "nature",
+        "A1"
+      ]
     },
     {
       "source": "цветок",
       "target": "flower",
-      "tags": ["nature", "A1"]
+      "tags": [
+        "nature",
+        "A1"
+      ]
     },
     {
       "source": "солнце",
       "target": "sun",
-      "tags": ["nature", "A1"]
+      "tags": [
+        "nature",
+        "A1"
+      ]
     },
     {
       "source": "дождь",
       "target": "rain",
-      "tags": ["nature", "A1"]
+      "tags": [
+        "nature",
+        "A1"
+      ]
     },
     {
       "source": "снег",
       "target": "snow",
-      "tags": ["nature", "A1"]
+      "tags": [
+        "nature",
+        "A1"
+      ]
     },
     {
       "source": "телефон",
       "target": "phone",
-      "tags": ["objects", "A1"]
+      "tags": [
+        "objects",
+        "A1"
+      ]
     },
     {
       "source": "книга",
       "target": "book",
-      "tags": ["objects", "A1"]
+      "tags": [
+        "objects",
+        "A1"
+      ]
     },
     {
       "source": "ручка",
       "target": "pen",
-      "tags": ["objects", "A1"]
+      "tags": [
+        "objects",
+        "A1"
+      ]
     },
     {
       "source": "сумка",
       "target": "bag",
-      "tags": ["objects", "A1"]
+      "tags": [
+        "objects",
+        "A1"
+      ]
     },
     {
       "source": "ключ",
       "target": "key",
-      "tags": ["objects", "A1"]
+      "tags": [
+        "objects",
+        "A1"
+      ]
     },
     {
       "source": "деньги",
       "target": "money",
-      "tags": ["objects", "A1"]
+      "tags": [
+        "objects",
+        "A1"
+      ]
     },
     {
       "source": "магазин",
       "target": "shop",
-      "tags": ["social", "A1"]
+      "tags": [
+        "social",
+        "A1"
+      ]
     },
     {
       "source": "школа",
       "target": "school",
-      "tags": ["social", "A1"]
+      "tags": [
+        "social",
+        "A1"
+      ]
     },
     {
       "source": "машина",
       "target": "car",
-      "tags": ["travel", "A1"]
+      "tags": [
+        "travel",
+        "A1"
+      ]
     },
     {
       "source": "автобус",
       "target": "bus",
-      "tags": ["travel", "A1"]
+      "tags": [
+        "travel",
+        "A1"
+      ]
     },
     {
       "source": "улица",
       "target": "street",
-      "tags": ["travel", "A1"]
+      "tags": [
+        "travel",
+        "A1"
+      ]
     },
     {
       "source": "город",
       "target": "city",
-      "tags": ["travel", "A1"]
+      "tags": [
+        "travel",
+        "A1"
+      ]
     },
     {
       "source": "страна",
       "target": "country",
-      "tags": ["travel", "A1"]
+      "tags": [
+        "travel",
+        "A1"
+      ]
     },
     {
       "source": "здесь",
       "target": "here",
-      "tags": ["directions", "A1"]
+      "tags": [
+        "directions",
+        "A1"
+      ]
     },
     {
       "source": "там",
       "target": "there",
-      "tags": ["directions", "A1"]
+      "tags": [
+        "directions",
+        "A1"
+      ]
     },
     {
       "source": "направо",
       "target": "to the right",
-      "tags": ["directions", "A1"]
+      "tags": [
+        "directions",
+        "A1"
+      ]
     },
     {
       "source": "налево",
       "target": "to the left",
-      "tags": ["directions", "A1"]
+      "tags": [
+        "directions",
+        "A1"
+      ]
     },
     {
       "source": "прямо",
       "target": "straight ahead",
-      "tags": ["directions", "A1"]
+      "tags": [
+        "directions",
+        "A1"
+      ]
     },
     {
       "source": "вверх",
       "target": "up",
-      "tags": ["directions", "A1"]
+      "tags": [
+        "directions",
+        "A1"
+      ]
     },
     {
       "source": "вниз",
       "target": "down",
-      "tags": ["directions", "A1"]
+      "tags": [
+        "directions",
+        "A1"
+      ]
     },
     {
       "source": "день",
       "target": "day",
-      "tags": ["time", "A1"]
+      "tags": [
+        "time",
+        "A1"
+      ]
     },
     {
       "source": "ночь",
       "target": "night",
-      "tags": ["time", "A1"]
+      "tags": [
+        "time",
+        "A1"
+      ]
     },
     {
       "source": "утро",
       "target": "morning",
-      "tags": ["time", "A1"]
+      "tags": [
+        "time",
+        "A1"
+      ]
     },
     {
       "source": "вечер",
       "target": "evening",
-      "tags": ["time", "A1"]
+      "tags": [
+        "time",
+        "A1"
+      ]
     },
     {
       "source": "сейчас",
       "target": "now",
-      "tags": ["time", "A1"]
+      "tags": [
+        "time",
+        "A1"
+      ]
     },
     {
       "source": "вчера",
       "target": "yesterday",
-      "tags": ["time", "A1"]
+      "tags": [
+        "time",
+        "A1"
+      ]
     },
     {
       "source": "завтра",
       "target": "tomorrow",
-      "tags": ["time", "A1"]
+      "tags": [
+        "time",
+        "A1"
+      ]
     },
     {
       "source": "сегодня",
       "target": "today",
-      "tags": ["time", "A1"]
+      "tags": [
+        "time",
+        "A1"
+      ]
     },
     {
       "source": "неделя",
       "target": "week",
-      "tags": ["time", "A1"]
+      "tags": [
+        "time",
+        "A1"
+      ]
     },
     {
       "source": "месяц",
       "target": "month",
-      "tags": ["time", "A1"]
+      "tags": [
+        "time",
+        "A1"
+      ]
     },
     {
       "source": "год",
       "target": "year",
-      "tags": ["time", "A1"]
+      "tags": [
+        "time",
+        "A1"
+      ]
     },
     {
       "source": "голова",
       "target": "head",
-      "tags": ["body", "A1"]
+      "tags": [
+        "body",
+        "A1"
+      ]
     },
     {
       "source": "рука",
       "target": "hand",
-      "tags": ["body", "A1"]
+      "tags": [
+        "body",
+        "A1"
+      ]
     },
     {
       "source": "нога",
       "target": "leg",
-      "tags": ["body", "A1"]
+      "tags": [
+        "body",
+        "A1"
+      ]
     },
     {
       "source": "глаза",
       "target": "eyes",
-      "tags": ["body", "A1"]
+      "tags": [
+        "body",
+        "A1"
+      ]
     },
     {
       "source": "уши",
       "target": "ears",
-      "tags": ["body", "A1"]
+      "tags": [
+        "body",
+        "A1"
+      ]
     },
     {
       "source": "нос",
       "target": "nose",
-      "tags": ["body", "A1"]
+      "tags": [
+        "body",
+        "A1"
+      ]
     },
     {
       "source": "рот",
       "target": "mouth",
-      "tags": ["body", "A1"]
+      "tags": [
+        "body",
+        "A1"
+      ]
     },
     {
       "source": "сердце",
       "target": "heart",
-      "tags": ["body", "A1"]
+      "tags": [
+        "body",
+        "A1"
+      ]
     }
   ]
 }
