@@ -7,6 +7,13 @@
  *   3. Today's summary - words reviewed today, accuracy, new words
  *   4. Word overview - Learning / Familiar / Mastered chip counts
  *   5. Recent activity - last few sessions (daily stats)
+ *
+ * Visual polish:
+ * - Stats numbers animate in with count-up on load
+ * - Daily goal progress ring has smooth CSS transition
+ * - Streak is visually prominent with a glow animation
+ * - Empty states have encouraging messages
+ * All animations respect `prefers-reduced-motion`.
  */
 
 import { useMemo } from 'react'
@@ -23,8 +30,12 @@ import {
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import AutoStoriesIcon from '@mui/icons-material/AutoStories'
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import type { LanguagePair, UserSettings, DailyStats, WordProgress } from '@/types'
 import { getCurrentGreeting } from '../utils/greeting'
+import { useCountUp } from '@/hooks/useCountUp'
+import { GLOW_KEYFRAMES, COUNT_UP_MS, REDUCED_MOTION_ANIMATION_NONE } from '@/utils/animation'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -107,127 +118,149 @@ function HeroSection({
   const progressValue = dailyGoal > 0 ? Math.min(100, (wordsReviewedToday / dailyGoal) * 100) : 0
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 3,
-        p: 3,
-        borderRadius: 3,
-        bgcolor: goalMet ? 'success.main' : 'background.paper',
-        border: 1,
-        borderColor: goalMet ? 'success.main' : 'divider',
-        transition: 'background-color 0.3s, border-color 0.3s',
-      }}
-      role="region"
-      aria-label="Daily goal progress"
-    >
-      {/* Circular progress ring */}
-      <Box sx={{ position: 'relative', flexShrink: 0 }}>
-        <CircularProgress
-          variant="determinate"
-          value={100}
-          size={RING_SIZE}
-          thickness={4}
-          sx={{
-            color: goalMet ? 'rgba(255,255,255,0.3)' : 'action.hover',
-            position: 'absolute',
-          }}
-          aria-hidden="true"
-        />
-        <CircularProgress
-          variant="determinate"
-          value={progressValue}
-          size={RING_SIZE}
-          thickness={4}
-          sx={{ color: goalMet ? 'white' : 'primary.main' }}
-          aria-label={`Daily goal: ${wordsReviewedToday} of ${dailyGoal} words reviewed today`}
-        />
-        <Box
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          aria-hidden="true"
-        >
-          {goalMet ? (
-            <CheckCircleOutlineIcon sx={{ fontSize: 32, color: 'white' }} />
+    <>
+      <style>{GLOW_KEYFRAMES}</style>
+
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 3,
+          p: 3,
+          borderRadius: 3,
+          bgcolor: goalMet ? 'success.main' : 'background.paper',
+          border: 1,
+          borderColor: goalMet ? 'success.main' : 'divider',
+          transition: 'background-color 0.3s, border-color 0.3s',
+          '@media (prefers-reduced-motion: reduce)': {
+            transition: 'none',
+          },
+        }}
+        role="region"
+        aria-label="Daily goal progress"
+      >
+        {/* Circular progress ring with smooth transition */}
+        <Box sx={{ position: 'relative', flexShrink: 0 }}>
+          <CircularProgress
+            variant="determinate"
+            value={100}
+            size={RING_SIZE}
+            thickness={4}
+            sx={{
+              color: goalMet ? 'rgba(255,255,255,0.3)' : 'action.hover',
+              position: 'absolute',
+            }}
+            aria-hidden="true"
+          />
+          <CircularProgress
+            variant="determinate"
+            value={progressValue}
+            size={RING_SIZE}
+            thickness={4}
+            sx={{
+              color: goalMet ? 'white' : 'primary.main',
+              // Smooth the SVG circle dash-offset transition.
+              '& .MuiCircularProgress-circle': {
+                transition: 'stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                '@media (prefers-reduced-motion: reduce)': {
+                  transition: 'none',
+                },
+              },
+            }}
+            aria-label={`Daily goal: ${wordsReviewedToday} of ${dailyGoal} words reviewed today`}
+          />
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            aria-hidden="true"
+          >
+            {goalMet ? (
+              <CheckCircleOutlineIcon sx={{ fontSize: 32, color: 'white' }} />
+            ) : (
+              <>
+                <Typography
+                  variant="caption"
+                  fontWeight={700}
+                  lineHeight={1}
+                  sx={{ color: 'text.primary', fontSize: '0.9rem' }}
+                >
+                  {wordsReviewedToday}
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{ color: 'text.disabled', fontSize: '0.65rem', lineHeight: 1 }}
+                >
+                  / {dailyGoal}
+                </Typography>
+              </>
+            )}
+          </Box>
+        </Box>
+
+        {/* Right side */}
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          {loading ? (
+            <>
+              <Skeleton width={120} height={20} />
+              <Skeleton width={80} height={16} sx={{ mt: 0.5 }} />
+            </>
           ) : (
             <>
               <Typography
-                variant="caption"
+                variant="h6"
                 fontWeight={700}
-                lineHeight={1}
-                sx={{ color: 'text.primary', fontSize: '0.9rem' }}
+                sx={{ color: goalMet ? 'white' : 'text.primary' }}
               >
-                {wordsReviewedToday}
+                {greeting}
               </Typography>
+
               <Typography
                 variant="caption"
-                sx={{ color: 'text.disabled', fontSize: '0.65rem', lineHeight: 1 }}
+                sx={{
+                  color: goalMet ? 'rgba(255,255,255,0.85)' : 'text.secondary',
+                  display: 'block',
+                }}
               >
-                / {dailyGoal}
+                {goalMet
+                  ? `${wordsReviewedToday} words today — goal met!`
+                  : `${wordsReviewedToday} / ${dailyGoal} words today`}
               </Typography>
+
+              {streakDays >= 1 && (
+                <Box
+                  sx={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 0.5,
+                    mt: 0.75,
+                    px: 1,
+                    py: 0.25,
+                    borderRadius: 2,
+                    bgcolor: goalMet ? 'rgba(255,255,255,0.15)' : 'warning.main',
+                    color: goalMet ? 'white' : 'warning.contrastText',
+                    animation: streakDays >= 3 ? 'lexio-glow 2s ease-in-out infinite' : undefined,
+                    ...REDUCED_MOTION_ANIMATION_NONE,
+                  }}
+                  role="status"
+                  aria-label={`${streakDays} day streak`}
+                >
+                  <LocalFireDepartmentIcon sx={{ fontSize: 14 }} aria-hidden="true" />
+                  <Typography variant="caption" fontWeight={700} sx={{ lineHeight: 1 }}>
+                    {streakDays} day{streakDays !== 1 ? 's' : ''} streak
+                  </Typography>
+                </Box>
+              )}
             </>
           )}
         </Box>
       </Box>
-
-      {/* Right side */}
-      <Box sx={{ flex: 1, minWidth: 0 }}>
-        {loading ? (
-          <>
-            <Skeleton width={120} height={20} />
-            <Skeleton width={80} height={16} sx={{ mt: 0.5 }} />
-          </>
-        ) : (
-          <>
-            <Typography
-              variant="h6"
-              fontWeight={700}
-              sx={{ color: goalMet ? 'white' : 'text.primary' }}
-            >
-              {greeting}
-            </Typography>
-
-            <Typography
-              variant="caption"
-              sx={{
-                color: goalMet ? 'rgba(255,255,255,0.85)' : 'text.secondary',
-                display: 'block',
-              }}
-            >
-              {goalMet
-                ? `${wordsReviewedToday} words today — goal met!`
-                : `${wordsReviewedToday} / ${dailyGoal} words today`}
-            </Typography>
-
-            {streakDays >= 1 && (
-              <Box
-                sx={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 0.25,
-                  mt: 0.5,
-                  color: goalMet ? 'rgba(255,255,255,0.9)' : 'warning.main',
-                }}
-                role="status"
-                aria-label={`${streakDays} day streak`}
-              >
-                <LocalFireDepartmentIcon sx={{ fontSize: 14 }} aria-hidden="true" />
-                <Typography variant="caption" fontWeight={600} sx={{ lineHeight: 1 }}>
-                  {streakDays} day{streakDays !== 1 ? 's' : ''} streak
-                </Typography>
-              </Box>
-            )}
-          </>
-        )}
-      </Box>
-    </Box>
+    </>
   )
 }
 
@@ -271,6 +304,16 @@ function QuickStart({ activePair, quizMode, onStartQuiz, loading }: QuickStartPr
           onClick={onStartQuiz}
           disabled={activePair === null || loading}
           aria-label="Start quiz"
+          sx={{
+            transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+            '&:active': {
+              transform: 'scale(0.98)',
+            },
+            '@media (prefers-reduced-motion: reduce)': {
+              transition: 'none',
+              '&:active': { transform: 'none' },
+            },
+          }}
         >
           Start Quiz
         </Button>
@@ -287,23 +330,36 @@ interface TodaysSummaryProps {
   readonly loading: boolean
 }
 
+interface AnimatedStatProps {
+  readonly value: number
+  readonly label: string
+  readonly suffix?: string
+  readonly enabled: boolean
+}
+
+function AnimatedStat({ value, label, suffix = '', enabled }: AnimatedStatProps) {
+  const displayValue = useCountUp(value, COUNT_UP_MS, enabled)
+
+  return (
+    <Box>
+      <Typography variant="h5" fontWeight={700} lineHeight={1}>
+        {displayValue}
+        {suffix}
+      </Typography>
+      <Typography variant="caption" color="text.secondary">
+        {label}
+      </Typography>
+    </Box>
+  )
+}
+
 function TodaysSummary({ todayStats, loading }: TodaysSummaryProps) {
   const wordsReviewed = todayStats?.wordsReviewed ?? 0
   const correctCount = todayStats?.correctCount ?? 0
   const accuracy = wordsReviewed > 0 ? Math.round((correctCount / wordsReviewed) * 100) : null
 
-  const statItems = [
-    {
-      label: 'Reviewed',
-      value: wordsReviewed,
-      suffix: 'words',
-    },
-    {
-      label: 'Accuracy',
-      value: accuracy !== null ? `${accuracy}%` : '—',
-      suffix: '',
-    },
-  ]
+  // Only animate when data is freshly loaded (not during loading).
+  const animateStats = !loading && todayStats !== null
 
   return (
     <Card variant="outlined">
@@ -318,22 +374,23 @@ function TodaysSummary({ todayStats, loading }: TodaysSummaryProps) {
             <Skeleton width={60} height={40} />
           </Box>
         ) : todayStats === null ? (
-          <Typography variant="body2" color="text.secondary">
-            No sessions yet today. Start a quiz to begin!
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, py: 1 }}>
+            <AutoStoriesIcon sx={{ color: 'text.disabled', fontSize: 28 }} aria-hidden="true" />
+            <Box>
+              <Typography variant="body2" color="text.secondary">
+                No sessions yet today
+              </Typography>
+              <Typography variant="caption" color="text.disabled">
+                Start a quiz to begin your streak!
+              </Typography>
+            </Box>
+          </Box>
         ) : (
           <Box sx={{ display: 'flex', gap: 3 }}>
-            {statItems.map(({ label, value, suffix }) => (
-              <Box key={label}>
-                <Typography variant="h5" fontWeight={700} lineHeight={1}>
-                  {value}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {label}
-                  {suffix ? ` ${suffix}` : ''}
-                </Typography>
-              </Box>
-            ))}
+            <AnimatedStat value={wordsReviewed} label="words reviewed" enabled={animateStats} />
+            {accuracy !== null && (
+              <AnimatedStat value={accuracy} label="accuracy" suffix="%" enabled={animateStats} />
+            )}
           </Box>
         )}
       </CardContent>
@@ -364,9 +421,17 @@ function WordOverview({ buckets, totalWords, loading }: WordOverviewProps) {
             <Skeleton width={80} height={32} sx={{ borderRadius: 4 }} />
           </Box>
         ) : totalWords === 0 ? (
-          <Typography variant="body2" color="text.secondary">
-            No words added yet. Add words to get started!
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, py: 1 }}>
+            <EmojiEventsIcon sx={{ color: 'text.disabled', fontSize: 28 }} aria-hidden="true" />
+            <Box>
+              <Typography variant="body2" color="text.secondary">
+                No words added yet
+              </Typography>
+              <Typography variant="caption" color="text.disabled">
+                Add words to your list to start learning!
+              </Typography>
+            </Box>
+          </Box>
         ) : (
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
             <Chip
@@ -418,9 +483,20 @@ function RecentActivity({ recentStats, loading }: RecentActivityProps) {
             <Skeleton width="80%" height={24} />
           </Box>
         ) : activeDays.length === 0 ? (
-          <Typography variant="body2" color="text.secondary">
-            No recent activity. Complete a quiz to build your streak!
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, py: 1 }}>
+            <LocalFireDepartmentIcon
+              sx={{ color: 'text.disabled', fontSize: 28 }}
+              aria-hidden="true"
+            />
+            <Box>
+              <Typography variant="body2" color="text.secondary">
+                No recent activity
+              </Typography>
+              <Typography variant="caption" color="text.disabled">
+                Complete a quiz to build your streak!
+              </Typography>
+            </Box>
+          </Box>
         ) : (
           <Box
             sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}

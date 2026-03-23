@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Box, CircularProgress, Button, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { ThemeProvider, CssBaseline } from '@mui/material'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { createAppTheme } from './theme'
@@ -7,6 +7,7 @@ import { LocalStorageService } from './services/storage'
 import { StorageContext } from './hooks/useStorage'
 import { LandingPage } from './features/landing'
 import { Sentry } from './services/sentry'
+import { BrandedLoader } from './components/BrandedLoader'
 
 /**
  * A single shared storage instance for the entire application.
@@ -82,16 +83,19 @@ export default function App() {
               element={
                 <Suspense
                   fallback={
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        minHeight: '100vh',
-                      }}
-                    >
-                      <CircularProgress />
-                    </Box>
+                    <ThemeProvider theme={landingDarkTheme}>
+                      <CssBaseline />
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          minHeight: '100vh',
+                        }}
+                      >
+                        <BrandedLoader label="Loading Lexio" showWordmark />
+                      </Box>
+                    </ThemeProvider>
                   }
                 >
                   <LazyAppShell />
