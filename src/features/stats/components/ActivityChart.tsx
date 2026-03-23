@@ -3,6 +3,9 @@
  *
  * Supports a 7-day and 30-day toggle. Each bar is colour-coded by the
  * correct/incorrect ratio for that day. Uses pure SVG — no chart library.
+ *
+ * The viewBox is calculated to exactly match the content bounds so the SVG
+ * scales uniformly with `preserveAspectRatio="xMidYMid meet"`.
  */
 
 import { useState } from 'react'
@@ -28,8 +31,30 @@ export interface ActivityChartProps {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const CHART_HEIGHT = 80
+/** Intrinsic chart height (SVG units). Wide enough to give bars visual weight. */
+const CHART_HEIGHT = 120
+
+/** Gap between bars in SVG units. */
 const BAR_GAP = 2
+
+/**
+ * Bar width per range.
+ * 7-day bars are wider so they fill the chart area without crowding.
+ * 30-day bars are narrower to fit 30 columns comfortably.
+ */
+const BAR_WIDTH: Record<ActivityRange, number> = {
+  7: 16,
+  30: 6,
+}
+
+/**
+ * Font size for day labels relative to bar width.
+ * Must be proportional so text doesn't appear oversized next to bars.
+ */
+const LABEL_FONT_SIZE: Record<ActivityRange, number> = {
+  7: 10,
+  30: 5,
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -62,22 +87,32 @@ interface SvgBarsProps {
 function SvgBars({ days, range, correctColor, incorrectColor, emptyColor }: SvgBarsProps) {
   const maxReviewed = Math.max(...days.map((d) => d.wordsReviewed), 1)
 
+  const barWidth = BAR_WIDTH[range]
+  const fontSize = LABEL_FONT_SIZE[range]
+
+  // Total width of all bars plus gaps — the SVG viewBox is sized to match exactly
+  // so every pixel of width is used and bars are evenly distributed.
+  const totalWidth = days.length * (barWidth + BAR_GAP) - BAR_GAP
+  // Extra vertical room for x-axis labels below the bars
+  const labelAreaHeight = fontSize + 6
+  const viewBoxHeight = CHART_HEIGHT + labelAreaHeight
+
   // For 30-day range only show every 5th x-axis label to avoid clutter.
   const labelEvery = range === 30 ? 5 : 1
 
   return (
-    <Box sx={{ width: '100%', overflowX: 'auto' }}>
+    <Box sx={{ width: '100%' }}>
       <svg
         width="100%"
-        viewBox={`0 0 ${days.length * (4 + BAR_GAP) * (range === 30 ? 1 : 2.5)} ${CHART_HEIGHT + 20}`}
-        preserveAspectRatio="none"
+        viewBox={`0 0 ${totalWidth} ${viewBoxHeight}`}
+        preserveAspectRatio="xMidYMid meet"
         aria-label={`Activity bar chart showing last ${range} days`}
         role="img"
         style={{ display: 'block' }}
       >
         {days.map((day, idx) => {
           const barHeight = (day.wordsReviewed / maxReviewed) * CHART_HEIGHT
-          const x = idx * (4 + BAR_GAP)
+          const x = idx * (barWidth + BAR_GAP)
           const y = CHART_HEIGHT - barHeight
 
           // Colour by accuracy ratio
@@ -100,16 +135,16 @@ function SvgBars({ days, range, correctColor, incorrectColor, emptyColor }: SvgB
               <rect
                 x={x}
                 y={day.wordsReviewed === 0 ? CHART_HEIGHT - 2 : y}
-                width={4}
+                width={barWidth}
                 height={day.wordsReviewed === 0 ? 2 : barHeight}
                 fill={barColor}
                 rx={1}
               />
               {showLabel && (
                 <text
-                  x={x + 2}
-                  y={CHART_HEIGHT + 14}
-                  fontSize={range === 30 ? 5 : 7}
+                  x={x + barWidth / 2}
+                  y={CHART_HEIGHT + labelAreaHeight - 2}
+                  fontSize={fontSize}
                   textAnchor="middle"
                   fill={emptyColor}
                 >
