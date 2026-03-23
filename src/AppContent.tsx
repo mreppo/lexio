@@ -240,7 +240,7 @@ function AppContent(): React.JSX.Element {
           </AppBar>
 
           {/* Main content — bottom padding makes room for the fixed BottomNav */}
-          <Container maxWidth="md" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
+          <Container maxWidth="lg" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
             <TabTransition activeTab={activeTab}>
               {activeTab === 'home' && (
                 <DashboardScreen
