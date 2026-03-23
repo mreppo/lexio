@@ -39,10 +39,10 @@ function StatCell({ value, label, icon, color }: StatCellProps) {
     <Box sx={{ textAlign: 'center', p: 1 }}>
       {icon && <Box sx={{ display: 'flex', justifyContent: 'center', mb: 0.25 }}>{icon}</Box>}
       <Typography
-        variant="h5"
+        variant="h6"
         fontWeight={700}
         lineHeight={1}
-        sx={{ color: color ?? 'text.primary' }}
+        sx={{ color: color ?? 'text.primary', fontSize: '1.25rem' }}
       >
         {value}
       </Typography>

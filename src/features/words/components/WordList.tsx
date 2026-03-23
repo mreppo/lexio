@@ -246,18 +246,31 @@ export function WordList({ words, progressMap, onEdit, onDelete, onBulkDelete }:
           </FormControl>
         </Box>
 
-        {/* Tag filter chips */}
+        {/* Tag filter chips — horizontally scrollable on mobile for comfortable touch targets */}
         {allTags.length > 0 && (
-          <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 1,
+              flexWrap: 'nowrap',
+              overflowX: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              pb: 0.5,
+              // Hide scrollbar on webkit while keeping scrollability
+              '&::-webkit-scrollbar': { display: 'none' },
+              scrollbarWidth: 'none',
+            }}
+          >
             {allTags.map((tag) => (
               <Chip
                 key={tag}
                 label={tag}
-                size="small"
+                size="medium"
                 onClick={() => handleToggleTag(tag)}
                 color={activeTags.includes(tag) ? 'primary' : 'default'}
                 variant={activeTags.includes(tag) ? 'filled' : 'outlined'}
                 aria-pressed={activeTags.includes(tag)}
+                sx={{ flexShrink: 0 }}
               />
             ))}
           </Box>

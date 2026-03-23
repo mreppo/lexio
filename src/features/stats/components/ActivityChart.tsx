@@ -33,11 +33,18 @@ const BAR_GAP = 2
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Short label for a date (e.g. "Mon", "15"). For 7-day we show day name, for 30-day we show day-of-month. */
+/** Single-letter day abbreviations (locale-independent). */
+const DAY_LETTERS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'] as const
+
+/**
+ * Short label for a date.
+ * For 7-day view: single-letter day abbreviation (M, T, W…) to prevent overlap.
+ * For 30-day view: day-of-month number (1, 2, 3…).
+ */
 function dayLabel(dateStr: string, range: ActivityRange): string {
   const d = new Date(`${dateStr}T00:00:00`)
   if (range === 7) {
-    return d.toLocaleDateString(undefined, { weekday: 'short' })
+    return DAY_LETTERS[d.getDay()] ?? 'D'
   }
   return String(d.getDate())
 }
