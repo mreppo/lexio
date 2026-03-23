@@ -32,6 +32,11 @@ interface QuizHubProps {
   readonly settings: UserSettings
   /** Called when the user changes the quiz mode preference so it can be persisted. */
   readonly onSettingsChange: (updated: UserSettings) => void
+  /**
+   * Optional callback fired when a quiz session finishes.
+   * Receives the number of questions answered in the session.
+   */
+  readonly onSessionComplete?: (questionsAnswered: number) => void
 }
 
 type HubPhase = 'select' | 'active' | 'summary'
@@ -42,7 +47,7 @@ interface SessionResult {
   readonly bestSessionStreak: number
 }
 
-export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
+export function QuizHub({ pair, settings, onSettingsChange, onSessionComplete }: QuizHubProps) {
   const storage = useStorage()
   const [hubPhase, setHubPhase] = useState<HubPhase>('select')
   const [selectedMode, setSelectedMode] = useState<QuizMode>(settings.quizMode)
@@ -149,6 +154,8 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
   const handleSessionFinished = useCallback(
     (wordsReviewed: number, correctCount: number, bestSessionStreak: number): void => {
       setSessionResult({ wordsReviewed, correctCount, bestSessionStreak })
+      // Notify parent about the completed session (used for install-banner engagement tracking).
+      onSessionComplete?.(wordsReviewed)
 
       // Persist daily stats in the background - do not block UI transition.
       void updateDailyStatsAfterSession(
@@ -171,7 +178,7 @@ export function QuizHub({ pair, settings, onSettingsChange }: QuizHubProps) {
         setHubPhase('summary')
       }
     },
-    [storage, settings.dailyGoal, wordsReviewedToday, goalMetBeforeSession],
+    [storage, settings.dailyGoal, wordsReviewedToday, goalMetBeforeSession, onSessionComplete],
   )
 
   const handleCelebrationClose = useCallback((): void => {

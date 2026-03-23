@@ -36,6 +36,9 @@ export function createMockStorage(overrides: Partial<StorageService> = {}): Stor
     exportAll: vi.fn().mockResolvedValue('{}'),
     importAll: vi.fn().mockResolvedValue(undefined),
     clearAll: vi.fn().mockResolvedValue(undefined),
+    getItem: vi.fn().mockResolvedValue(null),
+    setItem: vi.fn().mockResolvedValue(undefined),
+    removeItem: vi.fn().mockResolvedValue(undefined),
     ...overrides,
   }
 }
