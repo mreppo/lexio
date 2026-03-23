@@ -46,6 +46,18 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
     />
+    <!-- GoatCounter analytics: cookie-free, GDPR-compliant, ~3.5KB gzipped.
+         no_onload: true disables automatic pageview on load — required for
+         HashRouter SPAs where GoatCounter's pushState detection does not fire.
+         Pageviews are sent manually via the useAnalytics hook instead. -->
+    <script>
+      window.goatcounter = { no_onload: true }
+    </script>
+    <script
+      data-goatcounter="https://lexio.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
   </head>
   <body>
     <div id="root"></div>

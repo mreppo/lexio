@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { useStorage } from './useStorage'
+import { analytics } from '@/services/analytics'
 
 /**
  * The platform/browser environment relevant to PWA install behaviour.
@@ -74,22 +75,6 @@ export function detectInstallPlatform(): InstallPlatform {
 }
 
 /**
- * Emits a named analytics event.
- * Currently implemented as console breadcrumbs only — swap to Sentry or a
- * real analytics SDK here without touching call sites.
- */
-function trackEvent(
-  name:
-    | 'install_banner_shown'
-    | 'install_banner_dismissed'
-    | 'install_banner_accepted'
-    | 'pwa_installed',
-): void {
-  // eslint-disable-next-line no-console
-  console.info(`[lexio:analytics] ${name}`)
-}
-
-/**
  * State and actions exposed by useInstallPrompt.
  */
 export interface InstallPromptState {
@@ -151,7 +136,6 @@ export function useInstallPrompt(): InstallPromptState {
   // Track appinstalled event for analytics.
   useEffect(() => {
     function handleAppInstalled(): void {
-      trackEvent('pwa_installed')
       setShowBanner(false)
     }
     window.addEventListener('appinstalled', handleAppInstalled)
@@ -197,14 +181,14 @@ export function useInstallPrompt(): InstallPromptState {
         if (elapsed < DISMISS_COOLDOWN_MS) return
       }
       setShowBanner(true)
-      trackEvent('install_banner_shown')
+      analytics.trackEvent('install-banner-shown', 'Install Banner Shown')
     }
 
     void maybeShow()
   }, [engagementMet, platform, storage])
 
   const triggerInstall = useCallback(async (): Promise<void> => {
-    trackEvent('install_banner_accepted')
+    analytics.trackEvent('install-banner-accepted', 'Install Banner Accepted')
     const prompt = deferredPromptRef.current
     if (prompt) {
       await prompt.prompt()
@@ -217,7 +201,6 @@ export function useInstallPrompt(): InstallPromptState {
   }, [])
 
   const dismissBanner = useCallback((): void => {
-    trackEvent('install_banner_dismissed')
     setShowBanner(false)
     void storage.setItem(STORAGE_KEYS.DISMISSED_AT, String(Date.now()))
   }, [storage])

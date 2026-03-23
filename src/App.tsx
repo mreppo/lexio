@@ -8,6 +8,7 @@ import { StorageContext } from './hooks/useStorage'
 import { LandingPage } from './features/landing'
 import { Sentry } from './services/sentry'
 import { BrandedLoader } from './components/BrandedLoader'
+import { useAnalytics } from './hooks/useAnalytics'
 
 /**
  * A single shared storage instance for the entire application.
@@ -68,11 +69,21 @@ function LandingThemeWrapper(): React.JSX.Element {
   )
 }
 
+/**
+ * Inner component mounted inside HashRouter so that useAnalytics can
+ * access window.location.hash after the router initialises.
+ */
+function AnalyticsTracker(): null {
+  useAnalytics()
+  return null
+}
+
 export default function App() {
   return (
     <StorageContext.Provider value={storageService}>
       <Sentry.ErrorBoundary fallback={ErrorFallback}>
         <HashRouter>
+          <AnalyticsTracker />
           <Routes>
             {/* Landing page — shown at the root hash route */}
             <Route path="/" element={<LandingThemeWrapper />} />
