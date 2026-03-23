@@ -366,7 +366,7 @@ export function SettingsScreen({
 
       {/* ── 1. Preferences ── */}
       <Card variant="outlined">
-        <CardContent sx={{ p: 2.5 }}>
+        <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
           <Typography variant="subtitle2" fontWeight={700} gutterBottom>
             Preferences
           </Typography>
@@ -459,11 +459,11 @@ export function SettingsScreen({
               marks={[
                 { value: 0, label: 'Exact' },
                 { value: 1, label: 'Lenient' },
-                { value: 2, label: 'Very lenient' },
+                { value: 2, label: 'Lenient+' },
               ]}
               aria-label="Typo tolerance"
               aria-valuetext={typoInfo.label}
-              sx={{ mt: 1 }}
+              sx={{ mt: 1, mb: 1 }}
             />
             <Typography variant="caption" color="text.secondary">
               {typoInfo.description}
@@ -474,7 +474,7 @@ export function SettingsScreen({
 
       {/* ── 2. CEFR Levels ── */}
       <Card variant="outlined">
-        <CardContent sx={{ p: 2.5 }}>
+        <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
           <Typography variant="subtitle2" fontWeight={700} gutterBottom>
             Training levels
           </Typography>
@@ -496,7 +496,7 @@ export function SettingsScreen({
 
       {/* ── 3. Language Pairs ── */}
       <Card variant="outlined">
-        <CardContent sx={{ p: 2.5 }}>
+        <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
           <Typography variant="subtitle2" fontWeight={700} gutterBottom>
             Language pairs
           </Typography>
@@ -517,7 +517,7 @@ export function SettingsScreen({
 
       {/* ── 4. Data Management ── */}
       <Card variant="outlined">
-        <CardContent sx={{ p: 2.5 }}>
+        <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
           <Typography variant="subtitle2" fontWeight={700} gutterBottom>
             Data management
           </Typography>
@@ -602,7 +602,7 @@ export function SettingsScreen({
 
       {/* ── 5. About ── */}
       <Card variant="outlined">
-        <CardContent sx={{ p: 2.5 }}>
+        <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
             <InfoOutlinedIcon
               fontSize="small"
