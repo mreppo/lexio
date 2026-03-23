@@ -2,8 +2,11 @@
  * Analytics service wrapping GoatCounter.
  *
  * GoatCounter is loaded asynchronously via a script tag in index.html.
- * All calls use optional chaining on window.goatcounter so the app
- * functions normally if the script is blocked by an ad blocker.
+ * Before the script loads, window.goatcounter is pre-populated by an inline
+ * script with only { no_onload: true } — it does NOT yet have a count() method.
+ * All calls therefore use optional chaining on both the object AND the method
+ * (?.count?.()) to guard against the script not yet being loaded or being
+ * blocked by an ad blocker.
  *
  * Analytics are suppressed entirely in development mode to avoid
  * polluting the GoatCounter dashboard with dev traffic.
@@ -26,7 +29,7 @@ interface GoatCounterCountOptions {
 
 /** Minimal GoatCounter API surface we rely on. */
 interface GoatCounter {
-  count(options: GoatCounterCountOptions): void
+  count?(options: GoatCounterCountOptions): void
   /**
    * When set to true before the script loads, GoatCounter will not
    * automatically record a pageview on initial page load.
@@ -57,7 +60,9 @@ export const analytics = {
    */
   trackPageview(path: string): void {
     if (import.meta.env.DEV) return
-    window.goatcounter?.count({ path })
+    // Use ?.count?.() — window.goatcounter is pre-set by the inline script with
+    // only no_onload: true; count() is added later when count.js loads async.
+    window.goatcounter?.count?.({ path })
   },
 
   /**
@@ -70,7 +75,9 @@ export const analytics = {
    */
   trackEvent(name: string, title?: string): void {
     if (import.meta.env.DEV) return
-    window.goatcounter?.count({
+    // Use ?.count?.() — window.goatcounter is pre-set by the inline script with
+    // only no_onload: true; count() is added later when count.js loads async.
+    window.goatcounter?.count?.({
       path: `events/${name}`,
       title: title ?? name,
       event: true,
