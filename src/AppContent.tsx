@@ -19,9 +19,16 @@ import { DashboardScreen, useDashboard } from './features/dashboard'
 import { StatsScreen } from './features/stats'
 import { SettingsScreen } from './features/settings'
 import { OnboardingFlow } from './features/onboarding'
-import { BottomNav, UpdateNotification, BrandedLoader, TabTransition } from './components'
+import {
+  BottomNav,
+  UpdateNotification,
+  BrandedLoader,
+  TabTransition,
+  InstallBanner,
+} from './components'
 import type { AppTab } from './components'
 import { useServiceWorker } from './hooks/useServiceWorker'
+import { useInstallPrompt } from './hooks/useInstallPrompt'
 import type { LanguagePair, UserSettings } from './types'
 
 /**
@@ -34,6 +41,8 @@ function AppContent(): React.JSX.Element {
   const appTheme = useMemo(() => createAppTheme(mode), [mode])
 
   const { updateAvailable, applyUpdate, dismissUpdate } = useServiceWorker()
+  const { showBanner, platform, triggerInstall, dismissBanner, recordQuizSession } =
+    useInstallPrompt()
 
   const {
     pairs,
@@ -142,6 +151,21 @@ function AppContent(): React.JSX.Element {
     setSettings(updated)
   }, [])
 
+  /**
+   * Called by QuizHub when a session ends.
+   * Records the session for the install-banner engagement threshold when the
+   * user answered the minimum number of questions.
+   */
+  const handleQuizSessionComplete = useCallback(
+    (questionsAnswered: number): void => {
+      const MIN_QUESTIONS_FOR_ENGAGEMENT = 5
+      if (questionsAnswered >= MIN_QUESTIONS_FOR_ENGAGEMENT) {
+        recordQuizSession()
+      }
+    },
+    [recordQuizSession],
+  )
+
   /** Handle theme change from SettingsScreen. */
   const handleThemeChange = useCallback(
     (preference: UserSettings['theme']): void => {
@@ -237,6 +261,7 @@ function AppContent(): React.JSX.Element {
                   pair={activePair}
                   settings={settings}
                   onSettingsChange={handleSettingsChange}
+                  onSessionComplete={handleQuizSessionComplete}
                 />
               )}
 
@@ -271,6 +296,14 @@ function AppContent(): React.JSX.Element {
       )}
       {/* Update notification — shown when a new service worker is waiting */}
       <UpdateNotification open={updateAvailable} onUpdate={applyUpdate} onDismiss={dismissUpdate} />
+
+      {/* PWA install banner — only shown after engagement threshold, never on landing page */}
+      <InstallBanner
+        open={showBanner}
+        platform={platform}
+        onInstall={triggerInstall}
+        onDismiss={dismissBanner}
+      />
     </ThemeProvider>
   )
 }

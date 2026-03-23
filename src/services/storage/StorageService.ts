@@ -39,4 +39,10 @@ export interface StorageService {
   exportAll(): Promise<string>
   importAll(data: string): Promise<void>
   clearAll(): Promise<void>
+
+  // Generic key-value storage for app-level metadata (e.g. install banner state).
+  // Keys should be namespaced with a prefix (e.g. "lexio:meta:...").
+  getItem(key: string): Promise<string | null>
+  setItem(key: string, value: string): Promise<void>
+  removeItem(key: string): Promise<void>
 }
