@@ -8,6 +8,10 @@
  *   Level 2 = moderate  (25% of goal)
  *   Level 3 = good      (50%+ of goal)
  *   Level 4 = excellent (100%+ of goal / goal met)
+ *
+ * Layout uses CSS Grid with `1fr` columns so the calendar fills the full
+ * card width at any container size. Each cell has `aspect-ratio: 1` so the
+ * grid rows stay square without fixed pixel dimensions.
  */
 
 import { Box, Card, CardContent, Skeleton, Tooltip, Typography } from '@mui/material'
@@ -23,9 +27,13 @@ export interface StreakCalendarProps {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const CELL_SIZE = 12
-const CELL_GAP = 2
 const DAYS_PER_WEEK = 7
+
+/**
+ * Fixed size (px) used only for legend swatches and the loading skeleton.
+ * The actual calendar cells scale with the container via CSS Grid.
+ */
+const LEGEND_SWATCH_SIZE = 12
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -84,40 +92,51 @@ export function StreakCalendar({ days, loading }: StreakCalendarProps) {
         {loading ? (
           <Skeleton
             width="100%"
-            height={DAYS_PER_WEEK * (CELL_SIZE + CELL_GAP)}
+            height={DAYS_PER_WEEK * (LEGEND_SWATCH_SIZE + 2)}
             sx={{ borderRadius: 1 }}
           />
         ) : (
           <>
+            {/*
+             * Responsive grid: each week is a column of equal width (1fr).
+             * Cells use aspect-ratio:1 so they remain square at any width.
+             * gap is expressed in pixels because it needs to be consistent
+             * regardless of the container width.
+             */}
             <Box
-              sx={{ display: 'flex', gap: `${CELL_GAP}px`, overflowX: 'auto', py: 0.5 }}
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: `repeat(${weeks.length}, 1fr)`,
+                gap: '2px',
+                width: '100%',
+              }}
               role="grid"
               aria-label="Activity calendar heatmap"
             >
               {weeks.map((week, weekIdx) => (
                 <Box
                   key={weekIdx}
-                  sx={{ display: 'flex', flexDirection: 'column', gap: `${CELL_GAP}px` }}
+                  sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}
                   role="row"
                 >
                   {week.map((day) => {
                     const bgColor =
                       day.level === 0 ? emptyColor : levelToColor(day.level, emptyColor, primaryHex)
+                    const tooltipText = calendarTooltip(day)
 
                     return (
-                      <Tooltip key={day.date} title={calendarTooltip(day)} placement="top" arrow>
+                      <Tooltip key={day.date} title={tooltipText} placement="top" arrow>
                         <Box
                           role="gridcell"
-                          aria-label={calendarTooltip(day)}
+                          aria-label={tooltipText}
                           sx={{
-                            width: CELL_SIZE,
-                            height: CELL_SIZE,
+                            width: '100%',
+                            aspectRatio: '1',
                             borderRadius: '2px',
                             backgroundColor: bgColor,
                             cursor: 'default',
                             transition: 'opacity 0.15s',
                             '&:hover': { opacity: 0.8 },
-                            flexShrink: 0,
                           }}
                         />
                       </Tooltip>
@@ -136,11 +155,12 @@ export function StreakCalendar({ days, loading }: StreakCalendarProps) {
                 <Box
                   key={level}
                   sx={{
-                    width: CELL_SIZE,
-                    height: CELL_SIZE,
+                    width: LEGEND_SWATCH_SIZE,
+                    height: LEGEND_SWATCH_SIZE,
                     borderRadius: '2px',
                     backgroundColor:
                       level === 0 ? emptyColor : levelToColor(level, emptyColor, primaryHex),
+                    flexShrink: 0,
                   }}
                   aria-hidden="true"
                 />
