@@ -8,6 +8,7 @@ import { AddWordsStep } from './steps/AddWordsStep'
 import { TutorialStep } from './steps/TutorialStep'
 import { loadPack, installPack } from '@/services/starterPacks'
 import { useStorage } from '@/hooks/useStorage'
+import { analytics } from '@/services/analytics'
 
 export interface OnboardingFlowProps {
   /** Called when the user completes the flow. Provides the active tab to navigate to. */
@@ -74,11 +75,13 @@ export function OnboardingFlow({
    * then calls onComplete with a signal to navigate to the quiz tab.
    */
   const runInstantDemo = useCallback(async () => {
+    analytics.trackEvent('demo-start', 'Demo Started')
     setDemoLoading(true)
     try {
       const pair = await onCreatePair(DEMO_PAIR_INPUT)
       const pack = await loadPack(DEMO_PACK_ID)
       await installPack(pack, pair.id, pair.sourceCode, pair.targetCode, storage)
+      analytics.trackEvent('demo-complete', 'Demo Complete')
       onComplete('quiz')
     } catch {
       // If demo setup fails, fall back to manual flow.

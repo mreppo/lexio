@@ -22,6 +22,7 @@ import { getNextWords, recordAttempt } from '@/services/spacedRepetition'
 import type { WordForQuiz } from '@/services/spacedRepetition'
 import { generateDistractors, MIN_WORDS_FOR_CHOICE } from '@/utils/distractorGenerator'
 import type { DistractorResult } from '@/utils/distractorGenerator'
+import { analytics } from '@/services/analytics'
 
 // ─── Public types ─────────────────────────────────────────────────────────────
 
@@ -317,6 +318,26 @@ export function useQuizSession(
   useEffect(() => {
     void loadWords()
   }, [loadWords])
+
+  // ─── Analytics phase tracking ─────────────────────────────────────────────
+
+  // Track the previous phase to detect transitions.
+  const prevPhaseRef = useRef<SessionPhase>('loading')
+
+  useEffect(() => {
+    const prev = prevPhaseRef.current
+    prevPhaseRef.current = phase
+
+    // quiz-start: first time the session enters the question phase from loading.
+    if (prev === 'loading' && phase === 'question') {
+      analytics.trackEvent('quiz-start', 'Quiz Started')
+    }
+
+    // quiz-complete: session finished (either by completing all words or manual end).
+    if (prev !== 'finished' && phase === 'finished') {
+      analytics.trackEvent('quiz-complete', 'Quiz Complete')
+    }
+  }, [phase])
 
   // ─── Derived current item ──────────────────────────────────────────────────
 
