@@ -1,32 +1,22 @@
 /**
  * DashboardScreen - the main home/landing screen shown after onboarding.
  *
- * Sections:
- *   1. Hero    - greeting, current streak, daily goal progress ring
- *   2. Quick start - "Start Quiz" button with active pair & mode info
- *   3. Today's summary - words reviewed today, accuracy, new words
- *   4. Word overview - Learning / Familiar / Mastered chip counts
- *   5. Recent activity - last few sessions (daily stats)
+ * Layout (top to bottom):
+ *   1. Hero Area    - gradient background, progress ring, greeting, streak badge
+ *   2. Start Quiz CTA - full-width amber button, visually dominant
+ *   3. Today's Stats  - two-column layout using tonal surfaces (no bordered cards)
+ *   4. Mastery Progress - segmented horizontal bar (Learning/Familiar/Mastered)
+ *   5. Recent Activity  - compact list of last 3-5 active days
  *
- * Visual polish:
- * - Stats numbers animate in with count-up on load
- * - Daily goal progress ring has smooth CSS transition
- * - Streak is visually prominent with a glow animation
- * - Empty states have encouraging messages
- * All animations respect `prefers-reduced-motion`.
+ * Visual principles (from docs/design/DESIGN.md):
+ * - No bordered cards - sections separated by tonal background shifts only
+ * - Sora for headings/display numbers, Nunito for body/labels
+ * - Amber gradient hero area (Coach's Hub style)
+ * - All animations respect `prefers-reduced-motion`
  */
 
 import { useMemo } from 'react'
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Chip,
-  CircularProgress,
-  Skeleton,
-  Typography,
-} from '@mui/material'
+import { Box, Button, CircularProgress, Skeleton, Typography } from '@mui/material'
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
@@ -39,7 +29,7 @@ import { GLOW_KEYFRAMES, COUNT_UP_MS, REDUCED_MOTION_ANIMATION_NONE } from '@/ut
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const RING_SIZE = 96
+const RING_SIZE = 112
 
 /** Confidence threshold for "Familiar" (between learning and mastered). */
 const FAMILIAR_THRESHOLD = 0.5
@@ -97,7 +87,7 @@ function bucketWords(progressList: readonly WordProgress[], totalWords: number):
   return { learning, familiar, mastered }
 }
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// ─── Hero Section ─────────────────────────────────────────────────────────────
 
 interface HeroSectionProps {
   readonly greeting: string
@@ -121,45 +111,48 @@ function HeroSection({
     <>
       <style>{GLOW_KEYFRAMES}</style>
 
+      {/* Amber-to-dark gradient hero - no border, fills edge to edge */}
       <Box
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 3,
-          p: 3,
+          background: (theme) =>
+            theme.palette.mode === 'dark'
+              ? 'linear-gradient(160deg, #92400e 0%, #78350f 30%, #1c1917 70%, #0a0f1a 100%)'
+              : 'linear-gradient(160deg, #fef3c7 0%, #fde68a 25%, #fbbf24 60%, #f59e0b 100%)',
           borderRadius: 3,
-          bgcolor: goalMet ? 'success.main' : 'background.paper',
-          border: 1,
-          borderColor: goalMet ? 'success.main' : 'divider',
-          transition: 'background-color 0.3s, border-color 0.3s',
-          '@media (prefers-reduced-motion: reduce)': {
-            transition: 'none',
-          },
+          px: 3,
+          pt: 4,
+          pb: 3.5,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 2,
         }}
         role="region"
         aria-label="Daily goal progress"
       >
-        {/* Circular progress ring with smooth transition */}
+        {/* Progress ring - prominently centered */}
         <Box sx={{ position: 'relative', flexShrink: 0 }}>
+          {/* Track ring */}
           <CircularProgress
             variant="determinate"
             value={100}
             size={RING_SIZE}
             thickness={4}
             sx={{
-              color: goalMet ? 'rgba(255,255,255,0.3)' : 'action.hover',
+              color: (theme) =>
+                theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)',
               position: 'absolute',
             }}
             aria-hidden="true"
           />
+          {/* Progress arc */}
           <CircularProgress
             variant="determinate"
             value={progressValue}
             size={RING_SIZE}
             thickness={4}
             sx={{
-              color: goalMet ? 'white' : 'primary.main',
-              // Smooth the SVG circle dash-offset transition.
+              color: goalMet ? 'success.light' : 'primary.main',
               '& .MuiCircularProgress-circle': {
                 transition: 'stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                 '@media (prefers-reduced-motion: reduce)': {
@@ -169,6 +162,7 @@ function HeroSection({
             }}
             aria-label={`Daily goal: ${wordsReviewedToday} of ${dailyGoal} words reviewed today`}
           />
+          {/* Ring centre label */}
           <Box
             sx={{
               position: 'absolute',
@@ -181,20 +175,36 @@ function HeroSection({
             aria-hidden="true"
           >
             {goalMet ? (
-              <CheckCircleOutlineIcon sx={{ fontSize: 32, color: 'white' }} />
+              <CheckCircleOutlineIcon
+                sx={{
+                  fontSize: 36,
+                  color: (theme) =>
+                    theme.palette.mode === 'dark' ? 'success.light' : 'success.dark',
+                }}
+              />
             ) : (
               <>
                 <Typography
-                  variant="caption"
+                  variant="h5"
                   fontWeight={700}
                   lineHeight={1}
-                  sx={{ color: 'text.primary', fontSize: '0.9rem' }}
+                  sx={{
+                    color: (theme) => (theme.palette.mode === 'dark' ? 'primary.light' : '#78350f'),
+                    fontFamily: '"Sora", sans-serif',
+                  }}
                 >
                   {wordsReviewedToday}
                 </Typography>
                 <Typography
                   variant="caption"
-                  sx={{ color: 'text.disabled', fontSize: '0.65rem', lineHeight: 1 }}
+                  sx={{
+                    color: (theme) =>
+                      theme.palette.mode === 'dark'
+                        ? 'rgba(255,255,255,0.5)'
+                        : 'rgba(120,53,15,0.7)',
+                    fontSize: '0.65rem',
+                    lineHeight: 1,
+                  }}
                 >
                   / {dailyGoal}
                 </Typography>
@@ -203,130 +213,116 @@ function HeroSection({
           </Box>
         </Box>
 
-        {/* Right side */}
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          {loading ? (
-            <>
-              <Skeleton width={120} height={20} />
-              <Skeleton width={80} height={16} sx={{ mt: 0.5 }} />
-            </>
-          ) : (
-            <>
-              <Typography
-                variant="h6"
-                fontWeight={700}
-                sx={{ color: goalMet ? 'white' : 'text.primary' }}
-              >
-                {greeting}
-              </Typography>
+        {/* Greeting text */}
+        {loading ? (
+          <Skeleton width={140} height={28} sx={{ bgcolor: 'rgba(255,255,255,0.15)' }} />
+        ) : (
+          <Typography
+            variant="h6"
+            fontWeight={700}
+            sx={{
+              color: (theme) => (theme.palette.mode === 'dark' ? '#fef3c7' : '#78350f'),
+              fontFamily: '"Sora", sans-serif',
+              textAlign: 'center',
+            }}
+          >
+            {greeting}
+          </Typography>
+        )}
 
-              <Typography
-                variant="caption"
-                sx={{
-                  color: goalMet ? 'rgba(255,255,255,0.85)' : 'text.secondary',
-                  display: 'block',
-                }}
-              >
-                {goalMet
-                  ? `${wordsReviewedToday} words today — goal met!`
-                  : `${wordsReviewedToday} / ${dailyGoal} words today`}
-              </Typography>
-
-              {streakDays >= 1 && (
-                <Box
-                  sx={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 0.5,
-                    mt: 0.75,
-                    px: 1,
-                    py: 0.25,
-                    borderRadius: 2,
-                    bgcolor: goalMet ? 'rgba(255,255,255,0.15)' : 'warning.main',
-                    color: goalMet ? 'white' : 'warning.contrastText',
-                    animation: streakDays >= 3 ? 'lexio-glow 2s ease-in-out infinite' : undefined,
-                    ...REDUCED_MOTION_ANIMATION_NONE,
-                  }}
-                  role="status"
-                  aria-label={`${streakDays} day streak`}
-                >
-                  <LocalFireDepartmentIcon sx={{ fontSize: 14 }} aria-hidden="true" />
-                  <Typography variant="caption" fontWeight={700} sx={{ lineHeight: 1 }}>
-                    {streakDays} day{streakDays !== 1 ? 's' : ''} streak
-                  </Typography>
-                </Box>
-              )}
-            </>
-          )}
-        </Box>
+        {/* Streak badge */}
+        {!loading && streakDays >= 1 && (
+          <Box
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 0.5,
+              px: 1.5,
+              py: 0.5,
+              borderRadius: 99,
+              bgcolor: (theme) =>
+                theme.palette.mode === 'dark' ? 'rgba(245,158,11,0.2)' : 'rgba(120,53,15,0.15)',
+              color: (theme) => (theme.palette.mode === 'dark' ? 'primary.light' : '#78350f'),
+              animation: streakDays >= 3 ? 'lexio-glow 2s ease-in-out infinite' : undefined,
+              ...REDUCED_MOTION_ANIMATION_NONE,
+            }}
+            role="status"
+            aria-label={`${streakDays} day streak`}
+          >
+            <LocalFireDepartmentIcon sx={{ fontSize: 16 }} aria-hidden="true" />
+            <Typography variant="caption" fontWeight={700} sx={{ lineHeight: 1 }}>
+              {streakDays} day{streakDays !== 1 ? 's' : ''} streak
+            </Typography>
+          </Box>
+        )}
       </Box>
     </>
   )
 }
 
-// ─── Quick Start section ──────────────────────────────────────────────────────
+// ─── Start Quiz CTA ───────────────────────────────────────────────────────────
 
-interface QuickStartProps {
+interface StartQuizCtaProps {
   readonly activePair: LanguagePair | null
   readonly quizMode: string
   readonly onStartQuiz: () => void
   readonly loading: boolean
 }
 
-function QuickStart({ activePair, quizMode, onStartQuiz, loading }: QuickStartProps) {
+function StartQuizCta({ activePair, quizMode, onStartQuiz, loading }: StartQuizCtaProps) {
   const modeLabel = quizMode.charAt(0).toUpperCase() + quizMode.slice(1)
 
   return (
-    <Card variant="outlined">
-      <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, p: 2.5 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Box>
-            <Typography variant="subtitle1" fontWeight={700}>
-              Quick start
-            </Typography>
-            {loading ? (
-              <Skeleton width={100} height={16} />
-            ) : (
-              <Typography variant="caption" color="text.secondary">
-                {activePair
-                  ? `${activePair.sourceLang} → ${activePair.targetLang} · ${modeLabel} mode`
-                  : 'No language pair selected'}
-              </Typography>
-            )}
-          </Box>
-        </Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      {loading ? (
+        <Skeleton width={140} height={16} />
+      ) : (
+        <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center' }}>
+          {activePair
+            ? `${activePair.sourceLang} \u2192 ${activePair.targetLang} \u00b7 ${modeLabel} mode`
+            : 'No language pair selected'}
+        </Typography>
+      )}
 
-        <Button
-          variant="contained"
-          size="large"
-          fullWidth
-          startIcon={<PlayArrowIcon />}
-          onClick={onStartQuiz}
-          disabled={activePair === null || loading}
-          aria-label="Start quiz"
-          sx={{
-            transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-            '&:active': {
-              transform: 'scale(0.98)',
-            },
-            '@media (prefers-reduced-motion: reduce)': {
-              transition: 'none',
-              '&:active': { transform: 'none' },
-            },
-          }}
-        >
-          Start Quiz
-        </Button>
-      </CardContent>
-    </Card>
+      <Button
+        variant="contained"
+        size="large"
+        fullWidth
+        startIcon={<PlayArrowIcon />}
+        onClick={onStartQuiz}
+        disabled={activePair === null || loading}
+        aria-label="Start quiz"
+        sx={{
+          py: 1.75,
+          fontSize: '1.05rem',
+          letterSpacing: '0.05em',
+          bgcolor: 'primary.main',
+          color: 'primary.contrastText',
+          '&:hover': {
+            bgcolor: 'primary.dark',
+            transform: 'translateY(-2px)',
+            boxShadow: '0 6px 20px rgba(245,158,11,0.35)',
+          },
+          '&:active': {
+            transform: 'scale(0.98)',
+          },
+          '@media (prefers-reduced-motion: reduce)': {
+            transition: 'none',
+            '&:hover': { transform: 'none' },
+            '&:active': { transform: 'none' },
+          },
+        }}
+      >
+        START QUIZ
+      </Button>
+    </Box>
   )
 }
 
-// ─── Today's summary ──────────────────────────────────────────────────────────
+// ─── Today's Stats ────────────────────────────────────────────────────────────
 
-interface TodaysSummaryProps {
+interface TodayStatsProps {
   readonly todayStats: DailyStats | null
-  readonly dailyGoal: number
   readonly loading: boolean
 }
 
@@ -341,19 +337,24 @@ function AnimatedStat({ value, label, suffix = '', enabled }: AnimatedStatProps)
   const displayValue = useCountUp(value, COUNT_UP_MS, enabled)
 
   return (
-    <Box>
-      <Typography variant="h5" fontWeight={700} lineHeight={1}>
+    <Box sx={{ flex: 1, textAlign: 'center' }}>
+      <Typography
+        variant="h4"
+        fontWeight={700}
+        lineHeight={1}
+        sx={{ fontFamily: '"Sora", sans-serif' }}
+      >
         {displayValue}
         {suffix}
       </Typography>
-      <Typography variant="caption" color="text.secondary">
+      <Typography variant="caption" color="text.secondary" sx={{ mt: 0.25, display: 'block' }}>
         {label}
       </Typography>
     </Box>
   )
 }
 
-function TodaysSummary({ todayStats, loading }: TodaysSummaryProps) {
+function TodayStats({ todayStats, loading }: TodayStatsProps) {
   const wordsReviewed = todayStats?.wordsReviewed ?? 0
   const correctCount = todayStats?.correctCount ?? 0
   const accuracy = wordsReviewed > 0 ? Math.round((correctCount / wordsReviewed) * 100) : null
@@ -362,19 +363,26 @@ function TodaysSummary({ todayStats, loading }: TodaysSummaryProps) {
   const animateStats = !loading && todayStats !== null
 
   return (
-    <Card variant="outlined">
-      <CardContent sx={{ p: 2.5 }}>
-        <Typography variant="subtitle1" fontWeight={700} gutterBottom>
-          Today
-        </Typography>
+    <Box>
+      <Typography variant="subtitle1" fontWeight={700} gutterBottom>
+        Today
+      </Typography>
 
+      <Box
+        sx={{
+          bgcolor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+          borderRadius: 3,
+          p: 2.5,
+        }}
+      >
         {loading ? (
           <Box sx={{ display: 'flex', gap: 3 }}>
-            <Skeleton width={60} height={40} />
-            <Skeleton width={60} height={40} />
+            <Skeleton width={80} height={48} />
+            <Skeleton width={80} height={48} />
           </Box>
         ) : todayStats === null ? (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, py: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <AutoStoriesIcon sx={{ color: 'text.disabled', fontSize: 28 }} aria-hidden="true" />
             <Box>
               <Typography variant="body2" color="text.secondary">
@@ -386,42 +394,49 @@ function TodaysSummary({ todayStats, loading }: TodaysSummaryProps) {
             </Box>
           </Box>
         ) : (
-          <Box sx={{ display: 'flex', gap: 3 }}>
+          <Box sx={{ display: 'flex', gap: 2 }}>
             <AnimatedStat value={wordsReviewed} label="words reviewed" enabled={animateStats} />
             {accuracy !== null && (
               <AnimatedStat value={accuracy} label="accuracy" suffix="%" enabled={animateStats} />
             )}
           </Box>
         )}
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   )
 }
 
-// ─── Word overview ────────────────────────────────────────────────────────────
+// ─── Mastery Progress (segmented bar) ─────────────────────────────────────────
 
-interface WordOverviewProps {
+interface MasteryProgressProps {
   readonly buckets: WordBuckets
   readonly totalWords: number
   readonly loading: boolean
 }
 
-function WordOverview({ buckets, totalWords, loading }: WordOverviewProps) {
-  return (
-    <Card variant="outlined">
-      <CardContent sx={{ p: 2.5 }}>
-        <Typography variant="subtitle1" fontWeight={700} gutterBottom>
-          Word overview
-        </Typography>
+function MasteryProgress({ buckets, totalWords, loading }: MasteryProgressProps) {
+  const learningPct = totalWords > 0 ? (buckets.learning / totalWords) * 100 : 0
+  const familiarPct = totalWords > 0 ? (buckets.familiar / totalWords) * 100 : 0
+  const masteredPct = totalWords > 0 ? (buckets.mastered / totalWords) * 100 : 0
 
+  return (
+    <Box>
+      <Typography variant="subtitle1" fontWeight={700} gutterBottom>
+        Mastery Progress
+      </Typography>
+
+      <Box
+        sx={{
+          bgcolor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+          borderRadius: 3,
+          p: 2.5,
+        }}
+      >
         {loading ? (
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <Skeleton width={80} height={32} sx={{ borderRadius: 4 }} />
-            <Skeleton width={80} height={32} sx={{ borderRadius: 4 }} />
-            <Skeleton width={80} height={32} sx={{ borderRadius: 4 }} />
-          </Box>
+          <Skeleton width="100%" height={16} sx={{ borderRadius: 2 }} />
         ) : totalWords === 0 ? (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, py: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <EmojiEventsIcon sx={{ color: 'text.disabled', fontSize: 28 }} aria-hidden="true" />
             <Box>
               <Typography variant="body2" color="text.secondary">
@@ -433,33 +448,108 @@ function WordOverview({ buckets, totalWords, loading }: WordOverviewProps) {
             </Box>
           </Box>
         ) : (
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-            <Chip
-              label={`${buckets.learning} learning`}
-              size="small"
-              sx={{ bgcolor: 'warning.main', color: 'warning.contrastText' }}
-              aria-label={`${buckets.learning} words in learning stage`}
-            />
-            <Chip
-              label={`${buckets.familiar} familiar`}
-              size="small"
-              sx={{ bgcolor: 'info.main', color: 'info.contrastText' }}
-              aria-label={`${buckets.familiar} familiar words`}
-            />
-            <Chip
-              label={`${buckets.mastered} mastered`}
-              size="small"
-              sx={{ bgcolor: 'success.main', color: 'success.contrastText' }}
-              aria-label={`${buckets.mastered} mastered words`}
-            />
-          </Box>
+          <>
+            {/* Segmented bar */}
+            <Box
+              sx={{
+                display: 'flex',
+                height: 12,
+                borderRadius: 99,
+                overflow: 'hidden',
+                gap: '2px',
+              }}
+              role="img"
+              aria-label={`Mastery distribution: ${buckets.learning} learning, ${buckets.familiar} familiar, ${buckets.mastered} mastered`}
+            >
+              {learningPct > 0 && (
+                <Box
+                  sx={{
+                    flex: learningPct,
+                    bgcolor: 'warning.main',
+                    borderRadius: familiarPct === 0 && masteredPct === 0 ? 99 : '99px 0 0 99px',
+                  }}
+                  aria-hidden="true"
+                />
+              )}
+              {familiarPct > 0 && (
+                <Box
+                  sx={{
+                    flex: familiarPct,
+                    bgcolor: 'secondary.main',
+                    borderRadius:
+                      learningPct === 0 && masteredPct === 0
+                        ? 99
+                        : learningPct === 0
+                          ? '99px 0 0 99px'
+                          : masteredPct === 0
+                            ? '0 99px 99px 0'
+                            : 0,
+                  }}
+                  aria-hidden="true"
+                />
+              )}
+              {masteredPct > 0 && (
+                <Box
+                  sx={{
+                    flex: masteredPct,
+                    bgcolor: 'success.main',
+                    borderRadius: learningPct === 0 && familiarPct === 0 ? 99 : '0 99px 99px 0',
+                  }}
+                  aria-hidden="true"
+                />
+              )}
+            </Box>
+
+            {/* Legend */}
+            <Box sx={{ display: 'flex', gap: 2, mt: 1.5, flexWrap: 'wrap' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Box
+                  sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'warning.main' }}
+                  aria-hidden="true"
+                />
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  aria-label={`${buckets.learning} words in learning stage`}
+                >
+                  Learning ({buckets.learning})
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Box
+                  sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'secondary.main' }}
+                  aria-hidden="true"
+                />
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  aria-label={`${buckets.familiar} familiar words`}
+                >
+                  Familiar ({buckets.familiar})
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Box
+                  sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'success.main' }}
+                  aria-hidden="true"
+                />
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  aria-label={`${buckets.mastered} mastered words`}
+                >
+                  Mastered ({buckets.mastered})
+                </Typography>
+              </Box>
+            </Box>
+          </>
         )}
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   )
 }
 
-// ─── Recent activity ──────────────────────────────────────────────────────────
+// ─── Recent Activity ──────────────────────────────────────────────────────────
 
 interface RecentActivityProps {
   readonly recentStats: readonly DailyStats[]
@@ -471,19 +561,26 @@ function RecentActivity({ recentStats, loading }: RecentActivityProps) {
   const activeDays = recentStats.filter((s) => s.wordsReviewed > 0).slice(0, 5)
 
   return (
-    <Card variant="outlined">
-      <CardContent sx={{ p: 2.5 }}>
-        <Typography variant="subtitle1" fontWeight={700} gutterBottom>
-          Recent activity
-        </Typography>
+    <Box>
+      <Typography variant="subtitle1" fontWeight={700} gutterBottom>
+        Recent Activity
+      </Typography>
 
+      <Box
+        sx={{
+          bgcolor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+          borderRadius: 3,
+          p: 2.5,
+        }}
+      >
         {loading ? (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             <Skeleton width="100%" height={24} />
             <Skeleton width="80%" height={24} />
           </Box>
         ) : activeDays.length === 0 ? (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, py: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <LocalFireDepartmentIcon
               sx={{ color: 'text.disabled', fontSize: 28 }}
               aria-hidden="true"
@@ -499,13 +596,14 @@ function RecentActivity({ recentStats, loading }: RecentActivityProps) {
           </Box>
         ) : (
           <Box
-            sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
+            sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}
             role="list"
             aria-label="Recent activity"
           >
-            {activeDays.map((day) => {
+            {activeDays.map((day, index) => {
               const accuracy =
                 day.wordsReviewed > 0 ? Math.round((day.correctCount / day.wordsReviewed) * 100) : 0
+              const isLast = index === activeDays.length - 1
               return (
                 <Box
                   key={day.date}
@@ -514,12 +612,27 @@ function RecentActivity({ recentStats, loading }: RecentActivityProps) {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    py: 1.25,
+                    borderBottom: isLast ? 'none' : '1px solid',
+                    borderColor: 'divider',
+                    gap: 2,
                   }}
                 >
-                  <Typography variant="body2" color="text.secondary">
+                  {/* Left accent bar */}
+                  <Box
+                    sx={{
+                      width: 3,
+                      height: 32,
+                      borderRadius: 99,
+                      bgcolor: 'primary.main',
+                      flexShrink: 0,
+                    }}
+                    aria-hidden="true"
+                  />
+                  <Typography variant="body2" color="text.secondary" sx={{ flex: 1 }}>
                     {day.date}
                   </Typography>
-                  <Box sx={{ display: 'flex', gap: 2 }}>
+                  <Box sx={{ display: 'flex', gap: 2, flexShrink: 0 }}>
                     <Typography variant="body2">{day.wordsReviewed} words</Typography>
                     <Typography variant="body2" color="text.secondary">
                       {accuracy}% correct
@@ -530,8 +643,8 @@ function RecentActivity({ recentStats, loading }: RecentActivityProps) {
             })}
           </Box>
         )}
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   )
 }
 
@@ -558,7 +671,7 @@ export function DashboardScreen({
 
   return (
     <Box
-      sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+      sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}
       role="main"
       aria-label="Dashboard"
     >
@@ -570,16 +683,16 @@ export function DashboardScreen({
         loading={loading}
       />
 
-      <QuickStart
+      <StartQuizCta
         activePair={activePair}
         quizMode={settings.quizMode}
         onStartQuiz={onStartQuiz}
         loading={loading}
       />
 
-      <TodaysSummary todayStats={todayStats} dailyGoal={settings.dailyGoal} loading={loading} />
+      <TodayStats todayStats={todayStats} loading={loading} />
 
-      <WordOverview buckets={buckets} totalWords={totalWords} loading={loading} />
+      <MasteryProgress buckets={buckets} totalWords={totalWords} loading={loading} />
 
       <RecentActivity recentStats={recentStats} loading={loading} />
     </Box>
