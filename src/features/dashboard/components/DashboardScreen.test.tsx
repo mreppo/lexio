@@ -83,12 +83,12 @@ describe('DashboardScreen', () => {
       expect(screen.getByText(/No recent activity/i)).toBeInTheDocument()
     })
 
-    it('should show "Quick start" section', () => {
+    it('should show the Start Quiz button', () => {
       render(<DashboardScreen {...buildProps()} />)
-      expect(screen.getByText('Quick start')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /Start Quiz/i })).toBeInTheDocument()
     })
 
-    it('should display the active language pair in quick start', () => {
+    it('should display the active language pair info near the CTA', () => {
       render(<DashboardScreen {...buildProps()} />)
       expect(screen.getByText(/Latvian.*English/i)).toBeInTheDocument()
     })
@@ -118,7 +118,20 @@ describe('DashboardScreen', () => {
       expect(screen.queryByRole('status')).not.toBeInTheDocument()
     })
 
-    it('should show word buckets when totalWords > 0', () => {
+    it('should show word mastery distribution when totalWords > 0', () => {
+      render(
+        <DashboardScreen
+          {...buildProps({
+            totalWords: 3,
+            wordProgressList: [wordProgress],
+          })}
+        />,
+      )
+      // The segmented bar has an img role with a descriptive aria-label
+      expect(screen.getByRole('img', { name: /mastery distribution/i })).toBeInTheDocument()
+    })
+
+    it('should show mastered words count in legend', () => {
       render(
         <DashboardScreen
           {...buildProps({
@@ -172,7 +185,7 @@ describe('DashboardScreen', () => {
   })
 
   describe('no active pair', () => {
-    it('should show "No language pair selected" in quick start', () => {
+    it('should show "No language pair selected" near the CTA', () => {
       render(<DashboardScreen {...buildProps({ activePair: null })} />)
       expect(screen.getByText('No language pair selected')).toBeInTheDocument()
     })
