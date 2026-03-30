@@ -9,7 +9,7 @@
  *   - Current streak / best streak
  */
 
-import { Box, Card, CardContent, Divider, Skeleton, Typography } from '@mui/material'
+import { Box, Skeleton, Typography } from '@mui/material'
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import type { BucketCounts } from '../utils/confidenceBuckets'
@@ -66,74 +66,71 @@ export function OverallSummary({
   const accuracyLabel = metrics.averageAccuracy !== null ? `${metrics.averageAccuracy}%` : '—'
 
   return (
-    <Card variant="outlined">
-      <CardContent sx={{ p: 2.5 }}>
-        <Typography variant="subtitle1" fontWeight={700} gutterBottom>
-          Overall summary
-        </Typography>
+    <Box
+      sx={{
+        bgcolor: (theme) =>
+          theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+        borderRadius: 3,
+        p: 2.5,
+      }}
+    >
+      <Typography variant="subtitle1" fontWeight={700} gutterBottom>
+        Overall summary
+      </Typography>
 
-        {loading ? (
-          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Skeleton key={i} width={60} height={52} sx={{ borderRadius: 1 }} />
-            ))}
+      {loading ? (
+        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Skeleton key={i} width={60} height={52} sx={{ borderRadius: 1 }} />
+          ))}
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(72px, 1fr))',
+            gap: 0.5,
+          }}
+          role="list"
+          aria-label="Overall statistics"
+        >
+          <Box role="listitem">
+            <StatCell value={buckets.total} label="Total words" />
           </Box>
-        ) : (
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(72px, 1fr))',
-              gap: 0.5,
-            }}
-            role="list"
-            aria-label="Overall statistics"
-          >
-            <Box role="listitem">
-              <StatCell value={buckets.total} label="Total words" />
-            </Box>
-            <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
-            <Box role="listitem">
-              <StatCell value={learnedCount} label="Mastered" color="success.main" />
-            </Box>
-            <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
-            <Box role="listitem">
-              <StatCell value={metrics.totalReviews} label="Reviews" />
-            </Box>
-            <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
-            <Box role="listitem">
-              <StatCell value={accuracyLabel} label="Avg accuracy" />
-            </Box>
-            <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
-            <Box role="listitem">
-              <StatCell
-                value={streakDays}
-                label="Streak"
-                color="warning.main"
-                icon={
-                  <LocalFireDepartmentIcon
-                    sx={{ fontSize: 16, color: 'warning.main' }}
-                    aria-hidden="true"
-                  />
-                }
-              />
-            </Box>
-            <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
-            <Box role="listitem">
-              <StatCell
-                value={bestStreak}
-                label="Best streak"
-                color="primary.main"
-                icon={
-                  <EmojiEventsIcon
-                    sx={{ fontSize: 16, color: 'primary.main' }}
-                    aria-hidden="true"
-                  />
-                }
-              />
-            </Box>
+          <Box role="listitem">
+            <StatCell value={learnedCount} label="Mastered" color="success.main" />
           </Box>
-        )}
-      </CardContent>
-    </Card>
+          <Box role="listitem">
+            <StatCell value={metrics.totalReviews} label="Reviews" />
+          </Box>
+          <Box role="listitem">
+            <StatCell value={accuracyLabel} label="Avg accuracy" />
+          </Box>
+          <Box role="listitem">
+            <StatCell
+              value={streakDays}
+              label="Streak"
+              color="warning.main"
+              icon={
+                <LocalFireDepartmentIcon
+                  sx={{ fontSize: 16, color: 'warning.main' }}
+                  aria-hidden="true"
+                />
+              }
+            />
+          </Box>
+          <Box role="listitem">
+            <StatCell
+              value={bestStreak}
+              label="Best streak"
+              color="primary.main"
+              icon={
+                <EmojiEventsIcon sx={{ fontSize: 16, color: 'primary.main' }} aria-hidden="true" />
+              }
+            />
+          </Box>
+        </Box>
+      )}
+    </Box>
   )
 }
