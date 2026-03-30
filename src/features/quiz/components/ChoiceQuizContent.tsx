@@ -60,13 +60,23 @@ function getOptionSx(state: OptionState) {
       return {
         ...base,
         borderColor: 'error.main',
-        '&.Mui-disabled': { color: 'error.main', borderColor: 'error.main', opacity: 1 },
+        '&.Mui-disabled': {
+          color: 'error.main',
+          borderColor: 'error.main',
+          backgroundColor: 'rgba(239,68,68,0.12)',
+          opacity: 1,
+        },
       }
     case 'reveal':
       return {
         ...base,
         borderColor: 'success.main',
-        '&.Mui-disabled': { color: 'success.main', borderColor: 'success.main', opacity: 1 },
+        '&.Mui-disabled': {
+          color: 'success.main',
+          borderColor: 'success.main',
+          backgroundColor: 'rgba(34,197,94,0.12)',
+          opacity: 1,
+        },
       }
     default:
       return base

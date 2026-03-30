@@ -6,7 +6,7 @@
  * to the mode selector.
  */
 
-import { Box, Button, Chip, Paper, Typography, Divider } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined'
@@ -92,16 +92,34 @@ export function SessionSummary({
         </Typography>
       </Box>
 
-      {/* Stats card */}
-      <Paper elevation={2} sx={{ width: '100%', borderRadius: 3, overflow: 'hidden' }}>
+      {/* Stats grid */}
+      <Box
+        sx={{
+          width: '100%',
+          bgcolor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+          borderRadius: 3,
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1px',
+        }}
+      >
         <Box
           sx={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
             textAlign: 'center',
+            gap: '1px',
           }}
         >
-          <Box sx={{ p: 3 }}>
+          <Box
+            sx={{
+              p: 3,
+              bgcolor: (theme) =>
+                theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+            }}
+          >
             <Typography
               variant="h4"
               fontWeight={700}
@@ -118,8 +136,8 @@ export function SessionSummary({
           <Box
             sx={{
               p: 3,
-              borderLeft: 1,
-              borderColor: 'divider',
+              bgcolor: (theme) =>
+                theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
             }}
           >
             <Typography
@@ -136,16 +154,21 @@ export function SessionSummary({
           </Box>
         </Box>
 
-        <Divider />
-
         <Box
           sx={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
             textAlign: 'center',
+            gap: '1px',
           }}
         >
-          <Box sx={{ p: 2 }}>
+          <Box
+            sx={{
+              p: 2,
+              bgcolor: (theme) =>
+                theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+            }}
+          >
             <Typography
               variant="h5"
               fontWeight={600}
@@ -162,8 +185,8 @@ export function SessionSummary({
           <Box
             sx={{
               p: 2,
-              borderLeft: 1,
-              borderColor: 'divider',
+              bgcolor: (theme) =>
+                theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
             }}
           >
             <Typography
@@ -182,52 +205,58 @@ export function SessionSummary({
 
         {/* Best in-session streak row */}
         {bestSessionStreak >= 2 && (
-          <>
-            <Divider />
-            <Box sx={{ p: 2, textAlign: 'center' }}>
-              <Box
-                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5 }}
+          <Box
+            sx={{
+              p: 2,
+              textAlign: 'center',
+              bgcolor: (theme) =>
+                theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5 }}>
+              <LocalFireDepartmentIcon
+                sx={{ color: 'warning.main', fontSize: 20 }}
+                aria-hidden="true"
+              />
+              <Typography
+                variant="h5"
+                fontWeight={600}
+                color="warning.main"
+                aria-label={`Best in-session streak: ${bestSessionStreak} correct in a row`}
               >
-                <LocalFireDepartmentIcon
-                  sx={{ color: 'warning.main', fontSize: 20 }}
-                  aria-hidden="true"
-                />
-                <Typography
-                  variant="h5"
-                  fontWeight={600}
-                  color="warning.main"
-                  aria-label={`Best in-session streak: ${bestSessionStreak} correct in a row`}
-                >
-                  {bestSessionStreak}
-                </Typography>
-              </Box>
-              <Typography variant="caption" color="text.secondary">
-                Best streak this session
+                {bestSessionStreak}
               </Typography>
             </Box>
-          </>
+            <Typography variant="caption" color="text.secondary">
+              Best streak this session
+            </Typography>
+          </Box>
         )}
 
         {/* Words learned row */}
         {totalWords > 0 && (
-          <>
-            <Divider />
-            <Box sx={{ p: 2, textAlign: 'center' }}>
-              <Typography
-                variant="h5"
-                fontWeight={600}
-                color="primary.main"
-                aria-label={`${wordsLearned} of ${totalWords} words learned`}
-              >
-                {wordsLearned} / {totalWords}
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                Words learned
-              </Typography>
-            </Box>
-          </>
+          <Box
+            sx={{
+              p: 2,
+              textAlign: 'center',
+              bgcolor: (theme) =>
+                theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+            }}
+          >
+            <Typography
+              variant="h5"
+              fontWeight={600}
+              color="primary.main"
+              aria-label={`${wordsLearned} of ${totalWords} words learned`}
+            >
+              {wordsLearned} / {totalWords}
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              Words learned
+            </Typography>
+          </Box>
         )}
-      </Paper>
+      </Box>
 
       {/* Daily goal status */}
       {dailyGoalMet ? (
@@ -236,13 +265,23 @@ export function SessionSummary({
           role="status"
           aria-label="Daily goal met"
         >
-          <Chip
-            icon={<EmojiEventsIcon />}
-            label="Daily goal met!"
-            color="success"
-            variant="filled"
-            sx={{ fontWeight: 700 }}
-          />
+          <Box
+            sx={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 0.75,
+              bgcolor: 'success.main',
+              color: 'success.contrastText',
+              borderRadius: 2,
+              px: 2,
+              py: 0.5,
+              fontWeight: 700,
+              fontSize: '0.875rem',
+            }}
+          >
+            <EmojiEventsIcon sx={{ fontSize: 18 }} aria-hidden="true" />
+            Daily goal met!
+          </Box>
         </Box>
       ) : (
         <Typography variant="body2" color="text.secondary" textAlign="center">
@@ -276,7 +315,16 @@ export function SessionSummary({
         <Button variant="contained" size="large" fullWidth onClick={onContinue}>
           Start new session
         </Button>
-        <Button variant="outlined" size="large" fullWidth onClick={onGoHome}>
+        <Button
+          variant="text"
+          size="large"
+          fullWidth
+          onClick={onGoHome}
+          sx={{
+            bgcolor: (theme) =>
+              theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+          }}
+        >
           Back to dashboard
         </Button>
       </Box>

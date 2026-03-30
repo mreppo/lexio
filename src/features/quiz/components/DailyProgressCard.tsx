@@ -55,10 +55,16 @@ export function DailyProgressCard({
         gap: 3,
         p: 2,
         borderRadius: 3,
-        border: 1,
-        borderColor: goalMet ? 'success.main' : 'divider',
-        bgcolor: goalMet ? 'success.main' : 'background.paper',
-        transition: 'border-color 0.2s, background-color 0.2s',
+        background: goalMet
+          ? (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.success.dark
+                : theme.palette.success.main
+          : (theme) =>
+              theme.palette.mode === 'dark'
+                ? 'linear-gradient(160deg, #92400e 0%, #78350f 30%, #1c1917 70%, #0a0f1a 100%)'
+                : 'linear-gradient(160deg, #fef3c7 0%, #fde68a 25%, #fbbf24 60%, #f59e0b 100%)',
+        transition: 'background 0.2s',
       }}
       role="region"
       aria-label="Daily goal progress"

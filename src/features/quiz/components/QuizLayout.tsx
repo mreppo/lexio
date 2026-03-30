@@ -4,7 +4,7 @@
  * Renders:
  *   - SessionProgress bar
  *   - Direction chip (fromLang → toLang)
- *   - Word card (Paper with the question text and optional notes)
+ *   - Word card (tonal Box with the question text and optional notes)
  *   - children (the mode-specific input area)
  *   - End session button
  *
@@ -12,7 +12,7 @@
  */
 
 import type { ReactNode } from 'react'
-import { Box, Button, Chip, Paper, Typography } from '@mui/material'
+import { Box, Button, Chip, Typography } from '@mui/material'
 import { SessionProgress } from './SessionProgress'
 
 interface QuizLayoutProps {
@@ -53,13 +53,24 @@ export function QuizLayout({
         <Chip
           label={`${fromLang} → ${toLang}`}
           size="small"
-          variant="outlined"
-          sx={{ fontWeight: 600 }}
+          sx={{
+            fontWeight: 600,
+            bgcolor: (theme) =>
+              theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+          }}
           aria-label={`Translating from ${fromLang} to ${toLang}`}
         />
       </Box>
 
-      <Paper elevation={2} sx={{ p: 4, textAlign: 'center', borderRadius: 3 }}>
+      <Box
+        sx={{
+          bgcolor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+          borderRadius: 3,
+          p: 4,
+          textAlign: 'center',
+        }}
+      >
         <Typography
           variant="h4"
           component="p"
@@ -74,7 +85,7 @@ export function QuizLayout({
             {notes}
           </Typography>
         )}
-      </Paper>
+      </Box>
 
       {children}
 
