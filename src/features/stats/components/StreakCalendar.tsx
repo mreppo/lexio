@@ -14,7 +14,7 @@
  * grid rows stay square without fixed pixel dimensions.
  */
 
-import { Box, Card, CardContent, Skeleton, Tooltip, Typography } from '@mui/material'
+import { Box, Skeleton, Tooltip, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import type { CalendarDay } from '../utils/activityData'
 
@@ -83,95 +83,100 @@ export function StreakCalendar({ days, loading }: StreakCalendarProps) {
   const primaryHex = theme.palette.primary.main // e.g. "#f59e0b"
 
   return (
-    <Card variant="outlined">
-      <CardContent sx={{ p: 2.5 }}>
-        <Typography variant="subtitle1" fontWeight={700} gutterBottom>
-          Activity calendar
-        </Typography>
+    <Box
+      sx={{
+        bgcolor: (theme) =>
+          theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+        borderRadius: 3,
+        p: 2.5,
+      }}
+    >
+      <Typography variant="subtitle1" fontWeight={700} gutterBottom>
+        Activity calendar
+      </Typography>
 
-        {loading ? (
-          <Skeleton
-            width="100%"
-            height={DAYS_PER_WEEK * (LEGEND_SWATCH_SIZE + 2)}
-            sx={{ borderRadius: 1 }}
-          />
-        ) : (
-          <>
-            {/*
-             * Responsive grid: each week is a column of equal width (1fr).
-             * Cells use aspect-ratio:1 so they remain square at any width.
-             * gap is expressed in pixels because it needs to be consistent
-             * regardless of the container width.
-             */}
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: `repeat(${weeks.length}, 1fr)`,
-                gap: '2px',
-                width: '100%',
-              }}
-              role="grid"
-              aria-label="Activity calendar heatmap"
-            >
-              {weeks.map((week, weekIdx) => (
-                <Box
-                  key={weekIdx}
-                  sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}
-                  role="row"
-                >
-                  {week.map((day) => {
-                    const bgColor =
-                      day.level === 0 ? emptyColor : levelToColor(day.level, emptyColor, primaryHex)
-                    const tooltipText = calendarTooltip(day)
+      {loading ? (
+        <Skeleton
+          width="100%"
+          height={DAYS_PER_WEEK * (LEGEND_SWATCH_SIZE + 2)}
+          sx={{ borderRadius: 1 }}
+        />
+      ) : (
+        <>
+          {/*
+           * Responsive grid: each week is a column of equal width (1fr).
+           * Cells use aspect-ratio:1 so they remain square at any width.
+           * gap is expressed in pixels because it needs to be consistent
+           * regardless of the container width.
+           */}
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: `repeat(${weeks.length}, 1fr)`,
+              gap: '2px',
+              width: '100%',
+            }}
+            role="grid"
+            aria-label="Activity calendar heatmap"
+          >
+            {weeks.map((week, weekIdx) => (
+              <Box
+                key={weekIdx}
+                sx={{ display: 'flex', flexDirection: 'column', gap: '2px' }}
+                role="row"
+              >
+                {week.map((day) => {
+                  const bgColor =
+                    day.level === 0 ? emptyColor : levelToColor(day.level, emptyColor, primaryHex)
+                  const tooltipText = calendarTooltip(day)
 
-                    return (
-                      <Tooltip key={day.date} title={tooltipText} placement="top" arrow>
-                        <Box
-                          role="gridcell"
-                          aria-label={tooltipText}
-                          sx={{
-                            width: '100%',
-                            aspectRatio: '1',
-                            borderRadius: '2px',
-                            backgroundColor: bgColor,
-                            cursor: 'default',
-                            transition: 'opacity 0.15s',
-                            '&:hover': { opacity: 0.8 },
-                          }}
-                        />
-                      </Tooltip>
-                    )
-                  })}
-                </Box>
-              ))}
-            </Box>
+                  return (
+                    <Tooltip key={day.date} title={tooltipText} placement="top" arrow>
+                      <Box
+                        role="gridcell"
+                        aria-label={tooltipText}
+                        sx={{
+                          width: '100%',
+                          aspectRatio: '1',
+                          borderRadius: '2px',
+                          backgroundColor: bgColor,
+                          cursor: 'default',
+                          transition: 'opacity 0.15s',
+                          '&:hover': { opacity: 0.8 },
+                        }}
+                      />
+                    </Tooltip>
+                  )
+                })}
+              </Box>
+            ))}
+          </Box>
 
-            {/* Legend */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 1.5 }}>
-              <Typography variant="caption" color="text.secondary">
-                Less
-              </Typography>
-              {([0, 1, 2, 3, 4] as const).map((level) => (
-                <Box
-                  key={level}
-                  sx={{
-                    width: LEGEND_SWATCH_SIZE,
-                    height: LEGEND_SWATCH_SIZE,
-                    borderRadius: '2px',
-                    backgroundColor:
-                      level === 0 ? emptyColor : levelToColor(level, emptyColor, primaryHex),
-                    flexShrink: 0,
-                  }}
-                  aria-hidden="true"
-                />
-              ))}
-              <Typography variant="caption" color="text.secondary">
-                More
-              </Typography>
-            </Box>
-          </>
-        )}
-      </CardContent>
-    </Card>
+          {/* Legend */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 1.5 }}>
+            <Typography variant="caption" color="text.secondary">
+              Less
+            </Typography>
+            {([0, 1, 2, 3, 4] as const).map((level) => (
+              <Box
+                key={level}
+                sx={{
+                  width: LEGEND_SWATCH_SIZE,
+                  height: LEGEND_SWATCH_SIZE,
+                  borderRadius: '2px',
+                  backgroundColor:
+                    level === 0 ? emptyColor : levelToColor(level, emptyColor, primaryHex),
+                  flexShrink: 0,
+                }}
+                aria-hidden="true"
+              />
+            ))}
+            <Typography variant="caption" color="text.secondary">
+              More
+            </Typography>
+          </Box>
+        </>
+      )}
+    </Box>
   )
 }

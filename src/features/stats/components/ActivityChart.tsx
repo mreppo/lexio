@@ -9,15 +9,7 @@
  */
 
 import { useState } from 'react'
-import {
-  Box,
-  Card,
-  CardContent,
-  Skeleton,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from '@mui/material'
+import { Box, Skeleton, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import type { ActivityDay, ActivityRange } from '../utils/activityData'
 
@@ -173,64 +165,67 @@ export function ActivityChart({ days7, days30, loading }: ActivityChartProps) {
   }
 
   return (
-    <Card variant="outlined">
-      <CardContent sx={{ p: 2.5 }}>
-        <Box
-          sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5 }}
+    <Box
+      sx={{
+        bgcolor: (theme) =>
+          theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+        borderRadius: 3,
+        p: 2.5,
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5 }}>
+        <Typography variant="subtitle1" fontWeight={700}>
+          Activity
+        </Typography>
+        <ToggleButtonGroup
+          value={range}
+          exclusive
+          onChange={handleRangeChange}
+          size="small"
+          aria-label="Activity range"
         >
-          <Typography variant="subtitle1" fontWeight={700}>
-            Activity
-          </Typography>
-          <ToggleButtonGroup
-            value={range}
-            exclusive
-            onChange={handleRangeChange}
-            size="small"
-            aria-label="Activity range"
-          >
-            <ToggleButton value={7} aria-label="Last 7 days">
-              7d
-            </ToggleButton>
-            <ToggleButton value={30} aria-label="Last 30 days">
-              30d
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Box>
+          <ToggleButton value={7} aria-label="Last 7 days">
+            7d
+          </ToggleButton>
+          <ToggleButton value={30} aria-label="Last 30 days">
+            30d
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
 
-        {loading ? (
-          <Skeleton width="100%" height={CHART_HEIGHT + 20} sx={{ borderRadius: 1 }} />
-        ) : totalReviewed === 0 ? (
-          <Box sx={{ py: 2, textAlign: 'center' }}>
-            <Typography variant="body2" color="text.secondary">
-              No activity in the last {range} days. Complete a quiz to see your chart!
-            </Typography>
-          </Box>
-        ) : (
-          <>
-            <SvgBars
-              days={days}
-              range={range}
-              correctColor={theme.palette.success.main}
-              incorrectColor={theme.palette.warning.main}
-              emptyColor={theme.palette.action.disabled}
-            />
-            <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Box sx={{ width: 10, height: 10, borderRadius: 0.5, bgcolor: 'success.main' }} />
-                <Typography variant="caption" color="text.secondary">
-                  ≥70% accuracy
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Box sx={{ width: 10, height: 10, borderRadius: 0.5, bgcolor: 'warning.main' }} />
-                <Typography variant="caption" color="text.secondary">
-                  {'<70% accuracy'}
-                </Typography>
-              </Box>
+      {loading ? (
+        <Skeleton width="100%" height={CHART_HEIGHT + 20} sx={{ borderRadius: 1 }} />
+      ) : totalReviewed === 0 ? (
+        <Box sx={{ py: 2, textAlign: 'center' }}>
+          <Typography variant="body2" color="text.secondary">
+            No activity in the last {range} days. Complete a quiz to see your chart!
+          </Typography>
+        </Box>
+      ) : (
+        <>
+          <SvgBars
+            days={days}
+            range={range}
+            correctColor={theme.palette.success.main}
+            incorrectColor={theme.palette.warning.main}
+            emptyColor={theme.palette.action.disabled}
+          />
+          <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Box sx={{ width: 10, height: 10, borderRadius: 0.5, bgcolor: 'success.main' }} />
+              <Typography variant="caption" color="text.secondary">
+                ≥70% accuracy
+              </Typography>
             </Box>
-          </>
-        )}
-      </CardContent>
-    </Card>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Box sx={{ width: 10, height: 10, borderRadius: 0.5, bgcolor: 'warning.main' }} />
+              <Typography variant="caption" color="text.secondary">
+                {'<70% accuracy'}
+              </Typography>
+            </Box>
+          </Box>
+        </>
+      )}
+    </Box>
   )
 }
