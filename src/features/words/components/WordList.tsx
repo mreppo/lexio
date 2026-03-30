@@ -8,7 +8,6 @@ import {
   FormControl,
   InputLabel,
   List,
-  Paper,
   Typography,
   Button,
   Chip,
@@ -326,7 +325,14 @@ export function WordList({ words, progressMap, onEdit, onDelete, onBulkDelete }:
           </Typography>
         </Box>
       ) : (
-        <Paper variant="outlined" sx={{ borderRadius: 2 }}>
+        <Box
+          sx={{
+            bgcolor: (theme) =>
+              theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+            borderRadius: 3,
+            overflow: 'auto',
+          }}
+        >
           {selectionMode && (
             <>
               <Toolbar variant="dense" sx={{ pl: 1, minHeight: 40 }}>
@@ -360,7 +366,7 @@ export function WordList({ words, progressMap, onEdit, onDelete, onBulkDelete }:
               </Box>
             ))}
           </List>
-        </Paper>
+        </Box>
       )}
 
       <DeleteWordDialog
