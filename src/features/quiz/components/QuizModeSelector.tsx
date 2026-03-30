@@ -7,7 +7,7 @@
  */
 
 import { useCallback } from 'react'
-import { Box, Button, Card, CardActionArea, CardContent, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import KeyboardIcon from '@mui/icons-material/Keyboard'
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
 import ShuffleIcon from '@mui/icons-material/Shuffle'
@@ -121,57 +121,54 @@ export function QuizModeSelector({
           const isSelected = selectedMode === mode
 
           return (
-            <Card
+            <Box
               key={mode}
-              variant="outlined"
+              onClick={() => handleSelect(mode)}
+              role="radio"
+              aria-checked={isSelected}
+              aria-pressed={isSelected}
+              aria-label={`${label} mode: ${description}`}
               sx={{
-                borderColor: isSelected ? 'primary.main' : 'divider',
-                borderWidth: isSelected ? 2 : 1,
-                transition: 'border-color 0.15s, box-shadow 0.15s',
-                boxShadow: isSelected ? 2 : 0,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                p: 2,
+                borderRadius: 3,
+                cursor: 'pointer',
+                bgcolor: isSelected
+                  ? 'rgba(245,158,11,0.12)'
+                  : (theme) =>
+                      theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+                borderLeft: isSelected ? '3px solid' : '3px solid transparent',
+                borderColor: isSelected ? 'primary.main' : 'transparent',
+                boxShadow: isSelected ? 1 : 0,
+                transition: 'background-color 0.15s, box-shadow 0.15s',
               }}
             >
-              <CardActionArea
-                onClick={() => handleSelect(mode)}
-                aria-pressed={isSelected}
-                role="radio"
-                aria-checked={isSelected}
-                aria-label={`${label} mode: ${description}`}
+              <Box
+                sx={{
+                  color: isSelected ? 'primary.main' : 'text.secondary',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: 28,
+                }}
+                aria-hidden="true"
               >
-                <CardContent
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
-                    py: 2,
-                  }}
+                {icon}
+              </Box>
+              <Box sx={{ flex: 1 }}>
+                <Typography
+                  variant="subtitle1"
+                  fontWeight={isSelected ? 700 : 500}
+                  color={isSelected ? 'primary.main' : 'text.primary'}
                 >
-                  <Box
-                    sx={{
-                      color: isSelected ? 'primary.main' : 'text.secondary',
-                      display: 'flex',
-                      alignItems: 'center',
-                      fontSize: 28,
-                    }}
-                    aria-hidden="true"
-                  >
-                    {icon}
-                  </Box>
-                  <Box sx={{ flex: 1 }}>
-                    <Typography
-                      variant="subtitle1"
-                      fontWeight={isSelected ? 700 : 500}
-                      color={isSelected ? 'primary.main' : 'text.primary'}
-                    >
-                      {label}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {description}
-                    </Typography>
-                  </Box>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+                  {label}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {description}
+                </Typography>
+              </Box>
+            </Box>
           )
         })}
       </Box>
