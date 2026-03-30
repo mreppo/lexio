@@ -13,14 +13,11 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -365,208 +362,228 @@ export function SettingsScreen({
       </Box>
 
       {/* ── 1. Preferences ── */}
-      <Card variant="outlined">
-        <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
-          <Typography variant="subtitle2" fontWeight={700} gutterBottom>
-            Preferences
+      <Box
+        sx={{
+          bgcolor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+          borderRadius: 3,
+          p: 2.5,
+        }}
+      >
+        <Typography variant="subtitle2" fontWeight={700} gutterBottom>
+          Preferences
+        </Typography>
+
+        {/* Theme */}
+        <FormControl component="fieldset" fullWidth sx={{ mb: 2 }}>
+          <FormLabel component="legend" sx={{ mb: 0.5, fontSize: '0.875rem' }}>
+            Theme
+          </FormLabel>
+          <RadioGroup
+            row
+            value={themePreference}
+            onChange={(e) => handleThemeChange(e.target.value)}
+            aria-label="Theme preference"
+          >
+            <FormControlLabel value="system" control={<Radio size="small" />} label="System" />
+            <FormControlLabel value="light" control={<Radio size="small" />} label="Light" />
+            <FormControlLabel value="dark" control={<Radio size="small" />} label="Dark" />
+          </RadioGroup>
+        </FormControl>
+
+        {/* Quiz mode */}
+        <FormControl component="fieldset" fullWidth sx={{ mb: 2 }}>
+          <FormLabel component="legend" sx={{ mb: 0.5, fontSize: '0.875rem' }}>
+            Default quiz mode
+          </FormLabel>
+          <RadioGroup
+            row
+            value={settings.quizMode}
+            onChange={(e) => handleQuizModeChange(e.target.value)}
+            aria-label="Default quiz mode"
+          >
+            <FormControlLabel value="type" control={<Radio size="small" />} label="Type" />
+            <FormControlLabel value="choice" control={<Radio size="small" />} label="Choice" />
+            <FormControlLabel value="mixed" control={<Radio size="small" />} label="Mixed" />
+          </RadioGroup>
+        </FormControl>
+
+        {/* Daily goal */}
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="body2" sx={{ mb: 1, color: 'text.secondary', fontSize: '0.875rem' }}>
+            Daily goal
           </Typography>
+          <Stack direction="row" spacing={1} sx={{ mb: 1 }} flexWrap="wrap" useFlexGap>
+            {DAILY_GOAL_PRESETS.map((preset) => (
+              <Chip
+                key={preset}
+                label={preset}
+                size="small"
+                color={settings.dailyGoal === preset ? 'primary' : 'default'}
+                onClick={() => handleDailyGoalPreset(preset)}
+                aria-label={`Set daily goal to ${preset} words`}
+                aria-pressed={settings.dailyGoal === preset}
+                sx={{ cursor: 'pointer' }}
+              />
+            ))}
+          </Stack>
+          <TextField
+            size="small"
+            value={dailyGoalInput}
+            onChange={(e) => handleDailyGoalInputChange(e.target.value)}
+            onBlur={handleDailyGoalInputBlur}
+            inputProps={{ min: 1, max: 200, 'aria-label': 'Custom daily goal' }}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">words/day</InputAdornment>,
+            }}
+            sx={{ width: 160 }}
+          />
+        </Box>
 
-          <Divider sx={{ my: 1.5 }} />
-
-          {/* Theme */}
-          <FormControl component="fieldset" fullWidth sx={{ mb: 2 }}>
-            <FormLabel component="legend" sx={{ mb: 0.5, fontSize: '0.875rem' }}>
-              Theme
-            </FormLabel>
-            <RadioGroup
-              row
-              value={themePreference}
-              onChange={(e) => handleThemeChange(e.target.value)}
-              aria-label="Theme preference"
-            >
-              <FormControlLabel value="system" control={<Radio size="small" />} label="System" />
-              <FormControlLabel value="light" control={<Radio size="small" />} label="Light" />
-              <FormControlLabel value="dark" control={<Radio size="small" />} label="Dark" />
-            </RadioGroup>
-          </FormControl>
-
-          {/* Quiz mode */}
-          <FormControl component="fieldset" fullWidth sx={{ mb: 2 }}>
-            <FormLabel component="legend" sx={{ mb: 0.5, fontSize: '0.875rem' }}>
-              Default quiz mode
-            </FormLabel>
-            <RadioGroup
-              row
-              value={settings.quizMode}
-              onChange={(e) => handleQuizModeChange(e.target.value)}
-              aria-label="Default quiz mode"
-            >
-              <FormControlLabel value="type" control={<Radio size="small" />} label="Type" />
-              <FormControlLabel value="choice" control={<Radio size="small" />} label="Choice" />
-              <FormControlLabel value="mixed" control={<Radio size="small" />} label="Mixed" />
-            </RadioGroup>
-          </FormControl>
-
-          {/* Daily goal */}
-          <Box sx={{ mb: 2 }}>
-            <Typography
-              variant="body2"
-              sx={{ mb: 1, color: 'text.secondary', fontSize: '0.875rem' }}
-            >
-              Daily goal
-            </Typography>
-            <Stack direction="row" spacing={1} sx={{ mb: 1 }} flexWrap="wrap" useFlexGap>
-              {DAILY_GOAL_PRESETS.map((preset) => (
-                <Chip
-                  key={preset}
-                  label={preset}
-                  size="small"
-                  color={settings.dailyGoal === preset ? 'primary' : 'default'}
-                  onClick={() => handleDailyGoalPreset(preset)}
-                  aria-label={`Set daily goal to ${preset} words`}
-                  aria-pressed={settings.dailyGoal === preset}
-                  sx={{ cursor: 'pointer' }}
-                />
-              ))}
-            </Stack>
-            <TextField
-              size="small"
-              value={dailyGoalInput}
-              onChange={(e) => handleDailyGoalInputChange(e.target.value)}
-              onBlur={handleDailyGoalInputBlur}
-              inputProps={{ min: 1, max: 200, 'aria-label': 'Custom daily goal' }}
-              InputProps={{
-                endAdornment: <InputAdornment position="end">words/day</InputAdornment>,
-              }}
-              sx={{ width: 160 }}
-            />
-          </Box>
-
-          {/* Typo tolerance */}
-          <Box>
-            <Typography
-              variant="body2"
-              sx={{ mb: 0.5, color: 'text.secondary', fontSize: '0.875rem' }}
-            >
-              Typo tolerance
-            </Typography>
-            <Slider
-              value={settings.typoTolerance}
-              onChange={handleTypoToleranceChange}
-              min={0}
-              max={2}
-              step={1}
-              marks={[
-                { value: 0, label: 'Exact' },
-                { value: 1, label: 'Lenient' },
-                { value: 2, label: 'Lenient+' },
-              ]}
-              aria-label="Typo tolerance"
-              aria-valuetext={typoInfo.label}
-              sx={{ mt: 1, mb: 1 }}
-            />
-            <Typography variant="caption" color="text.secondary">
-              {typoInfo.description}
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
+        {/* Typo tolerance */}
+        <Box>
+          <Typography
+            variant="body2"
+            sx={{ mb: 0.5, color: 'text.secondary', fontSize: '0.875rem' }}
+          >
+            Typo tolerance
+          </Typography>
+          <Slider
+            value={settings.typoTolerance}
+            onChange={handleTypoToleranceChange}
+            min={0}
+            max={2}
+            step={1}
+            marks={[
+              { value: 0, label: 'Exact' },
+              { value: 1, label: 'Lenient' },
+              { value: 2, label: 'Lenient+' },
+            ]}
+            aria-label="Typo tolerance"
+            aria-valuetext={typoInfo.label}
+            sx={{ mt: 1, mb: 1 }}
+          />
+          <Typography variant="caption" color="text.secondary">
+            {typoInfo.description}
+          </Typography>
+        </Box>
+      </Box>
 
       {/* ── 2. CEFR Levels ── */}
-      <Card variant="outlined">
-        <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
-          <Typography variant="subtitle2" fontWeight={700} gutterBottom>
-            Training levels
-          </Typography>
+      <Box
+        sx={{
+          bgcolor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+          borderRadius: 3,
+          p: 2.5,
+        }}
+      >
+        <Typography variant="subtitle2" fontWeight={700} gutterBottom>
+          Training levels
+        </Typography>
 
-          <Divider sx={{ my: 1.5 }} />
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
+          Choose which CEFR levels to include in your quizzes. Your manually added words are always
+          included.
+        </Typography>
 
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
-            Choose which CEFR levels to include in your quizzes. Your manually added words are
-            always included.
-          </Typography>
-
-          <CefrLevelSelector
-            selectedLevels={settings.selectedLevels}
-            wordCountByLevel={wordCountByLevel}
-            onChange={handleSelectedLevelsChange}
-          />
-        </CardContent>
-      </Card>
+        <CefrLevelSelector
+          selectedLevels={settings.selectedLevels}
+          wordCountByLevel={wordCountByLevel}
+          onChange={handleSelectedLevelsChange}
+        />
+      </Box>
 
       {/* ── 3. Language Pairs ── */}
-      <Card variant="outlined">
-        <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
-          <Typography variant="subtitle2" fontWeight={700} gutterBottom>
-            Language pairs
-          </Typography>
+      <Box
+        sx={{
+          bgcolor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+          borderRadius: 3,
+          p: 2.5,
+        }}
+      >
+        <Typography variant="subtitle2" fontWeight={700} gutterBottom>
+          Language pairs
+        </Typography>
 
-          <Divider sx={{ my: 1.5 }} />
+        <LanguagePairList
+          pairs={[...pairs]}
+          activePairId={settings.activePairId}
+          onDelete={onDeletePair}
+        />
 
-          <LanguagePairList
-            pairs={[...pairs]}
-            activePairId={settings.activePairId}
-            onDelete={onDeletePair}
-          />
-
-          <Button variant="outlined" size="small" onClick={onAddPair} sx={{ mt: 2 }} fullWidth>
-            Add language pair
-          </Button>
-        </CardContent>
-      </Card>
+        <Button variant="outlined" size="small" onClick={onAddPair} sx={{ mt: 2 }} fullWidth>
+          Add language pair
+        </Button>
+      </Box>
 
       {/* ── 4. Data Management ── */}
-      <Card variant="outlined">
-        <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
-          <Typography variant="subtitle2" fontWeight={700} gutterBottom>
-            Data management
-          </Typography>
+      <Box
+        sx={{
+          bgcolor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
+          borderRadius: 3,
+          p: 2.5,
+        }}
+      >
+        <Typography variant="subtitle2" fontWeight={700} gutterBottom>
+          Data management
+        </Typography>
 
-          <Divider sx={{ my: 1.5 }} />
+        {resetError && (
+          <Alert severity="error" sx={{ mb: 2 }} onClose={() => setResetError(null)}>
+            {resetError}
+          </Alert>
+        )}
 
-          {resetError && (
-            <Alert severity="error" sx={{ mb: 2 }} onClose={() => setResetError(null)}>
-              {resetError}
+        <Stack spacing={1.5}>
+          {/* Export */}
+          {exportError && (
+            <Alert severity="error" onClose={() => setExportError(null)}>
+              {exportError}
             </Alert>
           )}
+          <Button
+            variant="outlined"
+            startIcon={exporting ? <CircularProgress size={16} /> : <DownloadIcon />}
+            onClick={() => void handleExport()}
+            disabled={exporting}
+            fullWidth
+            aria-label="Export data as JSON backup"
+          >
+            {exporting ? 'Exporting...' : 'Export data'}
+          </Button>
 
+          {/* Import */}
+          {importError && (
+            <Alert severity="error" onClose={() => setImportError(null)}>
+              {importError}
+            </Alert>
+          )}
+          <Button
+            variant="outlined"
+            startIcon={importing ? <CircularProgress size={16} /> : <UploadIcon />}
+            onClick={handleImportClick}
+            disabled={importing}
+            fullWidth
+            aria-label="Import data from JSON backup"
+          >
+            {importing ? 'Importing...' : 'Import data'}
+          </Button>
+        </Stack>
+
+        {/* Danger zone */}
+        <Box
+          sx={{
+            bgcolor: (theme) =>
+              theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.06)' : 'rgba(239,68,68,0.04)',
+            borderRadius: 2,
+            p: 2,
+            mt: 2,
+          }}
+        >
           <Stack spacing={1.5}>
-            {/* Export */}
-            {exportError && (
-              <Alert severity="error" onClose={() => setExportError(null)}>
-                {exportError}
-              </Alert>
-            )}
-            <Button
-              variant="outlined"
-              startIcon={exporting ? <CircularProgress size={16} /> : <DownloadIcon />}
-              onClick={() => void handleExport()}
-              disabled={exporting}
-              fullWidth
-              aria-label="Export data as JSON backup"
-            >
-              {exporting ? 'Exporting...' : 'Export data'}
-            </Button>
-
-            {/* Import */}
-            {importError && (
-              <Alert severity="error" onClose={() => setImportError(null)}>
-                {importError}
-              </Alert>
-            )}
-            <Button
-              variant="outlined"
-              startIcon={importing ? <CircularProgress size={16} /> : <UploadIcon />}
-              onClick={handleImportClick}
-              disabled={importing}
-              fullWidth
-              aria-label="Import data from JSON backup"
-            >
-              {importing ? 'Importing...' : 'Import data'}
-            </Button>
-
-            <Divider />
-
             {/* Reset progress */}
             <Button
               variant="outlined"
@@ -597,41 +614,40 @@ export function SettingsScreen({
               Reset all data
             </Button>
           </Stack>
-        </CardContent>
-      </Card>
+        </Box>
+      </Box>
 
       {/* ── 5. About ── */}
-      <Card variant="outlined">
-        <CardContent sx={{ p: { xs: 2, sm: 2.5 } }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-            <InfoOutlinedIcon
-              fontSize="small"
-              sx={{ color: 'text.secondary' }}
-              aria-hidden="true"
-            />
-            <Typography variant="subtitle2" fontWeight={700}>
-              About
-            </Typography>
-          </Box>
-
-          <Divider sx={{ mb: 1.5 }} />
-
-          <Typography variant="body2" color="text.secondary" gutterBottom>
-            Version {APP_VERSION}
+      <Box
+        sx={{
+          bgcolor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)',
+          borderRadius: 3,
+          p: 2.5,
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+          <InfoOutlinedIcon fontSize="small" sx={{ color: 'text.secondary' }} aria-hidden="true" />
+          <Typography variant="subtitle2" fontWeight={700}>
+            About
           </Typography>
-          <Typography variant="body2" color="text.secondary" gutterBottom>
-            Lexio — a language-agnostic vocabulary trainer with spaced repetition.
-          </Typography>
-          <Link
-            href="https://github.com/mreppo/lexio"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="body2"
-          >
-            View source on GitHub
-          </Link>
-        </CardContent>
-      </Card>
+        </Box>
+
+        <Typography variant="body2" color="text.secondary" gutterBottom>
+          Version {APP_VERSION}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" gutterBottom>
+          Lexio — a language-agnostic vocabulary trainer with spaced repetition.
+        </Typography>
+        <Link
+          href="https://github.com/mreppo/lexio"
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="body2"
+        >
+          View source on GitHub
+        </Link>
+      </Box>
 
       {/* ── Dialogs ── */}
 
