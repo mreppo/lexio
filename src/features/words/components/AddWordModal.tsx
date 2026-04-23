@@ -641,10 +641,12 @@ export function AddWordModal({
         aria-modal="true"
         aria-labelledby={titleId}
         // Remove the default Dialog paper background so PaperSurface wallpaper shows through
-        PaperProps={{
-          sx: {
-            background: 'transparent',
-            boxShadow: 'none',
+        slotProps={{
+          paper: {
+            sx: {
+              background: 'transparent',
+              boxShadow: 'none',
+            },
           },
         }}
       >
