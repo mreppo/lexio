@@ -64,6 +64,14 @@ export interface GlassTypographyTokens {
     readonly caption: GlassTypographyRoleTokens
     readonly micro: GlassTypographyRoleTokens
     readonly uppercaseLabel: GlassTypographyRoleTokens
+    /** Quiz typing: typed-so-far display text. 26/700 tracking -0.5. */
+    readonly quizDisplay: GlassTypographyRoleTokens
+    /** Quiz typing: part-of-speech sub label. 15/500. */
+    readonly quizSub: GlassTypographyRoleTokens
+    /** Quiz typing: hint and skip row text. 13/500. */
+    readonly quizHint: GlassTypographyRoleTokens
+    /** Quiz top bar N/M pill. 14/700. */
+    readonly quizPill: GlassTypographyRoleTokens
   }
 }
 
@@ -234,6 +242,11 @@ export const glassTypography: GlassTypographyTokens = {
     caption: { size: 13, weight: 500, tracking: -0.1, lineHeight: 1.3 },
     micro: { size: 12, weight: 700, tracking: -0.1, lineHeight: 1 },
     uppercaseLabel: { size: 13, weight: 700, tracking: 1, lineHeight: 1, transform: 'uppercase' },
+    // Quiz typing screen tokens (§3 in design README)
+    quizDisplay: { size: 26, weight: 700, tracking: -0.5, lineHeight: 1.1 },
+    quizSub: { size: 15, weight: 500, tracking: -0.2, lineHeight: 1.45 },
+    quizHint: { size: 13, weight: 500, tracking: -0.1, lineHeight: 1.3 },
+    quizPill: { size: 14, weight: 700, tracking: -0.1, lineHeight: 1 },
   },
 }
 
