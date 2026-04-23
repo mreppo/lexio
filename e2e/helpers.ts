@@ -31,6 +31,11 @@ import { expect } from '@playwright/test'
 const STORAGE_KEYS = {
   LANGUAGE_PAIRS: 'lexio:language-pairs',
   SETTINGS: 'lexio:settings',
+  // Must match STORAGE_KEYS.DISMISSED_AT in useInstallPrompt.ts.
+  // Pre-seeding this key with the current timestamp puts the banner into its
+  // 7-day cooldown window so it never renders during E2E tests, eliminating the
+  // race between banner appearance and tab-bar clicks.
+  INSTALL_BANNER_DISMISSED_AT: 'lexio:meta:install-banner:dismissed-at',
 } as const
 
 // ─── State reset ─────────────────────────────────────────────────────────────
@@ -42,10 +47,24 @@ const STORAGE_KEYS = {
  * After calling this function the app will show the onboarding wizard because
  * no language pairs exist. Use `bypassOnboarding()` to skip the wizard for
  * tests that do not cover the onboarding flow.
+ *
+ * The PWA install banner is suppressed by pre-seeding its dismissed-at key.
+ * This puts the banner into its 7-day cooldown window and prevents it from
+ * rendering during tests, eliminating pointer-event races on the tab bar.
  */
 export async function resetAppState(page: Page): Promise<void> {
   await page.goto('/#/app')
-  await page.evaluate(() => localStorage.clear())
+  await page.evaluate(
+    ({ dismissedAtKey }: { dismissedAtKey: string }) => {
+      localStorage.clear()
+      // Suppress the PWA install banner for the entire test session.
+      // useInstallPrompt checks this key and skips showing the banner while the
+      // 7-day cooldown is active. Setting it here prevents any async race
+      // between banner mount and the first tab-bar click in the test.
+      localStorage.setItem(dismissedAtKey, String(Date.now()))
+    },
+    { dismissedAtKey: STORAGE_KEYS.INSTALL_BANNER_DISMISSED_AT },
+  )
   await page.reload()
 }
 
@@ -92,14 +111,20 @@ export async function bypassOnboarding(
       pairsValue,
       settingsKey,
       settingsValue,
+      dismissedAtKey,
+      dismissedAtValue,
     }: {
       pairsKey: string
       pairsValue: string
       settingsKey: string
       settingsValue: string
+      dismissedAtKey: string
+      dismissedAtValue: string
     }) => {
       localStorage.setItem(pairsKey, pairsValue)
       localStorage.setItem(settingsKey, settingsValue)
+      // Suppress the PWA install banner (same rationale as resetAppState).
+      localStorage.setItem(dismissedAtKey, dismissedAtValue)
     },
     {
       pairsKey: STORAGE_KEYS.LANGUAGE_PAIRS,
@@ -112,6 +137,8 @@ export async function bypassOnboarding(
         theme: 'dark',
         typoTolerance: 1,
       }),
+      dismissedAtKey: STORAGE_KEYS.INSTALL_BANNER_DISMISSED_AT,
+      dismissedAtValue: String(Date.now()),
     },
   )
   // Navigate to the app route (HashRouter) so the main app shell loads.
@@ -145,15 +172,11 @@ export type AppTab = 'Home' | 'Quiz' | 'Words' | 'Stats' | 'Settings'
  * Navigates to a tab via the BottomNav.
  * The BottomNavigationAction has `aria-label="Navigate to <Tab>"`.
  *
- * Dismisses the PWA install banner if it is visible before clicking — the
- * banner is a Snackbar that can overlay the tab bar on the first few renders.
+ * The PWA install banner is suppressed globally by pre-seeding its dismissal
+ * key in resetAppState / bypassOnboarding, so no per-click banner dismissal
+ * is needed here.
  */
 export async function navigateTo(page: Page, tab: AppTab): Promise<void> {
-  // Dismiss the install banner if it is blocking the tab bar.
-  const dismissBtn = page.getByRole('button', { name: /dismiss|not now|close/i })
-  if (await dismissBtn.isVisible()) {
-    await dismissBtn.click()
-  }
   await page.getByRole('button', { name: `Navigate to ${tab}` }).click()
 }
 
