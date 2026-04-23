@@ -1,6 +1,9 @@
 export { WordFormDialog } from './WordFormDialog'
 export type { WordFormDialogProps } from './WordFormDialog'
 
+export { AddWordModal } from './AddWordModal'
+export type { AddWordModalProps } from './AddWordModal'
+
 export { DeleteWordDialog } from './DeleteWordDialog'
 export type { DeleteWordDialogProps } from './DeleteWordDialog'
 

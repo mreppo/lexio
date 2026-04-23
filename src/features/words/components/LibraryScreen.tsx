@@ -38,6 +38,7 @@ import type { CreateWordInput } from '../useWords'
 import { classifyBucket } from '../buckets'
 import type { WordBucket } from '../buckets'
 import { WordFormDialog } from './WordFormDialog'
+import { AddWordModal } from './AddWordModal'
 import { PackBrowserDialog } from '@/features/starter-packs'
 import { useDebounce } from '@/hooks/useDebounce'
 
@@ -556,9 +557,7 @@ function EmptyLibrary({ onAddWord, onOpenPacks }: EmptyLibraryProps): React.JSX.
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export function LibraryScreen({ activePair, onTabChange }: LibraryScreenProps): React.JSX.Element {
-  const { words, progressMap, loading, addWord, updateWord, refresh } = useWords(
-    activePair?.id ?? null,
-  )
+  const { words, progressMap, loading, updateWord, refresh } = useWords(activePair?.id ?? null)
 
   // Search state — raw value from input, debounced value for filtering
   const [searchRaw, setSearchRaw] = useState('')
@@ -567,7 +566,10 @@ export function LibraryScreen({ activePair, onTabChange }: LibraryScreenProps): 
   // Filter pill state — mutually exclusive
   const [activeFilter, setActiveFilter] = useState<LibraryFilter>('all')
 
-  // Word form dialog state
+  // Add Word modal state — new Liquid Glass modal for adding new words (#150)
+  const [addWordOpen, setAddWordOpen] = useState(false)
+
+  // Edit word dialog state — existing WordFormDialog used for editing only
   const [formOpen, setFormOpen] = useState(false)
   const [wordToEdit, setWordToEdit] = useState<Word | null>(null)
 
@@ -575,9 +577,14 @@ export function LibraryScreen({ activePair, onTabChange }: LibraryScreenProps): 
   const [packBrowserOpen, setPackBrowserOpen] = useState(false)
 
   const handleOpenAdd = useCallback(() => {
-    setWordToEdit(null)
-    setFormOpen(true)
+    setAddWordOpen(true)
   }, [])
+
+  const handleCloseAddWord = useCallback(() => {
+    setAddWordOpen(false)
+    // Re-fetch words after the modal closes in case a word was added
+    refresh()
+  }, [refresh])
 
   const handleOpenEdit = useCallback((word: Word) => {
     setWordToEdit(word)
@@ -601,17 +608,15 @@ export function LibraryScreen({ activePair, onTabChange }: LibraryScreenProps): 
     refresh()
   }, [refresh])
 
+  // handleSubmit is used only by the edit WordFormDialog.
+  // New words are added via AddWordModal (#150).
   const handleSubmit = useCallback(
     async (input: CreateWordInput): Promise<boolean> => {
-      if (!activePair) return false
-      if (wordToEdit) {
-        await updateWord(wordToEdit.id, input)
-        return true
-      }
-      const result = await addWord(activePair.id, input)
-      return result !== null
+      if (!wordToEdit) return false
+      await updateWord(wordToEdit.id, input)
+      return true
     },
-    [activePair, wordToEdit, addWord, updateWord],
+    [wordToEdit, updateWord],
   )
 
   // Per-filter counts for pill badges
@@ -724,7 +729,16 @@ export function LibraryScreen({ activePair, onTabChange }: LibraryScreenProps): 
       {/* Tab bar */}
       <TabBar activeTab="words" onTabChange={onTabChange} />
 
-      {/* Add/edit word dialog — existing flow, not yet restyled (#150) */}
+      {/* Add Word modal — Liquid Glass full-screen modal (#150) */}
+      <AddWordModal
+        open={addWordOpen}
+        onClose={handleCloseAddWord}
+        pairId={activePair.id}
+        fromCode={activePair.sourceCode}
+        toCode={activePair.targetCode}
+      />
+
+      {/* Edit word dialog — WordFormDialog retained for editing existing words */}
       <WordFormDialog
         open={formOpen}
         word={wordToEdit}
