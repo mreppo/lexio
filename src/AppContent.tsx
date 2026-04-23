@@ -79,6 +79,13 @@ function AppContent(): React.JSX.Element {
   // Active navigation tab.
   const [activeTab, setActiveTab] = useState<AppTab>('home')
 
+  /**
+   * When true, QuizHub will skip the mode-selection screen and auto-start using
+   * the default quiz mode from settings. Consumed once per "Start review" press
+   * from the Dashboard.
+   */
+  const [quizAutoStart, setQuizAutoStart] = useState(false)
+
   const [settings, setSettings] = useState<UserSettings>({
     activePairId: null,
     quizMode: 'type',
@@ -136,8 +143,9 @@ function AppContent(): React.JSX.Element {
     setCreateDialogOpen(false)
   }, [])
 
-  /** Navigate to quiz tab (called from Dashboard quick-start button). */
+  /** Navigate to quiz tab and auto-start (called from Dashboard "Start review" button). */
   const handleStartQuizFromDashboard = useCallback(() => {
+    setQuizAutoStart(true)
     setActiveTab('quiz')
   }, [])
 
@@ -170,9 +178,11 @@ function AppContent(): React.JSX.Element {
   )
 
   // When returning to the home tab, refresh dashboard data.
+  // Also clear the quiz auto-start flag whenever the tab changes.
   const handleTabChange = useCallback(
     (tab: AppTab): void => {
       setActiveTab(tab)
+      setQuizAutoStart(false)
       if (tab === 'home') {
         dashboardData.refresh()
       }
@@ -212,71 +222,86 @@ function AppContent(): React.JSX.Element {
       {/* Main app shell — only shown after loading and when onboarding is complete */}
       {!pairsLoading && !showOnboarding && (
         <>
-          <AppBar position="static" color="default" elevation={1}>
-            <Toolbar sx={{ gap: 2 }}>
-              <Typography
-                variant="h6"
-                component="span"
-                sx={{ fontWeight: 700, color: 'primary.main', flexShrink: 0 }}
-              >
-                Lexio
-              </Typography>
+          {/*
+           * Home tab: full-bleed Liquid Glass layout.
+           * DashboardScreen owns its own PaperSurface (wallpaper, NavBar, scroll).
+           * No AppBar or Container — those would conflict with the full-bleed design.
+           */}
+          {activeTab === 'home' && (
+            <DashboardScreen
+              activePair={activePair}
+              settings={settings}
+              todayStats={dashboardData.todayStats}
+              wordProgressList={dashboardData.wordProgressList}
+              words={dashboardData.words}
+              totalWords={dashboardData.totalWords}
+              streakDays={dashboardData.streakDays}
+              loading={dashboardData.loading}
+              onStartQuiz={handleStartQuizFromDashboard}
+            />
+          )}
 
-              <Box sx={{ flex: 1 }} />
+          {/*
+           * All other tabs: legacy AppBar + Container layout.
+           * These screens will be migrated to full-bleed PaperSurface in their
+           * own issues (quiz #146, words #147, stats #148, settings #149).
+           */}
+          {activeTab !== 'home' && (
+            <>
+              <AppBar position="static" color="default" elevation={1}>
+                <Toolbar sx={{ gap: 2 }}>
+                  <Typography
+                    variant="h6"
+                    component="span"
+                    sx={{ fontWeight: 700, color: 'primary.main', flexShrink: 0 }}
+                  >
+                    Lexio
+                  </Typography>
 
-              <LanguagePairSelector
-                pairs={pairs}
-                activePair={activePair}
-                loading={pairsLoading}
-                onSwitch={switchPair}
-                onAddPair={handleOpenCreateDialog}
-              />
-            </Toolbar>
-          </AppBar>
+                  <Box sx={{ flex: 1 }} />
 
-          {/* Main content — bottom padding makes room for the fixed BottomNav */}
-          <Container maxWidth="lg" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
-            <TabTransition activeTab={activeTab}>
-              {activeTab === 'home' && (
-                <DashboardScreen
-                  activePair={activePair}
-                  settings={settings}
-                  todayStats={dashboardData.todayStats}
-                  wordProgressList={dashboardData.wordProgressList}
-                  totalWords={dashboardData.totalWords}
-                  streakDays={dashboardData.streakDays}
-                  recentStats={dashboardData.recentStats}
-                  loading={dashboardData.loading}
-                  onStartQuiz={handleStartQuizFromDashboard}
-                />
-              )}
+                  <LanguagePairSelector
+                    pairs={pairs}
+                    activePair={activePair}
+                    loading={pairsLoading}
+                    onSwitch={switchPair}
+                    onAddPair={handleOpenCreateDialog}
+                  />
+                </Toolbar>
+              </AppBar>
 
-              {activeTab === 'quiz' && (
-                <QuizHub
-                  pair={activePair}
-                  settings={settings}
-                  onSettingsChange={handleSettingsChange}
-                  onSessionComplete={handleQuizSessionComplete}
-                />
-              )}
+              {/* Main content — bottom padding makes room for the fixed TabBar */}
+              <Container maxWidth="lg" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
+                <TabTransition activeTab={activeTab}>
+                  {activeTab === 'quiz' && (
+                    <QuizHub
+                      pair={activePair}
+                      settings={settings}
+                      onSettingsChange={handleSettingsChange}
+                      onSessionComplete={handleQuizSessionComplete}
+                      autoStart={quizAutoStart}
+                    />
+                  )}
 
-              {activeTab === 'words' && <WordListScreen activePair={activePair} />}
+                  {activeTab === 'words' && <WordListScreen activePair={activePair} />}
 
-              {activeTab === 'stats' && <StatsScreen />}
+                  {activeTab === 'stats' && <StatsScreen />}
 
-              {activeTab === 'settings' && (
-                <SettingsScreen
-                  themePreference={themePreference}
-                  onThemeChange={handleThemeChange}
-                  settings={settings}
-                  onSettingsChange={handleSettingsChange}
-                  pairs={pairs}
-                  onAddPair={handleOpenCreateDialog}
-                  onDeletePair={deletePair}
-                />
-              )}
-            </TabTransition>
-          </Container>
+                  {activeTab === 'settings' && (
+                    <SettingsScreen
+                      themePreference={themePreference}
+                      onThemeChange={handleThemeChange}
+                      settings={settings}
+                      onSettingsChange={handleSettingsChange}
+                      pairs={pairs}
+                      onAddPair={handleOpenCreateDialog}
+                      onDeletePair={deletePair}
+                    />
+                  )}
+                </TabTransition>
+              </Container>
+            </>
+          )}
 
           {/* Bottom navigation — only visible when there are language pairs */}
           {showNav && <TabBar activeTab={activeTab} onTabChange={handleTabChange} />}

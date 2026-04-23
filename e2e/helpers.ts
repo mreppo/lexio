@@ -117,8 +117,10 @@ export async function bypassOnboarding(
   // Navigate to the app route (HashRouter) so the main app shell loads.
   await page.goto('/#/app')
 
-  // Wait for the main app shell to be visible (AppBar title).
-  await expect(page.getByText('Lexio').first()).toBeVisible({ timeout: 10_000 })
+  // Wait for the main app shell to be visible.
+  // The home tab now shows a Liquid Glass NavBar with "Today" as the large title.
+  // The legacy AppBar with "Lexio" is only shown on non-home tabs.
+  await expect(page.getByText('Today').first()).toBeVisible({ timeout: 10_000 })
 }
 
 /**
@@ -213,9 +215,13 @@ export async function fillAndSubmitCreatePairDialog(page: Page, pair: PairInput)
  * "Add pair" menu item, then fills and submits the form.
  *
  * Requires the main app shell to be visible (onboarding must be complete or
- * bypassed).
+ * bypassed). Navigates to the Settings tab first because the AppBar (which
+ * contains the language selector) is only shown on non-home tabs after the
+ * Home screen was rebuilt as a full-bleed Liquid Glass screen.
  */
 export async function createLanguagePair(page: Page, pair: PairInput): Promise<void> {
+  // Navigate to Settings so the AppBar language selector is visible.
+  await navigateTo(page, 'Settings')
   // Open the language pair selector dropdown in the AppBar.
   await page.getByRole('button', { name: 'Select language pair' }).click()
   // Click the "Add pair" menu item.

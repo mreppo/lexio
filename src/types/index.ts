@@ -57,6 +57,12 @@ export interface UserSettings {
    * Empty array means "all levels" (no filtering applied).
    */
   readonly selectedLevels: readonly CefrLevel[]
+  /**
+   * Optional display name for the avatar placeholder.
+   * Null means not set — the app falls back to the initial "L" for Lexio.
+   * This is a placeholder for future auth integration.
+   */
+  readonly displayName?: string | null
 }
 
 export interface DailyStats {

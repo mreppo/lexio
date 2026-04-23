@@ -63,7 +63,8 @@ test('complete onboarding wizard end-to-end (manual path)', async ({ page }) => 
 
   // ── Verify main app shell ─────────────────────────────────────────────────
   // After completing onboarding the main app shell should be visible.
-  await expect(page.getByText('Lexio').first()).toBeVisible({ timeout: 10_000 })
+  // The Home tab now has a Liquid Glass NavBar with "Today" as the large title.
+  await expect(page.getByText('Today').first()).toBeVisible({ timeout: 10_000 })
 
   // BottomNav should be visible with all five tabs.
   await expect(page.getByRole('button', { name: 'Navigate to Home' })).toBeVisible()
@@ -101,10 +102,12 @@ test('complete onboarding with custom language pair', async ({ page }) => {
   await page.getByRole('button', { name: 'Start learning!' }).click()
 
   // ── Verify main app shell with EN-DE pair ─────────────────────────────────
-  await expect(page.getByText('Lexio').first()).toBeVisible({ timeout: 10_000 })
+  // The Home tab now has a Liquid Glass NavBar with "Today" as the large title.
+  await expect(page.getByText('Today').first()).toBeVisible({ timeout: 10_000 })
   await expect(page.getByRole('button', { name: 'Navigate to Home' })).toBeVisible()
 
-  // The AppBar should show the selected language pair.
+  // Navigate to Settings to verify the AppBar shows the selected language pair.
+  await page.getByRole('button', { name: 'Navigate to Settings' }).click()
   const langPairButton = page.getByRole('button', { name: 'Select language pair' })
   await expect(langPairButton).toBeVisible()
   // The pair should include "English" (source or in pair name).

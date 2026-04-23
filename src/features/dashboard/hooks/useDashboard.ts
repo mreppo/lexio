@@ -12,7 +12,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react'
-import type { DailyStats, WordProgress } from '@/types'
+import type { DailyStats, Word, WordProgress } from '@/types'
 import { useStorage } from '@/hooks/useStorage'
 import { loadCurrentStreak, getTodayStats } from '@/services/streakService'
 
@@ -24,6 +24,7 @@ export interface UseDashboardResult {
   readonly recentStats: readonly DailyStats[]
   readonly streakDays: number
   readonly wordProgressList: readonly WordProgress[]
+  readonly words: readonly Word[]
   readonly totalWords: number
   readonly loading: boolean
   /** Re-fetch all dashboard data. */
@@ -37,6 +38,7 @@ export function useDashboard(activePairId: string | null, dailyGoal: number): Us
   const [recentStats, setRecentStats] = useState<readonly DailyStats[]>([])
   const [streakDays, setStreakDays] = useState(0)
   const [wordProgressList, setWordProgressList] = useState<readonly WordProgress[]>([])
+  const [words, setWords] = useState<readonly Word[]>([])
   const [totalWords, setTotalWords] = useState(0)
   const [loading, setLoading] = useState(true)
 
@@ -55,14 +57,16 @@ export function useDashboard(activePairId: string | null, dailyGoal: number): Us
       setStreakDays(streak)
 
       if (activePairId !== null) {
-        const [words, progress] = await Promise.all([
+        const [wordList, progress] = await Promise.all([
           storage.getWords(activePairId),
           storage.getAllProgress(activePairId),
         ])
-        setTotalWords(words.length)
+        setTotalWords(wordList.length)
+        setWords(wordList)
         setWordProgressList(progress)
       } else {
         setTotalWords(0)
+        setWords([])
         setWordProgressList([])
       }
     } finally {
@@ -79,6 +83,7 @@ export function useDashboard(activePairId: string | null, dailyGoal: number): Us
     recentStats,
     streakDays,
     wordProgressList,
+    words,
     totalWords,
     loading,
     refresh: () => void fetchData(),

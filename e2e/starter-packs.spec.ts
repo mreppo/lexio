@@ -114,7 +114,8 @@ test('reversed pack direction installs with swapped words', async ({ page }) => 
     )
   })
   await page.goto('/#/app')
-  await expect(page.getByText('Lexio').first()).toBeVisible({ timeout: 10_000 })
+  // The Home tab now uses a Liquid Glass NavBar — wait for the "Today" large title.
+  await expect(page.getByText('Today').first()).toBeVisible({ timeout: 10_000 })
 
   await openPackBrowserFromWordsTab(page)
 

@@ -37,6 +37,13 @@ interface QuizHubProps {
    * Receives the number of questions answered in the session.
    */
   readonly onSessionComplete?: (questionsAnswered: number) => void
+  /**
+   * When true, the hub skips the mode-selection screen and goes straight to
+   * the active quiz using the default quiz mode from settings.
+   * The flag is consumed once — the hub resets to normal after the first session.
+   * Used by the Dashboard "Start review" button.
+   */
+  readonly autoStart?: boolean
 }
 
 type HubPhase = 'select' | 'active' | 'summary'
@@ -47,9 +54,16 @@ interface SessionResult {
   readonly bestSessionStreak: number
 }
 
-export function QuizHub({ pair, settings, onSettingsChange, onSessionComplete }: QuizHubProps) {
+export function QuizHub({
+  pair,
+  settings,
+  onSettingsChange,
+  onSessionComplete,
+  autoStart = false,
+}: QuizHubProps) {
   const storage = useStorage()
-  const [hubPhase, setHubPhase] = useState<HubPhase>('select')
+  // When autoStart is true, skip directly to 'active' phase using the default mode
+  const [hubPhase, setHubPhase] = useState<HubPhase>(autoStart ? 'active' : 'select')
   const [selectedMode, setSelectedMode] = useState<QuizMode>(settings.quizMode)
   const [sessionResult, setSessionResult] = useState<SessionResult>({
     wordsReviewed: 0,
