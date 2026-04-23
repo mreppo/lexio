@@ -219,22 +219,95 @@ export async function fillAndSubmitCreatePairDialog(page: Page, pair: PairInput)
 }
 
 /**
- * Opens the Create Pair dialog from the toolbar language selector's
- * "Add pair" menu item, then fills and submits the form.
+ * Creates a language pair by injecting it directly into localStorage.
  *
- * Requires the main app shell to be visible (onboarding must be complete or
- * bypassed). Navigates to the Settings tab first because the AppBar (which
- * contains the language selector) is only shown on non-home tabs after the
- * Home screen was rebuilt as a full-bleed Liquid Glass screen.
+ * After issue #152, the Settings screen was rebuilt as a full-bleed Liquid Glass
+ * screen and the old AppBar language selector (which provided the "Add pair"
+ * entry point) was retired. Direct localStorage injection is now the fastest and
+ * most reliable approach for E2E test setup.
+ *
+ * The new pair is appended to the existing pairs list. The active pair is NOT
+ * changed (the existing active pair remains active).
+ *
+ * After injection the page is reloaded so the app picks up the new pair.
  */
 export async function createLanguagePair(page: Page, pair: PairInput): Promise<void> {
-  // Navigate to Settings so the AppBar language selector is visible.
-  await navigateTo(page, 'Settings')
-  // Open the language pair selector dropdown in the AppBar.
-  await page.getByRole('button', { name: 'Select language pair' }).click()
-  // Click the "Add pair" menu item.
-  await page.getByRole('menuitem', { name: 'Add pair' }).click()
-  await fillAndSubmitCreatePairDialog(page, pair)
+  const newPair = {
+    id: `test-pair-${pair.sourceCode}-${pair.targetCode}-${Date.now()}`,
+    sourceLang: pair.sourceLang,
+    sourceCode: pair.sourceCode,
+    targetLang: pair.targetLang,
+    targetCode: pair.targetCode,
+    createdAt: Date.now(),
+  }
+
+  await page.evaluate(
+    ({ pairsKey, newPairJson }: { pairsKey: string; newPairJson: string }) => {
+      const existing = JSON.parse(localStorage.getItem(pairsKey) ?? '[]') as unknown[]
+      existing.push(JSON.parse(newPairJson))
+      localStorage.setItem(pairsKey, JSON.stringify(existing))
+    },
+    {
+      pairsKey: STORAGE_KEYS.LANGUAGE_PAIRS,
+      newPairJson: JSON.stringify(newPair),
+    },
+  )
+
+  // Reload so the app reads the updated localStorage.
+  await page.reload()
+  // Wait for the home screen to re-render.
+  await expect(page.getByText('Today').first()).toBeVisible({ timeout: 10_000 })
+}
+
+/**
+ * Creates a language pair and switches the active pair to it via localStorage.
+ *
+ * Equivalent to the old "Add pair via AppBar + switch via selector" flow but
+ * uses localStorage injection instead of UI interaction (the AppBar selector
+ * was retired in issue #152 when all screens moved to the Liquid Glass layout).
+ *
+ * After reload, the new pair is the active pair.
+ */
+export async function createLanguagePairAndSwitch(page: Page, pair: PairInput): Promise<void> {
+  const newPair = {
+    id: `test-pair-${pair.sourceCode}-${pair.targetCode}-${Date.now()}`,
+    sourceLang: pair.sourceLang,
+    sourceCode: pair.sourceCode,
+    targetLang: pair.targetLang,
+    targetCode: pair.targetCode,
+    createdAt: Date.now(),
+  }
+
+  await page.evaluate(
+    ({
+      pairsKey,
+      settingsKey,
+      newPairJson,
+    }: {
+      pairsKey: string
+      settingsKey: string
+      newPairJson: string
+    }) => {
+      const parsed = JSON.parse(newPairJson) as { id: string }
+      const existingPairs = JSON.parse(localStorage.getItem(pairsKey) ?? '[]') as unknown[]
+      existingPairs.push(parsed)
+      localStorage.setItem(pairsKey, JSON.stringify(existingPairs))
+
+      // Update active pair in settings.
+      const rawSettings = localStorage.getItem(settingsKey)
+      const existingSettings = rawSettings ? (JSON.parse(rawSettings) as Record<string, unknown>) : {}
+      existingSettings['activePairId'] = parsed.id
+      localStorage.setItem(settingsKey, JSON.stringify(existingSettings))
+    },
+    {
+      pairsKey: STORAGE_KEYS.LANGUAGE_PAIRS,
+      settingsKey: STORAGE_KEYS.SETTINGS,
+      newPairJson: JSON.stringify(newPair),
+    },
+  )
+
+  await page.reload()
+  await expect(page.getByText('Today').first()).toBeVisible({ timeout: 10_000 })
 }
 
 // ─── Starter pack installation ────────────────────────────────────────────────

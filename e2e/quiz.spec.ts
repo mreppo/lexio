@@ -20,7 +20,7 @@ import {
   navigateTo,
   openPackBrowserFromWordsTab,
   installFirstAvailablePack,
-  createLanguagePair,
+  createLanguagePairAndSwitch,
 } from './helpers'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -156,17 +156,14 @@ test('complete a choice-mode quiz session', async ({ page }) => {
 })
 
 test('quiz handles empty word list gracefully', async ({ page }) => {
-  // Add a second language pair with 0 words via the AppBar selector.
-  await createLanguagePair(page, {
+  // Add a second language pair with 0 words and switch to it.
+  // Uses localStorage injection (the AppBar selector was retired in issue #152).
+  await createLanguagePairAndSwitch(page, {
     sourceLang: 'German',
     sourceCode: 'de',
     targetLang: 'English',
     targetCode: 'en',
   })
-
-  // Switch to the new German-English pair so it is active for the quiz.
-  await page.getByRole('button', { name: 'Select language pair' }).click()
-  await page.getByRole('menuitem', { name: /German.*English/i }).click()
 
   // Navigate to the Quiz tab.
   await navigateTo(page, 'Quiz')

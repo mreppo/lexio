@@ -1,230 +1,223 @@
 /**
- * SettingsScreen - full settings/preferences feature.
+ * SettingsScreen — Liquid Glass rebuild (issue #152).
  *
- * Sections:
- *  1. Preferences  - theme, quiz mode, daily goal, typo tolerance
- *  2. Training levels - CEFR level multi-select filter
- *  3. Language Pairs - list with word counts, links to pair management
- *  4. Data Management - export, import, reset progress, reset all
- *  5. About - version, GitHub link
+ * Layout (top to bottom, inside PaperSurface):
+ *   1. NavBar large prominentTitle="Settings"
+ *   2. Account card (auth placeholder) — Glass floating + 56×56 gradient avatar
+ *   3. SectionHeader "Daily practice" + Glass card
+ *      - Daily goal row (flash/warn)
+ *      - Reminder stub row (bell/red)
+ *      - Sound effects toggle row (speaker/violet)
+ *   4. SectionHeader "Quiz" + Glass card
+ *      - Quiz mode row (card/accent) → picker dialog
+ *      - Show hints row (clock/ok)
+ *      - Auto-play pronunciation toggle (speaker/violet)
+ *   5. SectionHeader "Appearance" + Glass card
+ *      - Theme row → picker dialog
+ *   6. SectionHeader "Data" + Glass card
+ *      - Export vocabulary (share/ok)
+ *      - Import from file (plus/accent)
+ *      - Reset progress (close/red, destructive confirm)
+ *   7. Bottom spacer
+ *
+ * Screen renders <PaperSurface> + its own <NavBar>.
+ * TabBar is rendered externally by AppContent (no TabBar inside this screen).
  */
 
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import {
   Box,
-  Button,
-  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  InputAdornment,
-  Radio,
-  RadioGroup,
-  Slider,
-  Stack,
-  TextField,
+  Button,
   Typography,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Snackbar,
   Alert,
-  CircularProgress,
-  Link,
 } from '@mui/material'
-import SettingsIcon from '@mui/icons-material/Settings'
-import DownloadIcon from '@mui/icons-material/Download'
-import UploadIcon from '@mui/icons-material/Upload'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import WarningAmberIcon from '@mui/icons-material/WarningAmber'
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
-import type { ThemePreference, UserSettings, LanguagePair, CefrLevel } from '@/types'
+import { Zap, Bell, Volume2, Layers, Clock, Share, Plus, X, ChevronRight } from 'lucide-react'
+import { useTheme } from '@mui/material/styles'
+import { PaperSurface } from '@/components/primitives/PaperSurface'
+import { Glass } from '@/components/primitives/Glass'
+import { NavBar } from '@/components/composites/NavBar'
+import { SectionHeader } from '@/components/composites/SectionHeader'
+import { GlassRow } from '@/components/composites/GlassRow'
+import { Toggle } from '@/components/atoms/Toggle'
+import { getGlassTokens, glassTypography } from '@/theme/liquidGlass'
 import { useStorage } from '@/hooks/useStorage'
-import { LanguagePairList } from '@/features/language-pairs'
-import { countWordsByLevel } from '@/utils/cefrFilter'
-import { CefrLevelSelector } from './CefrLevelSelector'
+import type { UserSettings } from '@/types'
 
-/** App version sourced from the bundler-injected env variable. */
-const APP_VERSION = __APP_VERSION__
+// ─── Constants ────────────────────────────────────────────────────────────────
 
-const DAILY_GOAL_PRESETS = [10, 20, 30, 50] as const
+/** Bottom spacer — clears the fixed TabBar. */
+const TAB_BAR_SPACER = 140
 
-const TYPO_LABELS: Record<number, { label: string; description: string }> = {
-  0: {
-    label: 'Exact',
-    description: 'Your answer must match exactly (case-insensitive).',
-  },
-  1: {
-    label: 'Lenient',
-    description: 'Up to 1 character difference is accepted (e.g. a missing accent).',
-  },
-  2: {
-    label: 'Very lenient',
-    description: 'Up to 2 character differences are accepted.',
-  },
+const QUIZ_MODE_LABELS: Record<UserSettings['quizMode'], string> = {
+  type: 'Type',
+  choice: 'Choice',
+  mixed: 'Mixed',
 }
+
+const THEME_LABELS: Record<UserSettings['theme'], string> = {
+  system: 'System',
+  light: 'Light',
+  dark: 'Dark',
+}
+
+// ─── Props ────────────────────────────────────────────────────────────────────
 
 export interface SettingsScreenProps {
-  /** The user's current theme preference. */
-  readonly themePreference: ThemePreference
-  /** Called when the user changes the theme preference. */
-  readonly onThemeChange: (preference: ThemePreference) => void
-  /** Current user settings (quiz mode, daily goal, typo tolerance). */
+  /** Current user settings. */
   readonly settings: UserSettings
-  /** Called when any preference (except theme) changes. */
+  /** Called when any setting field changes. */
   readonly onSettingsChange: (updated: UserSettings) => void
-  /** All language pairs with their word counts. */
-  readonly pairs: readonly LanguagePair[]
-  /** Open the create-pair dialog in the parent. */
-  readonly onAddPair: () => void
-  /** Delete a language pair and all its data. */
-  readonly onDeletePair: (pairId: string) => Promise<void>
+  /** Current theme preference (from useThemeMode). */
+  readonly themePreference: UserSettings['theme']
+  /** Called when the user selects a different theme. */
+  readonly onThemeChange: (preference: UserSettings['theme']) => void
 }
 
+// ─── Component ────────────────────────────────────────────────────────────────
+
 export function SettingsScreen({
-  themePreference,
-  onThemeChange,
   settings,
   onSettingsChange,
-  pairs,
-  onAddPair,
-  onDeletePair,
-}: SettingsScreenProps) {
+  themePreference,
+  onThemeChange,
+}: SettingsScreenProps): React.JSX.Element {
   const storage = useStorage()
+  const theme = useTheme()
+  const tokens = getGlassTokens(theme.palette.mode)
 
-  // --- Preferences state ---
-  const [dailyGoalInput, setDailyGoalInput] = useState<string>(String(settings.dailyGoal))
+  // ── Local state ─────────────────────────────────────────────────────────────
 
-  // --- CEFR word counts state ---
-  const [wordCountByLevel, setWordCountByLevel] = useState<Record<CefrLevel, number>>({
-    A1: 0,
-    A2: 0,
-    B1: 0,
-    B2: 0,
-    C1: 0,
-    C2: 0,
-  })
-
-  // Reload word counts when the active pair changes.
-  useEffect(() => {
-    if (settings.activePairId === null) {
-      setWordCountByLevel({ A1: 0, A2: 0, B1: 0, B2: 0, C1: 0, C2: 0 })
-      return
-    }
-    void storage.getWords(settings.activePairId).then((words) => {
-      setWordCountByLevel(countWordsByLevel(words))
-    })
-  }, [storage, settings.activePairId])
-
-  // --- Data management state ---
-  const [exporting, setExporting] = useState(false)
-  const [exportError, setExportError] = useState<string | null>(null)
-
-  const [importing, setImporting] = useState(false)
-  const [importError, setImportError] = useState<string | null>(null)
-  const [importConfirmOpen, setImportConfirmOpen] = useState(false)
-  const [pendingImportData, setPendingImportData] = useState<string | null>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
-  const [resetProgressConfirmOpen, setResetProgressConfirmOpen] = useState(false)
-  const [resetAllConfirmOpen, setResetAllConfirmOpen] = useState(false)
-  const [resetAllDoubleConfirmOpen, setResetAllDoubleConfirmOpen] = useState(false)
+  const [quizPickerOpen, setQuizPickerOpen] = useState(false)
+  const [themePickerOpen, setThemePickerOpen] = useState(false)
+  const [resetConfirmOpen, setResetConfirmOpen] = useState(false)
   const [resetting, setResetting] = useState(false)
   const [resetError, setResetError] = useState<string | null>(null)
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const [importError, setImportError] = useState<string | null>(null)
+  const [exporting, setExporting] = useState(false)
+  const [importConfirmOpen, setImportConfirmOpen] = useState(false)
+  const [pendingImportData, setPendingImportData] = useState<string | null>(null)
 
-  // --- Preference handlers ---
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleThemeChange = useCallback(
-    (value: string) => {
-      onThemeChange(value as ThemePreference)
+  // ── Derived values ───────────────────────────────────────────────────────────
+
+  const displayName = settings.displayName ?? null
+  const avatarInitial = displayName ? displayName.charAt(0).toUpperCase() : 'L'
+  const profileName = displayName ?? 'Lexio user'
+  const soundEffects = settings.soundEffects ?? false
+  const autoPlayPronunciation = settings.autoPlayPronunciation ?? false
+
+  // ── Settings update helper ───────────────────────────────────────────────────
+
+  const persistSettings = useCallback(
+    (patch: Partial<UserSettings>): void => {
+      const updated = { ...settings, ...patch }
+      void storage.saveSettings(updated)
+      onSettingsChange(updated)
+    },
+    [settings, storage, onSettingsChange],
+  )
+
+  // ── Quiz mode picker ─────────────────────────────────────────────────────────
+
+  const handleQuizModeChange = useCallback(
+    (value: string): void => {
+      persistSettings({ quizMode: value as UserSettings['quizMode'] })
+      setQuizPickerOpen(false)
+    },
+    [persistSettings],
+  )
+
+  // ── Theme picker ─────────────────────────────────────────────────────────────
+
+  const handleThemePickerChange = useCallback(
+    (value: string): void => {
+      onThemeChange(value as UserSettings['theme'])
+      setThemePickerOpen(false)
     },
     [onThemeChange],
   )
 
-  const handleQuizModeChange = useCallback(
-    (value: string) => {
-      void storage.saveSettings({ ...settings, quizMode: value as UserSettings['quizMode'] })
-      onSettingsChange({ ...settings, quizMode: value as UserSettings['quizMode'] })
+  // ── Toggles ──────────────────────────────────────────────────────────────────
+
+  const handleSoundEffectsToggle = useCallback(
+    (next: boolean): void => {
+      persistSettings({ soundEffects: next })
     },
-    [settings, onSettingsChange, storage],
+    [persistSettings],
   )
 
-  const handleDailyGoalPreset = useCallback(
-    (value: number) => {
-      setDailyGoalInput(String(value))
-      void storage.saveSettings({ ...settings, dailyGoal: value })
-      onSettingsChange({ ...settings, dailyGoal: value })
+  const handleAutoPlayToggle = useCallback(
+    (next: boolean): void => {
+      persistSettings({ autoPlayPronunciation: next })
     },
-    [settings, onSettingsChange, storage],
+    [persistSettings],
   )
 
-  const handleDailyGoalInputChange = useCallback((value: string) => {
-    setDailyGoalInput(value)
-  }, [])
+  // ── Export ───────────────────────────────────────────────────────────────────
 
-  const handleDailyGoalInputBlur = useCallback(() => {
-    const parsed = parseInt(dailyGoalInput, 10)
-    const clamped = isNaN(parsed) ? 1 : Math.max(1, Math.min(200, parsed))
-    setDailyGoalInput(String(clamped))
-    void storage.saveSettings({ ...settings, dailyGoal: clamped })
-    onSettingsChange({ ...settings, dailyGoal: clamped })
-  }, [dailyGoalInput, settings, onSettingsChange, storage])
-
-  const handleTypoToleranceChange = useCallback(
-    (_: Event, value: number | number[]) => {
-      const tolerance = Array.isArray(value) ? value[0] : value
-      void storage.saveSettings({ ...settings, typoTolerance: tolerance })
-      onSettingsChange({ ...settings, typoTolerance: tolerance })
-    },
-    [settings, onSettingsChange, storage],
-  )
-
-  const handleSelectedLevelsChange = useCallback(
-    (levels: readonly CefrLevel[]) => {
-      void storage.saveSettings({ ...settings, selectedLevels: levels })
-      onSettingsChange({ ...settings, selectedLevels: levels })
-    },
-    [settings, onSettingsChange, storage],
-  )
-
-  // --- Export ---
-
-  const handleExport = useCallback(async () => {
+  const handleExport = useCallback(async (): Promise<void> => {
+    if (settings.activePairId === null) {
+      setToastMessage('No active language pair to export.')
+      return
+    }
     setExporting(true)
-    setExportError(null)
     try {
-      const json = await storage.exportAll()
+      // Export active pair words as CSV
+      const words = await storage.getWords(settings.activePairId)
+      const rows = [
+        'source,target,notes,tags',
+        ...words.map((w) => {
+          const src = `"${w.source.replace(/"/g, '""')}"`
+          const tgt = `"${w.target.replace(/"/g, '""')}"`
+          const notes = `"${(w.notes ?? '').replace(/"/g, '""')}"`
+          const tags = `"${w.tags.join(';').replace(/"/g, '""')}"`
+          return `${src},${tgt},${notes},${tags}`
+        }),
+      ]
+      const csv = rows.join('\n')
       const today = new Date().toISOString().slice(0, 10)
-      const filename = `lexio-backup-${today}.json`
-      const blob = new Blob([json], { type: 'application/json' })
+      const blob = new Blob([csv], { type: 'text/csv' })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = filename
+      a.download = `lexio-vocabulary-${today}.csv`
       a.click()
       URL.revokeObjectURL(url)
     } catch {
-      setExportError('Export failed. Please try again.')
+      setToastMessage('Export failed. Please try again.')
     } finally {
       setExporting(false)
     }
-  }, [storage])
+  }, [storage, settings.activePairId])
 
-  // --- Import ---
+  // ── Import ───────────────────────────────────────────────────────────────────
 
-  const handleImportFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImportClick = useCallback((): void => {
+    setImportError(null)
+    fileInputRef.current?.click()
+  }, [])
+
+  const handleImportFileChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
     const file = event.target.files?.[0]
     if (!file) return
 
     const reader = new FileReader()
-    reader.onload = (e) => {
+    reader.onload = (e): void => {
       const text = e.target?.result
       if (typeof text !== 'string') {
         setImportError('Could not read file.')
         return
       }
-
-      // Validate JSON structure before showing confirm dialog
       try {
         const parsed = JSON.parse(text) as unknown
         if (typeof parsed !== 'object' || parsed === null) {
@@ -236,7 +229,6 @@ export function SettingsScreen({
           setImportError('Invalid backup file: missing "languagePairs" array.')
           return
         }
-        // Validation passed — ask for confirmation
         setPendingImportData(text)
         setImportError(null)
         setImportConfirmOpen(true)
@@ -245,43 +237,32 @@ export function SettingsScreen({
       }
     }
     reader.readAsText(file)
-
-    // Reset input so same file can be chosen again
     event.target.value = ''
   }, [])
 
-  const handleImportConfirm = useCallback(async () => {
+  const handleImportConfirm = useCallback(async (): Promise<void> => {
     if (!pendingImportData) return
-    setImporting(true)
-    setImportError(null)
     setImportConfirmOpen(false)
     try {
       await storage.importAll(pendingImportData)
       setPendingImportData(null)
-      // Reload the page so all contexts/hooks pick up the restored data
       globalThis.location.reload()
     } catch {
       setImportError('Import failed. The backup file may be corrupted.')
-      setImporting(false)
     }
   }, [pendingImportData, storage])
 
-  const handleImportCancel = useCallback(() => {
+  const handleImportCancel = useCallback((): void => {
     setImportConfirmOpen(false)
     setPendingImportData(null)
   }, [])
 
-  const handleImportClick = useCallback(() => {
-    setImportError(null)
-    fileInputRef.current?.click()
-  }, [])
+  // ── Reset progress ───────────────────────────────────────────────────────────
 
-  // --- Reset progress ---
-
-  const handleResetProgressConfirm = useCallback(async () => {
+  const handleResetConfirm = useCallback(async (): Promise<void> => {
     setResetting(true)
     setResetError(null)
-    setResetProgressConfirmOpen(false)
+    setResetConfirmOpen(false)
     try {
       const allPairs = await storage.getLanguagePairs()
       for (const pair of allPairs) {
@@ -289,7 +270,6 @@ export function SettingsScreen({
         for (const word of words) {
           const progress = await storage.getWordProgress(word.id)
           if (progress !== null) {
-            // Reset progress by saving zeroed-out record
             await storage.saveWordProgress({
               wordId: word.id,
               correctCount: 0,
@@ -303,7 +283,7 @@ export function SettingsScreen({
           }
         }
       }
-      // Clear daily stats by exporting non-stats data and re-importing
+      // Clear daily stats
       const exported = await storage.exportAll()
       const data = JSON.parse(exported) as Record<string, unknown>
       data['dailyStats'] = []
@@ -315,35 +295,10 @@ export function SettingsScreen({
     }
   }, [storage])
 
-  // --- Reset all ---
-
-  const handleResetAllFirstConfirm = useCallback(() => {
-    setResetAllConfirmOpen(false)
-    setResetAllDoubleConfirmOpen(true)
-  }, [])
-
-  const handleResetAllFinalConfirm = useCallback(async () => {
-    setResetting(true)
-    setResetError(null)
-    setResetAllDoubleConfirmOpen(false)
-    try {
-      await storage.clearAll()
-      globalThis.location.reload()
-    } catch {
-      setResetError('Reset failed. Please try again.')
-      setResetting(false)
-    }
-  }, [storage])
-
-  const currentTypo = settings.typoTolerance
-  const typoInfo = TYPO_LABELS[currentTypo] ?? TYPO_LABELS[1]
+  // ── Render ───────────────────────────────────────────────────────────────────
 
   return (
-    <Box
-      sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}
-      role="main"
-      aria-label="Settings"
-    >
+    <PaperSurface>
       {/* Hidden file input for import */}
       <input
         ref={fileInputRef}
@@ -354,304 +309,291 @@ export function SettingsScreen({
         onChange={handleImportFileChange}
       />
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, pt: 1 }}>
-        <SettingsIcon sx={{ color: 'text.secondary' }} aria-hidden="true" />
-        <Typography variant="h6" fontWeight={700}>
-          Settings
-        </Typography>
-      </Box>
+      {/* ── NavBar ── */}
+      <NavBar large prominentTitle="Settings" />
 
-      {/* ── 1. Preferences ── */}
-      <Box
-        sx={{
-          bgcolor: (theme) =>
-            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
-          borderRadius: 3,
-          p: 2.5,
-        }}
-      >
-        <Typography variant="subtitle2" fontWeight={700} gutterBottom>
-          Preferences
-        </Typography>
+      {/* ── Scrollable content ── */}
+      <Box sx={{ px: '16px', pb: `${TAB_BAR_SPACER}px` }}>
+        {/* ── Account card ── */}
+        <Box sx={{ mb: '8px' }}>
+          <Glass pad={16} floating>
+            <Box
+              component="button"
+              type="button"
+              onClick={() => setToastMessage('Accounts coming soon')}
+              aria-label="Account settings — coming soon"
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                width: '100%',
+                background: 'none',
+                border: 'none',
+                p: 0,
+                cursor: 'pointer',
+                textAlign: 'left',
+              }}
+            >
+              {/* 56×56 gradient avatar */}
+              <Box
+                aria-hidden="true"
+                sx={{
+                  flexShrink: 0,
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '50%',
+                  background: tokens.color.avatarGradient,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Box
+                  component="span"
+                  sx={{
+                    fontFamily: glassTypography.display,
+                    fontSize: '22px',
+                    fontWeight: 700,
+                    color: '#ffffff',
+                    lineHeight: 1,
+                  }}
+                >
+                  {avatarInitial}
+                </Box>
+              </Box>
 
-        {/* Theme */}
-        <FormControl component="fieldset" fullWidth sx={{ mb: 2 }}>
-          <FormLabel component="legend" sx={{ mb: 0.5, fontSize: '0.875rem' }}>
-            Theme
-          </FormLabel>
-          <RadioGroup
-            row
-            value={themePreference}
-            onChange={(e) => handleThemeChange(e.target.value)}
-            aria-label="Theme preference"
-          >
-            <FormControlLabel value="system" control={<Radio size="small" />} label="System" />
-            <FormControlLabel value="light" control={<Radio size="small" />} label="Light" />
-            <FormControlLabel value="dark" control={<Radio size="small" />} label="Dark" />
-          </RadioGroup>
-        </FormControl>
+              {/* Name + helper */}
+              <Box sx={{ flex: 1, minWidth: 0 }}>
+                <Box
+                  component="span"
+                  sx={{
+                    display: 'block',
+                    fontFamily: glassTypography.body,
+                    fontSize: '18px',
+                    fontWeight: 800,
+                    letterSpacing: '-0.3px',
+                    lineHeight: 1.2,
+                    color: tokens.color.ink,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {profileName}
+                </Box>
+                <Box
+                  component="span"
+                  sx={{
+                    display: 'block',
+                    fontFamily: glassTypography.body,
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: tokens.color.inkSec,
+                    mt: '2px',
+                  }}
+                >
+                  Local profile · sign-in coming soon
+                </Box>
+              </Box>
 
-        {/* Quiz mode */}
-        <FormControl component="fieldset" fullWidth sx={{ mb: 2 }}>
-          <FormLabel component="legend" sx={{ mb: 0.5, fontSize: '0.875rem' }}>
-            Default quiz mode
-          </FormLabel>
-          <RadioGroup
-            row
-            value={settings.quizMode}
-            onChange={(e) => handleQuizModeChange(e.target.value)}
-            aria-label="Default quiz mode"
-          >
-            <FormControlLabel value="type" control={<Radio size="small" />} label="Type" />
-            <FormControlLabel value="choice" control={<Radio size="small" />} label="Choice" />
-            <FormControlLabel value="mixed" control={<Radio size="small" />} label="Mixed" />
-          </RadioGroup>
-        </FormControl>
+              {/* Chevron */}
+              <Box aria-hidden="true" sx={{ flexShrink: 0 }}>
+                <ChevronRight size={16} strokeWidth={2} color={tokens.color.inkFaint} />
+              </Box>
+            </Box>
+          </Glass>
+        </Box>
 
-        {/* Daily goal */}
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="body2" sx={{ mb: 1, color: 'text.secondary', fontSize: '0.875rem' }}>
-            Daily goal
-          </Typography>
-          <Stack direction="row" spacing={1} sx={{ mb: 1 }} flexWrap="wrap" useFlexGap>
-            {DAILY_GOAL_PRESETS.map((preset) => (
-              <Chip
-                key={preset}
-                label={preset}
-                size="small"
-                color={settings.dailyGoal === preset ? 'primary' : 'default'}
-                onClick={() => handleDailyGoalPreset(preset)}
-                aria-label={`Set daily goal to ${preset} words`}
-                aria-pressed={settings.dailyGoal === preset}
-                sx={{ cursor: 'pointer' }}
+        {/* ── Daily practice section ── */}
+        <SectionHeader>Daily practice</SectionHeader>
+        <Glass pad={0} floating>
+          <GlassRow
+            icon={Zap}
+            iconBg={tokens.color.warn}
+            title="Daily goal"
+            detail={`${settings.dailyGoal} words`}
+            chevron={false}
+            isLast={false}
+          />
+          <GlassRow
+            icon={Bell}
+            iconBg={tokens.color.red}
+            title="Reminder"
+            detail="9:00 AM"
+            chevron={false}
+            isLast={false}
+          />
+          <GlassRow
+            icon={Volume2}
+            iconBg={tokens.color.violet}
+            title="Sound effects"
+            chevron={false}
+            isLast
+            accessory={
+              <Toggle
+                on={soundEffects}
+                onChange={handleSoundEffectsToggle}
+                aria-label="Sound effects"
               />
-            ))}
-          </Stack>
-          <TextField
-            size="small"
-            value={dailyGoalInput}
-            onChange={(e) => handleDailyGoalInputChange(e.target.value)}
-            onBlur={handleDailyGoalInputBlur}
-            inputProps={{ min: 1, max: 200, 'aria-label': 'Custom daily goal' }}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">words/day</InputAdornment>,
+            }
+          />
+        </Glass>
+
+        {/* ── Quiz section ── */}
+        <SectionHeader>Quiz</SectionHeader>
+        <Glass pad={0} floating>
+          <GlassRow
+            icon={Layers}
+            iconBg={tokens.color.accent}
+            title="Quiz mode"
+            detail={QUIZ_MODE_LABELS[settings.quizMode]}
+            onClick={() => setQuizPickerOpen(true)}
+            isLast={false}
+          />
+          <GlassRow
+            icon={Clock}
+            iconBg={tokens.color.ok}
+            title="Show hints"
+            detail="After 10s"
+            chevron={false}
+            isLast={false}
+          />
+          <GlassRow
+            icon={Volume2}
+            iconBg={tokens.color.violet}
+            title="Auto-play pronunciation"
+            chevron={false}
+            isLast
+            accessory={
+              <Toggle
+                on={autoPlayPronunciation}
+                onChange={handleAutoPlayToggle}
+                aria-label="Auto-play pronunciation"
+              />
+            }
+          />
+        </Glass>
+
+        {/* ── Appearance section ── */}
+        <SectionHeader>Appearance</SectionHeader>
+        <Glass pad={0} floating>
+          <GlassRow
+            title="Theme"
+            detail={THEME_LABELS[themePreference]}
+            onClick={() => setThemePickerOpen(true)}
+            isLast
+          />
+        </Glass>
+
+        {/* ── Data section ── */}
+        <SectionHeader>Data</SectionHeader>
+        <Glass pad={0} floating>
+          <GlassRow
+            icon={Share}
+            iconBg={tokens.color.ok}
+            title="Export vocabulary"
+            detail={exporting ? 'Exporting…' : undefined}
+            onClick={() => {
+              void handleExport()
             }}
-            sx={{ width: 160 }}
+            isLast={false}
           />
-        </Box>
-
-        {/* Typo tolerance */}
-        <Box>
-          <Typography
-            variant="body2"
-            sx={{ mb: 0.5, color: 'text.secondary', fontSize: '0.875rem' }}
-          >
-            Typo tolerance
-          </Typography>
-          <Slider
-            value={settings.typoTolerance}
-            onChange={handleTypoToleranceChange}
-            min={0}
-            max={2}
-            step={1}
-            marks={[
-              { value: 0, label: 'Exact' },
-              { value: 1, label: 'Lenient' },
-              { value: 2, label: 'Lenient+' },
-            ]}
-            aria-label="Typo tolerance"
-            aria-valuetext={typoInfo.label}
-            sx={{ mt: 1, mb: 1 }}
+          <GlassRow
+            icon={Plus}
+            iconBg={tokens.color.accent}
+            title="Import from file"
+            onClick={handleImportClick}
+            isLast={false}
           />
-          <Typography variant="caption" color="text.secondary">
-            {typoInfo.description}
-          </Typography>
-        </Box>
-      </Box>
+          <GlassRow
+            icon={X}
+            iconBg={tokens.color.red}
+            title="Reset progress"
+            onClick={() => setResetConfirmOpen(true)}
+            isLast
+          />
+        </Glass>
 
-      {/* ── 2. CEFR Levels ── */}
-      <Box
-        sx={{
-          bgcolor: (theme) =>
-            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
-          borderRadius: 3,
-          p: 2.5,
-        }}
-      >
-        <Typography variant="subtitle2" fontWeight={700} gutterBottom>
-          Training levels
-        </Typography>
-
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
-          Choose which CEFR levels to include in your quizzes. Your manually added words are always
-          included.
-        </Typography>
-
-        <CefrLevelSelector
-          selectedLevels={settings.selectedLevels}
-          wordCountByLevel={wordCountByLevel}
-          onChange={handleSelectedLevelsChange}
-        />
-      </Box>
-
-      {/* ── 3. Language Pairs ── */}
-      <Box
-        sx={{
-          bgcolor: (theme) =>
-            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
-          borderRadius: 3,
-          p: 2.5,
-        }}
-      >
-        <Typography variant="subtitle2" fontWeight={700} gutterBottom>
-          Language pairs
-        </Typography>
-
-        <LanguagePairList
-          pairs={[...pairs]}
-          activePairId={settings.activePairId}
-          onDelete={onDeletePair}
-        />
-
-        <Button variant="outlined" size="small" onClick={onAddPair} sx={{ mt: 2 }} fullWidth>
-          Add language pair
-        </Button>
-      </Box>
-
-      {/* ── 4. Data Management ── */}
-      <Box
-        sx={{
-          bgcolor: (theme) =>
-            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
-          borderRadius: 3,
-          p: 2.5,
-        }}
-      >
-        <Typography variant="subtitle2" fontWeight={700} gutterBottom>
-          Data management
-        </Typography>
-
-        {resetError && (
-          <Alert severity="error" sx={{ mb: 2 }} onClose={() => setResetError(null)}>
-            {resetError}
+        {/* Import error feedback */}
+        {importError && (
+          <Alert severity="error" sx={{ mt: 2 }} onClose={() => setImportError(null)}>
+            {importError}
           </Alert>
         )}
 
-        <Stack spacing={1.5}>
-          {/* Export */}
-          {exportError && (
-            <Alert severity="error" onClose={() => setExportError(null)}>
-              {exportError}
-            </Alert>
-          )}
-          <Button
-            variant="outlined"
-            startIcon={exporting ? <CircularProgress size={16} /> : <DownloadIcon />}
-            onClick={() => void handleExport()}
-            disabled={exporting}
-            fullWidth
-            aria-label="Export data as JSON backup"
-          >
-            {exporting ? 'Exporting...' : 'Export data'}
-          </Button>
-
-          {/* Import */}
-          {importError && (
-            <Alert severity="error" onClose={() => setImportError(null)}>
-              {importError}
-            </Alert>
-          )}
-          <Button
-            variant="outlined"
-            startIcon={importing ? <CircularProgress size={16} /> : <UploadIcon />}
-            onClick={handleImportClick}
-            disabled={importing}
-            fullWidth
-            aria-label="Import data from JSON backup"
-          >
-            {importing ? 'Importing...' : 'Import data'}
-          </Button>
-        </Stack>
-
-        {/* Danger zone */}
-        <Box
-          sx={{
-            bgcolor: (theme) =>
-              theme.palette.mode === 'dark' ? 'rgba(239,68,68,0.06)' : 'rgba(239,68,68,0.04)',
-            borderRadius: 2,
-            p: 2,
-            mt: 2,
-          }}
-        >
-          <Stack spacing={1.5}>
-            {/* Reset progress */}
-            <Button
-              variant="outlined"
-              color="warning"
-              startIcon={
-                resetting ? <CircularProgress size={16} color="inherit" /> : <DeleteOutlineIcon />
-              }
-              onClick={() => setResetProgressConfirmOpen(true)}
-              disabled={resetting}
-              fullWidth
-              aria-label="Reset all learning progress"
-            >
-              Reset progress
-            </Button>
-
-            {/* Reset all */}
-            <Button
-              variant="outlined"
-              color="error"
-              startIcon={
-                resetting ? <CircularProgress size={16} color="inherit" /> : <WarningAmberIcon />
-              }
-              onClick={() => setResetAllConfirmOpen(true)}
-              disabled={resetting}
-              fullWidth
-              aria-label="Reset all data and return to first-launch state"
-            >
-              Reset all data
-            </Button>
-          </Stack>
-        </Box>
+        {/* Reset error feedback */}
+        {resetError && (
+          <Alert severity="error" sx={{ mt: 2 }} onClose={() => setResetError(null)}>
+            {resetError}
+          </Alert>
+        )}
       </Box>
 
-      {/* ── 5. About ── */}
-      <Box
-        sx={{
-          bgcolor: (theme) =>
-            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)',
-          borderRadius: 3,
-          p: 2.5,
-        }}
+      {/* ── Quiz mode picker dialog ── */}
+      <Dialog
+        open={quizPickerOpen}
+        onClose={() => setQuizPickerOpen(false)}
+        maxWidth="xs"
+        fullWidth
+        PaperProps={{ sx: { borderRadius: 3 } }}
+        aria-labelledby="quiz-mode-dialog-title"
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-          <InfoOutlinedIcon fontSize="small" sx={{ color: 'text.secondary' }} aria-hidden="true" />
-          <Typography variant="subtitle2" fontWeight={700}>
-            About
+        <DialogTitle id="quiz-mode-dialog-title">
+          <Typography variant="h6" component="span" fontWeight={700}>
+            Quiz mode
           </Typography>
-        </Box>
+        </DialogTitle>
+        <DialogContent>
+          <RadioGroup
+            value={settings.quizMode}
+            onChange={(e) => handleQuizModeChange(e.target.value)}
+            aria-label="Quiz mode"
+          >
+            <FormControlLabel value="type" control={<Radio />} label="Type" />
+            <FormControlLabel value="choice" control={<Radio />} label="Choice" />
+            <FormControlLabel value="mixed" control={<Radio />} label="Mixed" />
+          </RadioGroup>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 3 }}>
+          <Button variant="outlined" onClick={() => setQuizPickerOpen(false)}>
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          Version {APP_VERSION}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          Lexio — a language-agnostic vocabulary trainer with spaced repetition.
-        </Typography>
-        <Link
-          href="https://github.com/mreppo/lexio"
-          target="_blank"
-          rel="noopener noreferrer"
-          variant="body2"
-        >
-          View source on GitHub
-        </Link>
-      </Box>
+      {/* ── Theme picker dialog ── */}
+      <Dialog
+        open={themePickerOpen}
+        onClose={() => setThemePickerOpen(false)}
+        maxWidth="xs"
+        fullWidth
+        PaperProps={{ sx: { borderRadius: 3 } }}
+        aria-labelledby="theme-dialog-title"
+      >
+        <DialogTitle id="theme-dialog-title">
+          <Typography variant="h6" component="span" fontWeight={700}>
+            Appearance
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <RadioGroup
+            value={themePreference}
+            onChange={(e) => handleThemePickerChange(e.target.value)}
+            aria-label="Theme preference"
+          >
+            <FormControlLabel value="system" control={<Radio />} label="System" />
+            <FormControlLabel value="light" control={<Radio />} label="Light" />
+            <FormControlLabel value="dark" control={<Radio />} label="Dark" />
+          </RadioGroup>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 3 }}>
+          <Button variant="outlined" onClick={() => setThemePickerOpen(false)}>
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-      {/* ── Dialogs ── */}
-
-      {/* Import confirm */}
+      {/* ── Import confirm dialog ── */}
       <Dialog
         open={importConfirmOpen}
         onClose={handleImportCancel}
@@ -670,8 +612,8 @@ export function SettingsScreen({
             This will overwrite your current data.
           </Alert>
           <Typography variant="body2">
-            All existing language pairs, words, progress, and stats will be replaced with the data
-            from the backup file. This action cannot be undone.
+            All existing language pairs, words, progress, and stats will be replaced. This cannot be
+            undone.
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
@@ -684,10 +626,10 @@ export function SettingsScreen({
         </DialogActions>
       </Dialog>
 
-      {/* Reset progress confirm */}
+      {/* ── Reset progress confirm dialog ── */}
       <Dialog
-        open={resetProgressConfirmOpen}
-        onClose={() => setResetProgressConfirmOpen(false)}
+        open={resetConfirmOpen}
+        onClose={() => setResetConfirmOpen(false)}
         maxWidth="xs"
         fullWidth
         PaperProps={{ sx: { borderRadius: 3 } }}
@@ -708,84 +650,32 @@ export function SettingsScreen({
           </Typography>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
-          <Button variant="outlined" onClick={() => setResetProgressConfirmOpen(false)}>
-            Cancel
-          </Button>
           <Button
-            variant="contained"
-            color="warning"
-            onClick={() => void handleResetProgressConfirm()}
+            variant="outlined"
+            onClick={() => setResetConfirmOpen(false)}
+            disabled={resetting}
           >
-            Reset progress
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Reset all - first confirm */}
-      <Dialog
-        open={resetAllConfirmOpen}
-        onClose={() => setResetAllConfirmOpen(false)}
-        maxWidth="xs"
-        fullWidth
-        PaperProps={{ sx: { borderRadius: 3 } }}
-        aria-labelledby="reset-all-dialog-title"
-      >
-        <DialogTitle id="reset-all-dialog-title">
-          <Typography variant="h6" component="span" fontWeight={700}>
-            Reset all data?
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <Alert severity="error" sx={{ mb: 1 }}>
-            This will delete everything.
-          </Alert>
-          <Typography variant="body1">
-            All language pairs, words, progress, stats, and settings will be permanently erased. The
-            app will return to the first-launch state.
-          </Typography>
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
-          <Button variant="outlined" onClick={() => setResetAllConfirmOpen(false)}>
-            Cancel
-          </Button>
-          <Button variant="contained" color="error" onClick={handleResetAllFirstConfirm}>
-            Continue
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Reset all - second (double) confirm */}
-      <Dialog
-        open={resetAllDoubleConfirmOpen}
-        onClose={() => setResetAllDoubleConfirmOpen(false)}
-        maxWidth="xs"
-        fullWidth
-        PaperProps={{ sx: { borderRadius: 3 } }}
-        aria-labelledby="reset-all-double-dialog-title"
-      >
-        <DialogTitle id="reset-all-double-dialog-title">
-          <Typography variant="h6" component="span" fontWeight={700}>
-            Are you absolutely sure?
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <Typography variant="body1">
-            There is no way to undo this. All your data will be gone permanently.
-          </Typography>
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
-          <Button variant="outlined" onClick={() => setResetAllDoubleConfirmOpen(false)}>
             Cancel
           </Button>
           <Button
             variant="contained"
             color="error"
-            onClick={() => void handleResetAllFinalConfirm()}
+            onClick={() => void handleResetConfirm()}
+            disabled={resetting}
           >
-            Yes, delete everything
+            {resetting ? 'Resetting…' : 'Reset progress'}
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+
+      {/* ── Toast notifications ── */}
+      <Snackbar
+        open={toastMessage !== null}
+        autoHideDuration={3000}
+        onClose={() => setToastMessage(null)}
+        message={toastMessage}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      />
+    </PaperSurface>
   )
 }
