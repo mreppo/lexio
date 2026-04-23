@@ -67,19 +67,22 @@ test('complete a type-mode quiz session', async ({ page }) => {
   // Start the quiz. The button has visible text "Start quiz".
   await clickStartQuiz(page)
 
-  // A translation input field should appear.
+  // The input field and "Check answer" button should appear (Liquid Glass design).
   await expect(page.getByRole('textbox')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Check answer' })).toBeVisible()
 
-  // Answer 3 questions (accept wrong answers — we just verify the flow).
+  // Answer 3 questions with a deliberately wrong answer so feedback always shows
+  // the "Next word" button (correct answers auto-advance in 700ms).
   for (let i = 0; i < 3; i++) {
     // Wait for the question word heading to appear.
     await page.locator('[aria-label^="Translate:"]').waitFor({ timeout: 10_000 })
 
     const input = page.getByRole('textbox')
-    await input.fill('test')
-    await page.getByRole('button', { name: 'Submit' }).click()
+    await input.fill('zzzzzzzzz') // deliberately wrong — guarantees feedback shows "Next word"
+    await page.getByRole('button', { name: 'Check answer' }).click()
 
-    // Either "Next word" or "See results" appears after feedback.
+    // Either "Next word" or "See results" appears after incorrect feedback.
+    // For wrong answers the button is always shown (no auto-advance).
     const nextOrResults = page.locator('button').filter({ hasText: /next word|see results/i })
     await nextOrResults.waitFor({ timeout: 10_000 })
     await nextOrResults.click()
@@ -92,11 +95,12 @@ test('complete a type-mode quiz session', async ({ page }) => {
     if (summaryVisible) break
   }
 
-  // End the session if it is still running.
-  const endSessionBtn = page.locator('button').filter({ hasText: /^End session$/ })
-  const isSessionActive = await endSessionBtn.isVisible().catch(() => false)
+  // Close the session if it is still running.
+  // The Liquid Glass design uses a GlassIcon close button (aria-label "Close quiz").
+  const closeQuizBtn = page.getByRole('button', { name: 'Close quiz' })
+  const isSessionActive = await closeQuizBtn.isVisible().catch(() => false)
   if (isSessionActive) {
-    await endSessionBtn.click()
+    await closeQuizBtn.click()
   }
 
   // Session summary should be showing.
@@ -139,7 +143,8 @@ test('complete a choice-mode quiz session', async ({ page }) => {
     await next2.click()
   }
 
-  // End the session if it is still active.
+  // Close the session if it is still active.
+  // Choice mode uses QuizLayout with an "End session" text button.
   const endSessionBtn = page.locator('button').filter({ hasText: /^End session$/ })
   const isSessionActive = await endSessionBtn.isVisible().catch(() => false)
   if (isSessionActive) {
