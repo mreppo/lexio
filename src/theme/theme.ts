@@ -1,71 +1,90 @@
 import { createTheme, type Theme } from '@mui/material/styles'
 import type { ThemePreference } from '@/types'
+import { getGlassTokens, glassRadius, glassTypography, glassShadows } from './liquidGlass'
 
 /**
- * Palette tokens shared between both modes.
- * Defined here so component overrides can reference them without
- * needing the full theme object (avoids circular dependency).
+ * Build MUI typography config from Liquid Glass typography tokens.
+ * Display font (SF Pro Display / Inter) for headings; body font (SF Pro Text / Inter) for body.
+ * Typography tokens are shared between light and dark variants.
  */
-const PALETTE = {
-  primary: {
-    main: '#f59e0b',
-    light: '#fbbf24',
-    dark: '#d97706',
-    contrastText: '#0a0f1a',
-  },
-  secondary: {
-    main: '#3b82f6',
-    light: '#60a5fa',
-    dark: '#1d4ed8',
-    contrastText: '#ffffff',
-  },
-  success: {
-    main: '#22c55e',
-    light: '#4ade80',
-    dark: '#16a34a',
-    contrastText: '#ffffff',
-  },
-  error: {
-    main: '#ef4444',
-    light: '#f87171',
-    dark: '#dc2626',
-    contrastText: '#ffffff',
-  },
-} as const
-
-/**
- * Typography using Nunito (body – clean, high readability, full Latvian diacritics support)
- * and Sora (display/headings – modern geometric with character).
- * Both fonts are loaded via index.html Google Fonts link tag.
- */
-const FONT_DISPLAY = '"Sora", "Nunito", sans-serif'
-const FONT_BODY = '"Nunito", "Sora", sans-serif'
-
 function buildTypography() {
   return {
-    fontFamily: FONT_BODY,
-    h1: { fontFamily: FONT_DISPLAY, fontWeight: 700 },
-    h2: { fontFamily: FONT_DISPLAY, fontWeight: 700 },
-    h3: { fontFamily: FONT_DISPLAY, fontWeight: 600 },
-    h4: { fontFamily: FONT_DISPLAY, fontWeight: 600 },
-    h5: { fontFamily: FONT_DISPLAY, fontWeight: 600 },
-    h6: { fontFamily: FONT_DISPLAY, fontWeight: 600 },
-    subtitle1: { fontWeight: 500 },
-    subtitle2: { fontWeight: 500 },
-    button: { fontFamily: FONT_BODY, fontWeight: 700, textTransform: 'none' as const },
+    fontFamily: glassTypography.body,
+    h1: {
+      fontFamily: glassTypography.display,
+      fontWeight: glassTypography.roles.largeTitle.weight,
+      fontSize: `${glassTypography.roles.largeTitle.size}px`,
+      letterSpacing: `${glassTypography.roles.largeTitle.tracking}px`,
+      lineHeight: glassTypography.roles.largeTitle.lineHeight,
+    },
+    h2: {
+      fontFamily: glassTypography.display,
+      fontWeight: glassTypography.roles.title.weight,
+      fontSize: `${glassTypography.roles.title.size}px`,
+      letterSpacing: `${glassTypography.roles.title.tracking}px`,
+      lineHeight: glassTypography.roles.title.lineHeight,
+    },
+    h3: {
+      fontFamily: glassTypography.display,
+      fontWeight: glassTypography.roles.title.weight,
+      letterSpacing: `${glassTypography.roles.title.tracking}px`,
+    },
+    h4: {
+      fontFamily: glassTypography.display,
+      fontWeight: glassTypography.roles.title.weight,
+      letterSpacing: `${glassTypography.roles.title.tracking}px`,
+    },
+    h5: {
+      fontFamily: glassTypography.display,
+      fontWeight: glassTypography.roles.title.weight,
+    },
+    h6: {
+      fontFamily: glassTypography.display,
+      fontWeight: glassTypography.roles.title.weight,
+    },
+    body1: {
+      fontSize: `${glassTypography.roles.body.size}px`,
+      fontWeight: glassTypography.roles.body.weight,
+      letterSpacing: `${glassTypography.roles.body.tracking}px`,
+      lineHeight: glassTypography.roles.body.lineHeight,
+    },
+    body2: {
+      fontSize: `${glassTypography.roles.copy.size}px`,
+      fontWeight: glassTypography.roles.copy.weight,
+      letterSpacing: `${glassTypography.roles.copy.tracking}px`,
+      lineHeight: glassTypography.roles.copy.lineHeight,
+    },
+    button: {
+      fontFamily: glassTypography.body,
+      fontWeight: glassTypography.roles.button.weight,
+      fontSize: `${glassTypography.roles.button.size}px`,
+      letterSpacing: `${glassTypography.roles.button.tracking}px`,
+      textTransform: 'none' as const,
+    },
+    caption: {
+      fontSize: `${glassTypography.roles.caption.size}px`,
+      fontWeight: glassTypography.roles.caption.weight,
+      letterSpacing: `${glassTypography.roles.caption.tracking}px`,
+      lineHeight: glassTypography.roles.caption.lineHeight,
+    },
+    subtitle1: { fontWeight: glassTypography.roles.body.weight },
+    subtitle2: { fontWeight: glassTypography.roles.copy.weight },
   }
 }
 
-function buildComponents() {
+function buildComponents(tokens: ReturnType<typeof getGlassTokens>) {
   return {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 10,
+          borderRadius: glassRadius.btn,
           minHeight: 44,
-          fontWeight: 700,
+          fontWeight: glassTypography.roles.button.weight,
+          fontSize: `${glassTypography.roles.button.size}px`,
+          letterSpacing: `${glassTypography.roles.button.tracking}px`,
           textTransform: 'none' as const,
-          transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+          // Enter/exit use opacity/transform only — no animating on blurred surfaces.
+          transition: 'opacity 200ms ease, transform 200ms ease',
           '&:hover': {
             transform: 'translateY(-1px)',
           },
@@ -73,14 +92,23 @@ function buildComponents() {
             transform: 'translateY(0)',
           },
         },
+        containedPrimary: {
+          backgroundColor: tokens.color.accent,
+          color: '#ffffff',
+          boxShadow: glassShadows.accentBtn,
+          '&:hover': {
+            backgroundColor: tokens.color.accent,
+            boxShadow: glassShadows.accentBtn,
+          },
+        },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
+          borderRadius: glassRadius.card,
           backgroundImage: 'none',
-          transition: 'box-shadow 0.2s ease, transform 0.2s ease',
+          transition: 'opacity 200ms ease, transform 200ms ease',
           '&:hover': {
             transform: 'translateY(-2px)',
           },
@@ -93,7 +121,7 @@ function buildComponents() {
           backgroundImage: 'none',
         },
         rounded: {
-          borderRadius: 16,
+          borderRadius: glassRadius.card,
         },
       },
     },
@@ -101,10 +129,10 @@ function buildComponents() {
       styleOverrides: {
         root: {
           '& .MuiOutlinedInput-root': {
-            borderRadius: 10,
-            transition: 'box-shadow 0.15s ease',
+            borderRadius: glassRadius.inline,
+            transition: 'box-shadow 150ms ease',
             '&.Mui-focused': {
-              boxShadow: `0 0 0 3px rgba(245, 158, 11, 0.25)`,
+              boxShadow: `0 0 0 3px ${tokens.color.accentSoft}`,
             },
           },
         },
@@ -113,15 +141,18 @@ function buildComponents() {
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          borderRadius: 10,
+          borderRadius: glassRadius.inline,
         },
       },
     },
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
-          fontWeight: 600,
+          borderRadius: glassRadius.pill,
+          fontWeight: glassTypography.roles.micro.weight,
+          fontSize: `${glassTypography.roles.micro.size}px`,
+          letterSpacing: `${glassTypography.roles.micro.tracking}px`,
+          height: 26,
         },
       },
     },
@@ -150,27 +181,49 @@ function buildComponents() {
 }
 
 export function createAppTheme(mode: 'light' | 'dark'): Theme {
-  const isDark = mode === 'dark'
+  const tokens = getGlassTokens(mode)
 
   return createTheme({
     palette: {
       mode,
-      ...PALETTE,
+      primary: {
+        main: tokens.color.accent,
+        light: tokens.color.accentSoft,
+        dark: tokens.color.accentText,
+        contrastText: '#ffffff',
+      },
+      secondary: {
+        main: tokens.color.violet,
+        contrastText: '#ffffff',
+      },
+      success: {
+        main: tokens.color.ok,
+        contrastText: '#ffffff',
+      },
+      error: {
+        main: tokens.color.red,
+        contrastText: '#ffffff',
+      },
+      warning: {
+        main: tokens.color.warn,
+        contrastText: '#ffffff',
+      },
       background: {
-        default: isDark ? '#0a0f1a' : '#fafaf9',
-        paper: isDark ? '#111827' : '#f5f5f4',
+        default: tokens.color.bg,
+        paper: tokens.color.bg,
       },
       text: {
-        primary: isDark ? '#f9fafb' : '#111827',
-        secondary: isDark ? '#9ca3af' : '#6b7280',
+        primary: tokens.color.ink,
+        secondary: tokens.color.inkSec,
+        disabled: tokens.color.inkFaint,
       },
-      divider: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
+      divider: tokens.color.rule2,
     },
     typography: buildTypography(),
     shape: {
-      borderRadius: 12,
+      borderRadius: glassRadius.card,
     },
-    components: buildComponents(),
+    components: buildComponents(tokens),
   })
 }
 
