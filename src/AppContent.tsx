@@ -267,11 +267,18 @@ function AppContent(): React.JSX.Element {
           )}
 
           {/*
-           * Stats and Settings tabs: legacy AppBar + Container layout.
-           * These screens will be migrated to full-bleed PaperSurface in their
-           * own issues (stats #151, settings #152).
+           * Stats tab: full-bleed Liquid Glass layout (issue #151).
+           * StatsScreen owns its own PaperSurface (wallpaper, NavBar, scroll).
+           * No AppBar or Container — those would conflict with the full-bleed design.
+           * TabBar is rendered externally below (no exclusion for stats).
            */}
-          {activeTab !== 'home' && activeTab !== 'quiz' && activeTab !== 'words' && (
+          {activeTab === 'stats' && <StatsScreen />}
+
+          {/*
+           * Settings tab: legacy AppBar + Container layout.
+           * Will be migrated to full-bleed PaperSurface in issue #152.
+           */}
+          {activeTab === 'settings' && (
             <>
               <AppBar position="static" color="default" elevation={1}>
                 <Toolbar sx={{ gap: 2 }}>
@@ -298,19 +305,15 @@ function AppContent(): React.JSX.Element {
               {/* Main content — bottom padding makes room for the fixed TabBar */}
               <Container maxWidth="lg" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
                 <TabTransition activeTab={activeTab}>
-                  {activeTab === 'stats' && <StatsScreen />}
-
-                  {activeTab === 'settings' && (
-                    <SettingsScreen
-                      themePreference={themePreference}
-                      onThemeChange={handleThemeChange}
-                      settings={settings}
-                      onSettingsChange={handleSettingsChange}
-                      pairs={pairs}
-                      onAddPair={handleOpenCreateDialog}
-                      onDeletePair={deletePair}
-                    />
-                  )}
+                  <SettingsScreen
+                    themePreference={themePreference}
+                    onThemeChange={handleThemeChange}
+                    settings={settings}
+                    onSettingsChange={handleSettingsChange}
+                    pairs={pairs}
+                    onAddPair={handleOpenCreateDialog}
+                    onDeletePair={deletePair}
+                  />
                 </TabTransition>
               </Container>
             </>
@@ -318,9 +321,8 @@ function AppContent(): React.JSX.Element {
 
           {/*
            * Bottom navigation:
-           * - home, quiz: TabBar rendered here (those screens don't include their own)
+           * - home, quiz, stats, settings: TabBar rendered here (screens don't include their own)
            * - words: TabBar rendered inside LibraryScreen (owns its own PaperSurface)
-           * - stats, settings: TabBar rendered here (legacy layout)
            */}
           {showNav && activeTab !== 'words' && (
             <TabBar activeTab={activeTab} onTabChange={handleTabChange} />

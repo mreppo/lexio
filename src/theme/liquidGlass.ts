@@ -36,6 +36,13 @@ export interface GlassColorTokens {
    * The direction matters visually — a separate token avoids confusion.
    */
   readonly aiGradient: string
+  /**
+   * Streak hero gradient — vivid orange-red used exclusively for the streak
+   * hero tile on the Progress (Stats) screen. Always this gradient regardless
+   * of light/dark mode per design spec.
+   * Value: linear-gradient(135deg, #FF9500 0%, #FF3B30 100%).
+   */
+  readonly streakGradient: string
 }
 
 export interface GlassLayerTokens {
@@ -90,6 +97,16 @@ export interface GlassTypographyTokens {
     readonly addWordTerm: GlassTypographyRoleTokens
     /** Add Word: Meaning input — 20/500. */
     readonly addWordMeaning: GlassTypographyRoleTokens
+    /** Stats: streak eyebrow label "STREAK" — 13/800 tracking 1 uppercase. */
+    readonly streakEyebrow: GlassTypographyRoleTokens
+    /** Stats: streak helper "days · best N" — 18/600. */
+    readonly streakHelper: GlassTypographyRoleTokens
+    /** Stats: stat card number — 30/800. */
+    readonly statCardNumber: GlassTypographyRoleTokens
+    /** Stats: stat card sublabel — 12/700 (delta) or 12/600 (secondary). */
+    readonly statCardSub: GlassTypographyRoleTokens
+    /** Stats: bar chart day letter label — 11/600. */
+    readonly barDayLabel: GlassTypographyRoleTokens
   }
 }
 
@@ -177,6 +194,8 @@ export const lightGlass: GlassVariantTokens = {
     avatarGradient: 'linear-gradient(135deg, #007AFF 0%, #AF52DE 100%)',
     // AI upsell gradient — reversed direction: #AF52DE → #007AFF
     aiGradient: 'linear-gradient(135deg, #AF52DE 0%, #007AFF 100%)',
+    // Streak hero gradient — always vivid orange-red regardless of theme
+    streakGradient: 'linear-gradient(135deg, #FF9500 0%, #FF3B30 100%)',
   },
   glass: {
     bg: 'rgba(255,255,255,0.55)',
@@ -217,6 +236,8 @@ export const darkGlass: GlassVariantTokens = {
     avatarGradient: 'linear-gradient(135deg, #0A84FF 0%, #BF5AF2 100%)',
     // AI upsell gradient — reversed direction: #BF5AF2 → #0A84FF
     aiGradient: 'linear-gradient(135deg, #BF5AF2 0%, #0A84FF 100%)',
+    // Streak hero gradient — same on both variants per spec (always vivid orange-red)
+    streakGradient: 'linear-gradient(135deg, #FF9500 0%, #FF3B30 100%)',
   },
   glass: {
     bg: 'rgba(255,255,255,0.10)',
@@ -283,6 +304,12 @@ export const glassTypography: GlassTypographyTokens = {
     // Add Word screen tokens (§6 in design README)
     addWordTerm: { size: 30, weight: 800, tracking: -0.7, lineHeight: 1.1 },
     addWordMeaning: { size: 20, weight: 500, tracking: -0.3, lineHeight: 1.3 },
+    // Stats screen tokens (§7 in design README)
+    streakEyebrow: { size: 13, weight: 800, tracking: 1, lineHeight: 1, transform: 'uppercase' },
+    streakHelper: { size: 18, weight: 600, tracking: -0.2, lineHeight: 1.2 },
+    statCardNumber: { size: 30, weight: 800, tracking: -0.7, lineHeight: 1.05 },
+    statCardSub: { size: 12, weight: 700, tracking: -0.1, lineHeight: 1.2 },
+    barDayLabel: { size: 11, weight: 600, tracking: 0, lineHeight: 1 },
   },
 }
 
