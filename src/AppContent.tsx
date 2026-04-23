@@ -13,7 +13,7 @@ import { useThemeMode } from './hooks/useThemeMode'
 import { useStorage } from './hooks/useStorage'
 import { useLanguagePairs, LanguagePairSelector, CreatePairDialog } from './features/language-pairs'
 import type { CreatePairInput } from './features/language-pairs'
-import { WordListScreen } from './features/words'
+import { LibraryScreen } from './features/words/components/LibraryScreen'
 import { QuizHub } from './features/quiz'
 import { DashboardScreen, useDashboard } from './features/dashboard'
 import { StatsScreen } from './features/stats'
@@ -258,11 +258,20 @@ function AppContent(): React.JSX.Element {
           )}
 
           {/*
-           * All other tabs: legacy AppBar + Container layout.
-           * These screens will be migrated to full-bleed PaperSurface in their
-           * own issues (words #149, stats #151, settings #152).
+           * Words tab: full-bleed Liquid Glass layout (issue #149).
+           * LibraryScreen owns its own PaperSurface (wallpaper, NavBar, TabBar, scroll).
+           * No AppBar or Container — those would conflict with the full-bleed design.
            */}
-          {activeTab !== 'home' && activeTab !== 'quiz' && (
+          {activeTab === 'words' && (
+            <LibraryScreen activePair={activePair} onTabChange={handleTabChange} />
+          )}
+
+          {/*
+           * Stats and Settings tabs: legacy AppBar + Container layout.
+           * These screens will be migrated to full-bleed PaperSurface in their
+           * own issues (stats #151, settings #152).
+           */}
+          {activeTab !== 'home' && activeTab !== 'quiz' && activeTab !== 'words' && (
             <>
               <AppBar position="static" color="default" elevation={1}>
                 <Toolbar sx={{ gap: 2 }}>
@@ -289,8 +298,6 @@ function AppContent(): React.JSX.Element {
               {/* Main content — bottom padding makes room for the fixed TabBar */}
               <Container maxWidth="lg" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
                 <TabTransition activeTab={activeTab}>
-                  {activeTab === 'words' && <WordListScreen activePair={activePair} />}
-
                   {activeTab === 'stats' && <StatsScreen />}
 
                   {activeTab === 'settings' && (
@@ -309,8 +316,15 @@ function AppContent(): React.JSX.Element {
             </>
           )}
 
-          {/* Bottom navigation — only visible when there are language pairs */}
-          {showNav && <TabBar activeTab={activeTab} onTabChange={handleTabChange} />}
+          {/*
+           * Bottom navigation:
+           * - home, quiz: TabBar rendered here (those screens don't include their own)
+           * - words: TabBar rendered inside LibraryScreen (owns its own PaperSurface)
+           * - stats, settings: TabBar rendered here (legacy layout)
+           */}
+          {showNav && activeTab !== 'words' && (
+            <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
+          )}
 
           <CreatePairDialog
             open={createDialogOpen}

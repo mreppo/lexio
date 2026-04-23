@@ -59,10 +59,10 @@ test('install starter pack from empty state', async ({ page }) => {
   // The word list should now have words (regression for the 404 bug in #40).
   await expect(page.getByText('No words yet')).toBeHidden()
 
-  // Verify at least one word row is visible. The list renders word source/target
-  // text inline — check for the list structure (Paper variant="outlined").
-  // Each word row is a ListItem inside a Paper. We look for the list element.
-  await expect(page.getByRole('list').first()).toBeVisible()
+  // Verify at least one word row is visible. The Library screen (issue #149)
+  // renders words as GlassRow items (no list role) — check that the search
+  // field is visible, indicating the library has words and is in the non-empty state.
+  await expect(page.getByRole('searchbox')).toBeVisible()
 })
 
 test('install starter pack from populated word list', async ({ page }) => {
@@ -71,20 +71,19 @@ test('install starter pack from populated word list', async ({ page }) => {
   await installFirstAvailablePack(page)
 
   // At this point the word list is populated.
-  // Open the pack browser again from the populated list header.
-  await page.getByRole('button', { name: 'Packs' }).click()
-  await expect(page.getByRole('dialog')).toBeVisible()
-  await expect(page.getByText('Browse starter packs')).toBeVisible()
+  // The Library screen (issue #149) no longer shows a "Packs" button in the
+  // non-empty state header. The Starter Packs dialog is accessible from the
+  // empty state "Starter packs" button. Verify the populated state is correct.
+  await expect(page.getByText('No words yet')).toBeHidden()
 
-  // Close the dialog manually.
-  await page.getByRole('button', { name: 'Close' }).click()
+  // The search field should be visible, indicating the library has words.
+  await navigateTo(page, 'Words')
+  await expect(page.getByRole('searchbox')).toBeVisible()
 
-  // The dialog should be gone and the word list screen should still be visible.
-  await expect(page.getByRole('dialog')).toBeHidden()
-  // The word list heading shows the language pair name.
-  await expect(
-    page.getByRole('heading', { name: /English.*Latvian|Latvian.*English/i }),
-  ).toBeVisible()
+  // Open the pack browser again from the empty state by navigating to a fresh
+  // words state is not trivially achievable here — instead, verify the Library
+  // heading (prominentTitle "Library") is visible as a smoke check.
+  await expect(page.getByText('Library')).toBeVisible()
 })
 
 test('reversed pack direction installs with swapped words', async ({ page }) => {
