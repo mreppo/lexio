@@ -45,6 +45,7 @@ function makeState(overrides: Partial<QuizSessionState> = {}): QuizSessionState 
     correctIndex: 0,
     selectedIndex: -1,
     lastChoiceCorrect: null,
+    lastConfidenceDelta: null,
     wordsCompleted: 4,
     sessionGoal: 10,
     correctCount: 3,

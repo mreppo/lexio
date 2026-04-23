@@ -69,6 +69,20 @@ export interface QuizSessionState {
   readonly selectedIndex: number
   /** Whether the last choice selection was correct (choice mode only). */
   readonly lastChoiceCorrect: boolean | null
+  /**
+   * Read-only derived value: confidence delta from the last answered question.
+   *
+   * Computed as (newConfidence − previousConfidence) from the spaced-repetition
+   * engine after the attempt is recorded. Positive when the answer improved the
+   * confidence score; negative or zero when it decreased it.
+   *
+   * Multiply by 100 and round to get an approximate "XP" display value.
+   * Only set after an answer is submitted; null at session start and after advance().
+   *
+   * Design note (§4 Quiz MC): show "+N XP" ONLY when this is positive (correct answer).
+   * Do NOT persist this as a separate XP field — it is ephemeral per-question feedback.
+   */
+  readonly lastConfidenceDelta: number | null
 }
 
 export interface UseQuizSessionResult {
@@ -186,6 +200,7 @@ export function useQuizSession(
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [lastResult, setLastResult] = useState<AnswerMatchResult | null>(null)
   const [lastChoiceCorrect, setLastChoiceCorrect] = useState<boolean | null>(null)
+  const [lastConfidenceDelta, setLastConfidenceDelta] = useState<number | null>(null)
   const [wordsCompleted, setWordsCompleted] = useState(0)
   const [correctCount, setCorrectCount] = useState(0)
   const [sessionStreak, setSessionStreak] = useState(0)
@@ -360,14 +375,27 @@ export function useQuizSession(
       const matchResult = matchAnswer(userAnswer, correctText, settings.typoTolerance)
       const isCorrect = matchResult.result === 'correct' || matchResult.result === 'almost'
 
+      // Capture confidence delta before/after attempt for XP display.
+      const prevProgress = currentItem?.wordForQuiz.progress ?? null
+      const prevConfidence = prevProgress?.confidence ?? 0
+
+      let delta: number | null = null
       try {
-        await recordAttempt(storage, currentWord.id, isCorrect, direction, 'type')
+        const updatedProgress = await recordAttempt(
+          storage,
+          currentWord.id,
+          isCorrect,
+          direction,
+          'type',
+        )
+        delta = updatedProgress.confidence - prevConfidence
       } catch (err) {
         console.error('Failed to record attempt:', err)
       }
 
       if (!mountedRef.current) return
 
+      setLastConfidenceDelta(delta)
       setLastResult(matchResult)
       setWordsCompleted((n) => n + 1)
       if (isCorrect) {
@@ -382,7 +410,7 @@ export function useQuizSession(
       }
       setPhase('feedback')
     },
-    [phase, currentWord, direction, currentMode, settings.typoTolerance, storage],
+    [phase, currentWord, direction, currentMode, currentItem, settings.typoTolerance, storage],
   )
 
   // ─── Select option (choice mode) ───────────────────────────────────────────
@@ -396,14 +424,27 @@ export function useQuizSession(
 
       const isCorrect = index === correctIndex
 
+      // Capture confidence delta before/after attempt for XP display.
+      const prevProgress = currentItem?.wordForQuiz.progress ?? null
+      const prevConfidence = prevProgress?.confidence ?? 0
+
+      let delta: number | null = null
       try {
-        await recordAttempt(storage, currentWord.id, isCorrect, direction, 'choice')
+        const updatedProgress = await recordAttempt(
+          storage,
+          currentWord.id,
+          isCorrect,
+          direction,
+          'choice',
+        )
+        delta = updatedProgress.confidence - prevConfidence
       } catch (err) {
         console.error('Failed to record attempt:', err)
       }
 
       if (!mountedRef.current) return
 
+      setLastConfidenceDelta(delta)
       setSelectedIndex(index)
       setLastChoiceCorrect(isCorrect)
       setWordsCompleted((n) => n + 1)
@@ -419,7 +460,7 @@ export function useQuizSession(
       }
       setPhase('feedback')
     },
-    [phase, currentWord, direction, currentMode, selectedIndex, correctIndex, storage],
+    [phase, currentWord, direction, currentMode, selectedIndex, correctIndex, currentItem, storage],
   )
 
   // ─── Advance ───────────────────────────────────────────────────────────────
@@ -438,6 +479,7 @@ export function useQuizSession(
     setSelectedIndex(-1)
     setLastResult(null)
     setLastChoiceCorrect(null)
+    setLastConfidenceDelta(null)
     setPhase('question')
   }, [phase, queueIndex, wordsCompleted, sessionGoal, queue.length])
 
@@ -457,6 +499,7 @@ export function useQuizSession(
     setSelectedIndex(-1)
     setLastResult(null)
     setLastChoiceCorrect(null)
+    setLastConfidenceDelta(null)
     setQueue([])
     setQueueIndex(0)
     recentModesRef.current = []
@@ -483,6 +526,7 @@ export function useQuizSession(
     correctIndex,
     selectedIndex,
     lastChoiceCorrect,
+    lastConfidenceDelta,
   }
 
   return { state, submitAnswer, selectOption, advance, endSession, restart }

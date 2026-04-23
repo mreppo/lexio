@@ -72,6 +72,14 @@ export interface GlassTypographyTokens {
     readonly quizHint: GlassTypographyRoleTokens
     /** Quiz top bar N/M pill. 14/700. */
     readonly quizPill: GlassTypographyRoleTokens
+    /** Quiz MC: option label text. 17/600. */
+    readonly quizOption: GlassTypographyRoleTokens
+    /** Quiz MC: feedback headline "Correct · +N XP" / wrong copy. 15/700. */
+    readonly quizFeedbackHeadline: GlassTypographyRoleTokens
+    /** Quiz MC: "Choose the meaning" subtitle. 14/500. */
+    readonly quizChoiceSub: GlassTypographyRoleTokens
+    /** Quiz MC: explanation body in feedback card. 13/500. */
+    readonly quizExplanation: GlassTypographyRoleTokens
   }
 }
 
@@ -247,7 +255,29 @@ export const glassTypography: GlassTypographyTokens = {
     quizSub: { size: 15, weight: 500, tracking: -0.2, lineHeight: 1.45 },
     quizHint: { size: 13, weight: 500, tracking: -0.1, lineHeight: 1.3 },
     quizPill: { size: 14, weight: 700, tracking: -0.1, lineHeight: 1 },
+    // Quiz MC screen tokens (§4 in design README)
+    quizOption: { size: 17, weight: 600, tracking: -0.3, lineHeight: 1.3 },
+    quizFeedbackHeadline: { size: 15, weight: 700, tracking: -0.2, lineHeight: 1 },
+    quizChoiceSub: { size: 14, weight: 500, tracking: -0.2, lineHeight: 1.45 },
+    quizExplanation: { size: 13, weight: 500, tracking: -0.1, lineHeight: 1.4 },
   },
+}
+
+// ─── Colour-with-alpha helpers ─────────────────────────────────────────────────
+
+/**
+ * Returns the `ok` colour from the given variant at the specified alpha (0–1).
+ * Used for borders like "1px solid ok@40" in the MC feedback card.
+ *
+ * Light: #34C759 Dark: #30D158 — both converted to rgba so alpha is set
+ * explicitly instead of relying on CSS color-mix (which has lower browser
+ * support). The values are derived from the hex tokens above.
+ */
+export function okAlpha(mode: 'light' | 'dark', alpha: number): string {
+  // Light ok: #34C759 = rgb(52, 199, 89)
+  // Dark  ok: #30D158 = rgb(48, 209, 88)
+  const [r, g, b] = mode === 'dark' ? [48, 209, 88] : [52, 199, 89]
+  return `rgba(${r},${g},${b},${alpha})`
 }
 
 /** Shared shadow scale (same for both variants). */
