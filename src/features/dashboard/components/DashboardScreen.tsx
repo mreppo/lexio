@@ -33,11 +33,9 @@ import { getGlassTokens, glassTypography } from '@/theme/liquidGlass'
 import { useTheme } from '@mui/material/styles'
 import { useWordOfTheDay } from '../hooks/useWordOfTheDay'
 import { speak } from '@/utils/tts'
+import { MASTERED_THRESHOLD } from '@/features/words/buckets'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-
-/** Confidence threshold for "Mastered" — mirrors wordsLearnedService. */
-const MASTERED_THRESHOLD = 0.8
 
 /** Approx. minutes per word for the "≈ Nmin" subtext estimate. */
 const MINUTES_PER_WORD = 0.5

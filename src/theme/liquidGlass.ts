@@ -108,6 +108,12 @@ export interface GlassShadowTokens {
   readonly iconSquare: string
   readonly activeTab: string
   readonly filterActive: string
+  /**
+   * Active filter/library pill shadow — canonical named token for the
+   * `0 4px 14px rgba(0,0,0,0.18)` value shared across QuizHub and Library.
+   * Alias of filterActive; both resolve to the same value.
+   */
+  readonly pillActive: string
 }
 
 export interface GlassMotionTokens {
@@ -289,6 +295,8 @@ export const glassShadows: GlassShadowTokens = {
   iconSquare: 'inset 0 1px 0 rgba(255,255,255,0.35), 0 2px 6px rgba(0,0,0,0.1)',
   activeTab: '0 4px 14px rgba(0,122,255,0.35)',
   filterActive: '0 4px 14px rgba(0,0,0,0.18)',
+  // Named alias so Library (and future screens) can reference by semantic name.
+  pillActive: '0 4px 14px rgba(0,0,0,0.18)',
 }
 
 /** Shared motion tokens. */

@@ -5,20 +5,19 @@
  * Changes are session-only — they are passed up to the parent but never
  * written to UserSettings / StorageService.
  *
- * Liquid Glass pill pattern (issue #148, derived from §Library filter pills):
- *   - Active pill:   solid `ink` background, `bg` text
- *   - Inactive pill: <Glass> inline with `inkSec` text
+ * Liquid Glass pill pattern (issue #148). Refactored in issue #149 to use the
+ * shared <FilterPill> atom extracted from this component's local implementation.
  *
- * The pill logic is intentionally local to this component — do NOT extract a
- * new <FilterPill> atom here. If issue #149 (Library) promotes a shared pill,
- * that refactor happens there.
+ * Multi-select semantics: tapping a pill toggles it independently (unlike the
+ * Library filter pills which are mutually exclusive). The parent owns this
+ * selection logic and passes sessionLevels down.
  */
 
 import { Box, Stack } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { Filter } from 'lucide-react'
-import { Glass } from '@/components/primitives/Glass'
-import { getGlassTokens, glassTypography, glassRadius, glassShadows } from '@/theme/liquidGlass'
+import { FilterPill } from '@/components/atoms/FilterPill'
+import { getGlassTokens, glassTypography } from '@/theme/liquidGlass'
 import type { CefrLevel } from '@/types'
 import { CEFR_LEVELS } from '@/types'
 
@@ -67,81 +66,17 @@ export function LevelFilterBar({ sessionLevels, wordCountByLevel, onChange }: Le
             const count = wordCountByLevel[level]
             const isActive = sessionLevels.includes(level)
 
-            return isActive ? (
-              /* Active pill: solid ink background, bg text */
-              <Box
+            return (
+              <FilterPill
                 key={level}
-                component="button"
-                type="button"
+                active={isActive}
                 onClick={() => handleToggle(level)}
-                aria-pressed={true}
-                aria-label={`${level} — ${count} words, selected`}
-                sx={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  height: '28px',
-                  px: '10px',
-                  borderRadius: `${glassRadius.pill}px`,
-                  backgroundColor: tokens.color.ink,
-                  color: tokens.color.bg,
-                  border: 'none',
-                  cursor: 'pointer',
-                  boxShadow: glassShadows.filterActive,
-                  fontFamily: glassTypography.body,
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  lineHeight: 1,
-                  letterSpacing: '-0.1px',
-                  transition: 'opacity 150ms ease, transform 150ms ease',
-                  '&:active': { opacity: 0.8, transform: 'scale(0.95)' },
-                  '@media (prefers-reduced-motion: reduce)': {
-                    transition: 'none',
-                    '&:active': { transform: 'none' },
-                  },
-                }}
+                aria-label={
+                  isActive ? `${level} — ${count} words, selected` : `${level} — ${count} words`
+                }
               >
                 {level} ({count})
-              </Box>
-            ) : (
-              /* Inactive pill: Glass inline with inkSec text */
-              <Box
-                key={level}
-                sx={{ position: 'relative', display: 'inline-flex', height: '28px' }}
-              >
-                <Glass radius={glassRadius.pill} pad={0} floating={false} sx={{ height: '28px' }}>
-                  <Box
-                    component="button"
-                    type="button"
-                    onClick={() => handleToggle(level)}
-                    aria-pressed={false}
-                    aria-label={`${level} — ${count} words`}
-                    sx={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      height: '28px',
-                      px: '10px',
-                      backgroundColor: 'transparent',
-                      color: tokens.color.inkSec,
-                      border: 'none',
-                      cursor: 'pointer',
-                      fontFamily: glassTypography.body,
-                      fontSize: '12px',
-                      fontWeight: 500,
-                      lineHeight: 1,
-                      letterSpacing: '-0.1px',
-                      borderRadius: `${glassRadius.pill}px`,
-                      transition: 'opacity 150ms ease, transform 150ms ease',
-                      '&:active': { opacity: 0.8, transform: 'scale(0.95)' },
-                      '@media (prefers-reduced-motion: reduce)': {
-                        transition: 'none',
-                        '&:active': { transform: 'none' },
-                      },
-                    }}
-                  >
-                    {level} ({count})
-                  </Box>
-                </Glass>
-              </Box>
+              </FilterPill>
             )
           })}
         </Stack>

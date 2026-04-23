@@ -15,3 +15,6 @@ export type { WordListProps } from './WordList'
 
 export { WordListScreen } from './WordListScreen'
 export type { WordListScreenProps } from './WordListScreen'
+
+export { LibraryScreen } from './LibraryScreen'
+export type { LibraryScreenProps } from './LibraryScreen'

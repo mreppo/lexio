@@ -24,3 +24,6 @@ export type { IconGlyphProps, IconName } from './IconGlyph'
 
 export { GlassIcon } from './GlassIcon'
 export type { GlassIconProps } from './GlassIcon'
+
+export { FilterPill } from './FilterPill'
+export type { FilterPillProps } from './FilterPill'

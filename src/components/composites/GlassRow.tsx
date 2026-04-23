@@ -69,7 +69,12 @@ export function GlassRow({
 
   return (
     <Box
+      component={onClick ? 'button' : 'div'}
+      type={onClick ? 'button' : undefined}
       onClick={onClick}
+      // A11y: when the row is interactive, it renders as a <button> so it is
+      // keyboard-focusable and announces its role to screen readers.
+      // The title is the accessible name (no additional aria-label needed).
       sx={{
         position: 'relative',
         display: 'flex',
@@ -77,6 +82,10 @@ export function GlassRow({
         minHeight: '56px',
         padding: '12px 16px',
         gap: '14px',
+        width: '100%',
+        textAlign: 'left',
+        border: 'none',
+        background: 'none',
         cursor: onClick ? 'pointer' : 'default',
         // Hairline divider via ::after pseudo-element so it doesn't affect layout
         '&::after': isLast

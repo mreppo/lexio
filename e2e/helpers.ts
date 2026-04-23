@@ -144,8 +144,16 @@ export type AppTab = 'Home' | 'Quiz' | 'Words' | 'Stats' | 'Settings'
 /**
  * Navigates to a tab via the BottomNav.
  * The BottomNavigationAction has `aria-label="Navigate to <Tab>"`.
+ *
+ * Dismisses the PWA install banner if it is visible before clicking — the
+ * banner is a Snackbar that can overlay the tab bar on the first few renders.
  */
 export async function navigateTo(page: Page, tab: AppTab): Promise<void> {
+  // Dismiss the install banner if it is blocking the tab bar.
+  const dismissBtn = page.getByRole('button', { name: /dismiss|not now|close/i })
+  if (await dismissBtn.isVisible()) {
+    await dismissBtn.click()
+  }
   await page.getByRole('button', { name: `Navigate to ${tab}` }).click()
 }
 
