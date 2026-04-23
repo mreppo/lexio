@@ -88,33 +88,19 @@ test('install starter pack from populated word list', async ({ page }) => {
 
 test('reversed pack direction installs with swapped words', async ({ page }) => {
   // The default pair is EN-LV. We need an LV-EN pair for the reversed test.
-  // Use bypassOnboarding with a custom reversed pair.
-  await page.goto('/#/app')
-  await page.evaluate(() => localStorage.clear())
-  await page.evaluate(() => {
-    const reversedPair = {
+  // Use resetAndBypassOnboarding with a custom reversed pair so the PWA install
+  // banner suppression key is also set (same as all other tests).
+  await resetAndBypassOnboarding(page, {
+    pair: {
       id: 'test-lv-en-id',
       sourceLang: 'Latvian',
       sourceCode: 'lv',
       targetLang: 'English',
       targetCode: 'en',
-      createdAt: Date.now(),
-    }
-    localStorage.setItem('lexio:language-pairs', JSON.stringify([reversedPair]))
-    localStorage.setItem(
-      'lexio:settings',
-      JSON.stringify({
-        activePairId: 'test-lv-en-id',
-        quizMode: 'type',
-        dailyGoal: 20,
-        theme: 'dark',
-        typoTolerance: 1,
-      }),
-    )
+    },
   })
-  await page.goto('/#/app')
-  // The Home tab now uses a Liquid Glass NavBar — wait for the "Today" large title.
-  await expect(page.getByText('Today').first()).toBeVisible({ timeout: 10_000 })
+  // The Home tab now uses a Liquid Glass NavBar — "Today" large title is visible
+  // after resetAndBypassOnboarding completes.
 
   await openPackBrowserFromWordsTab(page)
 
