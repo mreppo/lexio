@@ -116,39 +116,45 @@ test('complete a choice-mode quiz session', async ({ page }) => {
   await page.getByRole('radio', { name: /choice mode/i }).click()
   await clickStartQuiz(page)
 
-  // The choice question UI should show a group of 4 option buttons.
+  // The choice question UI should show a group of 4 option buttons (Liquid Glass design).
   const optionsGroup = page.getByRole('group', { name: /choose the/i })
   await optionsGroup.waitFor({ timeout: 10_000 })
 
   const optionButtons = optionsGroup.getByRole('button')
   await expect(optionButtons).toHaveCount(4)
 
-  // Click the first option.
-  await optionButtons.first().click()
+  // Answer 3 questions. For each: click an option, wait for the "Next word" button,
+  // then click it. Correct answers auto-advance after 1200ms, so we always manually
+  // click "Next word" to control timing reliably in tests.
+  for (let i = 0; i < 3; i++) {
+    // Wait for the options group to become visible for the current question.
+    await optionsGroup.waitFor({ timeout: 10_000 })
 
-  // Feedback ("Correct!" or "Incorrect") should appear in the status region.
-  await expect(page.getByRole('status').filter({ hasText: /correct|incorrect/i })).toBeVisible()
-
-  // "Next word" or "See results" button should appear.
-  const nextBtn = page.locator('button').filter({ hasText: /next word|see results/i })
-  await nextBtn.waitFor({ timeout: 10_000 })
-  await nextBtn.click()
-
-  // Answer one more question if the session is still running.
-  const stillInQuiz = await optionsGroup.isVisible().catch(() => false)
-  if (stillInQuiz) {
+    // Click the first option.
     await optionsGroup.getByRole('button').first().click()
-    const next2 = page.locator('button').filter({ hasText: /next word|see results/i })
-    await next2.waitFor({ timeout: 10_000 })
-    await next2.click()
+
+    // Feedback (status region with "Correct" or "Not quite") should appear.
+    await expect(page.getByRole('status')).toBeVisible({ timeout: 5_000 })
+
+    // "Next word" or "See results" button should appear.
+    const nextBtn = page.locator('button').filter({ hasText: /next word|see results/i })
+    await nextBtn.waitFor({ timeout: 10_000 })
+    await nextBtn.click()
+
+    // If the session summary appeared, stop looping.
+    const summaryVisible = await page
+      .getByText('Session complete!')
+      .isVisible()
+      .catch(() => false)
+    if (summaryVisible) break
   }
 
   // Close the session if it is still active.
-  // Choice mode uses QuizLayout with an "End session" text button.
-  const endSessionBtn = page.locator('button').filter({ hasText: /^End session$/ })
-  const isSessionActive = await endSessionBtn.isVisible().catch(() => false)
+  // The Liquid Glass design uses a GlassIcon close button (aria-label "Close quiz").
+  const closeQuizBtn = page.getByRole('button', { name: 'Close quiz' })
+  const isSessionActive = await closeQuizBtn.isVisible().catch(() => false)
   if (isSessionActive) {
-    await endSessionBtn.click()
+    await closeQuizBtn.click()
   }
 
   await expect(page.getByText('Session complete!')).toBeVisible()

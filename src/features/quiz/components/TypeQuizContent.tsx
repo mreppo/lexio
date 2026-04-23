@@ -41,14 +41,12 @@ import type { LanguagePair, UserSettings } from '@/types'
 import type { UseQuizSessionResult } from '../useQuizSession'
 import { Glass } from '@/components/primitives/Glass'
 import { PaperSurface } from '@/components/primitives/PaperSurface'
-import { GlassIcon } from '@/components/atoms/GlassIcon'
-import { Progress } from '@/components/atoms/Progress'
 import { LangPair } from '@/components/atoms/LangPair'
 import { BigWord } from '@/components/atoms/BigWord'
 import { Chip } from '@/components/atoms/Chip'
 import { Btn } from '@/components/atoms/Btn'
-import { IconGlyph } from '@/components/atoms/IconGlyph'
 import { getGlassTokens, glassTypography } from '@/theme/liquidGlass'
+import { QuizTopBar } from './QuizTopBar'
 
 // ─── Animation keyframes ──────────────────────────────────────────────────────
 
@@ -324,9 +322,6 @@ export function TypeQuizContent({ session, pair, settings }: TypeQuizContentProp
     return match ? match[1].toLowerCase() : null
   })()
 
-  // Progress fraction [0, 1]
-  const progressValue = sessionGoal > 0 ? Math.min(1, wordsCompleted / sessionGoal) : 0
-
   // Feedback state flags
   const isFeedback = phase === 'feedback' && lastResult !== null
   const isIncorrect = isFeedback && lastResult?.result === 'incorrect'
@@ -358,53 +353,7 @@ export function TypeQuizContent({ session, pair, settings }: TypeQuizContentProp
       <style>{SHAKE_KEYFRAMES}</style>
 
       {/* ── Zone 1: Top bar ────────────────────────────────────────────────── */}
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: '10px',
-          padding: '56px 16px 10px',
-        }}
-      >
-        {/* Close button */}
-        <GlassIcon as="button" aria-label="Close quiz" onClick={endSession}>
-          <IconGlyph name="close" size={18} color={tokens.color.inkSoft} decorative />
-        </GlassIcon>
-
-        {/* Progress pill — fills available space */}
-        <Glass radius={22} floating pad={0} sx={{ flex: 1 }}>
-          <Box sx={{ padding: '15px 18px' }}>
-            <Progress
-              value={progressValue}
-              tone="accent"
-              height={6}
-              aria-label={`Session progress: ${wordsCompleted} of ${sessionGoal} words completed`}
-            />
-          </Box>
-        </Glass>
-
-        {/* N/M count pill */}
-        <Glass radius={22} floating pad={0}>
-          <Box
-            sx={{
-              height: 44,
-              padding: '0 14px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: glassTypography.body,
-              fontSize: glassTypography.roles.quizPill.size,
-              fontWeight: glassTypography.roles.quizPill.weight,
-              letterSpacing: glassTypography.roles.quizPill.tracking,
-              color: tokens.color.ink,
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {wordsCompleted}/{sessionGoal}
-          </Box>
-        </Glass>
-      </Box>
+      <QuizTopBar progress={{ current: wordsCompleted, total: sessionGoal }} onClose={endSession} />
 
       {/* ── Zone 2: Prompt area ─────────────────────────────────────────────── */}
       <Box sx={{ padding: '40px 24px 0' }}>
