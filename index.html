@@ -37,15 +37,9 @@
       content="Learn vocabulary in any language. Designed by a human, built entirely by autonomous AI agents."
     />
     <meta name="twitter:image" content="https://mreppo.github.io/lexio/og-image.png" />
-    <!-- Google Fonts: Sora (display) + Nunito (body). Both support Latvian diacritics.
-         No integrity attribute: Google Fonts CSS is dynamically generated per user-agent
-         and changes frequently, making static SRI hashes impractical. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
-    />
+    <!-- Fonts are loaded via @fontsource/inter imported in src/main.tsx.
+         Inter covers Latvian diacritics (ā, č, ē, ģ, ī, ķ, ļ, ņ, š, ū, ž) and serves
+         as the cross-platform fallback for the SF Pro Display / SF Pro Text system stack. -->
     <!-- GoatCounter analytics: cookie-free, GDPR-compliant, ~3.5KB gzipped.
          no_onload: true disables automatic pageview on load — required for
          HashRouter SPAs where GoatCounter's pushState detection does not fire.

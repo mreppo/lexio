@@ -11,6 +11,15 @@ import { BrandedLoader } from './components/BrandedLoader'
 import { useAnalytics } from './hooks/useAnalytics'
 
 /**
+ * Dev-only: lazy-load the Glass demo page so it is never included in the
+ * production bundle. The import() is inside the DEV guard so the module
+ * reference itself is dead code in production builds (tree-shaken by Vite).
+ */
+const LazyGlassDemo = import.meta.env.DEV
+  ? lazy(() => import('./features/glass-demo/GlassDemo').then((m) => ({ default: m.GlassDemo })))
+  : null
+
+/**
  * A single shared storage instance for the entire application.
  * Created here (entry point) so both the landing page and the lazy-loaded
  * app shell share the same instance via StorageContext.
@@ -113,6 +122,18 @@ export default function App() {
                 </Suspense>
               }
             />
+
+            {/* Dev-only Glass demo route — tree-shaken out of production builds */}
+            {import.meta.env.DEV && LazyGlassDemo && (
+              <Route
+                path="/__glass-demo"
+                element={
+                  <Suspense fallback={<Box sx={{ p: 4, color: '#fff' }}>Loading demo…</Box>}>
+                    <LazyGlassDemo />
+                  </Suspense>
+                }
+              />
+            )}
 
             {/* Redirect any unknown route to the landing page */}
             <Route path="*" element={<Navigate to="/" replace />} />
