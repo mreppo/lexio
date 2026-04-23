@@ -187,12 +187,16 @@ test('quiz handles empty word list gracefully', async ({ page }) => {
   await expect(page.getByText('Lexio')).toBeVisible()
 
   // It should show either "Session complete!" or an error/empty message.
-  const hasValidResponse = await Promise.allSettled([
+  // Promise.any resolves as soon as the first selector matches, avoiding the
+  // full 3s timeout that Promise.allSettled would impose when only one matches.
+  const hasValidResponse = await Promise.any([
     page.getByText('Session complete!').waitFor({ timeout: 3_000 }),
     page.getByText(/something went wrong|no words|loading/i).waitFor({ timeout: 3_000 }),
     // The mode selector might still be visible if quiz didn't start
     page.getByText('Choose your quiz mode').waitFor({ timeout: 3_000 }),
-  ]).then((results) => results.some((r) => r.status === 'fulfilled'))
+  ])
+    .then(() => true)
+    .catch(() => false)
 
   // Whether or not we got a specific message, the app must not have crashed.
   // hasValidResponse is checked implicitly - the key assertion is that Lexio is still visible.
