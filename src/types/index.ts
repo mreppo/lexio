@@ -63,6 +63,16 @@ export interface UserSettings {
    * This is a placeholder for future auth integration.
    */
   readonly displayName?: string | null
+  /**
+   * Sound effects toggle — whether UI sound effects are enabled.
+   * Defaults to false (no sounds in MVP). Persisted via StorageService.
+   */
+  readonly soundEffects?: boolean
+  /**
+   * Auto-play pronunciation toggle — whether to auto-play audio after each answer.
+   * TTS implementation is out of scope for MVP; only the preference is stored.
+   */
+  readonly autoPlayPronunciation?: boolean
 }
 
 export interface DailyStats {

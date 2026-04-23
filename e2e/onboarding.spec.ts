@@ -106,12 +106,12 @@ test('complete onboarding with custom language pair', async ({ page }) => {
   await expect(page.getByText('Today').first()).toBeVisible({ timeout: 10_000 })
   await expect(page.getByRole('button', { name: 'Navigate to Home' })).toBeVisible()
 
-  // Navigate to Settings to verify the AppBar shows the selected language pair.
+  // Navigate to Settings to verify the screen renders correctly after onboarding.
   await page.getByRole('button', { name: 'Navigate to Settings' }).click()
-  const langPairButton = page.getByRole('button', { name: 'Select language pair' })
-  await expect(langPairButton).toBeVisible()
-  // The pair should include "English" (source or in pair name).
-  await expect(langPairButton).toContainText(/English|German/i)
+  // The new Liquid Glass Settings screen shows a NavBar large "Settings" title.
+  await expect(page.getByText('Settings')).toBeVisible({ timeout: 5_000 })
+  // The account card should be visible with the local profile placeholder.
+  await expect(page.getByText('Lexio user')).toBeVisible()
 })
 
 test('onboarding welcome step shows both CTAs', async ({ page }) => {

@@ -1,17 +1,9 @@
 import { useMemo, useState, useCallback, useEffect, useRef } from 'react'
-import {
-  ThemeProvider,
-  CssBaseline,
-  Box,
-  AppBar,
-  Toolbar,
-  Typography,
-  Container,
-} from '@mui/material'
+import { ThemeProvider, CssBaseline, Box } from '@mui/material'
 import { createAppTheme } from './theme'
 import { useThemeMode } from './hooks/useThemeMode'
 import { useStorage } from './hooks/useStorage'
-import { useLanguagePairs, LanguagePairSelector, CreatePairDialog } from './features/language-pairs'
+import { useLanguagePairs } from './features/language-pairs'
 import type { CreatePairInput } from './features/language-pairs'
 import { LibraryScreen } from './features/words/components/LibraryScreen'
 import { QuizHub } from './features/quiz'
@@ -19,7 +11,7 @@ import { DashboardScreen, useDashboard } from './features/dashboard'
 import { StatsScreen } from './features/stats'
 import { SettingsScreen } from './features/settings'
 import { OnboardingFlow } from './features/onboarding'
-import { UpdateNotification, BrandedLoader, TabTransition, InstallBanner } from './components'
+import { UpdateNotification, BrandedLoader, InstallBanner } from './components'
 import { TabBar } from './components/composites'
 import type { AppTab } from './components/composites'
 import { useServiceWorker } from './hooks/useServiceWorker'
@@ -39,14 +31,7 @@ function AppContent(): React.JSX.Element {
   const { showBanner, platform, triggerInstall, dismissBanner, recordQuizSession } =
     useInstallPrompt()
 
-  const {
-    pairs,
-    activePair,
-    loading: pairsLoading,
-    createPair,
-    switchPair,
-    deletePair,
-  } = useLanguagePairs()
+  const { pairs, activePair, loading: pairsLoading, createPair } = useLanguagePairs()
 
   /**
    * Whether the `?demo=true` query parameter is present in the URL.
@@ -69,7 +54,6 @@ function AppContent(): React.JSX.Element {
     })(),
   )
 
-  const [createDialogOpen, setCreateDialogOpen] = useState(false)
   /**
    * Whether the onboarding flow is active.
    * Set to true once loading completes and no pairs exist.
@@ -126,21 +110,6 @@ function AppContent(): React.JSX.Element {
     if (goToTab) {
       setActiveTab(goToTab)
     }
-  }, [])
-
-  const handleCreatePair = useCallback(
-    async (input: CreatePairInput): Promise<void> => {
-      await createPair(input, true)
-    },
-    [createPair],
-  )
-
-  const handleOpenCreateDialog = useCallback(() => {
-    setCreateDialogOpen(true)
-  }, [])
-
-  const handleCloseCreateDialog = useCallback(() => {
-    setCreateDialogOpen(false)
   }, [])
 
   /** Navigate to quiz tab and auto-start (called from Dashboard "Start review" button). */
@@ -275,48 +244,20 @@ function AppContent(): React.JSX.Element {
           {activeTab === 'stats' && <StatsScreen />}
 
           {/*
-           * Settings tab: legacy AppBar + Container layout.
-           * Will be migrated to full-bleed PaperSurface in issue #152.
+           * Settings tab: full-bleed Liquid Glass layout (issue #152).
+           * SettingsScreen owns its own PaperSurface (wallpaper, NavBar, scroll).
+           * No AppBar or Container — those would conflict with the full-bleed design.
+           * TabBar is rendered externally below (no exclusion for settings).
+           * This completes the legacy AppBar+Container retirement — every screen
+           * is now on PaperSurface, unblocking #162 (TabBar fixed→absolute flip).
            */}
           {activeTab === 'settings' && (
-            <>
-              <AppBar position="static" color="default" elevation={1}>
-                <Toolbar sx={{ gap: 2 }}>
-                  <Typography
-                    variant="h6"
-                    component="span"
-                    sx={{ fontWeight: 700, color: 'primary.main', flexShrink: 0 }}
-                  >
-                    Lexio
-                  </Typography>
-
-                  <Box sx={{ flex: 1 }} />
-
-                  <LanguagePairSelector
-                    pairs={pairs}
-                    activePair={activePair}
-                    loading={pairsLoading}
-                    onSwitch={switchPair}
-                    onAddPair={handleOpenCreateDialog}
-                  />
-                </Toolbar>
-              </AppBar>
-
-              {/* Main content — bottom padding makes room for the fixed TabBar */}
-              <Container maxWidth="lg" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
-                <TabTransition activeTab={activeTab}>
-                  <SettingsScreen
-                    themePreference={themePreference}
-                    onThemeChange={handleThemeChange}
-                    settings={settings}
-                    onSettingsChange={handleSettingsChange}
-                    pairs={pairs}
-                    onAddPair={handleOpenCreateDialog}
-                    onDeletePair={deletePair}
-                  />
-                </TabTransition>
-              </Container>
-            </>
+            <SettingsScreen
+              themePreference={themePreference}
+              onThemeChange={handleThemeChange}
+              settings={settings}
+              onSettingsChange={handleSettingsChange}
+            />
           )}
 
           {/*
@@ -327,13 +268,6 @@ function AppContent(): React.JSX.Element {
           {showNav && activeTab !== 'words' && (
             <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
           )}
-
-          <CreatePairDialog
-            open={createDialogOpen}
-            onClose={handleCloseCreateDialog}
-            onSubmit={handleCreatePair}
-            suggestDefault={false}
-          />
         </>
       )}
       {/* Update notification — shown when a new service worker is waiting */}
