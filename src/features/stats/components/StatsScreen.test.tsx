@@ -29,7 +29,12 @@ import { ThemeProvider } from '@mui/material'
 import { theme } from '@/theme'
 import { StorageContext } from '@/hooks/useStorage'
 import { createMockStorage } from '@/test/mockStorage'
-import { createMockSettings, createMockDailyStats, createMockWord, createMockProgress } from '@/test/fixtures'
+import {
+  createMockSettings,
+  createMockDailyStats,
+  createMockWord,
+  createMockProgress,
+} from '@/test/fixtures'
 import { StatsScreen } from './StatsScreen'
 import type { StorageService } from '@/services/storage/StorageService'
 
@@ -106,11 +111,13 @@ describe('StatsScreen', () => {
 
       storage = createMockStorage({
         getSettings: vi.fn().mockResolvedValue(defaultSettings),
-        getRecentDailyStats: vi.fn().mockResolvedValue([
-          createMockDailyStats({ date: today, wordsReviewed: 25, correctCount: 20 }),
-          createMockDailyStats({ date: yesterday, wordsReviewed: 25, correctCount: 20 }),
-          createMockDailyStats({ date: dayBefore, wordsReviewed: 25, correctCount: 20 }),
-        ]),
+        getRecentDailyStats: vi
+          .fn()
+          .mockResolvedValue([
+            createMockDailyStats({ date: today, wordsReviewed: 25, correctCount: 20 }),
+            createMockDailyStats({ date: yesterday, wordsReviewed: 25, correctCount: 20 }),
+            createMockDailyStats({ date: dayBefore, wordsReviewed: 25, correctCount: 20 }),
+          ]),
         getWords: vi.fn().mockResolvedValue([]),
         getAllProgress: vi.fn().mockResolvedValue([]),
       })
@@ -153,9 +160,11 @@ describe('StatsScreen', () => {
       const today = daysAgo(0)
       storage = createMockStorage({
         getSettings: vi.fn().mockResolvedValue(defaultSettings),
-        getRecentDailyStats: vi.fn().mockResolvedValue([
-          createMockDailyStats({ date: today, wordsReviewed: 10, correctCount: 8 }),
-        ]),
+        getRecentDailyStats: vi
+          .fn()
+          .mockResolvedValue([
+            createMockDailyStats({ date: today, wordsReviewed: 10, correctCount: 8 }),
+          ]),
         getWords: vi.fn().mockResolvedValue([]),
         getAllProgress: vi.fn().mockResolvedValue([]),
       })
@@ -172,10 +181,12 @@ describe('StatsScreen', () => {
       const priorWeekSameDay = daysAgo(7)
       storage = createMockStorage({
         getSettings: vi.fn().mockResolvedValue(defaultSettings),
-        getRecentDailyStats: vi.fn().mockResolvedValue([
-          createMockDailyStats({ date: today, wordsReviewed: 10, correctCount: 8 }),
-          createMockDailyStats({ date: priorWeekSameDay, wordsReviewed: 10, correctCount: 5 }),
-        ]),
+        getRecentDailyStats: vi
+          .fn()
+          .mockResolvedValue([
+            createMockDailyStats({ date: today, wordsReviewed: 10, correctCount: 8 }),
+            createMockDailyStats({ date: priorWeekSameDay, wordsReviewed: 10, correctCount: 5 }),
+          ]),
         getWords: vi.fn().mockResolvedValue([]),
         getAllProgress: vi.fn().mockResolvedValue([]),
       })
@@ -192,10 +203,12 @@ describe('StatsScreen', () => {
       const priorWeekSameDay = daysAgo(7)
       storage = createMockStorage({
         getSettings: vi.fn().mockResolvedValue(defaultSettings),
-        getRecentDailyStats: vi.fn().mockResolvedValue([
-          createMockDailyStats({ date: today, wordsReviewed: 10, correctCount: 5 }),
-          createMockDailyStats({ date: priorWeekSameDay, wordsReviewed: 10, correctCount: 8 }),
-        ]),
+        getRecentDailyStats: vi
+          .fn()
+          .mockResolvedValue([
+            createMockDailyStats({ date: today, wordsReviewed: 10, correctCount: 5 }),
+            createMockDailyStats({ date: priorWeekSameDay, wordsReviewed: 10, correctCount: 8 }),
+          ]),
         getWords: vi.fn().mockResolvedValue([]),
         getAllProgress: vi.fn().mockResolvedValue([]),
       })
@@ -211,9 +224,11 @@ describe('StatsScreen', () => {
       const today = daysAgo(0)
       storage = createMockStorage({
         getSettings: vi.fn().mockResolvedValue(defaultSettings),
-        getRecentDailyStats: vi.fn().mockResolvedValue([
-          createMockDailyStats({ date: today, wordsReviewed: 10, correctCount: 8 }),
-        ]),
+        getRecentDailyStats: vi
+          .fn()
+          .mockResolvedValue([
+            createMockDailyStats({ date: today, wordsReviewed: 10, correctCount: 8 }),
+          ]),
         getWords: vi.fn().mockResolvedValue([]),
         getAllProgress: vi.fn().mockResolvedValue([]),
       })
@@ -298,9 +313,7 @@ describe('StatsScreen', () => {
         // Each bar has an aria-label "DayName: N words reviewed"
         const bars = screen.getAllByRole('img', { hidden: false })
         // The bar chart container has role="img" aria-label="This week bar chart"
-        expect(
-          bars.some((b) => b.getAttribute('aria-label') === 'This week bar chart'),
-        ).toBe(true)
+        expect(bars.some((b) => b.getAttribute('aria-label') === 'This week bar chart')).toBe(true)
       })
     })
 
@@ -323,9 +336,11 @@ describe('StatsScreen', () => {
       const today = daysAgo(0)
       storage = createMockStorage({
         getSettings: vi.fn().mockResolvedValue(defaultSettings),
-        getRecentDailyStats: vi.fn().mockResolvedValue([
-          createMockDailyStats({ date: today, wordsReviewed: 12, correctCount: 10 }),
-        ]),
+        getRecentDailyStats: vi
+          .fn()
+          .mockResolvedValue([
+            createMockDailyStats({ date: today, wordsReviewed: 12, correctCount: 10 }),
+          ]),
         getWords: vi.fn().mockResolvedValue([]),
         getAllProgress: vi.fn().mockResolvedValue([]),
       })
@@ -466,7 +481,11 @@ describe('StatsScreen', () => {
         }),
       )
 
-      Object.defineProperty(navigator, 'share', { value: undefined, writable: true, configurable: true })
+      Object.defineProperty(navigator, 'share', {
+        value: undefined,
+        writable: true,
+        configurable: true,
+      })
     })
 
     it('should show toast when navigator.share is not available', async () => {
