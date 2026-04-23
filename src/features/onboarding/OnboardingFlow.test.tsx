@@ -480,7 +480,7 @@ describe('First-launch detection (App integration)', () => {
     await act(async () => {})
     // Onboarding "Try it now" is absent because pairs exist.
     expect(screen.queryByRole('button', { name: /try it now/i })).not.toBeInTheDocument()
-    // AppBar Lexio heading is present.
-    expect(screen.getAllByText('Lexio').length).toBeGreaterThan(0)
+    // The home Dashboard is shown — its "Today" NavBar title is present.
+    expect(screen.getByText('Today')).toBeInTheDocument()
   })
 })

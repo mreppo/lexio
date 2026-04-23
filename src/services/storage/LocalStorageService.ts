@@ -16,6 +16,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   theme: 'dark',
   typoTolerance: 1,
   selectedLevels: [],
+  displayName: null,
 }
 
 function readJson<T>(key: string): T | null {

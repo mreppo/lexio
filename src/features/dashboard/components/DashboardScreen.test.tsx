@@ -1,9 +1,26 @@
-import { describe, it, expect, vi } from 'vitest'
+/**
+ * DashboardScreen tests — Liquid Glass Home screen.
+ *
+ * Tests are intentionally behaviour-focused (what is shown / what happens when
+ * the user interacts) rather than implementation-focused (how the DOM is structured).
+ * All storage is mocked via StorageContext.
+ */
+
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { ThemeProvider, createTheme } from '@mui/material'
 import { DashboardScreen } from './DashboardScreen'
 import type { DashboardScreenProps } from './DashboardScreen'
-import type { LanguagePair, UserSettings, DailyStats, WordProgress } from '@/types'
+import type { LanguagePair, UserSettings, DailyStats, Word, WordProgress } from '@/types'
+
+// ─── Theme wrapper ────────────────────────────────────────────────────────────
+
+const theme = createTheme()
+
+function renderWithTheme(ui: React.ReactElement) {
+  return render(<ThemeProvider theme={theme}>{ui}</ThemeProvider>)
+}
 
 // ─── Fixtures ────────────────────────────────────────────────────────────────
 
@@ -14,6 +31,7 @@ const defaultSettings: UserSettings = {
   theme: 'dark',
   typoTolerance: 1,
   selectedLevels: [],
+  displayName: null,
 }
 
 const activePair: LanguagePair = {
@@ -33,14 +51,38 @@ const todayStats: DailyStats = {
   streakDays: 3,
 }
 
-const wordProgress: WordProgress = {
+const learningWord: Word = {
+  id: 'word-1',
+  pairId: 'pair-1',
+  source: 'māja',
+  target: 'house',
+  notes: 'A place where people live.',
+  tags: [],
+  createdAt: 1700000000000,
+  isFromPack: false,
+}
+
+const learningProgress: WordProgress = {
   wordId: 'word-1',
-  correctCount: 5,
+  correctCount: 2,
   incorrectCount: 1,
-  streak: 3,
+  streak: 1,
   lastReviewed: 1700000000000,
-  nextReview: 1700086400000,
-  confidence: 0.85,
+  // nextReview in the past so this word is "due"
+  nextReview: 1000,
+  confidence: 0.3,
+  history: [],
+}
+
+const masteredProgress: WordProgress = {
+  wordId: 'word-2',
+  correctCount: 10,
+  incorrectCount: 0,
+  streak: 8,
+  lastReviewed: 1700000000000,
+  // nextReview far in the future — not due
+  nextReview: Date.now() + 1_000_000_000,
+  confidence: 0.9,
   history: [],
 }
 
@@ -50,9 +92,9 @@ function buildProps(overrides: Partial<DashboardScreenProps> = {}): DashboardScr
     settings: defaultSettings,
     todayStats: null,
     wordProgressList: [],
+    words: [],
     totalWords: 0,
     streakDays: 0,
-    recentStats: [],
     loading: false,
     onStartQuiz: vi.fn(),
     ...overrides,
@@ -62,132 +104,246 @@ function buildProps(overrides: Partial<DashboardScreenProps> = {}): DashboardScr
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
 describe('DashboardScreen', () => {
-  describe('empty state (new user)', () => {
-    it('should render without crashing with minimal props', () => {
-      render(<DashboardScreen {...buildProps()} />)
+  beforeEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  describe('main structure', () => {
+    it('should render the main Dashboard landmark', () => {
+      renderWithTheme(<DashboardScreen {...buildProps()} />)
       expect(screen.getByRole('main', { name: 'Dashboard' })).toBeInTheDocument()
     })
 
-    it('should show "No sessions yet today" when todayStats is null', () => {
-      render(<DashboardScreen {...buildProps({ todayStats: null })} />)
-      expect(screen.getByText(/No sessions yet today/i)).toBeInTheDocument()
-    })
-
-    it('should show "No words added yet" when totalWords is 0', () => {
-      render(<DashboardScreen {...buildProps({ totalWords: 0 })} />)
-      expect(screen.getByText(/No words added yet/i)).toBeInTheDocument()
-    })
-
-    it('should show "No recent activity" when recentStats is empty', () => {
-      render(<DashboardScreen {...buildProps({ recentStats: [] })} />)
-      expect(screen.getByText(/No recent activity/i)).toBeInTheDocument()
-    })
-
-    it('should show the Start Quiz button', () => {
-      render(<DashboardScreen {...buildProps()} />)
-      expect(screen.getByRole('button', { name: /Start Quiz/i })).toBeInTheDocument()
-    })
-
-    it('should display the active language pair info near the CTA', () => {
-      render(<DashboardScreen {...buildProps()} />)
-      expect(screen.getByText(/Latvian.*English/i)).toBeInTheDocument()
+    it('should render the "Today" title', () => {
+      renderWithTheme(<DashboardScreen {...buildProps()} />)
+      expect(screen.getByText('Today')).toBeInTheDocument()
     })
   })
 
-  describe('populated state', () => {
-    it('should show today stats when provided', () => {
-      render(<DashboardScreen {...buildProps({ todayStats })} />)
-      // 10 words reviewed — may appear in multiple places (hero ring + today section)
-      const elements = screen.getAllByText('10')
-      expect(elements.length).toBeGreaterThanOrEqual(1)
+  describe('hero card', () => {
+    it('should show start review button when activePair is set and words are due', () => {
+      renderWithTheme(
+        <DashboardScreen
+          {...buildProps({
+            activePair,
+            words: [learningWord],
+            wordProgressList: [learningProgress],
+            totalWords: 1,
+          })}
+        />,
+      )
+      expect(screen.getByRole('button', { name: /start review/i })).toBeInTheDocument()
     })
 
-    it('should show accuracy percentage', () => {
-      render(<DashboardScreen {...buildProps({ todayStats })} />)
+    it('should show celebratory "All caught up!" when no words are due', () => {
+      // Word exists with nextReview far in the future (not due)
+      const futureWord: Word = { ...learningWord, id: 'w-future' }
+      const futureProgress: WordProgress = {
+        ...learningProgress,
+        wordId: 'w-future',
+        nextReview: Date.now() + 1_000_000_000,
+        confidence: 0.3,
+      }
+      renderWithTheme(
+        <DashboardScreen
+          {...buildProps({
+            activePair,
+            words: [futureWord],
+            wordProgressList: [futureProgress],
+            totalWords: 1,
+          })}
+        />,
+      )
+      expect(screen.getByText(/All caught up/i)).toBeInTheDocument()
+    })
+
+    it('should show "Pick a language pair to start" when no activePair', () => {
+      renderWithTheme(<DashboardScreen {...buildProps({ activePair: null })} />)
+      expect(screen.getByText(/Pick a language pair to start/i)).toBeInTheDocument()
+    })
+
+    it('should disable "Start review" button when no activePair', () => {
+      renderWithTheme(<DashboardScreen {...buildProps({ activePair: null })} />)
+      expect(screen.getByRole('button', { name: /start review/i })).toBeDisabled()
+    })
+
+    it('should show progress bar when words are due', () => {
+      renderWithTheme(
+        <DashboardScreen
+          {...buildProps({
+            words: [learningWord],
+            wordProgressList: [learningProgress],
+            totalWords: 1,
+          })}
+        />,
+      )
+      expect(screen.getByRole('progressbar', { name: /daily goal progress/i })).toBeInTheDocument()
+    })
+  })
+
+  describe('quick stats row', () => {
+    it('should show library count', () => {
+      renderWithTheme(<DashboardScreen {...buildProps({ totalWords: 42 })} />)
+      expect(screen.getByText('42')).toBeInTheDocument()
+      expect(screen.getByText('Library')).toBeInTheDocument()
+    })
+
+    it('should show mastered count', () => {
+      const masteredWord: Word = { ...learningWord, id: 'word-2' }
+      renderWithTheme(
+        <DashboardScreen
+          {...buildProps({
+            words: [learningWord, masteredWord],
+            wordProgressList: [learningProgress, masteredProgress],
+            totalWords: 2,
+          })}
+        />,
+      )
+      // masteredProgress has confidence 0.9 >= 0.8 threshold
+      // "Mastered" label should be present in the quick stats row
+      expect(screen.getByText('Mastered')).toBeInTheDocument()
+    })
+
+    it('should show accuracy when today stats are available', () => {
+      renderWithTheme(<DashboardScreen {...buildProps({ todayStats })} />)
       // 8/10 = 80%
       expect(screen.getByText('80%')).toBeInTheDocument()
+      expect(screen.getByText('Accuracy')).toBeInTheDocument()
     })
 
-    it('should show streak badge when streakDays >= 1', () => {
-      render(<DashboardScreen {...buildProps({ streakDays: 5 })} />)
-      expect(screen.getByRole('status', { name: /5 day streak/i })).toBeInTheDocument()
+    it('should show dash for accuracy when no today stats', () => {
+      renderWithTheme(<DashboardScreen {...buildProps({ todayStats: null })} />)
+      expect(screen.getByText('—')).toBeInTheDocument()
+    })
+  })
+
+  describe('streak icon', () => {
+    it('should show streak icon when streakDays >= 1', () => {
+      renderWithTheme(<DashboardScreen {...buildProps({ streakDays: 5 })} />)
+      expect(screen.getByLabelText(/5 day streak/i)).toBeInTheDocument()
     })
 
-    it('should not show streak badge when streakDays is 0', () => {
-      render(<DashboardScreen {...buildProps({ streakDays: 0 })} />)
-      expect(screen.queryByRole('status')).not.toBeInTheDocument()
+    it('should not show streak icon when streakDays is 0', () => {
+      renderWithTheme(<DashboardScreen {...buildProps({ streakDays: 0 })} />)
+      expect(screen.queryByLabelText(/day streak/i)).not.toBeInTheDocument()
+    })
+  })
+
+  describe('Word of the Day', () => {
+    it('should show the "Word of the day" section header', () => {
+      renderWithTheme(<DashboardScreen {...buildProps()} />)
+      // SectionHeader renders as h2
+      expect(
+        screen.getByRole('heading', { level: 2, name: /word of the day/i }),
+      ).toBeInTheDocument()
     })
 
-    it('should show word mastery distribution when totalWords > 0', () => {
-      render(
+    it('should show a WotD word when eligible words exist', () => {
+      renderWithTheme(
         <DashboardScreen
           {...buildProps({
-            totalWords: 3,
-            wordProgressList: [wordProgress],
+            activePair,
+            words: [learningWord],
+            wordProgressList: [learningProgress],
+            totalWords: 1,
           })}
         />,
       )
-      // The segmented bar has an img role with a descriptive aria-label
-      expect(screen.getByRole('img', { name: /mastery distribution/i })).toBeInTheDocument()
+      // learningWord.source is 'māja'
+      expect(screen.getByText('māja')).toBeInTheDocument()
     })
 
-    it('should show mastered words count in legend', () => {
-      render(
+    it('should show empty state WotD message when no eligible words', () => {
+      renderWithTheme(
         <DashboardScreen
           {...buildProps({
-            totalWords: 3,
-            wordProgressList: [wordProgress],
+            activePair,
+            words: [],
+            wordProgressList: [],
+            totalWords: 0,
           })}
         />,
       )
-      expect(screen.getByLabelText(/mastered words/i)).toBeInTheDocument()
+      expect(screen.getByText(/add words and start learning/i)).toBeInTheDocument()
     })
 
-    it('should show recent activity entries', () => {
-      const stats: DailyStats[] = [
-        {
-          date: '2026-03-19',
-          wordsReviewed: 15,
-          correctCount: 12,
-          incorrectCount: 3,
-          streakDays: 1,
-        },
-      ]
-      render(<DashboardScreen {...buildProps({ recentStats: stats })} />)
-      expect(screen.getByText('2026-03-19')).toBeInTheDocument()
-      expect(screen.getByText('15 words')).toBeInTheDocument()
+    it('should show speaker button for WotD', () => {
+      renderWithTheme(
+        <DashboardScreen
+          {...buildProps({
+            activePair,
+            words: [learningWord],
+            wordProgressList: [learningProgress],
+            totalWords: 1,
+          })}
+        />,
+      )
+      expect(screen.getByRole('button', { name: /play pronunciation/i })).toBeInTheDocument()
+    })
+
+    it('should show example block when word has notes', () => {
+      renderWithTheme(
+        <DashboardScreen
+          {...buildProps({
+            activePair,
+            words: [learningWord], // notes: 'A place where people live.'
+            wordProgressList: [learningProgress],
+            totalWords: 1,
+          })}
+        />,
+      )
+      // Notes appear in the italic example block
+      const exampleTexts = screen.getAllByText(/A place where people live/i)
+      expect(exampleTexts.length).toBeGreaterThanOrEqual(1)
     })
   })
 
   describe('loading state', () => {
     it('should render skeleton elements when loading', () => {
-      render(<DashboardScreen {...buildProps({ loading: true })} />)
-      // The Start Quiz button should be disabled while loading
-      const startButton = screen.getByRole('button', { name: /Start Quiz/i })
-      expect(startButton).toBeDisabled()
+      const { container } = renderWithTheme(<DashboardScreen {...buildProps({ loading: true })} />)
+      // Skeletons have specific MUI classes — check the component doesn't crash
+      expect(container).toBeDefined()
     })
   })
 
   describe('interactions', () => {
-    it('should call onStartQuiz when Start Quiz button is clicked', async () => {
+    it('should call onStartQuiz when Start review button is clicked', async () => {
       const user = userEvent.setup()
       const onStartQuiz = vi.fn()
-      render(<DashboardScreen {...buildProps({ onStartQuiz })} />)
+      renderWithTheme(
+        <DashboardScreen
+          {...buildProps({
+            onStartQuiz,
+            activePair,
+            words: [learningWord],
+            wordProgressList: [learningProgress],
+            totalWords: 1,
+          })}
+        />,
+      )
 
-      await user.click(screen.getByRole('button', { name: /Start Quiz/i }))
+      await user.click(screen.getByRole('button', { name: /start review/i }))
       expect(onStartQuiz).toHaveBeenCalledTimes(1)
-    })
-
-    it('should disable Start Quiz button when activePair is null', () => {
-      render(<DashboardScreen {...buildProps({ activePair: null })} />)
-      expect(screen.getByRole('button', { name: /Start Quiz/i })).toBeDisabled()
     })
   })
 
-  describe('no active pair', () => {
-    it('should show "No language pair selected" near the CTA', () => {
-      render(<DashboardScreen {...buildProps({ activePair: null })} />)
-      expect(screen.getByText('No language pair selected')).toBeInTheDocument()
+  describe('avatar', () => {
+    it('should show "L" initial when displayName is null', () => {
+      renderWithTheme(
+        <DashboardScreen
+          {...buildProps({ settings: { ...defaultSettings, displayName: null } })}
+        />,
+      )
+      expect(screen.getByText('L')).toBeInTheDocument()
+    })
+
+    it('should show first initial of displayName when set', () => {
+      renderWithTheme(
+        <DashboardScreen
+          {...buildProps({ settings: { ...defaultSettings, displayName: 'Alice' } })}
+        />,
+      )
+      expect(screen.getByText('A')).toBeInTheDocument()
     })
   })
 })

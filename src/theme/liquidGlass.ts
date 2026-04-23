@@ -24,6 +24,12 @@ export interface GlassColorTokens {
   readonly red: string
   readonly violet: string
   readonly pink: string
+  /**
+   * Avatar gradient — placeholder for future auth integration.
+   * Used by the NavBar avatar on the Home screen.
+   * Value from design spec: #007AFF → #AF52DE.
+   */
+  readonly avatarGradient: string
 }
 
 export interface GlassLayerTokens {
@@ -135,6 +141,8 @@ export const lightGlass: GlassVariantTokens = {
     red: '#FF3B30',
     violet: '#AF52DE',
     pink: '#FF2D55',
+    // Avatar gradient placeholder — design spec: #007AFF → #AF52DE
+    avatarGradient: 'linear-gradient(135deg, #007AFF 0%, #AF52DE 100%)',
   },
   glass: {
     bg: 'rgba(255,255,255,0.55)',
@@ -171,6 +179,8 @@ export const darkGlass: GlassVariantTokens = {
     red: '#FF453A',
     violet: '#BF5AF2',
     pink: '#FF375F',
+    // Avatar gradient placeholder — same gradient on dark variant for consistency
+    avatarGradient: 'linear-gradient(135deg, #0A84FF 0%, #BF5AF2 100%)',
   },
   glass: {
     bg: 'rgba(255,255,255,0.10)',

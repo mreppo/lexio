@@ -197,6 +197,7 @@ describe('LocalStorageService', () => {
         theme: 'light',
         typoTolerance: 2,
         selectedLevels: ['B1', 'B2'],
+        displayName: null,
       }
       await service.saveSettings(settings)
       const retrieved = await service.getSettings()
@@ -306,6 +307,7 @@ describe('LocalStorageService', () => {
         theme: 'light',
         typoTolerance: 0,
         selectedLevels: [],
+        displayName: null,
       }
       const dailyStats: DailyStats = {
         date: '2026-03-01',
@@ -397,6 +399,7 @@ describe('LocalStorageService', () => {
         theme: 'dark',
         typoTolerance: 1,
         selectedLevels: [],
+        displayName: null,
       })
     })
 

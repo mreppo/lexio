@@ -106,6 +106,9 @@ test('create a language pair from onboarding-style dialog', async ({ page }) => 
 })
 
 test('fill create pair dialog from AppBar and verify', async ({ page }) => {
+  // Navigate to Settings first so the AppBar (with the language selector) is visible.
+  // The Home tab uses a full-bleed Liquid Glass layout without the AppBar.
+  await navigateTo(page, 'Settings')
   // Open the dialog via the AppBar language pair selector.
   await page.getByRole('button', { name: 'Select language pair' }).click()
   await page.getByRole('menuitem', { name: 'Add pair' }).click()
