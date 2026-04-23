@@ -5,7 +5,7 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { TabTransition } from './TabTransition'
-import type { AppTab } from './BottomNav'
+import type { AppTab } from './composites'
 
 describe('TabTransition', () => {
   it('should render children', () => {

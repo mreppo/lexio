@@ -8,15 +8,22 @@
  * when the route is visited.
  *
  * Grid: light × dark  ×  default / strong / floating  ×  all radius presets
+ * Composites section: NavBar (compact + large), TabBar variants, GlassRow, SectionHeader
  */
 
 import { useState } from 'react'
 import { Box, Typography, Switch, FormControlLabel } from '@mui/material'
 import { ThemeProvider, CssBaseline } from '@mui/material'
+import { Settings, Zap } from 'lucide-react'
 import { createAppTheme } from '../../theme'
 import { Glass } from '../../components/primitives/Glass'
 import { PaperSurface } from '../../components/primitives/PaperSurface'
 import { glassRadius } from '../../theme/liquidGlass'
+import { NavBar } from '../../components/composites/NavBar'
+import { TabBar } from '../../components/composites/TabBar'
+import { GlassRow } from '../../components/composites/GlassRow'
+import { SectionHeader } from '../../components/composites/SectionHeader'
+import type { AppTab } from '../../components/composites/TabBar'
 
 const RADIUS_PRESETS = [
   { label: 'card (22)', value: 'card' },
@@ -32,6 +39,7 @@ type RadiusValue = (typeof RADIUS_PRESETS)[number]['value']
 
 function GlassDemoSection({ mode }: { readonly mode: 'light' | 'dark' }) {
   const theme = createAppTheme(mode)
+  const [activeTab, setActiveTab] = useState<AppTab>('home')
 
   return (
     <ThemeProvider theme={theme}>
@@ -97,7 +105,7 @@ function GlassDemoSection({ mode }: { readonly mode: 'light' | 'dark' }) {
         <Typography variant="body2" sx={{ mb: 1, opacity: 0.6 }}>
           Radius presets
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 4 }}>
           {RADIUS_PRESETS.map((preset) => (
             <Glass
               key={String(preset.value)}
@@ -116,6 +124,78 @@ function GlassDemoSection({ mode }: { readonly mode: 'light' | 'dark' }) {
             </Glass>
           ))}
         </Box>
+
+        {/* ── Composites section ────────────────────────────────────────── */}
+        <Typography
+          variant="h5"
+          sx={{ mb: 2, fontWeight: 800, color: mode === 'dark' ? '#fff' : '#111114' }}
+        >
+          Composites
+        </Typography>
+
+        {/* NavBar — compact */}
+        <Typography variant="body2" sx={{ mb: 1, opacity: 0.6 }}>
+          NavBar — compact
+        </Typography>
+        <Box sx={{ mb: 3 }}>
+          <NavBar
+            title="Lexio"
+            trailing={
+              <Box
+                component="button"
+                sx={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: '22px',
+                  border: 'none',
+                  background: 'transparent',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Settings size={20} />
+              </Box>
+            }
+          />
+        </Box>
+
+        {/* NavBar — large */}
+        <Typography variant="body2" sx={{ mb: 1, opacity: 0.6 }}>
+          NavBar — large
+        </Typography>
+        <Box sx={{ mb: 3 }}>
+          <NavBar large prominentTitle="Today" title="Today" />
+        </Box>
+
+        {/* TabBar */}
+        <Typography variant="body2" sx={{ mb: 1, opacity: 0.6 }}>
+          TabBar (active: {activeTab})
+        </Typography>
+        <Box sx={{ position: 'relative', height: 120, mb: 3 }}>
+          <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
+        </Box>
+
+        {/* SectionHeader */}
+        <Typography variant="body2" sx={{ mb: 1, opacity: 0.6 }}>
+          SectionHeader
+        </Typography>
+        <Box sx={{ mb: 2 }}>
+          <SectionHeader>Daily practice</SectionHeader>
+          <SectionHeader>Quiz settings</SectionHeader>
+        </Box>
+
+        {/* GlassRow variants */}
+        <Typography variant="body2" sx={{ mb: 1, opacity: 0.6 }}>
+          GlassRow variants
+        </Typography>
+        <Glass pad={0} floating sx={{ mb: 3 }}>
+          <GlassRow icon={Zap} iconBg="#FF9500" title="Daily goal" detail="20 words" />
+          <GlassRow icon={Settings} iconBg="#007AFF" title="Quiz mode" detail="Mixed" />
+          <GlassRow title="No icon, no detail" chevron={false} />
+          <GlassRow title="Last row (no divider)" detail="isLast=true" isLast />
+        </Glass>
       </PaperSurface>
     </ThemeProvider>
   )

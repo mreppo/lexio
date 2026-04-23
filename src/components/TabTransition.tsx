@@ -10,7 +10,7 @@
 
 import { type ReactNode, useEffect, useState } from 'react'
 import { Box } from '@mui/material'
-import type { AppTab } from './BottomNav'
+import type { AppTab } from './composites'
 import { TAB_TRANSITION_MS } from '@/utils/animation'
 
 interface TabTransitionProps {
