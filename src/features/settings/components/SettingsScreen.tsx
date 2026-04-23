@@ -535,7 +535,7 @@ export function SettingsScreen({
         onClose={() => setQuizPickerOpen(false)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: 3 } }}
+        slotProps={{ paper: { sx: { borderRadius: 3 } } }}
         aria-labelledby="quiz-mode-dialog-title"
       >
         <DialogTitle id="quiz-mode-dialog-title">
@@ -567,7 +567,7 @@ export function SettingsScreen({
         onClose={() => setThemePickerOpen(false)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: 3 } }}
+        slotProps={{ paper: { sx: { borderRadius: 3 } } }}
         aria-labelledby="theme-dialog-title"
       >
         <DialogTitle id="theme-dialog-title">
@@ -599,7 +599,7 @@ export function SettingsScreen({
         onClose={handleImportCancel}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: 3 } }}
+        slotProps={{ paper: { sx: { borderRadius: 3 } } }}
         aria-labelledby="import-dialog-title"
       >
         <DialogTitle id="import-dialog-title">
@@ -632,7 +632,7 @@ export function SettingsScreen({
         onClose={() => setResetConfirmOpen(false)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: 3 } }}
+        slotProps={{ paper: { sx: { borderRadius: 3 } } }}
         aria-labelledby="reset-progress-dialog-title"
       >
         <DialogTitle id="reset-progress-dialog-title">
