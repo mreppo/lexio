@@ -30,6 +30,12 @@ export interface GlassColorTokens {
    * Value from design spec: #007AFF → #AF52DE.
    */
   readonly avatarGradient: string
+  /**
+   * AI upsell gradient — used in the Add Word AI upsell circle icon.
+   * Reversed direction vs. avatarGradient: #AF52DE → #007AFF.
+   * The direction matters visually — a separate token avoids confusion.
+   */
+  readonly aiGradient: string
 }
 
 export interface GlassLayerTokens {
@@ -80,6 +86,10 @@ export interface GlassTypographyTokens {
     readonly quizChoiceSub: GlassTypographyRoleTokens
     /** Quiz MC: explanation body in feedback card. 13/500. */
     readonly quizExplanation: GlassTypographyRoleTokens
+    /** Add Word: Term input — display 30/800 tracking -0.7. */
+    readonly addWordTerm: GlassTypographyRoleTokens
+    /** Add Word: Meaning input — 20/500. */
+    readonly addWordMeaning: GlassTypographyRoleTokens
   }
 }
 
@@ -165,6 +175,8 @@ export const lightGlass: GlassVariantTokens = {
     pink: '#FF2D55',
     // Avatar gradient placeholder — design spec: #007AFF → #AF52DE
     avatarGradient: 'linear-gradient(135deg, #007AFF 0%, #AF52DE 100%)',
+    // AI upsell gradient — reversed direction: #AF52DE → #007AFF
+    aiGradient: 'linear-gradient(135deg, #AF52DE 0%, #007AFF 100%)',
   },
   glass: {
     bg: 'rgba(255,255,255,0.55)',
@@ -203,6 +215,8 @@ export const darkGlass: GlassVariantTokens = {
     pink: '#FF375F',
     // Avatar gradient placeholder — same gradient on dark variant for consistency
     avatarGradient: 'linear-gradient(135deg, #0A84FF 0%, #BF5AF2 100%)',
+    // AI upsell gradient — reversed direction: #BF5AF2 → #0A84FF
+    aiGradient: 'linear-gradient(135deg, #BF5AF2 0%, #0A84FF 100%)',
   },
   glass: {
     bg: 'rgba(255,255,255,0.10)',
@@ -266,6 +280,9 @@ export const glassTypography: GlassTypographyTokens = {
     quizFeedbackHeadline: { size: 15, weight: 700, tracking: -0.2, lineHeight: 1 },
     quizChoiceSub: { size: 14, weight: 500, tracking: -0.2, lineHeight: 1.45 },
     quizExplanation: { size: 13, weight: 500, tracking: -0.1, lineHeight: 1.4 },
+    // Add Word screen tokens (§6 in design README)
+    addWordTerm: { size: 30, weight: 800, tracking: -0.7, lineHeight: 1.1 },
+    addWordMeaning: { size: 20, weight: 500, tracking: -0.3, lineHeight: 1.3 },
   },
 }
 

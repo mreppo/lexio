@@ -386,7 +386,7 @@ describe('LibraryScreen', () => {
   // ─── Add word flow ─────────────────────────────────────────────────────────
 
   describe('Add word flow', () => {
-    it('should open word form dialog when plus button is tapped', async () => {
+    it('should open AddWordModal when plus button is tapped', async () => {
       const user = userEvent.setup()
       renderLibrary([createMockWord()])
 
@@ -396,13 +396,13 @@ describe('LibraryScreen', () => {
 
       await user.click(screen.getByRole('button', { name: /add word/i }))
 
-      // The WordFormDialog opens — it has an "Add word" heading
+      // The AddWordModal opens — its title is "New Word" (#150)
       await waitFor(() => {
-        expect(screen.getByRole('heading', { name: /add word/i })).toBeInTheDocument()
+        expect(screen.getByRole('heading', { name: /new word/i })).toBeInTheDocument()
       })
     })
 
-    it('should open word form from empty state button', async () => {
+    it('should open AddWordModal from empty state button', async () => {
       const user = userEvent.setup()
       renderLibrary([])
 
@@ -419,8 +419,9 @@ describe('LibraryScreen', () => {
       expect(ctaButton).toBeDefined()
       await user.click(ctaButton!)
 
+      // The AddWordModal opens — its title is "New Word" (#150)
       await waitFor(() => {
-        expect(screen.getByRole('heading', { name: /add word/i })).toBeInTheDocument()
+        expect(screen.getByRole('heading', { name: /new word/i })).toBeInTheDocument()
       })
     })
   })

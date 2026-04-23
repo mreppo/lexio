@@ -32,16 +32,20 @@ test('add and view a word in the Library', async ({ page }) => {
 
   // ── Add a word via the plus button in the NavBar ─────────────────────────
   // The Library NavBar has an "Add word" button in the trailing slot.
+  // This opens the new AddWordModal (#150 Liquid Glass redesign).
   await page.getByRole('button', { name: 'Add word' }).first().click()
 
   await expect(page.getByRole('dialog')).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Add word' })).toBeVisible()
+  // AddWordModal title is "New Word" (not "Add word")
+  await expect(page.getByRole('heading', { name: 'New Word' })).toBeVisible()
 
-  await page.getByLabel('Source word').fill('hello')
-  await page.getByLabel('Target word').fill('sveiki')
+  // Term input is labelled "Term in en" (using fromCode)
+  await page.getByRole('textbox', { name: /term in en/i }).fill('hello')
+  // Meaning input is labelled "Meaning in lv" (using toCode)
+  await page.getByRole('textbox', { name: /meaning in lv/i }).fill('sveiki')
 
-  // Submit the form using the "Add word" button inside the dialog.
-  await page.getByRole('button', { name: 'Add word' }).last().click()
+  // Submit using the "Save" button in the nav row (not "Add word").
+  await page.getByRole('button', { name: 'Save new word' }).click()
 
   // Dialog should close.
   await expect(page.getByRole('dialog')).toBeHidden({ timeout: 10_000 })
