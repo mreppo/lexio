@@ -2,10 +2,13 @@
  * Tests for QuizModeSelector component.
  *
  * Covers:
- * - Renders all three modes
- * - Highlights the currently selected mode
- * - Calls onModeChange when user picks a mode
- * - Calls onStart when user clicks Start quiz
+ * - Renders two mode cards: Typing and Multiple Choice
+ * - Each card has the correct label, helper text, and icon
+ * - Tapping a mode card calls both onModeChange AND onStart immediately
+ * - DailyProgressCard renders within the component
+ * - LevelFilterBar renders when wordCountByLevel has entries
+ * - Empty state: when dueCount=0, mode cards hidden; celebratory message shown;
+ *   "Browse library" button visible and calls onBrowseLibrary
  */
 
 import { describe, it, expect, vi } from 'vitest'
@@ -13,7 +16,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ThemeProvider, createTheme } from '@mui/material'
 import { QuizModeSelector } from './QuizModeSelector'
-import type { QuizMode, CefrLevel } from '@/types'
+import type { CefrLevel } from '@/types'
 
 const EMPTY_WORD_COUNTS: Record<CefrLevel, number> = {
   A1: 0,
@@ -25,7 +28,6 @@ const EMPTY_WORD_COUNTS: Record<CefrLevel, number> = {
 }
 
 interface RenderOptions {
-  selectedMode?: QuizMode
   onModeChange?: ReturnType<typeof vi.fn>
   onStart?: ReturnType<typeof vi.fn>
   wordsReviewedToday?: number
@@ -36,10 +38,11 @@ interface RenderOptions {
   sessionLevels?: readonly CefrLevel[]
   wordCountByLevel?: Record<CefrLevel, number>
   onSessionLevelsChange?: ReturnType<typeof vi.fn>
+  dueCount?: number
+  onBrowseLibrary?: ReturnType<typeof vi.fn>
 }
 
 function renderSelector({
-  selectedMode = 'type',
   onModeChange = vi.fn(),
   onStart = vi.fn(),
   wordsReviewedToday = 0,
@@ -50,11 +53,13 @@ function renderSelector({
   sessionLevels = [],
   wordCountByLevel = EMPTY_WORD_COUNTS,
   onSessionLevelsChange = vi.fn(),
+  dueCount = 10,
+  onBrowseLibrary = vi.fn(),
 }: RenderOptions = {}) {
   return render(
     <ThemeProvider theme={createTheme()}>
       <QuizModeSelector
-        selectedMode={selectedMode}
+        selectedMode="type"
         onModeChange={onModeChange}
         onStart={onStart}
         wordsReviewedToday={wordsReviewedToday}
@@ -65,74 +70,106 @@ function renderSelector({
         sessionLevels={sessionLevels}
         wordCountByLevel={wordCountByLevel}
         onSessionLevelsChange={onSessionLevelsChange}
+        dueCount={dueCount}
+        onBrowseLibrary={onBrowseLibrary}
       />
     </ThemeProvider>,
   )
 }
 
 describe('QuizModeSelector', () => {
-  it('should render all three mode options', () => {
-    renderSelector()
-    expect(screen.getByText('Type')).toBeInTheDocument()
-    expect(screen.getByText('Choice')).toBeInTheDocument()
-    expect(screen.getByText('Mixed')).toBeInTheDocument()
+  describe('Normal state (dueCount > 0)', () => {
+    it('should render the Typing mode card', () => {
+      renderSelector()
+      expect(screen.getByText('Typing')).toBeInTheDocument()
+    })
+
+    it('should render the Multiple Choice mode card', () => {
+      renderSelector()
+      expect(screen.getByText('Multiple Choice')).toBeInTheDocument()
+    })
+
+    it('should render helper text for Typing', () => {
+      renderSelector()
+      expect(screen.getByText('Type the translation yourself')).toBeInTheDocument()
+    })
+
+    it('should render helper text for Multiple Choice', () => {
+      renderSelector()
+      expect(screen.getByText('Pick from four options')).toBeInTheDocument()
+    })
+
+    it('should call onModeChange with "type" when Typing card is tapped', async () => {
+      const onModeChange = vi.fn()
+      renderSelector({ onModeChange })
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('button', { name: /Typing:/i }))
+      expect(onModeChange).toHaveBeenCalledWith('type')
+    })
+
+    it('should call onStart when Typing card is tapped', async () => {
+      const onStart = vi.fn()
+      renderSelector({ onStart })
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('button', { name: /Typing:/i }))
+      expect(onStart).toHaveBeenCalledOnce()
+    })
+
+    it('should call onModeChange with "choice" when Multiple Choice card is tapped', async () => {
+      const onModeChange = vi.fn()
+      renderSelector({ onModeChange })
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('button', { name: /Multiple Choice:/i }))
+      expect(onModeChange).toHaveBeenCalledWith('choice')
+    })
+
+    it('should call onStart when Multiple Choice card is tapped', async () => {
+      const onStart = vi.fn()
+      renderSelector({ onStart })
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('button', { name: /Multiple Choice:/i }))
+      expect(onStart).toHaveBeenCalledOnce()
+    })
+
+    it('should render the DailyProgressCard region', () => {
+      renderSelector({ wordsReviewedToday: 5, dailyGoal: 20 })
+      expect(screen.getByRole('region', { name: /daily goal progress/i })).toBeInTheDocument()
+    })
+
+    it('should render LevelFilterBar when levels have words', () => {
+      renderSelector({ wordCountByLevel: { A1: 5, A2: 0, B1: 3, B2: 0, C1: 0, C2: 0 } })
+      expect(screen.getByLabelText(/session level filter/i)).toBeInTheDocument()
+    })
   })
 
-  it('should render mode descriptions', () => {
-    renderSelector()
-    expect(screen.getByText('Type the translation yourself')).toBeInTheDocument()
-    expect(screen.getByText('Pick from four options')).toBeInTheDocument()
-    expect(screen.getByText('Alternates type and choice')).toBeInTheDocument()
-  })
+  describe('Empty state (dueCount === 0)', () => {
+    it('should hide mode cards when dueCount is 0', () => {
+      renderSelector({ dueCount: 0 })
+      expect(screen.queryByText('Typing')).not.toBeInTheDocument()
+      expect(screen.queryByText('Multiple Choice')).not.toBeInTheDocument()
+    })
 
-  it('should render a Start quiz button', () => {
-    renderSelector()
-    expect(screen.getByRole('button', { name: /start.*quiz/i })).toBeInTheDocument()
-  })
+    it('should show celebratory message when dueCount is 0', () => {
+      renderSelector({ dueCount: 0 })
+      expect(screen.getByText('All caught up!')).toBeInTheDocument()
+    })
 
-  it('should call onStart when Start quiz is clicked', async () => {
-    const onStart = vi.fn()
-    renderSelector({ onStart })
-    const user = userEvent.setup()
-    await user.click(screen.getByRole('button', { name: /start.*quiz/i }))
-    expect(onStart).toHaveBeenCalledOnce()
-  })
+    it('should show the Browse library button when dueCount is 0', () => {
+      renderSelector({ dueCount: 0 })
+      expect(screen.getByRole('button', { name: /browse library/i })).toBeInTheDocument()
+    })
 
-  it('should call onModeChange with "choice" when Choice is clicked', async () => {
-    const onModeChange = vi.fn()
-    renderSelector({ onModeChange })
-    const user = userEvent.setup()
-    await user.click(screen.getByRole('radio', { name: /choice mode/i }))
-    expect(onModeChange).toHaveBeenCalledWith('choice')
-  })
+    it('should call onBrowseLibrary when Browse library is clicked', async () => {
+      const onBrowseLibrary = vi.fn()
+      renderSelector({ dueCount: 0, onBrowseLibrary })
+      const user = userEvent.setup()
+      await user.click(screen.getByRole('button', { name: /browse library/i }))
+      expect(onBrowseLibrary).toHaveBeenCalledOnce()
+    })
 
-  it('should call onModeChange with "mixed" when Mixed is clicked', async () => {
-    const onModeChange = vi.fn()
-    renderSelector({ onModeChange })
-    const user = userEvent.setup()
-    await user.click(screen.getByRole('radio', { name: /mixed mode/i }))
-    expect(onModeChange).toHaveBeenCalledWith('mixed')
-  })
-
-  it('should call onModeChange with "type" when Type is clicked', async () => {
-    const onModeChange = vi.fn()
-    renderSelector({ selectedMode: 'choice', onModeChange })
-    const user = userEvent.setup()
-    await user.click(screen.getByRole('radio', { name: /type mode/i }))
-    expect(onModeChange).toHaveBeenCalledWith('type')
-  })
-
-  it('should mark the selected mode as aria-checked', () => {
-    renderSelector({ selectedMode: 'mixed' })
-    const mixedOption = screen.getByRole('radio', { name: /mixed mode/i })
-    expect(mixedOption).toHaveAttribute('aria-checked', 'true')
-  })
-
-  it('should not mark unselected modes as aria-checked', () => {
-    renderSelector({ selectedMode: 'mixed' })
-    const typeOption = screen.getByRole('radio', { name: /type mode/i })
-    const choiceOption = screen.getByRole('radio', { name: /choice mode/i })
-    expect(typeOption).toHaveAttribute('aria-checked', 'false')
-    expect(choiceOption).toHaveAttribute('aria-checked', 'false')
+    it('should still show DailyProgressCard in empty state', () => {
+      renderSelector({ dueCount: 0, wordsReviewedToday: 20, dailyGoal: 20 })
+      expect(screen.getByRole('region', { name: /daily goal progress/i })).toBeInTheDocument()
+    })
   })
 })

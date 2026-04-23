@@ -1,19 +1,29 @@
 /**
  * QuizHub - the entry point for the quiz feature.
  *
- * Manages the pre-quiz mode selection screen, active quiz routing, and
- * the post-session summary. It persists the user's mode preference, updates
- * DailyStats after each session, and shows streak + words-learned data.
+ * Liquid Glass restyled (issue #148):
+ *   - Wrapped in <PaperSurface> so the wallpaper gradient is the backdrop.
+ *   - <NavBar large prominentTitle="Practice"> at the top when in 'select' phase.
+ *   - Mode selector (QuizModeSelector) uses Glass pad=18 floating strong cards.
+ *   - DailyProgressCard uses Glass pad=14 floating.
+ *   - LevelFilterBar uses pill pattern: active=solid ink, inactive=Glass inline.
+ *   - Empty state (dueCount=0) shows a celebratory message + "Browse library" CTA.
  *
  * Hub state machine:
- *   'select'  → user picks Type / Choice / Mixed
+ *   'select'  → user picks Typing / Multiple Choice
  *   'active'  → quiz is running
  *   'summary' → session ended, showing SessionSummary
+ *
+ * autoStart prop: when true, the hub skips the mode-selection screen and goes
+ * straight to 'active' using the default quiz mode from settings.
+ * The flag is consumed once — the hub resets to normal after the first session.
+ * Used by the Dashboard "Start review" button.
  */
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import { Box } from '@mui/material'
-import type { LanguagePair, UserSettings, QuizMode, CefrLevel } from '@/types'
+import { useTheme } from '@mui/material/styles'
+import type { LanguagePair, UserSettings, QuizMode, CefrLevel, Word, WordProgress } from '@/types'
 import { useStorage } from '@/hooks/useStorage'
 import { countWordsByLevel } from '@/utils/cefrFilter'
 import {
@@ -22,10 +32,39 @@ import {
   getTodayStats,
 } from '@/services/streakService'
 import { getWordsLearnedForPair } from '@/services/wordsLearnedService'
+import { PaperSurface } from '@/components/primitives'
+import { NavBar } from '@/components/composites'
+import { getGlassTokens } from '@/theme/liquidGlass'
 import { QuizModeSelector } from './QuizModeSelector'
 import { SessionSummary } from './SessionSummary'
 import { ActiveQuizView } from './ActiveQuizView'
 import { GoalCelebration } from './GoalCelebration'
+
+// ─── Due-count helper (mirrors DashboardScreen.computeDueCount) ───────────────
+
+/**
+ * Compute how many words are due right now (nextReview <= Date.now()).
+ * Words with no progress record are also due (never reviewed).
+ * Mirrors the same logic in DashboardScreen — not extracted to a shared
+ * util yet to avoid premature abstraction (the dashboard imports it locally too).
+ */
+function computeDueCount(words: readonly Word[], progressList: readonly WordProgress[]): number {
+  const now = Date.now()
+  const progressMap = new Map<string, WordProgress>()
+  for (const p of progressList) {
+    progressMap.set(p.wordId, p)
+  }
+  let count = 0
+  for (const word of words) {
+    const progress = progressMap.get(word.id)
+    if (progress === undefined || progress.nextReview <= now) {
+      count++
+    }
+  }
+  return count
+}
+
+// ─── Props ────────────────────────────────────────────────────────────────────
 
 interface QuizHubProps {
   readonly pair: LanguagePair | null
@@ -44,6 +83,11 @@ interface QuizHubProps {
    * Used by the Dashboard "Start review" button.
    */
   readonly autoStart?: boolean
+  /**
+   * Called when the user taps "Browse library" in the empty state (dueCount=0).
+   * Should switch the active tab to 'words'.
+   */
+  readonly onBrowseLibrary?: () => void
 }
 
 type HubPhase = 'select' | 'active' | 'summary'
@@ -54,14 +98,25 @@ interface SessionResult {
   readonly bestSessionStreak: number
 }
 
+// ─── Bottom spacer ────────────────────────────────────────────────────────────
+
+/** Height in px to clear the fixed TabBar at the bottom of the screen. */
+const BOTTOM_SPACER_PX = 140
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
 export function QuizHub({
   pair,
   settings,
   onSettingsChange,
   onSessionComplete,
   autoStart = false,
+  onBrowseLibrary,
 }: QuizHubProps) {
   const storage = useStorage()
+  const theme = useTheme()
+  const tokens = getGlassTokens(theme.palette.mode)
+
   // When autoStart is true, skip directly to 'active' phase using the default mode
   const [hubPhase, setHubPhase] = useState<HubPhase>(autoStart ? 'active' : 'select')
   const [selectedMode, setSelectedMode] = useState<QuizMode>(settings.quizMode)
@@ -100,6 +155,12 @@ export function QuizHub({
     C2: 0,
   })
 
+  // All words in the pair — needed to compute due count.
+  const [pairWords, setPairWords] = useState<readonly Word[]>([])
+
+  // All word progress records — needed to compute due count.
+  const [wordProgressList, setWordProgressList] = useState<readonly WordProgress[]>([])
+
   // Keep local selectedMode in sync when settings.quizMode changes externally.
   useEffect(() => {
     setSelectedMode(settings.quizMode)
@@ -112,16 +173,29 @@ export function QuizHub({
     }
   }, [hubPhase, settings.selectedLevels])
 
-  // Load word counts for the LevelFilterBar whenever the active pair changes.
+  // Load word counts for the LevelFilterBar AND pairWords for due-count whenever the active pair changes.
   useEffect(() => {
     if (pair === null) {
       setWordCountByLevel({ A1: 0, A2: 0, B1: 0, B2: 0, C1: 0, C2: 0 })
+      setPairWords([])
       return
     }
     void storage.getWords(pair.id).then((words) => {
       setWordCountByLevel(countWordsByLevel(words))
+      setPairWords(words)
     })
   }, [storage, pair])
+
+  // Load word progress records to compute due count.
+  useEffect(() => {
+    if (pair === null) {
+      setWordProgressList([])
+      return
+    }
+    void storage.getAllProgress(pair.id).then((progress) => {
+      setWordProgressList(progress)
+    })
+  }, [storage, pair, hubPhase])
 
   // Reload streak from storage whenever the hub phase changes (e.g. after session).
   useEffect(() => {
@@ -148,6 +222,12 @@ export function QuizHub({
       setTotalWords(result.total)
     })
   }, [storage, pair, hubPhase])
+
+  // Compute due count from current pair words + progress.
+  const dueCount = useMemo(
+    () => computeDueCount(pairWords, wordProgressList),
+    [pairWords, wordProgressList],
+  )
 
   const handleModeChange = useCallback(
     (mode: QuizMode): void => {
@@ -213,27 +293,53 @@ export function QuizHub({
 
   if (hubPhase === 'select') {
     return (
-      <>
-        <QuizModeSelector
-          selectedMode={selectedMode}
-          onModeChange={handleModeChange}
-          onStart={handleStart}
-          wordsReviewedToday={wordsReviewedToday}
-          dailyGoal={settings.dailyGoal}
-          streakDays={streakDays}
-          wordsLearned={wordsLearned}
-          totalWords={totalWords}
-          sessionLevels={sessionLevels}
-          wordCountByLevel={wordCountByLevel}
-          onSessionLevelsChange={setSessionLevels}
-        />
+      <PaperSurface
+        sx={{
+          overflowY: 'auto',
+          overflowX: 'hidden',
+        }}
+      >
+        <Box role="main" aria-label="Practice" sx={{ display: 'flex', flexDirection: 'column' }}>
+          {/* NavBar — large mode with "Practice" prominent title */}
+          <NavBar large prominentTitle="Practice" />
+
+          {/* Mode selector content — padded to screen edges */}
+          <Box
+            sx={{
+              px: `${16}px`,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+            }}
+          >
+            <QuizModeSelector
+              selectedMode={selectedMode}
+              onModeChange={handleModeChange}
+              onStart={handleStart}
+              wordsReviewedToday={wordsReviewedToday}
+              dailyGoal={settings.dailyGoal}
+              streakDays={streakDays}
+              wordsLearned={wordsLearned}
+              totalWords={totalWords}
+              sessionLevels={sessionLevels}
+              wordCountByLevel={wordCountByLevel}
+              onSessionLevelsChange={setSessionLevels}
+              dueCount={dueCount}
+              onBrowseLibrary={onBrowseLibrary ?? (() => undefined)}
+            />
+          </Box>
+
+          {/* Bottom spacer — clears the fixed TabBar */}
+          <Box sx={{ height: `${BOTTOM_SPACER_PX}px`, flexShrink: 0 }} aria-hidden="true" />
+        </Box>
+
         <GoalCelebration
           open={showCelebration}
           onClose={handleCelebrationClose}
           dailyGoal={settings.dailyGoal}
           streakDays={streakDays}
         />
-      </>
+      </PaperSurface>
     )
   }
 
@@ -255,9 +361,10 @@ export function QuizHub({
     )
   }
 
+  // hubPhase === 'active'
   return (
     <>
-      <Box>
+      <Box sx={{ color: tokens.color.ink }}>
         <ActiveQuizView
           mode={selectedMode}
           pair={pair}

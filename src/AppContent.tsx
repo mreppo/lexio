@@ -242,11 +242,27 @@ function AppContent(): React.JSX.Element {
           )}
 
           {/*
+           * Quiz tab: full-bleed Liquid Glass layout (issue #148).
+           * QuizHub owns its own PaperSurface (wallpaper, NavBar, scroll).
+           * No AppBar or Container — those would conflict with the full-bleed design.
+           */}
+          {activeTab === 'quiz' && (
+            <QuizHub
+              pair={activePair}
+              settings={settings}
+              onSettingsChange={handleSettingsChange}
+              onSessionComplete={handleQuizSessionComplete}
+              autoStart={quizAutoStart}
+              onBrowseLibrary={() => handleTabChange('words')}
+            />
+          )}
+
+          {/*
            * All other tabs: legacy AppBar + Container layout.
            * These screens will be migrated to full-bleed PaperSurface in their
-           * own issues (quiz #146, words #147, stats #148, settings #149).
+           * own issues (words #149, stats #151, settings #152).
            */}
-          {activeTab !== 'home' && (
+          {activeTab !== 'home' && activeTab !== 'quiz' && (
             <>
               <AppBar position="static" color="default" elevation={1}>
                 <Toolbar sx={{ gap: 2 }}>
@@ -273,16 +289,6 @@ function AppContent(): React.JSX.Element {
               {/* Main content — bottom padding makes room for the fixed TabBar */}
               <Container maxWidth="lg" sx={{ py: 3, pb: showNav ? '72px' : 3 }}>
                 <TabTransition activeTab={activeTab}>
-                  {activeTab === 'quiz' && (
-                    <QuizHub
-                      pair={activePair}
-                      settings={settings}
-                      onSettingsChange={handleSettingsChange}
-                      onSessionComplete={handleQuizSessionComplete}
-                      autoStart={quizAutoStart}
-                    />
-                  )}
-
                   {activeTab === 'words' && <WordListScreen activePair={activePair} />}
 
                   {activeTab === 'stats' && <StatsScreen />}

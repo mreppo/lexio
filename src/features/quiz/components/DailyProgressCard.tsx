@@ -4,15 +4,20 @@
  * Displayed above the quiz mode selector so the user can see at a glance
  * how many words they have reviewed today before starting a session.
  *
+ * Liquid Glass restyled (issue #148): wrapped in <Glass pad=14 floating>
+ * so it matches the floating card aesthetic used across all redesigned screens.
+ *
  * Visual states:
  *   - Not started:  empty ring, neutral colour
  *   - In progress:  ring fills with accent (primary) colour
  *   - Goal met:     full ring in success green, "Goal met!" label
  */
 
-import { Box, CircularProgress, Typography } from '@mui/material'
-import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
+import { Box, CircularProgress } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import { Check, Flame } from 'lucide-react'
+import { Glass } from '@/components/primitives/Glass'
+import { getGlassTokens, glassTypography } from '@/theme/liquidGlass'
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
@@ -31,7 +36,7 @@ interface DailyProgressCardProps {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const RING_SIZE = 88
+const RING_SIZE = 72
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -42,143 +47,160 @@ export function DailyProgressCard({
   wordsLearned,
   totalWords,
 }: DailyProgressCardProps) {
+  const theme = useTheme()
+  const tokens = getGlassTokens(theme.palette.mode)
+
   const goalMet = wordsReviewedToday >= dailyGoal
   const progressValue = dailyGoal > 0 ? Math.min(100, (wordsReviewedToday / dailyGoal) * 100) : 0
-
-  const ringColour = goalMet ? 'success.main' : 'primary.main'
+  const ringColour = goalMet ? tokens.color.ok : tokens.color.accent
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 3,
-        p: 2,
-        borderRadius: 3,
-        background: goalMet
-          ? (theme) =>
-              theme.palette.mode === 'dark'
-                ? theme.palette.success.dark
-                : theme.palette.success.main
-          : (theme) =>
-              theme.palette.mode === 'dark'
-                ? 'linear-gradient(160deg, #92400e 0%, #78350f 30%, #1c1917 70%, #0a0f1a 100%)'
-                : 'linear-gradient(160deg, #fef3c7 0%, #fde68a 25%, #fbbf24 60%, #f59e0b 100%)',
-        transition: 'background 0.2s',
-      }}
-      role="region"
-      aria-label="Daily goal progress"
-    >
-      {/* Circular progress ring */}
-      <Box sx={{ position: 'relative', flexShrink: 0 }}>
-        {/* Background track */}
-        <CircularProgress
-          variant="determinate"
-          value={100}
-          size={RING_SIZE}
-          thickness={4}
-          sx={{ color: goalMet ? 'rgba(255,255,255,0.3)' : 'action.hover', position: 'absolute' }}
-          aria-hidden="true"
-        />
-        {/* Foreground progress */}
-        <CircularProgress
-          variant="determinate"
-          value={progressValue}
-          size={RING_SIZE}
-          thickness={4}
-          sx={{ color: goalMet ? 'white' : ringColour }}
-          aria-label={`Daily goal: ${wordsReviewedToday} of ${dailyGoal} words reviewed today`}
-        />
-        {/* Centre label */}
-        <Box
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          aria-hidden="true"
-        >
-          {goalMet ? (
-            <CheckCircleOutlineIcon sx={{ fontSize: 28, color: 'white' }} />
-          ) : (
-            <>
-              <Typography
-                variant="caption"
-                fontWeight={700}
-                lineHeight={1}
-                sx={{ color: 'text.primary', fontSize: '0.85rem' }}
+    <Glass pad={14} floating>
+      <Box
+        sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}
+        role="region"
+        aria-label="Daily goal progress"
+      >
+        {/* Circular progress ring */}
+        <Box sx={{ position: 'relative', flexShrink: 0 }}>
+          {/* Background track */}
+          <CircularProgress
+            variant="determinate"
+            value={100}
+            size={RING_SIZE}
+            thickness={4}
+            sx={{ color: tokens.color.rule2, position: 'absolute' }}
+            aria-hidden="true"
+          />
+          {/* Foreground progress */}
+          <CircularProgress
+            variant="determinate"
+            value={progressValue}
+            size={RING_SIZE}
+            thickness={4}
+            sx={{ color: ringColour }}
+            aria-label={`Daily goal: ${wordsReviewedToday} of ${dailyGoal} words reviewed today`}
+          />
+          {/* Centre label */}
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            aria-hidden="true"
+          >
+            {goalMet ? (
+              <Check size={20} color={tokens.color.ok} strokeWidth={2.5} />
+            ) : (
+              <>
+                <Box
+                  component="span"
+                  sx={{
+                    fontFamily: glassTypography.body,
+                    fontSize: '15px',
+                    fontWeight: 700,
+                    lineHeight: 1,
+                    color: tokens.color.ink,
+                  }}
+                >
+                  {wordsReviewedToday}
+                </Box>
+                <Box
+                  component="span"
+                  sx={{
+                    fontFamily: glassTypography.body,
+                    fontSize: '11px',
+                    fontWeight: 500,
+                    lineHeight: 1,
+                    color: tokens.color.inkFaint,
+                  }}
+                >
+                  / {dailyGoal}
+                </Box>
+              </>
+            )}
+          </Box>
+        </Box>
+
+        {/* Right-side info */}
+        <Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <Box
+            component="span"
+            sx={{
+              fontFamily: glassTypography.body,
+              fontSize: '15px',
+              fontWeight: 600,
+              lineHeight: 1.2,
+              color: goalMet ? tokens.color.ok : tokens.color.ink,
+            }}
+          >
+            {goalMet ? 'Goal met!' : 'Daily goal'}
+          </Box>
+
+          <Box
+            component="span"
+            sx={{
+              fontFamily: glassTypography.body,
+              fontSize: '13px',
+              fontWeight: 500,
+              lineHeight: 1.3,
+              color: tokens.color.inkSec,
+            }}
+          >
+            {goalMet
+              ? `${wordsReviewedToday} words today`
+              : `${wordsReviewedToday} / ${dailyGoal} words today`}
+          </Box>
+
+          {/* Streak badge */}
+          {streakDays >= 1 && (
+            <Box
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '3px',
+                mt: '2px',
+              }}
+              role="status"
+              aria-label={`${streakDays} day streak`}
+            >
+              <Flame size={12} color={tokens.color.warn} strokeWidth={2} aria-hidden />
+              <Box
+                component="span"
+                sx={{
+                  fontFamily: glassTypography.body,
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  lineHeight: 1,
+                  color: tokens.color.warn,
+                }}
               >
-                {wordsReviewedToday}
-              </Typography>
-              <Typography
-                variant="caption"
-                sx={{ color: 'text.disabled', fontSize: '0.65rem', lineHeight: 1 }}
-              >
-                / {dailyGoal}
-              </Typography>
-            </>
+                {streakDays} day{streakDays !== 1 ? 's' : ''}
+              </Box>
+            </Box>
+          )}
+
+          {/* Words learned */}
+          {totalWords > 0 && (
+            <Box
+              component="span"
+              sx={{
+                fontFamily: glassTypography.body,
+                fontSize: '12px',
+                fontWeight: 500,
+                lineHeight: 1.2,
+                color: tokens.color.inkFaint,
+              }}
+            >
+              {wordsLearned} / {totalWords} learned
+            </Box>
           )}
         </Box>
       </Box>
-
-      {/* Right-side info */}
-      <Box sx={{ flex: 1, minWidth: 0 }}>
-        {goalMet ? (
-          <Typography variant="subtitle2" fontWeight={700} sx={{ color: 'white' }}>
-            Goal met!
-          </Typography>
-        ) : (
-          <Typography variant="subtitle2" fontWeight={600} color="text.primary">
-            Daily goal
-          </Typography>
-        )}
-
-        <Typography
-          variant="caption"
-          sx={{ color: goalMet ? 'rgba(255,255,255,0.85)' : 'text.secondary', display: 'block' }}
-        >
-          {goalMet
-            ? `${wordsReviewedToday} words today`
-            : `${wordsReviewedToday} / ${dailyGoal} words today`}
-        </Typography>
-
-        {/* Streak badge */}
-        {streakDays >= 1 && (
-          <Box
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 0.25,
-              mt: 0.5,
-              color: goalMet ? 'rgba(255,255,255,0.9)' : 'warning.main',
-            }}
-            role="status"
-            aria-label={`${streakDays} day streak`}
-          >
-            <LocalFireDepartmentIcon sx={{ fontSize: 13 }} aria-hidden="true" />
-            <Typography variant="caption" fontWeight={600} sx={{ lineHeight: 1 }}>
-              {streakDays} day{streakDays !== 1 ? 's' : ''} streak
-            </Typography>
-          </Box>
-        )}
-
-        {/* Words learned */}
-        {totalWords > 0 && (
-          <Typography
-            variant="caption"
-            sx={{
-              color: goalMet ? 'rgba(255,255,255,0.75)' : 'text.disabled',
-              display: 'block',
-              mt: 0.25,
-            }}
-          >
-            {wordsLearned} of {totalWords} words learned
-          </Typography>
-        )}
-      </Box>
-    </Box>
+    </Glass>
   )
 }

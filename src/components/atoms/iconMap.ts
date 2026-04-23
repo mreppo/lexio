@@ -24,6 +24,8 @@ import {
   Trophy,
   Bell,
   Share,
+  Pencil,
+  CheckSquare,
 } from 'lucide-react'
 
 /** All handoff icon names mapped to their Lucide equivalents. */
@@ -46,6 +48,10 @@ export const ICON_MAP = {
   trophy: Trophy,
   bell: Bell,
   share: Share,
+  /** Typing quiz mode icon — spec name "Pencil" */
+  pencil: Pencil,
+  /** Multiple choice quiz mode icon — spec name "CheckSquare" */
+  checkSquare: CheckSquare,
 } as const satisfies Record<string, LucideIcon>
 
 export type IconName = keyof typeof ICON_MAP
