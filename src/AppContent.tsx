@@ -19,14 +19,9 @@ import { DashboardScreen, useDashboard } from './features/dashboard'
 import { StatsScreen } from './features/stats'
 import { SettingsScreen } from './features/settings'
 import { OnboardingFlow } from './features/onboarding'
-import {
-  BottomNav,
-  UpdateNotification,
-  BrandedLoader,
-  TabTransition,
-  InstallBanner,
-} from './components'
-import type { AppTab } from './components'
+import { UpdateNotification, BrandedLoader, TabTransition, InstallBanner } from './components'
+import { TabBar } from './components/composites'
+import type { AppTab } from './components/composites'
 import { useServiceWorker } from './hooks/useServiceWorker'
 import { useInstallPrompt } from './hooks/useInstallPrompt'
 import type { LanguagePair, UserSettings } from './types'
@@ -284,7 +279,7 @@ function AppContent(): React.JSX.Element {
           </Container>
 
           {/* Bottom navigation — only visible when there are language pairs */}
-          {showNav && <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />}
+          {showNav && <TabBar activeTab={activeTab} onTabChange={handleTabChange} />}
 
           <CreatePairDialog
             open={createDialogOpen}
