@@ -25,6 +25,12 @@
  *
  * The paddingBottom uses env(safe-area-inset-bottom) to clear the iOS home
  * indicator — this is on the <nav> wrapper, not on the glass surface itself.
+ *
+ * position:absolute anchors to the nearest positioned ancestor. The screen shell
+ * in AppContent (and PaperSurface for LibraryScreen) provides position:relative,
+ * so the pill sits at bottom:30 above the safe-area inset within that container
+ * rather than relative to the viewport. This allows the TabBar to participate in
+ * the Liquid Glass layout without escaping the screen root.
  */
 
 import { Box } from '@mui/material'
@@ -77,26 +83,24 @@ export function TabBar({ activeTab, onTabChange }: TabBarProps): React.JSX.Eleme
   return (
     /*
      * Outer <nav> wrapper:
-     *   - position:fixed (see note below) so it floats above the content
+     *   - position:absolute anchors to the nearest positioned ancestor (the screen
+     *     shell container in AppContent, or PaperSurface for LibraryScreen)
      *   - bottom:30 + paddingBottom:env(safe-area-inset-bottom) clears iOS home indicator
      *   - left/right 0 + display:flex justifyContent:center = horizontally centered pill
      *   - z-index:20 per spec
      *
-     * Note on position:fixed vs position:absolute:
-     *   The design spec calls for position:absolute so the TabBar sits inside the
-     *   PaperSurface screen root (which scrolls). However, the per-screen PaperSurface
-     *   layout is being introduced progressively across issues #145–#155. Until those
-     *   screens adopt PaperSurface as a constrained scroll root, position:absolute
-     *   resolves to a tall ancestor and the tab buttons overlap page content — breaking
-     *   e2e tests. Using position:fixed here preserves the existing behavior (identical
-     *   to the legacy BottomNav) and will be changed to position:absolute in a follow-up
-     *   once screens are rooted in PaperSurface.
+     * The positioned ancestor must be the full-bleed screen container. AppContent wraps
+     * each tab's content + TabBar in a position:relative Box (the screen shell), so
+     * bottom:30 resolves relative to the viewport-filling container, not to <body>.
+     * env(safe-area-inset-bottom) works identically in positioned-absolute context
+     * because the container fills the viewport (100dvh), inheriting the safe-area
+     * geometry.
      */
     <Box
       component="nav"
       aria-label="App navigation"
       sx={{
-        position: 'fixed',
+        position: 'absolute',
         bottom: '30px',
         left: 0,
         right: 0,
