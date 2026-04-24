@@ -192,82 +192,93 @@ function AppContent(): React.JSX.Element {
       {!pairsLoading && !showOnboarding && (
         <>
           {/*
-           * Home tab: full-bleed Liquid Glass layout.
-           * DashboardScreen owns its own PaperSurface (wallpaper, NavBar, scroll).
-           * No AppBar or Container — those would conflict with the full-bleed design.
+           * Screen shell: position:relative provides the positioned ancestor for
+           * TabBar's position:absolute. Each tab renders its screen (which owns a
+           * PaperSurface) plus the shared TabBar at bottom:30 of this container.
+           * minHeight:100dvh + width:100% ensures the shell fills the viewport so
+           * bottom:30 resolves correctly against the visible screen area.
+           *
+           * LibraryScreen (words tab) previously rendered TabBar internally.
+           * It is now uniform: all tabs render TabBar here, externally.
            */}
-          {activeTab === 'home' && (
-            <DashboardScreen
-              activePair={activePair}
-              settings={settings}
-              todayStats={dashboardData.todayStats}
-              wordProgressList={dashboardData.wordProgressList}
-              words={dashboardData.words}
-              totalWords={dashboardData.totalWords}
-              streakDays={dashboardData.streakDays}
-              loading={dashboardData.loading}
-              onStartQuiz={handleStartQuizFromDashboard}
-            />
-          )}
+          <Box
+            sx={{
+              position: 'relative',
+              minHeight: '100dvh',
+              width: '100%',
+            }}
+          >
+            {/*
+             * Home tab: full-bleed Liquid Glass layout.
+             * DashboardScreen owns its own PaperSurface (wallpaper, NavBar, scroll).
+             * No AppBar or Container — those would conflict with the full-bleed design.
+             */}
+            {activeTab === 'home' && (
+              <DashboardScreen
+                activePair={activePair}
+                settings={settings}
+                todayStats={dashboardData.todayStats}
+                wordProgressList={dashboardData.wordProgressList}
+                words={dashboardData.words}
+                totalWords={dashboardData.totalWords}
+                streakDays={dashboardData.streakDays}
+                loading={dashboardData.loading}
+                onStartQuiz={handleStartQuizFromDashboard}
+              />
+            )}
 
-          {/*
-           * Quiz tab: full-bleed Liquid Glass layout (issue #148).
-           * QuizHub owns its own PaperSurface (wallpaper, NavBar, scroll).
-           * No AppBar or Container — those would conflict with the full-bleed design.
-           */}
-          {activeTab === 'quiz' && (
-            <QuizHub
-              pair={activePair}
-              settings={settings}
-              onSettingsChange={handleSettingsChange}
-              onSessionComplete={handleQuizSessionComplete}
-              autoStart={quizAutoStart}
-              onBrowseLibrary={() => handleTabChange('words')}
-            />
-          )}
+            {/*
+             * Quiz tab: full-bleed Liquid Glass layout (issue #148).
+             * QuizHub owns its own PaperSurface (wallpaper, NavBar, scroll).
+             * No AppBar or Container — those would conflict with the full-bleed design.
+             */}
+            {activeTab === 'quiz' && (
+              <QuizHub
+                pair={activePair}
+                settings={settings}
+                onSettingsChange={handleSettingsChange}
+                onSessionComplete={handleQuizSessionComplete}
+                autoStart={quizAutoStart}
+                onBrowseLibrary={() => handleTabChange('words')}
+              />
+            )}
 
-          {/*
-           * Words tab: full-bleed Liquid Glass layout (issue #149).
-           * LibraryScreen owns its own PaperSurface (wallpaper, NavBar, TabBar, scroll).
-           * No AppBar or Container — those would conflict with the full-bleed design.
-           */}
-          {activeTab === 'words' && (
-            <LibraryScreen activePair={activePair} onTabChange={handleTabChange} />
-          )}
+            {/*
+             * Words tab: full-bleed Liquid Glass layout (issue #149).
+             * LibraryScreen owns its own PaperSurface (wallpaper, NavBar, scroll).
+             * No AppBar or Container — those would conflict with the full-bleed design.
+             * TabBar is rendered externally below (uniform pattern across all tabs, #162).
+             */}
+            {activeTab === 'words' && <LibraryScreen activePair={activePair} />}
 
-          {/*
-           * Stats tab: full-bleed Liquid Glass layout (issue #151).
-           * StatsScreen owns its own PaperSurface (wallpaper, NavBar, scroll).
-           * No AppBar or Container — those would conflict with the full-bleed design.
-           * TabBar is rendered externally below (no exclusion for stats).
-           */}
-          {activeTab === 'stats' && <StatsScreen />}
+            {/*
+             * Stats tab: full-bleed Liquid Glass layout (issue #151).
+             * StatsScreen owns its own PaperSurface (wallpaper, NavBar, scroll).
+             * No AppBar or Container — those would conflict with the full-bleed design.
+             */}
+            {activeTab === 'stats' && <StatsScreen />}
 
-          {/*
-           * Settings tab: full-bleed Liquid Glass layout (issue #152).
-           * SettingsScreen owns its own PaperSurface (wallpaper, NavBar, scroll).
-           * No AppBar or Container — those would conflict with the full-bleed design.
-           * TabBar is rendered externally below (no exclusion for settings).
-           * This completes the legacy AppBar+Container retirement — every screen
-           * is now on PaperSurface, unblocking #162 (TabBar fixed→absolute flip).
-           */}
-          {activeTab === 'settings' && (
-            <SettingsScreen
-              themePreference={themePreference}
-              onThemeChange={handleThemeChange}
-              settings={settings}
-              onSettingsChange={handleSettingsChange}
-            />
-          )}
+            {/*
+             * Settings tab: full-bleed Liquid Glass layout (issue #152).
+             * SettingsScreen owns its own PaperSurface (wallpaper, NavBar, scroll).
+             * No AppBar or Container — those would conflict with the full-bleed design.
+             */}
+            {activeTab === 'settings' && (
+              <SettingsScreen
+                themePreference={themePreference}
+                onThemeChange={handleThemeChange}
+                settings={settings}
+                onSettingsChange={handleSettingsChange}
+              />
+            )}
 
-          {/*
-           * Bottom navigation:
-           * - home, quiz, stats, settings: TabBar rendered here (screens don't include their own)
-           * - words: TabBar rendered inside LibraryScreen (owns its own PaperSurface)
-           */}
-          {showNav && activeTab !== 'words' && (
-            <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
-          )}
+            {/*
+             * Bottom navigation — uniform across all 5 tabs (#162).
+             * TabBar uses position:absolute anchored to this screen shell container.
+             * No tab exclusions: every non-onboarding tab renders TabBar here.
+             */}
+            {showNav && <TabBar activeTab={activeTab} onTabChange={handleTabChange} />}
+          </Box>
         </>
       )}
       {/* Update notification — shown when a new service worker is waiting */}

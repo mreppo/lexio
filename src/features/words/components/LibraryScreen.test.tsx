@@ -15,8 +15,6 @@ const DEFAULT_PAIR = createMockPair({
   targetCode: 'lv',
 })
 
-const NOOP_TAB_CHANGE = vi.fn()
-
 function makeStorage(words: Word[] = [], progress: WordProgress[] = []) {
   return createMockStorage({
     getWords: vi.fn().mockResolvedValue([...words]),
@@ -28,7 +26,7 @@ function makeStorage(words: Word[] = [], progress: WordProgress[] = []) {
 
 function renderLibrary(words: Word[] = [], progress: WordProgress[] = []) {
   return renderWithStorage(
-    <LibraryScreen activePair={DEFAULT_PAIR} onTabChange={NOOP_TAB_CHANGE} />,
+    <LibraryScreen activePair={DEFAULT_PAIR} />,
     makeStorage(words, progress),
   )
 }
@@ -430,10 +428,7 @@ describe('LibraryScreen', () => {
 
   describe('No active pair state', () => {
     it('should show a message when no language pair is selected', () => {
-      renderWithStorage(
-        <LibraryScreen activePair={null} onTabChange={NOOP_TAB_CHANGE} />,
-        makeStorage(),
-      )
+      renderWithStorage(<LibraryScreen activePair={null} />, makeStorage())
       expect(screen.getByText(/select a language pair/i)).toBeInTheDocument()
     })
   })
@@ -456,10 +451,7 @@ describe('LibraryScreen', () => {
     it('should call getWords with the active pair id', async () => {
       const getWords = vi.fn().mockResolvedValue([])
       const storage = createMockStorage({ getWords, getAllProgress: vi.fn().mockResolvedValue([]) })
-      renderWithStorage(
-        <LibraryScreen activePair={DEFAULT_PAIR} onTabChange={NOOP_TAB_CHANGE} />,
-        storage,
-      )
+      renderWithStorage(<LibraryScreen activePair={DEFAULT_PAIR} />, storage)
 
       await waitFor(() => {
         expect(getWords).toHaveBeenCalledWith('pair-1')
@@ -470,32 +462,28 @@ describe('LibraryScreen', () => {
   // ─── TabBar ────────────────────────────────────────────────────────────────
 
   describe('TabBar', () => {
-    it('should render the TabBar with words tab as active', async () => {
+    /*
+     * Since #162, TabBar is rendered externally by AppContent (position:absolute
+     * anchored to the screen shell container) — NOT inside LibraryScreen.
+     * LibraryScreen only renders its content (NavBar, search, filter, word list).
+     */
+    it('should NOT render a TabBar internally (TabBar is rendered by AppContent)', async () => {
       renderLibrary([createMockWord()])
 
       await waitFor(() => {
-        expect(screen.getByRole('navigation', { name: /app navigation/i })).toBeInTheDocument()
-        const wordsTab = screen.getByRole('button', { name: /Navigate to Words/i })
-        expect(wordsTab).toHaveAttribute('aria-current', 'page')
+        expect(screen.getByText('Library')).toBeInTheDocument()
       })
+
+      // No nav element (TabBar) is present inside LibraryScreen
+      expect(screen.queryByRole('navigation', { name: /app navigation/i })).not.toBeInTheDocument()
     })
 
-    it('should call onTabChange when a tab is tapped', async () => {
-      const user = userEvent.setup()
-      const onTabChange = vi.fn()
-
-      renderWithStorage(
-        <LibraryScreen activePair={DEFAULT_PAIR} onTabChange={onTabChange} />,
-        makeStorage([createMockWord()]),
-      )
+    it('should render its content without needing an onTabChange prop', async () => {
+      renderLibrary([createMockWord()])
 
       await waitFor(() => {
-        expect(screen.getByRole('button', { name: /Navigate to Home/i })).toBeInTheDocument()
+        expect(screen.getByText('Library')).toBeInTheDocument()
       })
-
-      await user.click(screen.getByRole('button', { name: /Navigate to Home/i }))
-
-      expect(onTabChange).toHaveBeenCalledWith('home')
     })
   })
 })

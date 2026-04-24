@@ -6,7 +6,7 @@
  *   2. Glass search field (radius 16, height 40) with debounced 150ms filter
  *   3. Filter pills row (All / Due / Learning / Mastered) — mutually exclusive
  *   4. Grouped word list padded 0 0 140 — each group: SectionHeader + Glass + GlassRow per word
- *   5. TabBar active=words (rendered by AppContent, not here)
+ *   5. TabBar active=words (rendered externally by AppContent — uniform pattern, #162)
  *
  * The plus button wires to the existing WordFormDialog add flow (a dialog, not a
  * modal sheet). #150 will restyle Add Word and may convert it to a bottom sheet.
@@ -30,8 +30,6 @@ import { GlassRow } from '@/components/composites/GlassRow'
 import { GlassIcon } from '@/components/atoms/GlassIcon'
 import { IconGlyph } from '@/components/atoms/IconGlyph'
 import { FilterPill } from '@/components/atoms/FilterPill'
-import { TabBar } from '@/components/composites/TabBar'
-import type { AppTab } from '@/components/composites/TabBar'
 import { getGlassTokens, glassTypography, glassShadows } from '@/theme/liquidGlass'
 import { useWords } from '../useWords'
 import type { CreateWordInput } from '../useWords'
@@ -44,7 +42,7 @@ import { useDebounce } from '@/hooks/useDebounce'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-/** Bottom spacer height in px — clears the fixed TabBar per spec. */
+/** Bottom spacer height in px — clears the absolute-positioned TabBar per spec. */
 const BOTTOM_SPACER_PX = 140
 
 /** Debounce delay for the search field in ms. */
@@ -60,8 +58,6 @@ type LibraryFilter = 'all' | 'due' | 'learning' | 'mastered'
 export interface LibraryScreenProps {
   /** The currently active language pair. */
   readonly activePair: LanguagePair | null
-  /** Called when the user switches tabs. */
-  readonly onTabChange: (tab: AppTab) => void
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -556,7 +552,7 @@ function EmptyLibrary({ onAddWord, onOpenPacks }: EmptyLibraryProps): React.JSX.
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export function LibraryScreen({ activePair, onTabChange }: LibraryScreenProps): React.JSX.Element {
+export function LibraryScreen({ activePair }: LibraryScreenProps): React.JSX.Element {
   const { words, progressMap, loading, updateWord, refresh } = useWords(activePair?.id ?? null)
 
   // Search state — raw value from input, debounced value for filtering
@@ -663,7 +659,6 @@ export function LibraryScreen({ activePair, onTabChange }: LibraryScreenProps): 
             Select a language pair to browse your library.
           </Box>
         </Box>
-        <TabBar activeTab="words" onTabChange={onTabChange} />
       </PaperSurface>
     )
   }
@@ -673,7 +668,6 @@ export function LibraryScreen({ activePair, onTabChange }: LibraryScreenProps): 
     return (
       <PaperSurface sx={{ overflowY: 'auto', overflowX: 'hidden' }}>
         <NavBar large prominentTitle="Library" />
-        <TabBar activeTab="words" onTabChange={onTabChange} />
       </PaperSurface>
     )
   }
@@ -725,9 +719,6 @@ export function LibraryScreen({ activePair, onTabChange }: LibraryScreenProps): 
           </>
         )}
       </Box>
-
-      {/* Tab bar */}
-      <TabBar activeTab="words" onTabChange={onTabChange} />
 
       {/* Add Word modal — Liquid Glass full-screen modal (#150) */}
       <AddWordModal
