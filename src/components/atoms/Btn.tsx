@@ -47,6 +47,10 @@ interface SizeConfig {
 }
 
 const SIZE_CONFIG: Readonly<Record<BtnSize, SizeConfig>> = {
+  // sm height is 36px visually; min-height 44 extends the tap target to meet
+  // WCAG 2.5.5 without changing the visual appearance at 100% zoom.
+  // The filled/white variants add extra top/bottom padding via min-height.
+  // The glass variant wraps in a Glass primitive — the button inside gets min-height.
   sm: { height: 36, fontSize: 15, paddingX: 14 },
   md: { height: 50, fontSize: 17, paddingX: 20 },
   lg: { height: 56, fontSize: 17, paddingX: 24 },
@@ -95,6 +99,9 @@ export function Btn({
           justifyContent: 'center',
           gap: '8px',
           height,
+          // sm (36px) is below 44px — enforce minimum tap target height.
+          // md/lg are already ≥44px so minHeight has no visual effect there.
+          minHeight: 44,
           width: full ? '100%' : 'auto',
           paddingX: `${paddingX}px`,
           backgroundColor: tokens.color.accent,
@@ -131,6 +138,8 @@ export function Btn({
           justifyContent: 'center',
           gap: '8px',
           height,
+          // sm (36px) is below 44px — enforce minimum tap target height.
+          minHeight: 44,
           width: full ? '100%' : 'auto',
           paddingX: `${paddingX}px`,
           backgroundColor: '#ffffff',
@@ -175,6 +184,8 @@ export function Btn({
             justifyContent: 'center',
             gap: '8px',
             height,
+            // sm (36px) is below 44px — enforce minimum tap target height.
+            minHeight: 44,
             width: '100%',
             paddingX: `${paddingX}px`,
             backgroundColor: 'transparent',

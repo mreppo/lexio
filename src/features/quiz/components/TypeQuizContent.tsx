@@ -406,7 +406,23 @@ export function TypeQuizContent({ session, pair, settings }: TypeQuizContentProp
             },
           }}
         >
-          <Glass pad={18} floating strong>
+          {/*
+           * focus-within ring: when the hidden <input> inside receives focus,
+           * the Glass card gets a visible accent outline so keyboard users
+           * see which surface has focus. The hidden input has outline:none to
+           * prevent the ring from appearing on the invisible element itself.
+           */}
+          <Glass
+            pad={18}
+            floating
+            strong
+            sx={{
+              '&:focus-within': {
+                outline: `2px solid var(--lexio-accent, #007AFF)`,
+                outlineOffset: '2px',
+              },
+            }}
+          >
             {/* ── Success state ── */}
             {isSuccess && (
               <Box
@@ -620,7 +636,11 @@ export function TypeQuizContent({ session, pair, settings }: TypeQuizContentProp
               sx={{
                 background: 'none',
                 border: 'none',
-                padding: '4px 0 4px 12px',
+                // min 44×44 tap target (WCAG 2.5.5): visual text is ~20px tall,
+                // padding extends the hit area without changing visual size.
+                minWidth: 44,
+                minHeight: 44,
+                padding: '12px 0 12px 12px',
                 cursor: 'pointer',
                 fontFamily: glassTypography.body,
                 fontSize: glassTypography.roles.quizHint.size,
@@ -628,6 +648,8 @@ export function TypeQuizContent({ session, pair, settings }: TypeQuizContentProp
                 letterSpacing: glassTypography.roles.quizHint.tracking,
                 color: tokens.color.accent,
                 lineHeight: 1,
+                display: 'inline-flex',
+                alignItems: 'center',
               }}
             >
               Skip

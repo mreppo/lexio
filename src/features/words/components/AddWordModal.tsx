@@ -216,8 +216,25 @@ function InputGlassCard({
   const textColor = valueColor ?? tokens.color.ink
 
   return (
-    <Glass pad={16} floating sx={{ marginBottom }}>
-      {/* Uppercase label: 12/700 inkSec */}
+    /*
+     * focus-within ring: the <input> inside has outline:none (it is visually
+     * replaced by the custom caret display). The Glass card shows a visible
+     * focus ring via :focus-within so keyboard users see where focus is.
+     */
+    <Glass
+      pad={16}
+      floating
+      sx={{
+        marginBottom,
+        '&:focus-within': {
+          outline: `2px solid var(--lexio-accent, #007AFF)`,
+          outlineOffset: '2px',
+        },
+      }}
+    >
+      {/* Uppercase label: 12/700 inkSec — NOT aria-hidden; it is meaningful text.
+          The input below also has its own aria-label matching this label text,
+          so screen readers will announce the label via the input. */}
       <Box
         component="span"
         sx={{
@@ -231,7 +248,6 @@ function InputGlassCard({
           textTransform: 'uppercase',
           marginBottom: '8px',
         }}
-        aria-hidden="true"
       >
         {label}
       </Box>
@@ -701,7 +717,20 @@ export function AddWordModal({
           {/* Example */}
           <SectionHeader>Example</SectionHeader>
           <Box sx={{ px: '16px' }}>
-            <Glass pad={16} floating>
+            {/*
+             * focus-within ring: the <input> has outline:none (custom caret UI).
+             * The Glass card shows a visible ring when the input is focused.
+             */}
+            <Glass
+              pad={16}
+              floating
+              sx={{
+                '&:focus-within': {
+                  outline: `2px solid var(--lexio-accent, #007AFF)`,
+                  outlineOffset: '2px',
+                },
+              }}
+            >
               <Box
                 component="input"
                 type="text"

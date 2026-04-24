@@ -218,7 +218,13 @@ export const lightGlass: GlassVariantTokens = {
     bg: '#F4F2EE',
     ink: '#111114',
     inkSoft: 'rgba(30,30,36,0.75)',
-    inkSec: 'rgba(30,30,36,0.55)',
+    /**
+     * inkSec raised from 0.55 → 0.70 for WCAG AA contrast on light surfaces.
+     * At 0.55 on bg #F4F2EE the effective colour is ~#7E7D7F (≈3.6:1 — FAIL).
+     * At 0.70 the effective colour is ~#5E5D5D (≈5.3:1 — PASS).
+     * Dark variant remains 0.55 — on the dark bg #0A0A10 it already passes AA.
+     */
+    inkSec: 'rgba(30,30,36,0.70)',
     inkFaint: 'rgba(30,30,36,0.28)',
     rule2: 'rgba(0,0,0,0.08)',
     accent: '#007AFF',
