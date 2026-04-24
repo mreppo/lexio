@@ -14,9 +14,14 @@ describe('SectionHeader', () => {
     expect(screen.getByText('Daily practice')).toBeInTheDocument()
   })
 
-  it('should render as an h2 element', () => {
+  it('should render as an h2 element by default', () => {
     renderWithTheme(<SectionHeader>Quiz</SectionHeader>)
     expect(screen.getByRole('heading', { level: 2 })).toBeInTheDocument()
+  })
+
+  it('should render as h3 when component prop is h3', () => {
+    renderWithTheme(<SectionHeader component="h3">Deep section</SectionHeader>)
+    expect(screen.getByRole('heading', { level: 3, name: 'Deep section' })).toBeInTheDocument()
   })
 
   it('should apply uppercase CSS via text-transform (content is passed through as-is)', () => {

@@ -73,8 +73,10 @@ export function WelcomeStep({ onDemo, onManualSetup, demoLoading = false }: Welc
         Welcome to Lexio
       </Box>
 
-      {/* Headline — BigWord size=42 */}
-      <BigWord size={HEADLINE_SIZE}>Learn any language, a word at a time.</BigWord>
+      {/* Headline — BigWord size=42, h1 because it is the primary heading on this screen */}
+      <BigWord size={HEADLINE_SIZE} component="h1">
+        Learn any language, a word at a time.
+      </BigWord>
 
       {/* Subhead 16/500 inkSoft max-width 320 */}
       <Box

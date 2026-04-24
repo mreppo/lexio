@@ -20,17 +20,27 @@ export interface SectionHeaderProps {
   readonly children: React.ReactNode
   /** Optional sx overrides for positioning / margin. */
   readonly sx?: SxProps<Theme>
+  /**
+   * HTML element rendered by the Box. Defaults to 'h2'.
+   * All callers currently land on h2 (correct after a LargeTitle h1).
+   * Override to 'h3' when nesting inside a section that already has an h2.
+   */
+  readonly component?: React.ElementType
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function SectionHeader({ children, sx }: SectionHeaderProps): React.JSX.Element {
+export function SectionHeader({
+  children,
+  sx,
+  component = 'h2',
+}: SectionHeaderProps): React.JSX.Element {
   const theme = useTheme()
   const tokens = getGlassTokens(theme.palette.mode)
 
   return (
     <Box
-      component="h2"
+      component={component}
       sx={{
         // Reset heading margin (browser default adds top margin)
         margin: 0,
