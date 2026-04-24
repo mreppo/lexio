@@ -68,7 +68,7 @@ describe('App - app shell (AppContent direct)', () => {
     expect(screen.getByRole('button', { name: /try it now/i })).toBeInTheDocument()
   })
 
-  it('should show the Lexio heading in the onboarding welcome step on first launch', async () => {
+  it('should show the "Welcome to Lexio" label in the onboarding welcome step on first launch', async () => {
     // Import AppContent directly to avoid routing/Suspense complexity in tests.
     const { default: AppContent } = await import('./AppContent')
     const { LocalStorageService } = await import('./services/storage')
@@ -82,7 +82,7 @@ describe('App - app shell (AppContent direct)', () => {
       )
     })
     await act(async () => {})
-    // The onboarding flow renders "Lexio" as the h3 heading on the welcome step.
-    expect(screen.getAllByText('Lexio').length).toBeGreaterThan(0)
+    // The onboarding flow renders "Welcome to Lexio" as the uppercase label on the welcome step.
+    expect(screen.getByText(/welcome to lexio/i)).toBeInTheDocument()
   })
 })

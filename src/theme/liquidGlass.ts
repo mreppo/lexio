@@ -9,6 +9,27 @@
  * Do NOT change any numeric or color value without updating tokens.json first.
  */
 
+/**
+ * Language-pair gradient map for the onboarding LanguagePairStep.
+ *
+ * Each entry is a CSS gradient string (linear-gradient) keyed by the
+ * target-language BCP-47 code (lowercase). The values are per design spec.
+ *
+ * Fallback: when a code is not present in the map, callers should fall back
+ * to `avatarGradient` (blue-to-violet). This ensures the UI never breaks on
+ * unknown language codes (e.g. the default EN-LV pair where 'lv' is not in
+ * the spec's listed set).
+ */
+export interface PairGradientMap {
+  readonly es: string
+  readonly fr: string
+  /** Japanese pair — BCP-47 code 'ja' (not 'jp'). */
+  readonly ja: string
+  readonly de: string
+  /** Additional codes can be added here as new pairs are supported. */
+  readonly [code: string]: string
+}
+
 export interface GlassColorTokens {
   readonly bg: string
   readonly ink: string
@@ -43,6 +64,12 @@ export interface GlassColorTokens {
    * Value: linear-gradient(135deg, #FF9500 0%, #FF3B30 100%).
    */
   readonly streakGradient: string
+  /**
+   * Language-pair gradient map — used in the LanguagePairStep onboarding card.
+   * Keyed by target-language BCP-47 code (lowercase). Falls back to
+   * `avatarGradient` for any code not in the map (e.g. 'lv').
+   */
+  readonly pairGradients: PairGradientMap
 }
 
 export interface GlassLayerTokens {
@@ -196,6 +223,14 @@ export const lightGlass: GlassVariantTokens = {
     aiGradient: 'linear-gradient(135deg, #AF52DE 0%, #007AFF 100%)',
     // Streak hero gradient — always vivid orange-red regardless of theme
     streakGradient: 'linear-gradient(135deg, #FF9500 0%, #FF3B30 100%)',
+    // Language-pair gradient map. ES reuses streakGradient colors per spec.
+    // Fallback for unknown codes: use avatarGradient (#007AFF → #AF52DE).
+    pairGradients: {
+      es: 'linear-gradient(135deg, #FF9500 0%, #FF3B30 100%)',
+      fr: 'linear-gradient(135deg, #5856D6 0%, #0A84FF 100%)',
+      ja: 'linear-gradient(135deg, #FF2D55 0%, #AF52DE 100%)',
+      de: 'linear-gradient(135deg, #30D158 0%, #0A84FF 100%)',
+    },
   },
   glass: {
     bg: 'rgba(255,255,255,0.55)',
@@ -238,6 +273,15 @@ export const darkGlass: GlassVariantTokens = {
     aiGradient: 'linear-gradient(135deg, #BF5AF2 0%, #0A84FF 100%)',
     // Streak hero gradient — same on both variants per spec (always vivid orange-red)
     streakGradient: 'linear-gradient(135deg, #FF9500 0%, #FF3B30 100%)',
+    // Language-pair gradient map. Same values in dark mode — per design spec the
+    // pair gradients are vivid and do not change between light/dark.
+    // Fallback for unknown codes: use avatarGradient (#0A84FF → #BF5AF2).
+    pairGradients: {
+      es: 'linear-gradient(135deg, #FF9500 0%, #FF3B30 100%)',
+      fr: 'linear-gradient(135deg, #5856D6 0%, #0A84FF 100%)',
+      ja: 'linear-gradient(135deg, #FF2D55 0%, #AF52DE 100%)',
+      de: 'linear-gradient(135deg, #30D158 0%, #0A84FF 100%)',
+    },
   },
   glass: {
     bg: 'rgba(255,255,255,0.10)',

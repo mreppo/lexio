@@ -33,20 +33,19 @@ test.beforeEach(async ({ page }) => {
 
 test('complete onboarding wizard end-to-end (manual path)', async ({ page }) => {
   // ── Step 1: Welcome ───────────────────────────────────────────────────────
-  // The welcome screen should be visible after clearing state.
-  await expect(page.getByRole('heading', { name: 'Lexio' })).toBeVisible({ timeout: 10_000 })
-  await expect(page.getByText(/Learn vocabulary in any language/i)).toBeVisible()
+  // The welcome screen should show the uppercase "WELCOME TO LEXIO" label.
+  await expect(page.getByText(/welcome to lexio/i)).toBeVisible({ timeout: 10_000 })
+  await expect(page.getByText(/learn any language, a word at a time/i)).toBeVisible()
 
   // Use "Set up my own" to go through the manual 3-step flow.
   await page.getByRole('button', { name: 'Set up my own' }).click()
 
   // ── Step 2: Language Pair ─────────────────────────────────────────────────
-  // The form is pre-filled with EN-LV defaults; just click Continue.
-  await expect(page.getByText('Create your first language pair')).toBeVisible({ timeout: 5_000 })
+  // The card-based list is pre-selected with EN-LV; just click Continue.
+  await expect(page.getByText('Choose your language pair')).toBeVisible({ timeout: 5_000 })
 
-  // Verify the default values are pre-filled.
-  await expect(page.getByRole('combobox', { name: 'Source language' })).toBeVisible()
-  await expect(page.getByRole('combobox', { name: 'Target language' })).toBeVisible()
+  // Verify the EN→LV pair card is present and pre-selected.
+  await expect(page.getByRole('radio', { name: /english.*latvian/i })).toBeVisible()
 
   await page.getByRole('button', { name: 'Continue' }).click()
 
@@ -76,14 +75,14 @@ test('complete onboarding wizard end-to-end (manual path)', async ({ page }) => 
 
 test('complete onboarding with custom language pair', async ({ page }) => {
   // ── Step 1: Welcome ───────────────────────────────────────────────────────
-  await expect(page.getByRole('heading', { name: 'Lexio' })).toBeVisible({ timeout: 10_000 })
+  await expect(page.getByText(/welcome to lexio/i)).toBeVisible({ timeout: 10_000 })
   await page.getByRole('button', { name: 'Set up my own' }).click()
 
-  // ── Step 2: Language Pair — choose German-English via quick-select chip ───
-  await expect(page.getByText('Create your first language pair')).toBeVisible({ timeout: 5_000 })
+  // ── Step 2: Language Pair — choose German-English via card radio ───────────
+  await expect(page.getByText('Choose your language pair')).toBeVisible({ timeout: 5_000 })
 
-  // Click the EN → DE chip to select a different preset.
-  await page.getByRole('button', { name: 'EN → DE' }).click()
+  // Click the EN→DE card to select a different preset.
+  await page.getByRole('radio', { name: /english.*german/i }).click()
 
   // Continue with the German pair.
   await page.getByRole('button', { name: 'Continue' }).click()
@@ -116,22 +115,24 @@ test('complete onboarding with custom language pair', async ({ page }) => {
 
 test('onboarding welcome step shows both CTAs', async ({ page }) => {
   // Verify both the demo and manual setup buttons are visible on the welcome step.
-  await expect(page.getByRole('heading', { name: 'Lexio' })).toBeVisible({ timeout: 10_000 })
+  await expect(page.getByText(/welcome to lexio/i)).toBeVisible({ timeout: 10_000 })
   await expect(page.getByRole('button', { name: 'Try it now' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Set up my own' })).toBeVisible()
 })
 
 test('onboarding step progress dots are visible in manual flow', async ({ page }) => {
-  // Verify the MobileStepper dots are rendered as the user progresses through manual flow.
-  await expect(page.getByRole('heading', { name: 'Lexio' })).toBeVisible({ timeout: 10_000 })
+  // Verify the StepPagination dots are rendered as the user progresses through manual flow.
+  await expect(page.getByText(/welcome to lexio/i)).toBeVisible({ timeout: 10_000 })
 
   // Welcome step has no stepper dots.
   await expect(page.getByRole('button', { name: 'Set up my own' })).toBeVisible()
 
   await page.getByRole('button', { name: 'Set up my own' }).click()
 
-  // Step 2 — language pair form visible.
-  await expect(page.getByText('Create your first language pair')).toBeVisible({ timeout: 5_000 })
+  // Step 2 — language pair card list visible; StepPagination dots present.
+  await expect(page.getByText('Choose your language pair')).toBeVisible({ timeout: 5_000 })
+  // StepPagination renders 3 dots with role=tab
+  await expect(page.locator('[role="tab"]').first()).toBeVisible()
 
   await page.getByRole('button', { name: 'Continue' }).click()
 

@@ -1,21 +1,32 @@
+/**
+ * AddWordsStep — Step 3 of the onboarding flow (Liquid Glass restyle, issue #153).
+ *
+ * Layout: Library grouped-list aesthetic — SectionHeader + Glass containing GlassRow per option.
+ * Options:
+ *   A) Load a starter pack (if available for the created pair)
+ *   B) Add my own words (skip to main app)
+ * Bottom: Skip link text button.
+ *
+ * Business logic (listPacks, installPack, auto-advance) is preserved untouched — render only.
+ * useWords.addWord hook is NOT used here — users add words in the Library screen after onboarding.
+ *
+ * All values flow from tokens. No hardcoded colours or spacing.
+ */
+
 import { useState, useEffect, useCallback } from 'react'
-import {
-  Box,
-  Typography,
-  Button,
-  Stack,
-  CircularProgress,
-  Alert,
-  Card,
-  CardActionArea,
-  CardContent,
-} from '@mui/material'
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
-import EditNoteIcon from '@mui/icons-material/EditNote'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import { Box, Alert } from '@mui/material'
+import { BookOpen, PenLine, CheckCircle, Loader } from 'lucide-react'
+import { useTheme } from '@mui/material/styles'
 import type { LanguagePair, StarterPack } from '@/types'
 import { listPacks, packMatchesPair, installPack } from '@/services/starterPacks'
 import { useStorage } from '@/hooks/useStorage'
+import { getGlassTokens, glassTypography } from '@/theme/liquidGlass'
+import { Glass } from '@/components/primitives/Glass'
+import { GlassRow } from '@/components/composites/GlassRow'
+import { SectionHeader } from '@/components/composites/SectionHeader'
+import { Btn } from '@/components/atoms/Btn'
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface AddWordsStepProps {
   /** The pair created in step 2. May be null only briefly before the step renders. */
@@ -26,18 +37,13 @@ export interface AddWordsStepProps {
 
 type SelectionState = 'idle' | 'pack' | 'own'
 
-/**
- * Step 3 of the onboarding flow.
- * Offers the user three choices:
- *   A) Load a starter pack (if one is available for the created pair)
- *   B) Add words manually
- *   C) Skip for now
- *
- * When option A is chosen, the pack is installed immediately and the user
- * sees a success message before moving to the next step.
- */
+// ─── Component ────────────────────────────────────────────────────────────────
+
 export function AddWordsStep({ createdPair, onNext, onSkip }: AddWordsStepProps) {
+  const theme = useTheme()
+  const tokens = getGlassTokens(theme.palette.mode)
   const storage = useStorage()
+
   const [selection, setSelection] = useState<SelectionState>('idle')
   const [availablePack, setAvailablePack] = useState<StarterPack | null>(null)
   const [loadingPacks, setLoadingPacks] = useState(true)
@@ -111,110 +117,125 @@ export function AddWordsStep({ createdPair, onNext, onSkip }: AddWordsStepProps)
     onSkip()
   }, [onSkip])
 
+  // Icon and label for the pack option vary by loading/installing/installed state
+  const packIcon = installed ? CheckCircle : loadingPacks || installing ? Loader : BookOpen
+  const packIconBg = installed ? tokens.color.ok : tokens.color.accent
+
+  const packTitle = installed
+    ? `Loaded ${installedCount} words!`
+    : loadingPacks
+      ? 'Looking for a starter pack…'
+      : availablePack
+        ? `Load starter pack: ${availablePack.name}`
+        : 'No starter pack available'
+
+  const packDetail = installed
+    ? 'Pack installed successfully.'
+    : availablePack && !loadingPacks
+      ? `${availablePack.words.length} curated words — ${availablePack.description}`
+      : undefined
+
   return (
     <Box
       sx={{
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        px: 3,
-        py: 4,
-        maxWidth: 480,
-        mx: 'auto',
-        width: '100%',
+        pt: '72px',
       }}
     >
-      <Box sx={{ mb: 3, textAlign: 'center' }}>
-        <Typography variant="h5" gutterBottom>
+      {/* Header */}
+      <Box sx={{ px: '24px', mb: '28px' }}>
+        <Box
+          component="h1"
+          sx={{
+            margin: 0,
+            fontFamily: glassTypography.display,
+            fontSize: '28px',
+            fontWeight: 800,
+            letterSpacing: '-0.6px',
+            lineHeight: 1.1,
+            color: tokens.color.ink,
+            mb: '8px',
+          }}
+        >
           Add your first words
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
+        </Box>
+        <Box
+          component="p"
+          sx={{
+            margin: 0,
+            fontFamily: glassTypography.body,
+            fontSize: '16px',
+            fontWeight: 500,
+            letterSpacing: '-0.2px',
+            lineHeight: 1.5,
+            color: tokens.color.inkSoft,
+          }}
+        >
           Start with a curated pack or add your own vocabulary.
-        </Typography>
+        </Box>
       </Box>
 
-      {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {error}
-        </Alert>
-      )}
+      {/* Options group — Library grouped-list pattern */}
+      <Box sx={{ px: '16px' }}>
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
 
-      {loadingPacks ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-          <CircularProgress />
-        </Box>
-      ) : (
-        <Stack spacing={2}>
-          {availablePack && (
-            <Card
-              variant="outlined"
-              sx={{
-                borderColor: selection === 'pack' ? 'primary.main' : 'divider',
-                borderWidth: 2,
-              }}
-            >
-              <CardActionArea onClick={handlePackCardClick} disabled={installing || installed}>
-                <CardContent sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                  <Box sx={{ pt: 0.5 }}>
-                    {installed ? (
-                      <CheckCircleIcon color="success" />
-                    ) : installing ? (
-                      <CircularProgress size={24} />
-                    ) : (
-                      <LibraryBooksIcon color="primary" />
-                    )}
-                  </Box>
-                  <Box>
-                    <Typography variant="subtitle1" fontWeight={700}>
-                      {installed
-                        ? `Loaded ${installedCount} words!`
-                        : `Load starter pack: ${availablePack.name}`}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {installed
-                        ? 'Pack installed successfully.'
-                        : `${availablePack.words.length} curated words — ${availablePack.description}`}
-                    </Typography>
-                  </Box>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          )}
+        <SectionHeader>Get started</SectionHeader>
 
-          <Card
-            variant="outlined"
-            sx={{
-              borderColor: selection === 'own' ? 'primary.main' : 'divider',
-              borderWidth: 2,
-            }}
-          >
-            <CardActionArea onClick={handleOwnWordsClick} disabled={installing || installed}>
-              <CardContent sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
-                <EditNoteIcon color="primary" sx={{ pt: 0.5 }} />
-                <Box>
-                  <Typography variant="subtitle1" fontWeight={700}>
-                    Add my own words
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Build your vocabulary list from scratch or import from CSV.
-                  </Typography>
-                </Box>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Stack>
-      )}
+        <Glass pad={0} floating>
+          {availablePack !== null || loadingPacks ? (
+            <GlassRow
+              icon={packIcon}
+              iconBg={packIconBg}
+              title={packTitle}
+              detail={packDetail}
+              chevron={!installing && !installed && !loadingPacks}
+              isLast={false}
+              onClick={
+                !installing && !installed && !loadingPacks && availablePack
+                  ? handlePackCardClick
+                  : undefined
+              }
+            />
+          ) : null}
 
-      <Box sx={{ mt: 'auto', pt: 3, textAlign: 'center' }}>
-        <Button
-          variant="text"
-          color="inherit"
+          <GlassRow
+            icon={PenLine}
+            iconBg={tokens.color.violet}
+            title={selection === 'own' ? 'Adding your own words…' : 'Add my own words'}
+            detail="Build your vocabulary from scratch or import from CSV."
+            chevron={selection !== 'own'}
+            isLast
+            onClick={
+              !installing && !installed && selection !== 'own' ? handleOwnWordsClick : undefined
+            }
+          />
+        </Glass>
+      </Box>
+
+      {/* Skip link */}
+      <Box
+        sx={{
+          mt: 'auto',
+          pt: '24px',
+          pb: '24px',
+          textAlign: 'center',
+        }}
+      >
+        <Btn
+          kind="glass"
+          size="sm"
           onClick={onSkip}
           disabled={installing}
-          sx={{ color: 'text.secondary' }}
+          aria-label="Skip for now"
         >
           Skip for now
-        </Button>
+        </Btn>
       </Box>
     </Box>
   )

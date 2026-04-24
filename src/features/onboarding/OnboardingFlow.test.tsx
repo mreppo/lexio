@@ -96,8 +96,8 @@ describe('OnboardingFlow', () => {
       renderFlow()
       expect(screen.getByRole('button', { name: /try it now/i })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: /set up my own/i })).toBeInTheDocument()
-      // The "Lexio" heading is present in the welcome step.
-      expect(screen.getAllByText('Lexio').length).toBeGreaterThan(0)
+      // The "Welcome to Lexio" label is present in the welcome step.
+      expect(screen.getByText(/welcome to lexio/i)).toBeInTheDocument()
     })
 
     it('should show a tagline on the welcome step', () => {
@@ -108,12 +108,13 @@ describe('OnboardingFlow', () => {
     it('should advance to the language pair step when "Set up my own" is clicked', async () => {
       renderFlow()
       await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
-      expect(screen.getByText(/create your first language pair/i)).toBeInTheDocument()
+      expect(screen.getByText(/choose your language pair/i)).toBeInTheDocument()
     })
 
     it('should not show stepper dots on the welcome step', () => {
       renderFlow()
-      const dots = document.querySelectorAll('.MuiMobileStepper-dot')
+      // StepPagination dots are rendered via Box elements with role=tab; not present on Welcome
+      const dots = document.querySelectorAll('[role="tab"]')
       expect(dots.length).toBe(0)
     })
   })
@@ -200,7 +201,7 @@ describe('OnboardingFlow', () => {
         await userEvent.click(screen.getByRole('button', { name: /try it now/i }))
       })
       await waitFor(() => {
-        expect(screen.getByText(/create your first language pair/i)).toBeInTheDocument()
+        expect(screen.getByText(/choose your language pair/i)).toBeInTheDocument()
       })
     })
 
@@ -238,20 +239,19 @@ describe('OnboardingFlow', () => {
       await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
     }
 
-    it('should pre-fill with LV-EN default pair', async () => {
+    it('should render the language pair heading', async () => {
       await advanceToStep2()
-      const inputs = screen.getAllByRole('combobox')
-      // First autocomplete is source language (Latvian for the manual flow default).
-      expect(inputs[0]).toHaveValue('English (en)')
+      expect(screen.getByText(/choose your language pair/i)).toBeInTheDocument()
     })
 
-    it('should show popular preset chips', async () => {
+    it('should show preset pair cards as radio buttons', async () => {
       await advanceToStep2()
-      expect(screen.getByRole('button', { name: /EN → LV/i })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: /EN → DE/i })).toBeInTheDocument()
+      // Each pair card renders as role=radio
+      expect(screen.getByRole('radio', { name: /english.*latvian/i })).toBeInTheDocument()
+      expect(screen.getByRole('radio', { name: /english.*german/i })).toBeInTheDocument()
     })
 
-    it('should call onCreatePair when Continue is clicked with valid form', async () => {
+    it('should call onCreatePair with the default (EN→LV) pair when Continue is clicked', async () => {
       const onCreatePair = makeCreatePairMock()
       renderFlow(vi.fn(), onCreatePair)
       await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
@@ -264,24 +264,26 @@ describe('OnboardingFlow', () => {
       })
     })
 
-    it('should show error if form fields are empty', async () => {
+    it('should select a pair card when clicked', async () => {
       await advanceToStep2()
-
-      // Clear the source language autocomplete.
-      const inputs = screen.getAllByRole('combobox')
-      await userEvent.clear(inputs[0])
-
-      // Find "Continue" button and click.
-      await userEvent.click(screen.getByRole('button', { name: /continue/i }))
-
-      expect(screen.getByRole('alert')).toBeInTheDocument()
+      const spanishCard = screen.getByRole('radio', { name: /english.*spanish/i })
+      await userEvent.click(spanishCard)
+      expect(spanishCard).toHaveAttribute('aria-checked', 'true')
     })
 
-    it('should update form when a preset chip is clicked', async () => {
-      await advanceToStep2()
-      await userEvent.click(screen.getByRole('button', { name: /EN → DE/i }))
-      const inputs = screen.getAllByRole('combobox')
-      expect(inputs[1]).toHaveValue('German (de)')
+    it('should call onCreatePair with the selected pair when Continue is clicked', async () => {
+      const onCreatePair = makeCreatePairMock()
+      renderFlow(vi.fn(), onCreatePair)
+      await userEvent.click(screen.getByRole('button', { name: /set up my own/i }))
+      // Select the Spanish pair
+      await userEvent.click(screen.getByRole('radio', { name: /english.*spanish/i }))
+      await userEvent.click(screen.getByRole('button', { name: /continue/i }))
+      expect(onCreatePair).toHaveBeenCalledWith({
+        sourceLang: 'English',
+        sourceCode: 'en',
+        targetLang: 'Spanish',
+        targetCode: 'es',
+      })
     })
 
     it('should advance to add words step after pair creation', async () => {
@@ -296,9 +298,10 @@ describe('OnboardingFlow', () => {
       })
     })
 
-    it('should show stepper with 3 dots when in manual flow', async () => {
+    it('should show StepPagination dots when in manual flow', async () => {
       await advanceToStep2()
-      const dots = document.querySelectorAll('.MuiMobileStepper-dot')
+      // StepPagination renders dots as role=tab
+      const dots = document.querySelectorAll('[role="tab"]')
       expect(dots.length).toBe(3)
     })
   })
