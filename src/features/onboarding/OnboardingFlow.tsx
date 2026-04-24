@@ -1,11 +1,13 @@
 import { useState, useCallback, useEffect } from 'react'
-import { Box, MobileStepper } from '@mui/material'
+import { Box } from '@mui/material'
 import type { LanguagePair } from '@/types'
 import type { CreatePairInput } from '@/features/language-pairs'
 import { WelcomeStep } from './steps/WelcomeStep'
 import { LanguagePairStep } from './steps/LanguagePairStep'
 import { AddWordsStep } from './steps/AddWordsStep'
 import { TutorialStep } from './steps/TutorialStep'
+import { StepPagination } from './components/StepPagination'
+import { PaperSurface } from '@/components/primitives/PaperSurface'
 import { loadPack, installPack } from '@/services/starterPacks'
 import { useStorage } from '@/hooks/useStorage'
 import { analytics } from '@/services/analytics'
@@ -44,7 +46,7 @@ const DEMO_PAIR_INPUT: CreatePairInput = {
 /**
  * Steps in the manual onboarding flow (Welcome is step 0 but not counted in stepper).
  * Manual flow: Welcome (0) → Language Pair (1) → Add Words (2) → Tutorial (3)
- * The MobileStepper shows 3 dots for steps 1-3.
+ * The StepPagination shows 3 dots for steps 1-3.
  */
 const MANUAL_STEPS = 3
 
@@ -56,6 +58,9 @@ const MANUAL_STEPS = 3
  *   2. Manual setup — tap "Set up my own" on Welcome → Language Pair → Add Words → Tutorial
  *
  * The flow can also auto-trigger the demo path via the `autoDemo` prop (used for `?demo=true`).
+ *
+ * PaperSurface wraps the entire flow so the Liquid Glass wallpaper renders beneath all steps.
+ * TabBar is NOT rendered — onboarding gates the tab UI entirely (no AppContent change needed).
  */
 export function OnboardingFlow({
   onComplete,
@@ -115,18 +120,16 @@ export function OnboardingFlow({
     setActiveStep(1)
   }, [])
 
-  // The stepper shows progress for steps 1-3 (manual path). Welcome (0) has no dot.
+  // StepPagination shows progress for steps 1-3 (manual path). Welcome (0) has no dots.
   // stepperActiveStep maps: step1 → 0, step2 → 1, step3 → 2
   const stepperActiveStep = Math.max(0, activeStep - 1)
   const showStepper = activeStep > 0
 
   return (
-    <Box
+    <PaperSurface
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh',
-        bgcolor: 'background.default',
       }}
     >
       {/* Step content — takes all available vertical space */}
@@ -148,29 +151,7 @@ export function OnboardingFlow({
       </Box>
 
       {/* Progress indicator — only shown during the manual 3-step flow */}
-      {showStepper && (
-        <MobileStepper
-          variant="dots"
-          steps={MANUAL_STEPS}
-          position="static"
-          activeStep={stepperActiveStep}
-          nextButton={<Box sx={{ width: 64 }} />}
-          backButton={<Box sx={{ width: 64 }} />}
-          sx={{
-            justifyContent: 'center',
-            bgcolor: 'transparent',
-            pb: 2,
-            '& .MuiMobileStepper-dot': {
-              width: 8,
-              height: 8,
-              mx: 0.5,
-            },
-            '& .MuiMobileStepper-dotActive': {
-              bgcolor: 'primary.main',
-            },
-          }}
-        />
-      )}
-    </Box>
+      {showStepper && <StepPagination activeStep={stepperActiveStep} />}
+    </PaperSurface>
   )
 }
