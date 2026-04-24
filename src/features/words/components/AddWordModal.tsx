@@ -41,7 +41,7 @@ import { useTheme } from '@mui/material/styles'
 import { PaperSurface } from '@/components/primitives/PaperSurface'
 import { Glass } from '@/components/primitives/Glass'
 import { SectionHeader } from '@/components/composites/SectionHeader'
-import { getGlassTokens, glassTypography, glassShadows } from '@/theme/liquidGlass'
+import { getGlassTokens, glassTypography, glassShadows, aiCircleShadow } from '@/theme/liquidGlass'
 import { CARET_BLINK_KEYFRAMES } from '@/theme/animations'
 import { useWords } from '../useWords'
 import type { PartOfSpeech } from '../partOfSpeech'
@@ -462,8 +462,8 @@ function AiUpsellCard(): React.JSX.Element {
               height: '38px',
               borderRadius: '50%',
               background: tokens.color.aiGradient,
-              // Shadow: 0 4px 12px rgba(175,82,222,0.4) per spec
-              boxShadow: '0 4px 12px rgba(175,82,222,0.4)',
+              // Shadow uses mode-specific violet: light #AF52DE, dark #BF5AF2 at 0.4 alpha
+              boxShadow: aiCircleShadow(theme.palette.mode),
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
