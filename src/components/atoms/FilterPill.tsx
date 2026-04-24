@@ -51,7 +51,10 @@ export function FilterPill({
         sx={{
           display: 'inline-flex',
           alignItems: 'center',
-          padding: '8px 14px',
+          // Vertical padding 10px gives height ≥ 34+10+10 = at least the text
+          // height + padding. min-height 44 ensures WCAG 2.5.5 compliance.
+          minHeight: 44,
+          padding: '10px 14px',
           borderRadius: `${glassRadius.pill}px`,
           // Solid ink fill — dark text in light mode (#000 in dark, ink token is white)
           backgroundColor: tokens.color.ink,
@@ -90,7 +93,10 @@ export function FilterPill({
           sx={{
             display: 'inline-flex',
             alignItems: 'center',
-            padding: '8px 14px',
+            // min-height 44 extends the tap target without changing visual pill size.
+            // The Glass wrapper clips the blur surface; padding expands the hit area.
+            minHeight: 44,
+            padding: '10px 14px',
             backgroundColor: 'transparent',
             color: tokens.color.ink,
             border: 'none',

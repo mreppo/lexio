@@ -3,9 +3,22 @@ import type { ThemePreference } from '@/types'
 import { getGlassTokens, glassRadius, glassTypography, glassShadows } from './liquidGlass'
 
 /**
+ * Convert a px value to rem based on 16px root font-size.
+ * This ensures MUI Typography variants respect the browser's base font-size
+ * setting (Dynamic Type / user font scaling at 200% zoom). Visual sizes at
+ * 100% zoom are unchanged — 17px → 1.0625rem looks identical at 100%.
+ */
+function pxToRem(px: number): string {
+  return `${px / 16}rem`
+}
+
+/**
  * Build MUI typography config from Liquid Glass typography tokens.
  * Display font (SF Pro Display / Inter) for headings; body font (SF Pro Text / Inter) for body.
  * Typography tokens are shared between light and dark variants.
+ *
+ * Font sizes use rem (not px) so they scale with the user's browser font-size
+ * preference. Visual sizes at 100% browser zoom are identical to the px values.
  */
 function buildTypography() {
   return {
@@ -13,14 +26,14 @@ function buildTypography() {
     h1: {
       fontFamily: glassTypography.display,
       fontWeight: glassTypography.roles.largeTitle.weight,
-      fontSize: `${glassTypography.roles.largeTitle.size}px`,
+      fontSize: pxToRem(glassTypography.roles.largeTitle.size),
       letterSpacing: `${glassTypography.roles.largeTitle.tracking}px`,
       lineHeight: glassTypography.roles.largeTitle.lineHeight,
     },
     h2: {
       fontFamily: glassTypography.display,
       fontWeight: glassTypography.roles.title.weight,
-      fontSize: `${glassTypography.roles.title.size}px`,
+      fontSize: pxToRem(glassTypography.roles.title.size),
       letterSpacing: `${glassTypography.roles.title.tracking}px`,
       lineHeight: glassTypography.roles.title.lineHeight,
     },
@@ -43,13 +56,13 @@ function buildTypography() {
       fontWeight: glassTypography.roles.title.weight,
     },
     body1: {
-      fontSize: `${glassTypography.roles.body.size}px`,
+      fontSize: pxToRem(glassTypography.roles.body.size),
       fontWeight: glassTypography.roles.body.weight,
       letterSpacing: `${glassTypography.roles.body.tracking}px`,
       lineHeight: glassTypography.roles.body.lineHeight,
     },
     body2: {
-      fontSize: `${glassTypography.roles.copy.size}px`,
+      fontSize: pxToRem(glassTypography.roles.copy.size),
       fontWeight: glassTypography.roles.copy.weight,
       letterSpacing: `${glassTypography.roles.copy.tracking}px`,
       lineHeight: glassTypography.roles.copy.lineHeight,
@@ -57,12 +70,12 @@ function buildTypography() {
     button: {
       fontFamily: glassTypography.body,
       fontWeight: glassTypography.roles.button.weight,
-      fontSize: `${glassTypography.roles.button.size}px`,
+      fontSize: pxToRem(glassTypography.roles.button.size),
       letterSpacing: `${glassTypography.roles.button.tracking}px`,
       textTransform: 'none' as const,
     },
     caption: {
-      fontSize: `${glassTypography.roles.caption.size}px`,
+      fontSize: pxToRem(glassTypography.roles.caption.size),
       fontWeight: glassTypography.roles.caption.weight,
       letterSpacing: `${glassTypography.roles.caption.tracking}px`,
       lineHeight: glassTypography.roles.caption.lineHeight,
@@ -80,7 +93,7 @@ function buildComponents(tokens: ReturnType<typeof getGlassTokens>) {
           borderRadius: glassRadius.btn,
           minHeight: 44,
           fontWeight: glassTypography.roles.button.weight,
-          fontSize: `${glassTypography.roles.button.size}px`,
+          fontSize: pxToRem(glassTypography.roles.button.size),
           letterSpacing: `${glassTypography.roles.button.tracking}px`,
           textTransform: 'none' as const,
           // Enter/exit use opacity/transform only — no animating on blurred surfaces.
@@ -150,7 +163,7 @@ function buildComponents(tokens: ReturnType<typeof getGlassTokens>) {
         root: {
           borderRadius: glassRadius.pill,
           fontWeight: glassTypography.roles.micro.weight,
-          fontSize: `${glassTypography.roles.micro.size}px`,
+          fontSize: pxToRem(glassTypography.roles.micro.size),
           letterSpacing: `${glassTypography.roles.micro.tracking}px`,
           height: 26,
         },
@@ -175,13 +188,59 @@ function buildComponents(tokens: ReturnType<typeof getGlassTokens>) {
           /* Bottom padding is handled per-component (e.g. BottomNav) so that
              backgrounds can extend to the physical edge while content stays clear. */
         }
+        /*
+         * Global focus-visible ring — 2px accent outline, 2px offset.
+         * Applied to every interactive element via :focus-visible so keyboard
+         * users always have a clear visual indicator. :focus-visible only fires
+         * for keyboard navigation (not mouse clicks), so the ring does not
+         * disrupt pointer-driven interaction.
+         *
+         * The accent color is injected at build time via the CSS custom property
+         * set on :root in index.html, but since we're in a JS theme we use the
+         * color token directly. The actual value is overridden per-mode in
+         * createAppTheme via the --lexio-accent CSS variable set on <body>.
+         * Fallback (#007AFF) matches the light-mode accent token.
+         *
+         * Do NOT override this with outline:none anywhere — it is a hard
+         * accessibility requirement (WCAG 2.4.7 / 2.4.11).
+         */
+        *:focus-visible {
+          outline: 2px solid var(--lexio-accent, #007AFF);
+          outline-offset: 2px;
+        }
+        /* MUI's default focus-visible handling sometimes injects outline:0 on
+           specific components. Restore it for button and anchor elements. */
+        button:focus-visible,
+        a:focus-visible,
+        [role="button"]:focus-visible,
+        [role="switch"]:focus-visible,
+        [role="radio"]:focus-visible,
+        [tabindex]:focus-visible {
+          outline: 2px solid var(--lexio-accent, #007AFF) !important;
+          outline-offset: 2px !important;
+        }
       `,
     },
   }
 }
 
+/**
+ * Inject the --lexio-accent CSS custom property onto <body> so the global
+ * :focus-visible rule in MuiCssBaseline can use the mode-correct accent colour
+ * without needing a JS dependency in the CSS string.
+ *
+ * Called by createAppTheme each time the mode changes. Safe to call on every
+ * render because it only touches one CSS custom property on <body>.
+ */
+function setAccentCssVar(accent: string): void {
+  if (typeof document !== 'undefined') {
+    document.body.style.setProperty('--lexio-accent', accent)
+  }
+}
+
 export function createAppTheme(mode: 'light' | 'dark'): Theme {
   const tokens = getGlassTokens(mode)
+  setAccentCssVar(tokens.color.accent)
 
   return createTheme({
     palette: {

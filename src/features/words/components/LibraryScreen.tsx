@@ -263,7 +263,22 @@ function SearchField({ value, onChange, totalWordCount }: SearchFieldProps): Rea
 
   return (
     <Box sx={{ px: '16px' }}>
-      <Glass pad={0} floating radius={16}>
+      {/*
+       * focus-within ring: the search <input> has outline:none to avoid
+       * the browser's default ring on the transparent input element.
+       * The Glass card shows a visible accent ring when the input is focused.
+       */}
+      <Glass
+        pad={0}
+        floating
+        radius={16}
+        sx={{
+          '&:focus-within': {
+            outline: `2px solid var(--lexio-accent, #007AFF)`,
+            outlineOffset: '2px',
+          },
+        }}
+      >
         <Box
           sx={{
             display: 'flex',
