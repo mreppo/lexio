@@ -202,6 +202,7 @@ function AppContent(): React.JSX.Element {
            * It is now uniform: all tabs render TabBar here, externally.
            */}
           <Box
+            component="main"
             sx={{
               position: 'relative',
               minHeight: '100dvh',

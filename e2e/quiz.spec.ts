@@ -63,8 +63,8 @@ test('complete a type-mode quiz session', async ({ page }) => {
   // Answer 3 questions with a deliberately wrong answer so feedback always shows
   // the "Next word" button (correct answers auto-advance in 700ms).
   for (let i = 0; i < 3; i++) {
-    // Wait for the question word heading to appear.
-    await page.locator('[aria-label^="Translate:"]').waitFor({ timeout: 10_000 })
+    // Wait for the h1 question heading (term word) to appear.
+    await page.getByRole('heading', { level: 1 }).waitFor({ timeout: 10_000 })
 
     const input = page.getByRole('textbox')
     await input.fill('zzzzzzzzz') // deliberately wrong — guarantees feedback shows "Next word"

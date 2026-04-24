@@ -28,6 +28,12 @@ export interface BigWordProps {
   readonly weight?: number
   /** Text color. Defaults to ink token. */
   readonly color?: string
+  /**
+   * HTML element rendered by the Box. Defaults to 'span'.
+   * Pass 'h1' when BigWord is the primary heading on a screen
+   * (e.g. quiz term, onboarding welcome headline).
+   */
+  readonly component?: React.ElementType
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -42,6 +48,7 @@ export function BigWord({
   size = 44,
   weight = 800,
   color,
+  component = 'span',
 }: BigWordProps): React.JSX.Element {
   const theme = useTheme()
   const tokens = getGlassTokens(theme.palette.mode)
@@ -51,7 +58,7 @@ export function BigWord({
 
   return (
     <Box
-      component="span"
+      component={component}
       sx={{
         display: 'block',
         fontFamily: glassTypography.display,

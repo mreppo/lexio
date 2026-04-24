@@ -107,6 +107,7 @@ function HeroSection(): React.JSX.Element {
         </Typography>
 
         <Typography
+          component="h2"
           variant="h5"
           sx={{
             color: 'text.primary',
@@ -151,6 +152,12 @@ function HeroSection(): React.JSX.Element {
               borderRadius: 3,
               minWidth: 180,
               boxShadow: '0 0 24px rgba(245,158,11,0.35)',
+              // #0A84FF (dark-mode primary) gives only 3.65:1 with white.
+              // Override to use the amber accent from the brand gradient so
+              // the landing-page CTA has sufficient contrast (≥ 4.5:1).
+              backgroundColor: '#f59e0b',
+              color: '#0a0f1a',
+              '&:hover': { backgroundColor: '#d97706' },
             }}
           >
             Try it now
@@ -288,7 +295,7 @@ function FeaturesSection(): React.JSX.Element {
               >
                 <Box sx={{ flexShrink: 0, mt: 0.25 }}>{f.icon}</Box>
                 <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>
+                  <Typography component="h3" variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>
                     {f.title}
                   </Typography>
                   <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
@@ -359,6 +366,7 @@ function AiStorySection(): React.JSX.Element {
               }}
             >
               <Typography
+                component="h3"
                 variant="subtitle1"
                 sx={{ fontWeight: 700, mb: 1.5, color: 'primary.main' }}
               >
@@ -384,6 +392,7 @@ function AiStorySection(): React.JSX.Element {
               }}
             >
               <Typography
+                component="h3"
                 variant="subtitle1"
                 sx={{ fontWeight: 700, mb: 1.5, color: 'secondary.main' }}
               >
@@ -474,6 +483,7 @@ function FooterSection(): React.JSX.Element {
 export function LandingPage(): React.JSX.Element {
   return (
     <Box
+      component="main"
       sx={{
         minHeight: '100vh',
         background: 'linear-gradient(180deg, #0d1529 0%, #0a0f1a 40%, #0a0f1a 100%)',

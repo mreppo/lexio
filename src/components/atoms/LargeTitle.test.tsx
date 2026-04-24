@@ -14,6 +14,11 @@ describe('LargeTitle', () => {
     expect(screen.getByRole('heading', { name: 'Today' })).toBeInTheDocument()
   })
 
+  it('should render as an h1 element', () => {
+    renderWithTheme(<LargeTitle>Progress</LargeTitle>)
+    expect(screen.getByRole('heading', { level: 1, name: 'Progress' })).toBeInTheDocument()
+  })
+
   it('should render any text content', () => {
     renderWithTheme(<LargeTitle>Progress</LargeTitle>)
     expect(screen.getByText('Progress')).toBeInTheDocument()

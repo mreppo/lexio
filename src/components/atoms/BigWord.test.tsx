@@ -14,6 +14,17 @@ describe('BigWord', () => {
     expect(screen.getByText('efímero')).toBeInTheDocument()
   })
 
+  it('should default to a non-heading span element', () => {
+    renderWithTheme(<BigWord>efímero</BigWord>)
+    // Default component is 'span' — not a heading
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument()
+  })
+
+  it('should render as h1 when component prop is h1', () => {
+    renderWithTheme(<BigWord component="h1">ābols</BigWord>)
+    expect(screen.getByRole('heading', { level: 1, name: 'ābols' })).toBeInTheDocument()
+  })
+
   it('should render a number', () => {
     renderWithTheme(<BigWord>14</BigWord>)
     expect(screen.getByText('14')).toBeInTheDocument()

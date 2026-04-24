@@ -126,10 +126,11 @@ describe('TypeQuizContent - prompt area', () => {
     expect(screen.getByText('māja')).toBeInTheDocument()
   })
 
-  it('should render the aria-label on the term heading', () => {
+  it('should render the term as an h1 heading', () => {
     const session = makeSession()
     renderContent(session)
-    expect(screen.getByRole('heading', { name: /Translate: māja/i })).toBeInTheDocument()
+    // Term is the primary heading on the quiz screen — rendered as h1
+    expect(screen.getByRole('heading', { level: 1, name: /māja/i })).toBeInTheDocument()
   })
 
   it('should render "Translate to English" subtitle', () => {

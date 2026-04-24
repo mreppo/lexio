@@ -363,14 +363,9 @@ export function TypeQuizContent({ session, pair, settings }: TypeQuizContentProp
           {partOfSpeech !== null && <Chip tone="accent">{partOfSpeech}</Chip>}
         </Box>
 
-        {/* Term */}
-        <Box
-          sx={{ mt: '12px' }}
-          role="heading"
-          aria-level={2}
-          aria-label={`Translate: ${questionText}`}
-        >
-          <BigWord size={64} weight={800}>
+        {/* Term — h1 because it is the primary content heading for this screen */}
+        <Box sx={{ mt: '12px' }}>
+          <BigWord size={64} weight={800} component="h1">
             {questionText}
           </BigWord>
         </Box>

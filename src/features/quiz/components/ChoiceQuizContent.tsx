@@ -283,14 +283,9 @@ export function ChoiceQuizContent({
         {/* LangPair — centered */}
         <LangPair from={fromCode.toUpperCase()} to={toCode.toUpperCase()} />
 
-        {/* Term — BigWord size=66, mt=14 */}
-        <Box
-          sx={{ mt: '14px' }}
-          role="heading"
-          aria-level={2}
-          aria-label={`Translate: ${questionText}`}
-        >
-          <BigWord size={66} weight={800}>
+        {/* Term — h1 because it is the primary content heading for this screen */}
+        <Box sx={{ mt: '14px' }}>
+          <BigWord size={66} weight={800} component="h1">
             {questionText}
           </BigWord>
         </Box>

@@ -184,7 +184,7 @@ export function DailyProgressCard({
             </Box>
           )}
 
-          {/* Words learned */}
+          {/* Words learned — inkSec ensures WCAG AA contrast at 12px */}
           {totalWords > 0 && (
             <Box
               component="span"
@@ -193,7 +193,7 @@ export function DailyProgressCard({
                 fontSize: '12px',
                 fontWeight: 500,
                 lineHeight: 1.2,
-                color: tokens.color.inkFaint,
+                color: tokens.color.inkSec,
               }}
             >
               {wordsLearned} / {totalWords} learned

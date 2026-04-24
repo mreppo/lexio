@@ -49,4 +49,16 @@ describe('NavBar', () => {
     renderWithTheme(<NavBar title="Light mode" />, 'light')
     expect(screen.getByText('Light mode')).toBeInTheDocument()
   })
+
+  it('should not render a heading in compact variant (title is not a heading tag)', () => {
+    renderWithTheme(<NavBar title="Quiz" />)
+    // The compact pill title must NOT be a heading — headings belong to screen content
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument()
+  })
+
+  it('should render the large variant title as an h1', () => {
+    renderWithTheme(<NavBar large prominentTitle="Today" />)
+    // Large mode uses LargeTitle which renders as h1
+    expect(screen.getByRole('heading', { level: 1, name: 'Today' })).toBeInTheDocument()
+  })
 })
