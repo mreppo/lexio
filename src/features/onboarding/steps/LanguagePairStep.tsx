@@ -23,6 +23,7 @@ import { Check } from 'lucide-react'
 import { getGlassTokens, glassTypography } from '@/theme/liquidGlass'
 import { Glass } from '@/components/primitives/Glass'
 import { Btn } from '@/components/atoms/Btn'
+import { StepHeader } from '../components/StepHeader'
 import type { CreatePairInput } from '@/features/language-pairs'
 import type { LanguagePair } from '@/types'
 
@@ -302,42 +303,10 @@ export function LanguagePairStep({ onPairCreated, onCreatePair }: LanguagePairSt
       }}
     >
       {/* Header block — padding-top 72, horizontal 24 */}
-      <Box
-        sx={{
-          pt: '72px',
-          px: '24px',
-        }}
-      >
-        <Box
-          component="h1"
-          sx={{
-            margin: 0,
-            fontFamily: glassTypography.display,
-            fontSize: '28px',
-            fontWeight: 800,
-            letterSpacing: '-0.6px',
-            lineHeight: 1.1,
-            color: tokens.color.ink,
-            mb: '8px',
-          }}
-        >
-          Choose your language pair
-        </Box>
-        <Box
-          component="p"
-          sx={{
-            margin: 0,
-            fontFamily: glassTypography.body,
-            fontSize: '16px',
-            fontWeight: 500,
-            letterSpacing: '-0.2px',
-            lineHeight: 1.5,
-            color: tokens.color.inkSoft,
-          }}
-        >
-          Select the language you want to learn.
-        </Box>
-      </Box>
+      <StepHeader
+        title="Choose your language pair"
+        subtitle="Select the language you want to learn."
+      />
 
       {/* Card list — padding-top 28, horizontal 16 */}
       <Box

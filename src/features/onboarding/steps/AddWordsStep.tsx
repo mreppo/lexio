@@ -20,11 +20,12 @@ import { useTheme } from '@mui/material/styles'
 import type { LanguagePair, StarterPack } from '@/types'
 import { listPacks, packMatchesPair, installPack } from '@/services/starterPacks'
 import { useStorage } from '@/hooks/useStorage'
-import { getGlassTokens, glassTypography } from '@/theme/liquidGlass'
+import { getGlassTokens } from '@/theme/liquidGlass'
 import { Glass } from '@/components/primitives/Glass'
 import { GlassRow } from '@/components/composites/GlassRow'
 import { SectionHeader } from '@/components/composites/SectionHeader'
 import { Btn } from '@/components/atoms/Btn'
+import { StepHeader } from '../components/StepHeader'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -141,41 +142,13 @@ export function AddWordsStep({ createdPair, onNext, onSkip }: AddWordsStepProps)
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        pt: '72px',
       }}
     >
       {/* Header */}
-      <Box sx={{ px: '24px', mb: '28px' }}>
-        <Box
-          component="h1"
-          sx={{
-            margin: 0,
-            fontFamily: glassTypography.display,
-            fontSize: '28px',
-            fontWeight: 800,
-            letterSpacing: '-0.6px',
-            lineHeight: 1.1,
-            color: tokens.color.ink,
-            mb: '8px',
-          }}
-        >
-          Add your first words
-        </Box>
-        <Box
-          component="p"
-          sx={{
-            margin: 0,
-            fontFamily: glassTypography.body,
-            fontSize: '16px',
-            fontWeight: 500,
-            letterSpacing: '-0.2px',
-            lineHeight: 1.5,
-            color: tokens.color.inkSoft,
-          }}
-        >
-          Start with a curated pack or add your own vocabulary.
-        </Box>
-      </Box>
+      <StepHeader
+        title="Add your first words"
+        subtitle="Start with a curated pack or add your own vocabulary."
+      />
 
       {/* Options group — Library grouped-list pattern */}
       <Box sx={{ px: '16px' }}>

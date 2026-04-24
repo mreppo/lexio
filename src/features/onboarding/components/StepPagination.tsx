@@ -1,5 +1,5 @@
 /**
- * StepPagination — 4-capsule progress dots for the onboarding flow.
+ * StepPagination — capsule progress dots for the onboarding flow.
  *
  * Displays one dot per step. The active dot is wider (24px) and accent-filled.
  * Inactive dots are narrow (8px) and rule2-filled. Both use radius 99 (pill).
@@ -8,18 +8,22 @@
  * All values flow from glassTypography / glassColors tokens. No hardcoded magic.
  *
  * A11y: the container is `role="tablist"` with a descriptive aria-label.
- * Each dot is `role="tab"` with `aria-selected` and `aria-label="Step N of 4"`.
+ * Each dot is `role="tab"` with `aria-selected` and `aria-label="Step N of {total}"`.
  * The dots are not interactive — they are presentation-only.
+ *
+ * Used by:
+ *   - OnboardingFlow (3 steps, label "Onboarding progress")
+ *   - TutorialStep (4 slides, label "Tutorial slides")
  */
 
-import { Box } from '@mui/material'
+import { Box, type SxProps, type Theme } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { getGlassTokens, glassMotion } from '@/theme/liquidGlass'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-/** Total number of steps in the manual onboarding flow (LanguagePair → Tutorial). */
-const STEP_COUNT = 3
+/** Default step count — 3 for the manual onboarding flow (LanguagePair → Tutorial). */
+const DEFAULT_STEP_COUNT = 3
 
 /** Width of the active capsule dot in px. */
 const ACTIVE_WIDTH = 24
@@ -37,22 +41,39 @@ const DOT_GAP = 6
 
 export interface StepPaginationProps {
   /**
-   * Zero-based index of the currently active step within the range 0–(STEP_COUNT-1).
-   * The parent (OnboardingFlow) maps its own step numbering before passing this.
+   * Zero-based index of the currently active step within the range 0–(totalSteps-1).
+   * The parent maps its own step numbering before passing this.
    */
   readonly activeStep: number
+  /**
+   * Total number of dots to render.
+   * Defaults to 3 (the manual onboarding flow has 3 steps after Welcome).
+   */
+  readonly totalSteps?: number
+  /**
+   * Accessible label for the tablist container.
+   * Defaults to "Onboarding progress".
+   */
+  readonly label?: string
+  /** Optional sx overrides for the container. */
+  readonly sx?: SxProps<Theme>
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export function StepPagination({ activeStep }: StepPaginationProps): React.JSX.Element {
+export function StepPagination({
+  activeStep,
+  totalSteps = DEFAULT_STEP_COUNT,
+  label = 'Onboarding progress',
+  sx,
+}: StepPaginationProps): React.JSX.Element {
   const theme = useTheme()
   const tokens = getGlassTokens(theme.palette.mode)
 
   return (
     <Box
       role="tablist"
-      aria-label="Onboarding progress"
+      aria-label={label}
       sx={{
         display: 'flex',
         flexDirection: 'row',
@@ -60,16 +81,17 @@ export function StepPagination({ activeStep }: StepPaginationProps): React.JSX.E
         justifyContent: 'center',
         gap: `${DOT_GAP}px`,
         py: '12px',
+        ...sx,
       }}
     >
-      {Array.from({ length: STEP_COUNT }).map((_, index) => {
+      {Array.from({ length: totalSteps }).map((_, index) => {
         const isActive = index === activeStep
         return (
           <Box
             key={index}
             role="tab"
             aria-selected={isActive}
-            aria-label={`Step ${index + 1} of ${STEP_COUNT}`}
+            aria-label={`Step ${index + 1} of ${totalSteps}`}
             sx={{
               width: isActive ? `${ACTIVE_WIDTH}px` : `${INACTIVE_WIDTH}px`,
               height: `${DOT_HEIGHT}px`,

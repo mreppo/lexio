@@ -7,6 +7,9 @@
  * The carousel uses existing button-based navigation (no swipe introduced).
  * All slide content and step transitions are untouched — render layer only.
  *
+ * Slide dots reuse <StepPagination totalSteps=4 label="Tutorial slides"> to
+ * keep the capsule dot logic in one place.
+ *
  * All values flow from tokens. No hardcoded colours or spacing.
  */
 
@@ -17,6 +20,8 @@ import { useTheme } from '@mui/material/styles'
 import { getGlassTokens, glassTypography } from '@/theme/liquidGlass'
 import { Glass } from '@/components/primitives/Glass'
 import { Btn } from '@/components/atoms/Btn'
+import { StepPagination } from '../components/StepPagination'
+import { StepHeader } from '../components/StepHeader'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -88,37 +93,11 @@ export function TutorialStep({ onComplete }: TutorialStepProps) {
       }}
     >
       {/* Header */}
-      <Box sx={{ px: '8px', mb: '28px' }}>
-        <Box
-          component="h1"
-          sx={{
-            margin: 0,
-            fontFamily: glassTypography.display,
-            fontSize: '28px',
-            fontWeight: 800,
-            letterSpacing: '-0.6px',
-            lineHeight: 1.1,
-            color: tokens.color.ink,
-            mb: '8px',
-          }}
-        >
-          How Lexio works
-        </Box>
-        <Box
-          component="p"
-          sx={{
-            margin: 0,
-            fontFamily: glassTypography.body,
-            fontSize: '16px',
-            fontWeight: 500,
-            letterSpacing: '-0.2px',
-            lineHeight: 1.5,
-            color: tokens.color.inkSoft,
-          }}
-        >
-          A quick tour before you start learning.
-        </Box>
-      </Box>
+      <StepHeader
+        title="How Lexio works"
+        subtitle="A quick tour before you start learning."
+        paddingX={8}
+      />
 
       {/* Slide — Glass pad=22 floating strong */}
       <Glass
@@ -186,31 +165,13 @@ export function TutorialStep({ onComplete }: TutorialStepProps) {
             {slide.body}
           </Box>
 
-          {/* Slide dots within the card */}
-          <Box
-            role="tablist"
-            aria-label="Tutorial slides"
-            sx={{ display: 'flex', gap: '6px', mt: '8px' }}
-          >
-            {SLIDES.map((_, i) => (
-              <Box
-                key={i}
-                role="tab"
-                aria-selected={i === slideIndex}
-                aria-label={`Slide ${i + 1} of ${SLIDES.length}`}
-                sx={{
-                  width: i === slideIndex ? '24px' : '8px',
-                  height: '4px',
-                  borderRadius: '99px',
-                  backgroundColor: i === slideIndex ? tokens.color.accent : tokens.color.rule2,
-                  transition: 'width 200ms ease, background-color 200ms ease',
-                  '@media (prefers-reduced-motion: reduce)': {
-                    transition: 'none',
-                  },
-                }}
-              />
-            ))}
-          </Box>
+          {/* Slide dots — reuses StepPagination for the capsule dot pattern */}
+          <StepPagination
+            activeStep={slideIndex}
+            totalSteps={SLIDES.length}
+            label="Tutorial slides"
+            sx={{ py: '4px', mt: '4px' }}
+          />
         </Box>
       </Glass>
 

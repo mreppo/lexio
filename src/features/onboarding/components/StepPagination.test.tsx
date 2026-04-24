@@ -45,9 +45,19 @@ describe('StepPagination', () => {
     expect(dots[2]).toHaveAttribute('aria-selected', 'true')
   })
 
-  it('should have accessible label "Onboarding progress" on container', () => {
+  it('should have accessible label "Onboarding progress" on container by default', () => {
     renderPagination(0)
     expect(screen.getByRole('tablist', { name: /onboarding progress/i })).toBeInTheDocument()
+  })
+
+  it('should render custom totalSteps when provided', () => {
+    render(
+      <ThemeProvider theme={mockTheme}>
+        <StepPagination activeStep={2} totalSteps={4} label="Tutorial slides" />
+      </ThemeProvider>,
+    )
+    expect(screen.getAllByRole('tab').length).toBe(4)
+    expect(screen.getByRole('tablist', { name: /tutorial slides/i })).toBeInTheDocument()
   })
 
   it('should label each dot with its step number', () => {
