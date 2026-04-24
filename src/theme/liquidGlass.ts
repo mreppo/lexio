@@ -168,6 +168,18 @@ export interface GlassShadowTokens {
    * Alias of filterActive; both resolve to the same value.
    */
   readonly pillActive: string
+  /**
+   * AI upsell circle shadow (light mode) — violet glow at 0.4 alpha.
+   * Light: rgba(175,82,222,0.4) derived from lightGlass violet #AF52DE.
+   * Use `aiCircleShadow(mode)` helper for the mode-correct value.
+   */
+  readonly aiCircleLight: string
+  /**
+   * AI upsell circle shadow (dark mode) — violet glow at 0.4 alpha.
+   * Dark: rgba(191,90,242,0.4) derived from darkGlass violet #BF5AF2.
+   * Use `aiCircleShadow(mode)` helper for the mode-correct value.
+   */
+  readonly aiCircleDark: string
 }
 
 export interface GlassMotionTokens {
@@ -385,6 +397,21 @@ export const glassShadows: GlassShadowTokens = {
   filterActive: '0 4px 14px rgba(0,0,0,0.18)',
   // Named alias so Library (and future screens) can reference by semantic name.
   pillActive: '0 4px 14px rgba(0,0,0,0.18)',
+  // AI upsell circle shadows — violet glow, mode-dependent.
+  // Light: #AF52DE = rgb(175,82,222). Dark: #BF5AF2 = rgb(191,90,242).
+  aiCircleLight: '0 4px 12px rgba(175,82,222,0.4)',
+  aiCircleDark: '0 4px 12px rgba(191,90,242,0.4)',
+}
+
+/**
+ * Returns the AI upsell circle shadow for the given mode.
+ * The shadow uses the mode-specific violet color at 0.4 alpha.
+ *
+ * Light: #AF52DE → rgba(175,82,222,0.4)
+ * Dark:  #BF5AF2 → rgba(191,90,242,0.4)
+ */
+export function aiCircleShadow(mode: 'light' | 'dark'): string {
+  return mode === 'dark' ? glassShadows.aiCircleDark : glassShadows.aiCircleLight
 }
 
 /** Shared motion tokens. */

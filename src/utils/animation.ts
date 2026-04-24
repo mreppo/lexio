@@ -56,12 +56,15 @@ export const PULSE_KEYFRAMES = `
 
 /**
  * Glow pulse keyframe for streak indicator.
+ * Color matches the lightGlass warn token (#FF9500 = rgb(255,149,0)).
+ * This keyframe is injected as a static CSS string, so the value is fixed here
+ * in liquidGlass.ts terms — the streak hero is always vivid orange per spec.
  */
 export const GLOW_KEYFRAMES = `
   @keyframes lexio-glow {
-    0%   { box-shadow: 0 0 0 0 rgba(255, 167, 38, 0.4); }
-    50%  { box-shadow: 0 0 0 6px rgba(255, 167, 38, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 167, 38, 0); }
+    0%   { box-shadow: 0 0 0 0 rgba(255,149,0,0.4); }
+    50%  { box-shadow: 0 0 0 6px rgba(255,149,0,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,149,0,0); }
   }
 ` as const
 
