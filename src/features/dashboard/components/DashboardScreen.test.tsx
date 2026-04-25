@@ -167,6 +167,48 @@ describe('DashboardScreen', () => {
       expect(screen.getByRole('button', { name: /start review/i })).toBeDisabled()
     })
 
+    // ── Hero chip label rule (Option A — state-specific) ─────────────────────
+
+    it('should show "GET STARTED" chip when no active pair is selected', () => {
+      renderWithTheme(<DashboardScreen {...buildProps({ activePair: null })} />)
+      expect(screen.getByText('GET STARTED')).toBeInTheDocument()
+    })
+
+    it('should show "DUE TODAY" chip when words are due', () => {
+      renderWithTheme(
+        <DashboardScreen
+          {...buildProps({
+            activePair,
+            words: [learningWord],
+            wordProgressList: [learningProgress],
+            totalWords: 1,
+          })}
+        />,
+      )
+      expect(screen.getByText('DUE TODAY')).toBeInTheDocument()
+    })
+
+    it('should show "ALL DONE" chip when all words are caught up', () => {
+      const caughtUpWord: Word = { ...learningWord, id: 'w-caught-up' }
+      const caughtUpProgress: WordProgress = {
+        ...learningProgress,
+        wordId: 'w-caught-up',
+        nextReview: Date.now() + 1_000_000_000,
+        confidence: 0.3,
+      }
+      renderWithTheme(
+        <DashboardScreen
+          {...buildProps({
+            activePair,
+            words: [caughtUpWord],
+            wordProgressList: [caughtUpProgress],
+            totalWords: 1,
+          })}
+        />,
+      )
+      expect(screen.getByText('ALL DONE')).toBeInTheDocument()
+    })
+
     it('should show progress bar when words are due', () => {
       renderWithTheme(
         <DashboardScreen
