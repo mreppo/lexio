@@ -34,6 +34,7 @@ import { useTheme } from '@mui/material/styles'
 import { useWordOfTheDay } from '../hooks/useWordOfTheDay'
 import { speak } from '@/utils/tts'
 import { MASTERED_THRESHOLD } from '@/features/words/buckets'
+import { computeDueCount } from '@/features/words/utils/dueWords'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -67,26 +68,6 @@ export interface DashboardScreenProps {
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-/**
- * Compute how many words are due right now (nextReview <= Date.now()).
- * Words with no progress record are also due (never reviewed).
- */
-function computeDueCount(words: readonly Word[], progressList: readonly WordProgress[]): number {
-  const now = Date.now()
-  const progressMap = new Map<string, WordProgress>()
-  for (const p of progressList) {
-    progressMap.set(p.wordId, p)
-  }
-  let count = 0
-  for (const word of words) {
-    const progress = progressMap.get(word.id)
-    if (progress === undefined || progress.nextReview <= now) {
-      count++
-    }
-  }
-  return count
-}
 
 /** Count mastered words (confidence >= MASTERED_THRESHOLD). */
 function computeMasteredCount(progressList: readonly WordProgress[]): number {
