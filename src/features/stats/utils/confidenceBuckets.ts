@@ -1,10 +1,13 @@
 /**
  * Confidence bucket utilities for the stats screen.
  *
- * Categorises words into three learning stages based on their confidence score:
- *   - Learning  (0.0 – 0.4): just started or struggling
- *   - Familiar  (0.4 – 0.7): making progress
- *   - Mastered  (0.7 – 1.0): solidly known
+ * Categorises words into three knowledge states based on their confidence score:
+ *   - Struggling (0.0 – 0.4): just started or low confidence
+ *   - Learning   (0.4 – 0.7): making progress, not yet solid
+ *   - Mastered   (0.7 – 1.0): solidly known
+ *
+ * Bucket names deliberately match the user-facing labels shown in StatsScreen
+ * so that the mapping at the UI boundary is the identity (no translation needed).
  *
  * These thresholds are intentionally different from the dashboard's MASTERED_THRESHOLD (0.8)
  * because the stats screen is meant to show a more granular view of progress.
@@ -14,10 +17,10 @@ import type { Word, WordProgress } from '@/types'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-/** Upper bound (exclusive) of the "Learning" confidence bucket. */
+/** Upper bound (exclusive) of the "Struggling" confidence bucket. */
 export const LEARNING_THRESHOLD = 0.4
 
-/** Upper bound (exclusive) of the "Familiar" confidence bucket. */
+/** Upper bound (exclusive) of the "Learning" confidence bucket. */
 export const FAMILIAR_THRESHOLD = 0.7
 
 /** Minimum confidence to be considered "Mastered". */
@@ -25,11 +28,11 @@ export const MASTERED_THRESHOLD = 0.7
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export type ConfidenceBucket = 'learning' | 'familiar' | 'mastered'
+export type ConfidenceBucket = 'struggling' | 'learning' | 'mastered'
 
 export interface BucketCounts {
+  readonly struggling: number
   readonly learning: number
-  readonly familiar: number
   readonly mastered: number
   readonly total: number
 }
@@ -49,14 +52,14 @@ export interface WordWithStats {
 /** Returns the confidence bucket for a given confidence score (0-1). */
 export function getConfidenceBucket(confidence: number): ConfidenceBucket {
   if (confidence >= MASTERED_THRESHOLD) return 'mastered'
-  if (confidence >= LEARNING_THRESHOLD) return 'familiar'
-  return 'learning'
+  if (confidence >= LEARNING_THRESHOLD) return 'learning'
+  return 'struggling'
 }
 
 /**
  * Builds a per-word stats list combining word metadata with progress data.
  *
- * Words with no progress record have confidence=0 and are in the "learning" bucket.
+ * Words with no progress record have confidence=0 and are in the "struggling" bucket.
  *
  * @param words    - All words for the active pair.
  * @param progress - All progress records for the active pair.
@@ -94,15 +97,15 @@ export function buildWordStatsList(
  * @returns Count per bucket plus total.
  */
 export function computeBucketCounts(wordStats: readonly WordWithStats[]): BucketCounts {
+  let struggling = 0
   let learning = 0
-  let familiar = 0
   let mastered = 0
 
   for (const ws of wordStats) {
     if (ws.bucket === 'mastered') mastered++
-    else if (ws.bucket === 'familiar') familiar++
-    else learning++
+    else if (ws.bucket === 'learning') learning++
+    else struggling++
   }
 
-  return { learning, familiar, mastered, total: wordStats.length }
+  return { struggling, learning, mastered, total: wordStats.length }
 }

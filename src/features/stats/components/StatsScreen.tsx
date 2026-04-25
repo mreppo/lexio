@@ -459,8 +459,8 @@ function WeekBarChart({ weekDays, todayDate }: WeekBarChartProps): React.JSX.Ele
 
 interface KnowledgeBarProps {
   readonly mastered: number
-  readonly learning: number
   readonly struggling: number
+  readonly learning: number
 }
 
 function KnowledgeBar({ mastered, learning, struggling }: KnowledgeBarProps): React.JSX.Element {
@@ -655,12 +655,10 @@ function StatsContent({ activePairId }: StatsContentProps): React.JSX.Element {
     setShareToastOpen(false)
   }, [])
 
-  // Knowledge section uses: mastered (ok), learning+familiar (warn), struggling → learning (red)
-  // Spec mapping: mastered=ok, learning=warn, struggling=red
-  // We map our buckets: mastered=mastered, familiar=learning, learning=struggling
+  // Bucket names now match user-facing labels — no translation layer needed.
   const knowledgeMastered = buckets.mastered
-  const knowledgeLearning = buckets.familiar
-  const knowledgeStruggling = buckets.learning
+  const knowledgeLearning = buckets.learning
+  const knowledgeStruggling = buckets.struggling
 
   return (
     <Box

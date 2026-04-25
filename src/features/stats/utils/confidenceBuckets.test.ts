@@ -45,24 +45,24 @@ function makeProgress(
 // ─── getConfidenceBucket ──────────────────────────────────────────────────────
 
 describe('getConfidenceBucket', () => {
-  it('should return "learning" for confidence 0', () => {
-    expect(getConfidenceBucket(0)).toBe('learning')
+  it('should return "struggling" for confidence 0', () => {
+    expect(getConfidenceBucket(0)).toBe('struggling')
   })
 
-  it('should return "learning" for confidence just below LEARNING_THRESHOLD', () => {
-    expect(getConfidenceBucket(LEARNING_THRESHOLD - 0.01)).toBe('learning')
+  it('should return "struggling" for confidence just below LEARNING_THRESHOLD', () => {
+    expect(getConfidenceBucket(LEARNING_THRESHOLD - 0.01)).toBe('struggling')
   })
 
-  it('should return "familiar" for confidence exactly at LEARNING_THRESHOLD', () => {
-    expect(getConfidenceBucket(LEARNING_THRESHOLD)).toBe('familiar')
+  it('should return "learning" for confidence exactly at LEARNING_THRESHOLD', () => {
+    expect(getConfidenceBucket(LEARNING_THRESHOLD)).toBe('learning')
   })
 
-  it('should return "familiar" for confidence mid-range', () => {
-    expect(getConfidenceBucket(0.55)).toBe('familiar')
+  it('should return "learning" for confidence mid-range', () => {
+    expect(getConfidenceBucket(0.55)).toBe('learning')
   })
 
-  it('should return "familiar" for confidence just below FAMILIAR_THRESHOLD', () => {
-    expect(getConfidenceBucket(FAMILIAR_THRESHOLD - 0.01)).toBe('familiar')
+  it('should return "learning" for confidence just below FAMILIAR_THRESHOLD', () => {
+    expect(getConfidenceBucket(FAMILIAR_THRESHOLD - 0.01)).toBe('learning')
   })
 
   it('should return "mastered" for confidence exactly at MASTERED_THRESHOLD', () => {
@@ -88,11 +88,11 @@ describe('buildWordStatsList', () => {
     expect(result).toHaveLength(3)
   })
 
-  it('should assign null progress and bucket "learning" for words with no progress record', () => {
+  it('should assign null progress and bucket "struggling" for words with no progress record', () => {
     const words = [makeWord('w1')]
     const result = buildWordStatsList(words, [])
     expect(result[0].progress).toBeNull()
-    expect(result[0].bucket).toBe('learning')
+    expect(result[0].bucket).toBe('struggling')
     expect(result[0].confidence).toBe(0)
     expect(result[0].timesReviewed).toBe(0)
     expect(result[0].correctPct).toBeNull()
@@ -127,11 +127,11 @@ describe('buildWordStatsList', () => {
     expect(result[0].lastReviewed).toBe(2000)
   })
 
-  it('should correctly assign bucket for familiar confidence', () => {
+  it('should correctly assign bucket "learning" for mid-range confidence', () => {
     const words = [makeWord('w1')]
     const progress = [makeProgress('w1', 0.55)]
     const result = buildWordStatsList(words, progress)
-    expect(result[0].bucket).toBe('familiar')
+    expect(result[0].bucket).toBe('learning')
   })
 
   it('should correctly assign bucket for mastered confidence', () => {
@@ -147,34 +147,34 @@ describe('buildWordStatsList', () => {
 describe('computeBucketCounts', () => {
   it('should return all zeroes for an empty list', () => {
     const counts = computeBucketCounts([])
-    expect(counts).toEqual({ learning: 0, familiar: 0, mastered: 0, total: 0 })
+    expect(counts).toEqual({ struggling: 0, learning: 0, mastered: 0, total: 0 })
   })
 
   it('should correctly count words per bucket', () => {
     const words = [makeWord('w1'), makeWord('w2'), makeWord('w3'), makeWord('w4'), makeWord('w5')]
     const progress = [
-      makeProgress('w1', 0.1), // learning
-      makeProgress('w2', 0.3), // learning
-      makeProgress('w3', 0.5), // familiar
-      makeProgress('w4', 0.65), // familiar
+      makeProgress('w1', 0.1), // struggling
+      makeProgress('w2', 0.3), // struggling
+      makeProgress('w3', 0.5), // learning
+      makeProgress('w4', 0.65), // learning
       makeProgress('w5', 0.9), // mastered
     ]
     const wordStats = buildWordStatsList(words, progress)
     const counts = computeBucketCounts(wordStats)
 
+    expect(counts.struggling).toBe(2)
     expect(counts.learning).toBe(2)
-    expect(counts.familiar).toBe(2)
     expect(counts.mastered).toBe(1)
     expect(counts.total).toBe(5)
   })
 
-  it('should count words with no progress as "learning"', () => {
+  it('should count words with no progress as "struggling"', () => {
     const words = [makeWord('w1'), makeWord('w2')]
     const wordStats = buildWordStatsList(words, [])
     const counts = computeBucketCounts(wordStats)
 
-    expect(counts.learning).toBe(2)
-    expect(counts.familiar).toBe(0)
+    expect(counts.struggling).toBe(2)
+    expect(counts.learning).toBe(0)
     expect(counts.mastered).toBe(0)
     expect(counts.total).toBe(2)
   })

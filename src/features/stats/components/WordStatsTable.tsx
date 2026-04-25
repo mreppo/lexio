@@ -43,8 +43,8 @@ type BucketFilter = ConfidenceBucket | 'all'
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const BUCKET_COLORS: Record<ConfidenceBucket, string> = {
-  learning: 'error',
-  familiar: 'warning',
+  struggling: 'error',
+  learning: 'warning',
   mastered: 'success',
 }
 
@@ -165,8 +165,8 @@ export function WordStatsTable({ wordStats, loading }: WordStatsTableProps) {
             aria-label="Filter words by confidence level"
           >
             <MenuItem value="all">All words</MenuItem>
+            <MenuItem value="struggling">Struggling</MenuItem>
             <MenuItem value="learning">Learning</MenuItem>
-            <MenuItem value="familiar">Familiar</MenuItem>
             <MenuItem value="mastered">Mastered</MenuItem>
           </Select>
         </FormControl>
