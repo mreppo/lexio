@@ -23,18 +23,18 @@ interface BucketConfig {
 }
 
 const BUCKET_CONFIG: readonly BucketConfig[] = [
-  { key: 'learning', label: 'Learning', color: 'error.main', bgColor: 'error.main' },
-  { key: 'familiar', label: 'Familiar', color: 'warning.main', bgColor: 'warning.main' },
+  { key: 'struggling', label: 'Struggling', color: 'error.main', bgColor: 'error.main' },
+  { key: 'learning', label: 'Learning', color: 'warning.main', bgColor: 'warning.main' },
   { key: 'mastered', label: 'Mastered', color: 'success.main', bgColor: 'success.main' },
 ]
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export function ConfidenceSummary({ buckets, loading }: ConfidenceSummaryProps) {
-  const { learning, familiar, mastered, total } = buckets
+  const { struggling, learning, mastered, total } = buckets
 
+  const strugglingPct = total > 0 ? (struggling / total) * 100 : 0
   const learningPct = total > 0 ? (learning / total) * 100 : 0
-  const familiarPct = total > 0 ? (familiar / total) * 100 : 0
   const masteredPct = total > 0 ? (mastered / total) * 100 : 0
 
   return (
@@ -101,18 +101,18 @@ export function ConfidenceSummary({ buckets, loading }: ConfidenceSummaryProps) 
             role="progressbar"
             aria-label={`${masteredPct.toFixed(0)}% mastered`}
           >
-            {learningPct > 0 && (
+            {strugglingPct > 0 && (
               <Box
                 sx={{
-                  width: `${learningPct}%`,
+                  width: `${strugglingPct}%`,
                   bgcolor: 'error.main',
                   borderRadius: '5px 0 0 5px',
                 }}
                 aria-hidden="true"
               />
             )}
-            {familiarPct > 0 && (
-              <Box sx={{ width: `${familiarPct}%`, bgcolor: 'warning.main' }} aria-hidden="true" />
+            {learningPct > 0 && (
+              <Box sx={{ width: `${learningPct}%`, bgcolor: 'warning.main' }} aria-hidden="true" />
             )}
             {masteredPct > 0 && (
               <Box

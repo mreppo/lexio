@@ -43,9 +43,9 @@ function makeWordStat(
 
 const sampleStats: WordWithStats[] = [
   makeWordStat('w1', 'apple', 'ābols', 'mastered', 0.9),
-  makeWordStat('w2', 'cat', 'kaķis', 'learning', 0.1),
-  makeWordStat('w3', 'dog', 'suns', 'familiar', 0.55),
-  makeWordStat('w4', 'bird', 'putns', 'learning', 0.2),
+  makeWordStat('w2', 'cat', 'kaķis', 'struggling', 0.1),
+  makeWordStat('w3', 'dog', 'suns', 'learning', 0.55),
+  makeWordStat('w4', 'bird', 'putns', 'struggling', 0.2),
 ]
 
 function wrap(ui: React.ReactElement) {
@@ -84,13 +84,13 @@ describe('WordStatsTable', () => {
     expect(screen.getByLabelText(/filter words by confidence level/i)).toBeInTheDocument()
   })
 
-  it('should filter to show only learning words', async () => {
+  it('should filter to show only struggling words', async () => {
     const user = userEvent.setup()
     wrap(<WordStatsTable wordStats={sampleStats} loading={false} />)
 
     // Open the MUI select by clicking the combobox
     await user.click(screen.getByRole('combobox'))
-    await user.click(screen.getByRole('option', { name: 'Learning' }))
+    await user.click(screen.getByRole('option', { name: 'Struggling' }))
 
     expect(screen.getByText('cat')).toBeInTheDocument()
     expect(screen.getByText('bird')).toBeInTheDocument()
@@ -111,12 +111,12 @@ describe('WordStatsTable', () => {
 
   it('should show message for empty bucket filter result', async () => {
     const user = userEvent.setup()
-    // All words are learning - filter for familiar should show message
-    const learningOnly = sampleStats.filter((w) => w.bucket === 'learning')
-    wrap(<WordStatsTable wordStats={learningOnly} loading={false} />)
+    // All words are struggling - filter for learning should show message
+    const strugglingOnly = sampleStats.filter((w) => w.bucket === 'struggling')
+    wrap(<WordStatsTable wordStats={strugglingOnly} loading={false} />)
 
     await user.click(screen.getByRole('combobox'))
-    await user.click(screen.getByRole('option', { name: 'Familiar' }))
+    await user.click(screen.getByRole('option', { name: 'Learning' }))
 
     expect(screen.getByText(/No words in the .* bucket/i)).toBeInTheDocument()
   })
@@ -153,7 +153,7 @@ describe('WordStatsTable', () => {
   })
 
   it('should display dash for unreviewed words accuracy', () => {
-    const unreviewedStat: WordWithStats = makeWordStat('w5', 'tree', 'koks', 'learning', 0, 0)
+    const unreviewedStat: WordWithStats = makeWordStat('w5', 'tree', 'koks', 'struggling', 0, 0)
     wrap(<WordStatsTable wordStats={[unreviewedStat]} loading={false} />)
     expect(screen.getByText('—')).toBeInTheDocument()
   })

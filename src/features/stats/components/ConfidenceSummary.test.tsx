@@ -3,9 +3,9 @@ import { render, screen } from '@testing-library/react'
 import { ConfidenceSummary } from './ConfidenceSummary'
 import type { BucketCounts } from '../utils/confidenceBuckets'
 
-const emptyBuckets: BucketCounts = { learning: 0, familiar: 0, mastered: 0, total: 0 }
+const emptyBuckets: BucketCounts = { struggling: 0, learning: 0, mastered: 0, total: 0 }
 
-const filledBuckets: BucketCounts = { learning: 5, familiar: 3, mastered: 2, total: 10 }
+const filledBuckets: BucketCounts = { struggling: 5, learning: 3, mastered: 2, total: 10 }
 
 describe('ConfidenceSummary', () => {
   it('should render without crashing', () => {
@@ -20,15 +20,15 @@ describe('ConfidenceSummary', () => {
 
   it('should render bucket counts when data is present', () => {
     render(<ConfidenceSummary buckets={filledBuckets} loading={false} />)
-    expect(screen.getByText('5')).toBeInTheDocument() // learning count
-    expect(screen.getByText('3')).toBeInTheDocument() // familiar count
+    expect(screen.getByText('5')).toBeInTheDocument() // struggling count
+    expect(screen.getByText('3')).toBeInTheDocument() // learning count
     expect(screen.getByText('2')).toBeInTheDocument() // mastered count
   })
 
   it('should display the bucket labels', () => {
     render(<ConfidenceSummary buckets={filledBuckets} loading={false} />)
+    expect(screen.getByText('Struggling')).toBeInTheDocument()
     expect(screen.getByText('Learning')).toBeInTheDocument()
-    expect(screen.getByText('Familiar')).toBeInTheDocument()
     expect(screen.getByText('Mastered')).toBeInTheDocument()
   })
 
@@ -55,7 +55,7 @@ describe('ConfidenceSummary', () => {
   })
 
   it('should show 100% mastered when all words are mastered', () => {
-    const allMastered: BucketCounts = { learning: 0, familiar: 0, mastered: 10, total: 10 }
+    const allMastered: BucketCounts = { struggling: 0, learning: 0, mastered: 10, total: 10 }
     render(<ConfidenceSummary buckets={allMastered} loading={false} />)
     expect(screen.getByText(/100% mastered/i)).toBeInTheDocument()
   })
