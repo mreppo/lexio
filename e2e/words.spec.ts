@@ -65,7 +65,7 @@ test('add and view a word in the Library', async ({ page }) => {
   // Update the target word.
   await page.getByLabel('Target word').fill('čau')
 
-  await page.getByRole('button', { name: 'Save' }).click()
+  await page.getByRole('button', { name: /save/i }).first().click()
 
   // Dialog should close.
   await expect(page.getByRole('dialog')).toBeHidden({ timeout: 10_000 })

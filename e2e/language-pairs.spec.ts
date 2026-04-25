@@ -67,7 +67,7 @@ test('navigate to settings screen after creating a language pair', async ({ page
 
   // Navigate to settings — should work without errors.
   await navigateTo(page, 'Settings')
-  await expect(page.getByText('Settings')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible()
   // Account card should be present.
   await expect(page.getByText('Lexio user')).toBeVisible()
 })
