@@ -206,6 +206,83 @@ function OptionRow({
   )
 }
 
+// ─── Sub-screen Header ────────────────────────────────────────────────────────
+
+interface SubScreenHeaderProps {
+  readonly title: string
+  readonly onBack: () => void
+}
+
+/**
+ * Edge-to-edge iOS-style header for drill-down sub-screens.
+ *
+ * Unlike the floating-pill NavBar (used on main tabs), this header spans the
+ * full viewport width and sits flush with the top edge. It respects the
+ * device safe-area-inset-top so the status bar is not obscured on notched
+ * devices. A hairline bottom border separates it from the scrollable content.
+ */
+function SubScreenHeader({ title, onBack }: SubScreenHeaderProps): React.JSX.Element {
+  const theme = useTheme()
+  const tokens = getGlassTokens(theme.palette.mode)
+
+  return (
+    <Box
+      component="header"
+      sx={{
+        // Flush with the top edge; safe-area-inset-top clears notch/status bar.
+        paddingTop: 'env(safe-area-inset-top, 0px)',
+        px: '16px',
+        borderBottom: `0.5px solid ${tokens.color.rule2}`,
+        // Use the same opaque background as the sub-screen so the header blends in.
+        background: tokens.wallpaper,
+        backgroundColor: tokens.color.bg,
+      }}
+    >
+      {/* Navigation row: back button — centered title — (empty trailing slot) */}
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          height: '52px',
+          position: 'relative',
+        }}
+      >
+        {/* Back button — left-anchored */}
+        <Box sx={{ flexShrink: 0 }}>
+          <BackButton label="Settings" onClick={onBack} />
+        </Box>
+
+        {/* Title — absolutely centered so it doesn't shift with back-button width */}
+        <Box
+          component="h2"
+          sx={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            textAlign: 'center',
+            // Prevent overlap with back button (back button ≈ 100px wide)
+            px: '100px',
+            margin: 0,
+            fontFamily: glassTypography.body,
+            fontSize: '17px',
+            fontWeight: 700,
+            letterSpacing: '-0.3px',
+            color: tokens.color.ink,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            // Pointer events off on the title span — the back button behind it
+            // must still be tappable.
+            pointerEvents: 'none',
+          }}
+        >
+          {title}
+        </Box>
+      </Box>
+    </Box>
+  )
+}
+
 // ─── Drill-down Sub-screen Wrapper ────────────────────────────────────────────
 
 interface SubScreenProps {
@@ -217,6 +294,16 @@ interface SubScreenProps {
 
 /**
  * Wraps drill-down sub-screen content with iOS-style slide-from-right transition.
+ *
+ * Rendering notes:
+ * - position:fixed + inset:0 anchors to the viewport, ensuring full-bleed
+ *   coverage regardless of any positioned ancestor in the component tree.
+ *   Previously position:absolute was used, but #185 removed the relative
+ *   anchor, causing the sub-screen to resolve against an unintended ancestor.
+ * - zIndex:30 sits above the TabBar (zIndex:20), fully covering tab icons.
+ * - The wallpaper gradient background is fully opaque — no parent content
+ *   or TabBar icons bleed through.
+ * - overflowY:auto gives the sub-screen its own independent scroll region.
  */
 function SubScreen({ title, onBack, visible, children }: SubScreenProps): React.JSX.Element {
   const theme = useTheme()
@@ -227,20 +314,31 @@ function SubScreen({ title, onBack, visible, children }: SubScreenProps): React.
       role="dialog"
       aria-label={title}
       aria-modal="false"
+      // Hide from the accessibility tree when off-screen: prevents heading/element
+      // collisions with the main settings list (both share h2 headings) and avoids
+      // screen readers reading content that is not visible to the user.
+      aria-hidden={!visible}
       sx={{
-        position: 'absolute',
+        // Full-bleed: anchored to the viewport, not the nearest positioned ancestor.
+        position: 'fixed',
         inset: 0,
-        zIndex: 10,
-        background: tokens.color.bg,
+        // Above TabBar (zIndex:20) — fully covers tab icons.
+        zIndex: 30,
+        // Opaque wallpaper background — no semi-transparent glass bleed-through.
+        background: tokens.wallpaper,
+        backgroundColor: tokens.color.bg,
+        color: tokens.color.ink,
         transform: visible ? 'translateX(0)' : 'translateX(100%)',
         transition: 'transform 280ms cubic-bezier(0.4, 0, 0.2, 1)',
         '@media (prefers-reduced-motion: reduce)': {
           transition: 'none',
         },
+        // Sub-screen owns its own scroll region.
         overflowY: 'auto',
+        overflowX: 'hidden',
       }}
     >
-      <NavBar title={title} leading={<BackButton label="Settings" onClick={onBack} />} />
+      <SubScreenHeader title={title} onBack={onBack} />
       <Box sx={{ px: '16px', pb: `${TAB_BAR_SPACER}px` }}>{children}</Box>
     </Box>
   )
