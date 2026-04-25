@@ -211,6 +211,7 @@ function AppContent(): React.JSX.Element {
                 activePair={activePair}
                 settings={settings}
                 todayStats={dashboardData.todayStats}
+                recentStats={dashboardData.recentStats}
                 wordProgressList={dashboardData.wordProgressList}
                 words={dashboardData.words}
                 totalWords={dashboardData.totalWords}

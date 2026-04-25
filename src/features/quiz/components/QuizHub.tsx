@@ -199,7 +199,12 @@ export function QuizHub({
   }, [wordsReviewedToday, settings.dailyGoal])
 
   const handleSessionFinished = useCallback(
-    (wordsReviewed: number, correctCount: number, bestSessionStreak: number): void => {
+    (
+      wordsReviewed: number,
+      correctCount: number,
+      bestSessionStreak: number,
+      durationMs: number,
+    ): void => {
       setSessionResult({ wordsReviewed, correctCount, bestSessionStreak })
       // Notify parent about the completed session (used for install-banner engagement tracking).
       onSessionComplete?.(wordsReviewed)
@@ -210,6 +215,7 @@ export function QuizHub({
         wordsReviewed,
         correctCount,
         settings.dailyGoal,
+        durationMs,
       ).then(setStreakDays)
 
       // Calculate post-session total for today.
