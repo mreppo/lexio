@@ -1,5 +1,6 @@
 import type { StorageService } from './StorageService'
 import type { LanguagePair, Word, WordProgress, UserSettings, DailyStats } from '@/types'
+import { defaultUserSettings } from '@/types'
 
 const KEYS = {
   LANGUAGE_PAIRS: 'lexio:language-pairs',
@@ -8,16 +9,6 @@ const KEYS = {
   SETTINGS: 'lexio:settings',
   DAILY_STATS_PREFIX: 'lexio:daily-stats:',
 } as const
-
-const DEFAULT_SETTINGS: UserSettings = {
-  activePairId: null,
-  quizMode: 'mixed',
-  dailyGoal: 20,
-  theme: 'dark',
-  typoTolerance: 1,
-  selectedLevels: [],
-  displayName: null,
-}
 
 function readJson<T>(key: string): T | null {
   const raw = localStorage.getItem(key)
@@ -141,9 +132,11 @@ export class LocalStorageService implements StorageService {
 
   async getSettings(): Promise<UserSettings> {
     const stored = readJson<Partial<UserSettings>>(KEYS.SETTINGS)
-    if (stored === null) return DEFAULT_SETTINGS
-    // Migrate existing settings that predate the selectedLevels field.
-    return { ...DEFAULT_SETTINGS, ...stored }
+    if (stored === null) return defaultUserSettings
+    // Spread-merge so any field absent from a legacy serialised snapshot falls
+    // back to the canonical default. This handles all past and future migrations
+    // without a version bump — new required fields simply pick up their default.
+    return { ...defaultUserSettings, ...stored }
   }
 
   async saveSettings(settings: UserSettings): Promise<void> {

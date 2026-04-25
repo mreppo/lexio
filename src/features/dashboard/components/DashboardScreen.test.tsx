@@ -32,6 +32,9 @@ const defaultSettings: UserSettings = {
   typoTolerance: 1,
   selectedLevels: [],
   displayName: null,
+  soundEffects: false,
+  autoPlayPronunciation: false,
+  showHintTimeout: 10,
 }
 
 const activePair: LanguagePair = {

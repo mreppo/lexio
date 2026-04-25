@@ -66,6 +66,10 @@ export function createMockSettings(overrides: Partial<UserSettings> = {}): UserS
     theme: 'dark',
     typoTolerance: 1,
     selectedLevels: [],
+    displayName: null,
+    soundEffects: false,
+    autoPlayPronunciation: false,
+    showHintTimeout: 10,
     ...overrides,
   }
 }

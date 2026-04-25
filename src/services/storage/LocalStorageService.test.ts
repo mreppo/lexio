@@ -187,6 +187,10 @@ describe('LocalStorageService', () => {
       expect(settings.dailyGoal).toBe(20)
       expect(settings.theme).toBe('dark')
       expect(settings.typoTolerance).toBe(1)
+      expect(settings.displayName).toBeNull()
+      expect(settings.soundEffects).toBe(false)
+      expect(settings.autoPlayPronunciation).toBe(false)
+      expect(settings.showHintTimeout).toBe(10)
     })
 
     it('should persist and retrieve custom settings', async () => {
@@ -198,10 +202,36 @@ describe('LocalStorageService', () => {
         typoTolerance: 2,
         selectedLevels: ['B1', 'B2'],
         displayName: null,
+        soundEffects: false,
+        autoPlayPronunciation: false,
+        showHintTimeout: 10,
       }
       await service.saveSettings(settings)
       const retrieved = await service.getSettings()
       expect(retrieved).toEqual(settings)
+    })
+
+    it('should back-fill missing fields from legacy stored settings', async () => {
+      // Simulate a legacy snapshot that predates soundEffects/autoPlayPronunciation/showHintTimeout.
+      // These fields were previously optional, so old localStorage data won't have them.
+      const legacy = {
+        activePairId: null,
+        quizMode: 'type',
+        dailyGoal: 30,
+        theme: 'light',
+        typoTolerance: 0,
+        selectedLevels: [],
+        displayName: null,
+      }
+      localStorage.setItem('lexio:settings', JSON.stringify(legacy))
+      const settings = await service.getSettings()
+      // Stored values are preserved
+      expect(settings.quizMode).toBe('type')
+      expect(settings.dailyGoal).toBe(30)
+      // Absent fields are filled from defaultUserSettings
+      expect(settings.soundEffects).toBe(false)
+      expect(settings.autoPlayPronunciation).toBe(false)
+      expect(settings.showHintTimeout).toBe(10)
     })
   })
 
@@ -308,6 +338,9 @@ describe('LocalStorageService', () => {
         typoTolerance: 0,
         selectedLevels: [],
         displayName: null,
+        soundEffects: false,
+        autoPlayPronunciation: false,
+        showHintTimeout: 10,
       }
       const dailyStats: DailyStats = {
         date: '2026-03-01',
@@ -374,6 +407,10 @@ describe('LocalStorageService', () => {
         theme: 'light',
         typoTolerance: 1,
         selectedLevels: [],
+        displayName: null,
+        soundEffects: false,
+        autoPlayPronunciation: false,
+        showHintTimeout: 10,
       })
       // Add a non-lexio key to ensure it survives
       localStorage.setItem('other-app:key', 'should-survive')
@@ -400,6 +437,9 @@ describe('LocalStorageService', () => {
         typoTolerance: 1,
         selectedLevels: [],
         displayName: null,
+        soundEffects: false,
+        autoPlayPronunciation: false,
+        showHintTimeout: 10,
       })
     })
 

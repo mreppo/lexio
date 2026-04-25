@@ -17,6 +17,7 @@ import type { AppTab } from './components/composites'
 import { useServiceWorker } from './hooks/useServiceWorker'
 import { useInstallPrompt } from './hooks/useInstallPrompt'
 import type { LanguagePair, UserSettings } from './types'
+import { defaultUserSettings } from './types'
 
 /**
  * Inner app component that consumes the storage context.
@@ -66,14 +67,10 @@ function AppContent(): React.JSX.Element {
    */
   const [quizAutoStart, setQuizAutoStart] = useState(false)
 
-  const [settings, setSettings] = useState<UserSettings>({
-    activePairId: null,
-    quizMode: 'type',
-    dailyGoal: 20,
-    theme: 'system',
-    typoTolerance: 1,
-    selectedLevels: [],
-  })
+  // defaultUserSettings provides the full guaranteed shape before storage.getSettings()
+  // resolves asynchronously. All four formerly-optional fields now have explicit defaults
+  // here, so consumers never see undefined during the async loading window.
+  const [settings, setSettings] = useState<UserSettings>(defaultUserSettings)
 
   // Load settings on mount.
   useEffect(() => {

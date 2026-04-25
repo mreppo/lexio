@@ -388,14 +388,15 @@ export function SettingsScreen({
 
   // ── Derived values ───────────────────────────────────────────────────────────
 
-  const displayName = settings.displayName ?? null
+  // All four fields are now required on UserSettings — no ?? fallbacks needed.
+  const {
+    displayName,
+    soundEffects,
+    autoPlayPronunciation,
+    showHintTimeout: showHintSeconds,
+  } = settings
   const avatarInitial = displayName ? displayName.charAt(0).toUpperCase() : 'L'
   const profileName = displayName ?? 'Lexio user'
-  const soundEffects = settings.soundEffects ?? false
-  const autoPlayPronunciation = settings.autoPlayPronunciation ?? false
-
-  // showHintTimeout: stored as number of seconds; 0 means "Off"
-  const showHintSeconds = settings.showHintTimeout ?? 10
   const showHintLabel = SHOW_HINT_LABELS[String(showHintSeconds)] ?? `After ${showHintSeconds}s`
 
   // ── Sub-screen navigation ────────────────────────────────────────────────────
