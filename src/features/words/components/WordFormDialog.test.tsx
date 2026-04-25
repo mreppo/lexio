@@ -30,7 +30,10 @@ describe('WordFormDialog', () => {
 
   it('should render add mode when open is true and word is null', () => {
     render(<WordFormDialog open={true} word={null} onClose={vi.fn()} onSubmit={vi.fn()} />)
-    expect(screen.getByRole('heading', { name: 'Add word' })).toBeInTheDocument()
+    // The dialog renders with "Add word" in both the NavBar title and the submit button
+    expect(screen.getAllByText('Add word').length).toBeGreaterThanOrEqual(1)
+    // Source word field is present (confirms add mode UI is rendered)
+    expect(screen.getByLabelText('Source word')).toBeInTheDocument()
   })
 
   it('should render edit mode when a word is provided', () => {

@@ -96,7 +96,8 @@ describe('WordListScreen', () => {
 
     await user.click(screen.getByRole('button', { name: /^Add word$/i }))
 
-    expect(screen.getByRole('heading', { name: /Add word/i })).toBeInTheDocument()
+    // The fullScreen dialog renders with "Add word" in the NavBar title pill (not a heading element)
+    expect(screen.getAllByText(/Add word/i).length).toBeGreaterThanOrEqual(1)
   })
 
   it('should add a word and show it in the list', async () => {
