@@ -177,6 +177,15 @@ function HeroCard({
   const noPair = activePair === null
   const allCaughtUp = !noPair && dueCount === 0
 
+  /*
+   * Hero chip label rule (Option A — state-specific):
+   *   - No active pair selected  →  "GET STARTED"  (invite to onboard)
+   *   - Words due today           →  "DUE TODAY"    (primary action prompt)
+   *   - All words caught up       →  "ALL DONE"     (positive reinforcement)
+   * Each label is semantically tied to its state so the eyebrow always
+   * reflects the current context rather than using a generic fallback.
+   */
+
   return (
     <Box sx={{ px: '16px' }}>
       <Glass pad={22} floating strong>
@@ -191,7 +200,7 @@ function HeroCard({
         ) : noPair ? (
           // Empty state: no active pair
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Chip tone="accent">DUE TODAY</Chip>
+            <Chip tone="accent">GET STARTED</Chip>
             <BigWord size={38} color={tokens.color.inkSoft}>
               Pick a language pair to start
             </BigWord>
@@ -202,7 +211,7 @@ function HeroCard({
         ) : allCaughtUp ? (
           // Empty state: nothing due
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Chip tone="accent">TODAY</Chip>
+            <Chip tone="accent">ALL DONE</Chip>
             <BigWord size={52} color={tokens.color.ok}>
               All caught up!
             </BigWord>
