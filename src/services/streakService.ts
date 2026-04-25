@@ -161,6 +161,9 @@ export function calculateBestStreak(
  * @param wordsReviewed - Words reviewed in the completed session.
  * @param correctCount  - Correct answers in the completed session.
  * @param dailyGoal     - Minimum words per day for the goal to be met.
+ * @param durationMs    - Session wall-clock duration in milliseconds (for
+ *                        rolling minutes-per-word calibration). Accumulated
+ *                        across sessions within the same day.
  * @returns The updated streak count for today.
  */
 export async function updateDailyStatsAfterSession(
@@ -168,6 +171,7 @@ export async function updateDailyStatsAfterSession(
   wordsReviewed: number,
   correctCount: number,
   dailyGoal: number,
+  durationMs?: number,
 ): Promise<number> {
   const today = todayDateString()
 
@@ -177,6 +181,9 @@ export async function updateDailyStatsAfterSession(
   const updatedWordsReviewed = (existing?.wordsReviewed ?? 0) + wordsReviewed
   const updatedCorrect = (existing?.correctCount ?? 0) + correctCount
   const updatedIncorrect = (existing?.incorrectCount ?? 0) + (wordsReviewed - correctCount)
+  // Accumulate duration across sessions on the same day.
+  const updatedDurationMs =
+    durationMs !== undefined ? (existing?.durationMs ?? 0) + durationMs : existing?.durationMs
 
   // Fetch enough history to compute current streak.
   const recentStats = await storage.getRecentDailyStats(STREAK_SCAN_DAYS)
@@ -189,6 +196,7 @@ export async function updateDailyStatsAfterSession(
     correctCount: updatedCorrect,
     incorrectCount: updatedIncorrect,
     streakDays: 0, // placeholder - filled below
+    ...(updatedDurationMs !== undefined ? { durationMs: updatedDurationMs } : {}),
   }
   statsMap.set(today, todayEntry)
 

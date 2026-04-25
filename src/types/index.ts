@@ -112,6 +112,12 @@ export interface DailyStats {
   readonly correctCount: number
   readonly incorrectCount: number
   readonly streakDays: number
+  /**
+   * Total time spent reviewing in milliseconds for this day.
+   * Optional for backward compatibility with records written before this field
+   * was added. Missing means the session was not timed (pre-feature data).
+   */
+  readonly durationMs?: number
 }
 
 export interface StarterPack {

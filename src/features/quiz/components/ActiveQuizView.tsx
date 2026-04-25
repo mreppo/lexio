@@ -20,12 +20,14 @@ interface ActiveQuizViewProps {
   readonly sessionLevels?: readonly CefrLevel[]
   /**
    * Called once when the session transitions to 'finished'.
-   * Receives the final wordsReviewed, correctCount, and bestSessionStreak.
+   * Receives the final wordsReviewed, correctCount, bestSessionStreak, and
+   * durationMs (wall-clock time from 'question' phase start to 'finished').
    */
   readonly onSessionFinished: (
     wordsReviewed: number,
     correctCount: number,
     bestSessionStreak: number,
+    durationMs: number,
   ) => void
 }
 
@@ -44,9 +46,19 @@ export function ActiveQuizView({
   const onFinishedRef = useRef(onSessionFinished)
   onFinishedRef.current = onSessionFinished
 
+  // Wall-clock start time, recorded when the first question phase begins.
+  // Used to compute durationMs passed to updateDailyStatsAfterSession for
+  // rolling minutes-per-word calibration.
+  const sessionStartMs = useRef<number | null>(null)
+
   useEffect(() => {
+    if (phase === 'question' && sessionStartMs.current === null) {
+      sessionStartMs.current = Date.now()
+    }
+
     if (phase === 'finished') {
-      onFinishedRef.current(wordsCompleted, correctCount, bestSessionStreak)
+      const durationMs = sessionStartMs.current !== null ? Date.now() - sessionStartMs.current : 0
+      onFinishedRef.current(wordsCompleted, correctCount, bestSessionStreak, durationMs)
     }
     // wordsCompleted, correctCount, and bestSessionStreak are stable at the moment
     // phase becomes 'finished', so including them is correct and avoids stale reads.

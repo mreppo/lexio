@@ -32,14 +32,12 @@ import { SectionHeader } from '@/components/composites/SectionHeader'
 import { getGlassTokens, glassTypography } from '@/theme/liquidGlass'
 import { useTheme } from '@mui/material/styles'
 import { useWordOfTheDay } from '../hooks/useWordOfTheDay'
+import { useMinutesPerWord } from '../hooks/useMinutesPerWord'
 import { speak } from '@/utils/tts'
 import { MASTERED_THRESHOLD } from '@/features/words/buckets'
 import { computeDueCount } from '@/features/words/utils/dueWords'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-
-/** Approx. minutes per word for the "≈ Nmin" subtext estimate. */
-const MINUTES_PER_WORD = 0.5
 
 /** Bottom spacer height in px, per design spec. */
 const BOTTOM_SPACER_PX = 140
@@ -53,6 +51,8 @@ export interface DashboardScreenProps {
   readonly settings: UserSettings
   /** Today's daily stats (null if no session today). */
   readonly todayStats: DailyStats | null
+  /** Recent daily stats used to compute the rolling minutes-per-word estimate. */
+  readonly recentStats: readonly DailyStats[]
   /** Progress records for all words in the active pair. */
   readonly wordProgressList: readonly WordProgress[]
   /** All words in the active pair (needed for Word of the Day). */
@@ -157,6 +157,8 @@ interface HeroCardProps {
   readonly dueCount: number
   readonly wordsReviewedToday: number
   readonly dailyGoal: number
+  /** Calibrated rolling average of minutes per word (falls back to 0.5 when no data). */
+  readonly minutesPerWord: number
   readonly loading: boolean
   readonly onStartQuiz: () => void
 }
@@ -166,6 +168,7 @@ function HeroCard({
   dueCount,
   wordsReviewedToday,
   dailyGoal,
+  minutesPerWord,
   loading,
   onStartQuiz,
 }: HeroCardProps): React.JSX.Element {
@@ -173,7 +176,7 @@ function HeroCard({
   const tokens = getGlassTokens(theme.palette.mode)
 
   const progressValue = dailyGoal > 0 ? Math.min(1, wordsReviewedToday / dailyGoal) : 0
-  const estimatedMinutes = Math.round(dueCount * MINUTES_PER_WORD)
+  const estimatedMinutes = Math.round(dueCount * minutesPerWord)
   const noPair = activePair === null
   const allCaughtUp = !noPair && dueCount === 0
 
@@ -558,6 +561,7 @@ export function DashboardScreen({
   activePair,
   settings,
   todayStats,
+  recentStats,
   wordProgressList,
   words,
   totalWords,
@@ -579,6 +583,9 @@ export function DashboardScreen({
   const masteredCount = useMemo(() => computeMasteredCount(wordProgressList), [wordProgressList])
 
   const accuracy = useMemo(() => computeAccuracy(todayStats), [todayStats])
+
+  // Rolling minutes-per-word estimate — calibrated from actual session history.
+  const minutesPerWord = useMinutesPerWord(recentStats)
 
   const { word: wotdWord } = useWordOfTheDay(
     dateKey,
@@ -622,6 +629,7 @@ export function DashboardScreen({
           dueCount={dueCount}
           wordsReviewedToday={wordsReviewedToday}
           dailyGoal={settings.dailyGoal}
+          minutesPerWord={minutesPerWord}
           loading={loading}
           onStartQuiz={onStartQuiz}
         />

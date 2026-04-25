@@ -94,6 +94,7 @@ function buildProps(overrides: Partial<DashboardScreenProps> = {}): DashboardScr
     activePair,
     settings: defaultSettings,
     todayStats: null,
+    recentStats: [],
     wordProgressList: [],
     words: [],
     totalWords: 0,

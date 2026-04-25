@@ -356,6 +356,8 @@ async function updateDailyStats(
     incorrectCount: (existing?.incorrectCount ?? 0) + (correct ? 0 : 1),
     // streakDays is managed separately (based on daily goal completion)
     streakDays: existing?.streakDays ?? 0,
+    // Preserve durationMs if it was already set by the session-end path
+    ...(existing?.durationMs !== undefined ? { durationMs: existing.durationMs } : {}),
   }
 
   await storage.saveDailyStats(updated)
