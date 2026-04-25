@@ -1,7 +1,7 @@
 /**
  * TabBar — Liquid Glass floating tab bar.
  *
- * Absolute positioned pill at bottom:30, horizontally centered, z-index:20.
+ * Fixed-position pill at bottom:30, horizontally centered, z-index:20.
  * Wraps a <Glass strong floating radius=34 pad=8> containing 5 tab slots.
  *
  * Tab slots: 52×52, border-radius:26.
@@ -26,11 +26,9 @@
  * The paddingBottom uses env(safe-area-inset-bottom) to clear the iOS home
  * indicator — this is on the <nav> wrapper, not on the glass surface itself.
  *
- * position:absolute anchors to the nearest positioned ancestor. The screen shell
- * in AppContent (and PaperSurface for LibraryScreen) provides position:relative,
- * so the pill sits at bottom:30 above the safe-area inset within that container
- * rather than relative to the viewport. This allows the TabBar to participate in
- * the Liquid Glass layout without escaping the screen root.
+ * position:fixed pins the pill to the viewport bottom regardless of how tall the
+ * page content grows. Each screen already renders a 140px bottom spacer so the
+ * last scrollable item remains visible above the pill.
  */
 
 import { Box } from '@mui/material'
@@ -83,24 +81,25 @@ export function TabBar({ activeTab, onTabChange }: TabBarProps): React.JSX.Eleme
   return (
     /*
      * Outer <nav> wrapper:
-     *   - position:absolute anchors to the nearest positioned ancestor (the screen
-     *     shell container in AppContent, or PaperSurface for LibraryScreen)
+     *   - position:fixed pins to the viewport regardless of content height (#185)
      *   - bottom:30 + paddingBottom:env(safe-area-inset-bottom) clears iOS home indicator
      *   - left/right 0 + display:flex justifyContent:center = horizontally centered pill
      *   - z-index:20 per spec
      *
-     * The positioned ancestor must be the full-bleed screen container. AppContent wraps
-     * each tab's content + TabBar in a position:relative Box (the screen shell), so
-     * bottom:30 resolves relative to the viewport-filling container, not to <body>.
-     * env(safe-area-inset-bottom) works identically in positioned-absolute context
-     * because the container fills the viewport (100dvh), inheriting the safe-area
-     * geometry.
+     * Previously position:absolute was used, which anchored to the nearest
+     * positioned ancestor. When content overflowed that ancestor (minHeight:100dvh
+     * growing taller than the viewport), bottom:30 resolved against the expanded
+     * container and the pill ended up below the fold. position:fixed always
+     * resolves against the viewport, keeping the pill visible at all scroll depths.
+     *
+     * Each screen already renders a 140px bottom spacer so content is not hidden
+     * behind the fixed pill. No per-screen changes are required.
      */
     <Box
       component="nav"
       aria-label="App navigation"
       sx={{
-        position: 'absolute',
+        position: 'fixed',
         bottom: '30px',
         left: 0,
         right: 0,
