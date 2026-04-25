@@ -35,34 +35,11 @@ import { getWordsLearnedForPair } from '@/services/wordsLearnedService'
 import { PaperSurface } from '@/components/primitives'
 import { NavBar } from '@/components/composites'
 import { getGlassTokens } from '@/theme/liquidGlass'
+import { computeDueCount } from '@/features/words/utils/dueWords'
 import { QuizModeSelector } from './QuizModeSelector'
 import { SessionSummary } from './SessionSummary'
 import { ActiveQuizView } from './ActiveQuizView'
 import { GoalCelebration } from './GoalCelebration'
-
-// ─── Due-count helper (mirrors DashboardScreen.computeDueCount) ───────────────
-
-/**
- * Compute how many words are due right now (nextReview <= Date.now()).
- * Words with no progress record are also due (never reviewed).
- * Mirrors the same logic in DashboardScreen — not extracted to a shared
- * util yet to avoid premature abstraction (the dashboard imports it locally too).
- */
-function computeDueCount(words: readonly Word[], progressList: readonly WordProgress[]): number {
-  const now = Date.now()
-  const progressMap = new Map<string, WordProgress>()
-  for (const p of progressList) {
-    progressMap.set(p.wordId, p)
-  }
-  let count = 0
-  for (const word of words) {
-    const progress = progressMap.get(word.id)
-    if (progress === undefined || progress.nextReview <= now) {
-      count++
-    }
-  }
-  return count
-}
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 
