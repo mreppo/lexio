@@ -249,7 +249,7 @@ export function ImportWordsDialog({
       fullScreen
       aria-modal="true"
       aria-label="Import words"
-      TransitionComponent={SlideUpTransition}
+      slots={{ transition: SlideUpTransition }}
       slotProps={{
         paper: {
           sx: {
@@ -504,7 +504,7 @@ function StepPreview({
                       checked={isSelected}
                       onChange={() => onToggleRow(row.lineNumber)}
                       size="small"
-                      inputProps={{ 'aria-label': `Toggle row ${row.lineNumber}` }}
+                      slotProps={{ input: { 'aria-label': `Toggle row ${row.lineNumber}` } }}
                     />
                   </TableCell>
                   <TableCell sx={{ fontFamily: glassTypography.body }}>{row.source}</TableCell>

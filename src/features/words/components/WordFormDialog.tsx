@@ -471,7 +471,7 @@ export function WordFormDialog({
       fullScreen
       aria-modal="true"
       aria-label={isEdit ? 'Edit word' : 'Add word'}
-      TransitionComponent={SlideUpTransition}
+      slots={{ transition: SlideUpTransition }}
       slotProps={{
         paper: {
           sx: {
