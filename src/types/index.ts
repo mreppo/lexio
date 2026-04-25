@@ -73,6 +73,12 @@ export interface UserSettings {
    * TTS implementation is out of scope for MVP; only the preference is stored.
    */
   readonly autoPlayPronunciation?: boolean
+  /**
+   * Show hint timeout in seconds — how long to wait before showing the hint during quiz.
+   * 0 means "Off" (never show hint). Defaults to 10.
+   * Valid values: 0, 5, 10, 15, 30.
+   */
+  readonly showHintTimeout?: number
 }
 
 export interface DailyStats {

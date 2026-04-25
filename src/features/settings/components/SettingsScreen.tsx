@@ -5,20 +5,30 @@
  *   1. NavBar large prominentTitle="Settings"
  *   2. Account card (auth placeholder) — Glass floating + 56×56 gradient avatar
  *   3. SectionHeader "Daily practice" + Glass card
- *      - Daily goal row (flash/warn)
- *      - Reminder stub row (bell/red)
+ *      - Daily goal row (flash/warn) → drill-down sub-screen
+ *      - Reminder stub row (bell/red) → drill-down sub-screen
  *      - Sound effects toggle row (speaker/violet)
  *   4. SectionHeader "Quiz" + Glass card
- *      - Quiz mode row (card/accent) → picker dialog
- *      - Show hints row (clock/ok)
+ *      - Quiz mode row (card/accent) → drill-down sub-screen
+ *      - Show hints row (clock/ok) → drill-down sub-screen
  *      - Auto-play pronunciation toggle (speaker/violet)
  *   5. SectionHeader "Appearance" + Glass card
- *      - Theme row → picker dialog
+ *      - Theme row → drill-down sub-screen
  *   6. SectionHeader "Data" + Glass card
  *      - Export vocabulary (share/ok)
  *      - Import from file (plus/accent)
- *      - Reset progress (close/red, destructive confirm)
+ *      - Reset progress (close/red, iOS-styled alert)
  *   7. Bottom spacer
+ *
+ * Navigation (issue #186):
+ *   Option pickers use local-state drill-down sub-screens (no router changes).
+ *   Render either the main list or the active sub-screen.
+ *   Back navigation restores scroll position.
+ *   Slide-from-right push transition; slide-back on pop.
+ *
+ * Alert dialogs (issue #186):
+ *   Reset progress + Import confirmation use iOS-styled centered alerts
+ *   (no Material drop-shadow, destructive red action).
  *
  * Screen renders <PaperSurface> + its own <NavBar>.
  * TabBar is rendered externally by AppContent (no TabBar inside this screen).
@@ -28,18 +38,26 @@ import { useState, useCallback, useRef } from 'react'
 import {
   Box,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
   Button,
   Typography,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   Snackbar,
   Alert,
 } from '@mui/material'
-import { Zap, Bell, Volume2, Layers, Clock, Share, Plus, X, ChevronRight } from 'lucide-react'
+import {
+  Zap,
+  Bell,
+  Volume2,
+  Layers,
+  Clock,
+  Share,
+  Plus,
+  X,
+  ChevronRight,
+  Check,
+  ChevronLeft,
+} from 'lucide-react'
 import { useTheme } from '@mui/material/styles'
 import { PaperSurface } from '@/components/primitives/PaperSurface'
 import { Glass } from '@/components/primitives/Glass'
@@ -66,6 +84,313 @@ const THEME_LABELS: Record<UserSettings['theme'], string> = {
   system: 'System',
   light: 'Light',
   dark: 'Dark',
+}
+
+const DAILY_GOAL_PRESETS = [5, 10, 20, 30, 50] as const
+
+const SHOW_HINT_LABELS: Record<string, string> = {
+  '0': 'Off',
+  '5': 'After 5s',
+  '10': 'After 10s',
+  '15': 'After 15s',
+  '30': 'After 30s',
+}
+
+// ─── Sub-screen types ─────────────────────────────────────────────────────────
+
+type ActiveSubScreen = 'quiz-mode' | 'theme' | 'daily-goal' | 'show-hint' | 'reminder' | null
+
+// ─── iOS-styled Alert Dialog ──────────────────────────────────────────────────
+
+interface IOSAlertProps {
+  readonly open: boolean
+  readonly title: string
+  readonly message: React.ReactNode
+  readonly cancelLabel?: string
+  readonly confirmLabel: string
+  readonly destructive?: boolean
+  readonly disabled?: boolean
+  readonly onCancel: () => void
+  readonly onConfirm: () => void
+}
+
+/**
+ * iOS-styled centered alert dialog. Centered alert is the correct iOS pattern
+ * for destructive confirmations. Material drop-shadow and button shapes removed.
+ */
+function IOSAlert({
+  open,
+  title,
+  message,
+  cancelLabel = 'Cancel',
+  confirmLabel,
+  destructive = false,
+  disabled = false,
+  onCancel,
+  onConfirm,
+}: IOSAlertProps): React.JSX.Element {
+  const theme = useTheme()
+  const tokens = getGlassTokens(theme.palette.mode)
+
+  return (
+    <Dialog
+      open={open}
+      onClose={onCancel}
+      maxWidth="xs"
+      fullWidth
+      aria-labelledby="ios-alert-title"
+      slotProps={{
+        paper: {
+          sx: {
+            borderRadius: '14px',
+            background:
+              theme.palette.mode === 'dark' ? 'rgba(28,28,30,0.98)' : 'rgba(242,242,247,0.98)',
+            backdropFilter: 'blur(40px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+            boxShadow: 'none',
+            border: `0.5px solid ${tokens.glass.border}`,
+          },
+        },
+        backdrop: {
+          sx: {
+            backgroundColor: 'rgba(0,0,0,0.4)',
+            backdropFilter: 'blur(2px)',
+          },
+        },
+      }}
+    >
+      <DialogTitle
+        id="ios-alert-title"
+        sx={{
+          textAlign: 'center',
+          pt: '20px',
+          pb: '4px',
+          px: '16px',
+          fontFamily: glassTypography.body,
+          fontSize: '17px',
+          fontWeight: 600,
+          letterSpacing: '-0.3px',
+          color: tokens.color.ink,
+        }}
+      >
+        {title}
+      </DialogTitle>
+      <DialogContent sx={{ pt: '4px', pb: '16px', px: '16px', textAlign: 'center' }}>
+        <Typography
+          sx={{
+            fontFamily: glassTypography.body,
+            fontSize: '13px',
+            fontWeight: 400,
+            letterSpacing: '-0.1px',
+            color: tokens.color.inkSec,
+            lineHeight: 1.4,
+          }}
+        >
+          {message}
+        </Typography>
+      </DialogContent>
+      <Box
+        sx={{
+          borderTop: `0.5px solid ${tokens.color.rule2}`,
+          display: 'flex',
+        }}
+      >
+        <Button
+          onClick={onCancel}
+          disabled={disabled}
+          sx={{
+            flex: 1,
+            borderRadius: 0,
+            borderBottomLeftRadius: '14px',
+            fontFamily: glassTypography.body,
+            fontSize: '17px',
+            fontWeight: 400,
+            letterSpacing: '-0.3px',
+            color: tokens.color.accent,
+            textTransform: 'none',
+            py: '12px',
+            borderRight: `0.5px solid ${tokens.color.rule2}`,
+            '&:hover': { backgroundColor: 'transparent' },
+          }}
+        >
+          {cancelLabel}
+        </Button>
+        <Button
+          onClick={onConfirm}
+          disabled={disabled}
+          sx={{
+            flex: 1,
+            borderRadius: 0,
+            borderBottomRightRadius: '14px',
+            fontFamily: glassTypography.body,
+            fontSize: '17px',
+            fontWeight: 600,
+            letterSpacing: '-0.3px',
+            color: destructive ? tokens.color.red : tokens.color.accent,
+            textTransform: 'none',
+            py: '12px',
+            '&:hover': { backgroundColor: 'transparent' },
+          }}
+        >
+          {confirmLabel}
+        </Button>
+      </Box>
+    </Dialog>
+  )
+}
+
+// ─── Back Button ──────────────────────────────────────────────────────────────
+
+interface BackButtonProps {
+  readonly label: string
+  readonly onClick: () => void
+}
+
+function BackButton({ label, onClick }: BackButtonProps): React.JSX.Element {
+  const theme = useTheme()
+  const tokens = getGlassTokens(theme.palette.mode)
+
+  return (
+    <Box
+      component="button"
+      type="button"
+      onClick={onClick}
+      aria-label={`Back to Settings`}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '2px',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        padding: '4px 0',
+        fontFamily: glassTypography.body,
+        fontSize: '17px',
+        fontWeight: 400,
+        letterSpacing: '-0.3px',
+        color: tokens.color.accent,
+        WebkitTapHighlightColor: 'transparent',
+        transition: 'opacity 120ms ease',
+        '&:active': { opacity: 0.7 },
+        '@media (prefers-reduced-motion: reduce)': {
+          transition: 'none',
+          '&:active': { opacity: 1 },
+        },
+      }}
+    >
+      <ChevronLeft size={20} strokeWidth={2.5} />
+      {label}
+    </Box>
+  )
+}
+
+// ─── Option Row ────────────────────────────────────────────────────────────────
+
+interface OptionRowProps {
+  readonly label: string
+  readonly selected: boolean
+  readonly onSelect: () => void
+  readonly isLast?: boolean
+}
+
+/**
+ * A drill-down sub-screen option row. Shows a checkmark when selected.
+ */
+function OptionRow({
+  label,
+  selected,
+  onSelect,
+  isLast = false,
+}: OptionRowProps): React.JSX.Element {
+  const theme = useTheme()
+  const tokens = getGlassTokens(theme.palette.mode)
+
+  return (
+    <Box
+      component="button"
+      type="button"
+      role="radio"
+      aria-checked={selected}
+      onClick={onSelect}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        padding: '12px 16px',
+        gap: '12px',
+        borderBottom: isLast ? 'none' : `0.5px solid ${tokens.color.rule2}`,
+        WebkitTapHighlightColor: 'transparent',
+        transition: 'opacity 100ms ease',
+        '&:active': { opacity: 0.6 },
+        '@media (prefers-reduced-motion: reduce)': {
+          transition: 'none',
+        },
+      }}
+    >
+      <Box
+        component="span"
+        sx={{
+          flex: 1,
+          fontFamily: glassTypography.body,
+          fontSize: '17px',
+          fontWeight: 400,
+          letterSpacing: '-0.3px',
+          color: tokens.color.ink,
+          textAlign: 'left',
+        }}
+      >
+        {label}
+      </Box>
+      {selected && (
+        <Box aria-hidden="true" sx={{ flexShrink: 0, color: tokens.color.accent }}>
+          <Check size={20} strokeWidth={2.5} />
+        </Box>
+      )}
+    </Box>
+  )
+}
+
+// ─── Drill-down Sub-screen Wrapper ────────────────────────────────────────────
+
+interface SubScreenProps {
+  readonly title: string
+  readonly onBack: () => void
+  readonly visible: boolean
+  readonly children: React.ReactNode
+}
+
+/**
+ * Wraps drill-down sub-screen content with iOS-style slide-from-right transition.
+ */
+function SubScreen({ title, onBack, visible, children }: SubScreenProps): React.JSX.Element {
+  const theme = useTheme()
+  const tokens = getGlassTokens(theme.palette.mode)
+
+  return (
+    <Box
+      role="dialog"
+      aria-label={title}
+      aria-modal="false"
+      sx={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: 10,
+        background: tokens.color.bg,
+        transform: visible ? 'translateX(0)' : 'translateX(100%)',
+        transition: 'transform 280ms cubic-bezier(0.4, 0, 0.2, 1)',
+        '@media (prefers-reduced-motion: reduce)': {
+          transition: 'none',
+        },
+        overflowY: 'auto',
+      }}
+    >
+      <NavBar title={title} leading={<BackButton label="Settings" onClick={onBack} />} />
+      <Box sx={{ px: '16px', pb: `${TAB_BAR_SPACER}px` }}>{children}</Box>
+    </Box>
+  )
 }
 
 // ─── Props ────────────────────────────────────────────────────────────────────
@@ -95,8 +420,7 @@ export function SettingsScreen({
 
   // ── Local state ─────────────────────────────────────────────────────────────
 
-  const [quizPickerOpen, setQuizPickerOpen] = useState(false)
-  const [themePickerOpen, setThemePickerOpen] = useState(false)
+  const [activeSubScreen, setActiveSubScreen] = useState<ActiveSubScreen>(null)
   const [resetConfirmOpen, setResetConfirmOpen] = useState(false)
   const [resetting, setResetting] = useState(false)
   const [resetError, setResetError] = useState<string | null>(null)
@@ -104,9 +428,12 @@ export function SettingsScreen({
   const [importError, setImportError] = useState<string | null>(null)
   const [exporting, setExporting] = useState(false)
   const [importConfirmOpen, setImportConfirmOpen] = useState(false)
+  const [importingData, setImportingData] = useState(false)
   const [pendingImportData, setPendingImportData] = useState<string | null>(null)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const savedScrollY = useRef(0)
 
   // ── Derived values ───────────────────────────────────────────────────────────
 
@@ -115,6 +442,28 @@ export function SettingsScreen({
   const profileName = displayName ?? 'Lexio user'
   const soundEffects = settings.soundEffects ?? false
   const autoPlayPronunciation = settings.autoPlayPronunciation ?? false
+
+  // showHintTimeout: stored as number of seconds; 0 means "Off"
+  const showHintSeconds = settings.showHintTimeout ?? 10
+  const showHintLabel = SHOW_HINT_LABELS[String(showHintSeconds)] ?? `After ${showHintSeconds}s`
+
+  // ── Sub-screen navigation ────────────────────────────────────────────────────
+
+  const openSubScreen = useCallback((screen: ActiveSubScreen): void => {
+    // Save scroll position before navigating away
+    savedScrollY.current = scrollRef.current?.scrollTop ?? 0
+    setActiveSubScreen(screen)
+  }, [])
+
+  const closeSubScreen = useCallback((): void => {
+    setActiveSubScreen(null)
+    // Restore scroll position after transition completes
+    requestAnimationFrame(() => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollTop = savedScrollY.current
+      }
+    })
+  }, [])
 
   // ── Settings update helper ───────────────────────────────────────────────────
 
@@ -130,21 +479,41 @@ export function SettingsScreen({
   // ── Quiz mode picker ─────────────────────────────────────────────────────────
 
   const handleQuizModeChange = useCallback(
-    (value: string): void => {
-      persistSettings({ quizMode: value as UserSettings['quizMode'] })
-      setQuizPickerOpen(false)
+    (value: UserSettings['quizMode']): void => {
+      persistSettings({ quizMode: value })
+      closeSubScreen()
     },
-    [persistSettings],
+    [persistSettings, closeSubScreen],
   )
 
   // ── Theme picker ─────────────────────────────────────────────────────────────
 
   const handleThemePickerChange = useCallback(
-    (value: string): void => {
-      onThemeChange(value as UserSettings['theme'])
-      setThemePickerOpen(false)
+    (value: UserSettings['theme']): void => {
+      onThemeChange(value)
+      closeSubScreen()
     },
-    [onThemeChange],
+    [onThemeChange, closeSubScreen],
+  )
+
+  // ── Daily goal picker ────────────────────────────────────────────────────────
+
+  const handleDailyGoalChange = useCallback(
+    (value: number): void => {
+      persistSettings({ dailyGoal: value })
+      closeSubScreen()
+    },
+    [persistSettings, closeSubScreen],
+  )
+
+  // ── Show hint picker ─────────────────────────────────────────────────────────
+
+  const handleShowHintChange = useCallback(
+    (seconds: number): void => {
+      persistSettings({ showHintTimeout: seconds })
+      closeSubScreen()
+    },
+    [persistSettings, closeSubScreen],
   )
 
   // ── Toggles ──────────────────────────────────────────────────────────────────
@@ -172,7 +541,6 @@ export function SettingsScreen({
     }
     setExporting(true)
     try {
-      // Export active pair words as CSV
       const words = await storage.getWords(settings.activePairId)
       const rows = [
         'source,target,notes,tags',
@@ -243,12 +611,15 @@ export function SettingsScreen({
   const handleImportConfirm = useCallback(async (): Promise<void> => {
     if (!pendingImportData) return
     setImportConfirmOpen(false)
+    setImportingData(true)
     try {
       await storage.importAll(pendingImportData)
       setPendingImportData(null)
       globalThis.location.reload()
     } catch {
       setImportError('Import failed. The backup file may be corrupted.')
+    } finally {
+      setImportingData(false)
     }
   }, [pendingImportData, storage])
 
@@ -283,7 +654,6 @@ export function SettingsScreen({
           }
         }
       }
-      // Clear daily stats
       const exported = await storage.exportAll()
       const data = JSON.parse(exported) as Record<string, unknown>
       data['dailyStats'] = []
@@ -298,7 +668,7 @@ export function SettingsScreen({
   // ── Render ───────────────────────────────────────────────────────────────────
 
   return (
-    <PaperSurface>
+    <PaperSurface sx={{ position: 'relative', overflow: 'hidden' }}>
       {/* Hidden file input for import */}
       <input
         ref={fileInputRef}
@@ -309,364 +679,351 @@ export function SettingsScreen({
         onChange={handleImportFileChange}
       />
 
-      {/* ── NavBar ── */}
-      <NavBar large prominentTitle="Settings" />
+      {/* ── Main settings list ── */}
+      <Box
+        ref={scrollRef}
+        sx={{
+          height: '100%',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+        }}
+      >
+        {/* ── NavBar ── */}
+        <NavBar large prominentTitle="Settings" />
 
-      {/* ── Scrollable content ── */}
-      <Box sx={{ px: '16px', pb: `${TAB_BAR_SPACER}px` }}>
-        {/* ── Account card ── */}
-        <Box sx={{ mb: '8px' }}>
-          <Glass pad={16} floating>
-            <Box
-              component="button"
-              type="button"
-              onClick={() => setToastMessage('Accounts coming soon')}
-              aria-label="Account settings — coming soon"
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                width: '100%',
-                background: 'none',
-                border: 'none',
-                p: 0,
-                cursor: 'pointer',
-                textAlign: 'left',
-              }}
-            >
-              {/* 56×56 gradient avatar */}
+        {/* ── Scrollable content ── */}
+        <Box sx={{ px: '16px', pb: `${TAB_BAR_SPACER}px` }}>
+          {/* ── Account card ── */}
+          <Box sx={{ mb: '8px' }}>
+            <Glass pad={16} floating>
               <Box
-                aria-hidden="true"
+                component="button"
+                type="button"
+                onClick={() => setToastMessage('Accounts coming soon')}
+                aria-label="Account settings — coming soon"
                 sx={{
-                  flexShrink: 0,
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '50%',
-                  background: tokens.color.avatarGradient,
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  gap: '12px',
+                  width: '100%',
+                  background: 'none',
+                  border: 'none',
+                  p: 0,
+                  cursor: 'pointer',
+                  textAlign: 'left',
                 }}
               >
+                {/* 56×56 gradient avatar */}
                 <Box
-                  component="span"
+                  aria-hidden="true"
                   sx={{
-                    fontFamily: glassTypography.display,
-                    fontSize: '22px',
-                    fontWeight: 700,
-                    color: '#ffffff',
-                    lineHeight: 1,
+                    flexShrink: 0,
+                    width: '56px',
+                    height: '56px',
+                    borderRadius: '50%',
+                    background: tokens.color.avatarGradient,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
-                  {avatarInitial}
+                  <Box
+                    component="span"
+                    sx={{
+                      fontFamily: glassTypography.display,
+                      fontSize: '22px',
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      lineHeight: 1,
+                    }}
+                  >
+                    {avatarInitial}
+                  </Box>
                 </Box>
-              </Box>
 
-              {/* Name + helper */}
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Box
-                  component="span"
-                  sx={{
-                    display: 'block',
-                    fontFamily: glassTypography.body,
-                    fontSize: '18px',
-                    fontWeight: 800,
-                    letterSpacing: '-0.3px',
-                    lineHeight: 1.2,
-                    color: tokens.color.ink,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {profileName}
+                {/* Name + helper */}
+                <Box sx={{ flex: 1, minWidth: 0 }}>
+                  <Box
+                    component="span"
+                    sx={{
+                      display: 'block',
+                      fontFamily: glassTypography.body,
+                      fontSize: '18px',
+                      fontWeight: 800,
+                      letterSpacing: '-0.3px',
+                      lineHeight: 1.2,
+                      color: tokens.color.ink,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {profileName}
+                  </Box>
+                  <Box
+                    component="span"
+                    sx={{
+                      display: 'block',
+                      fontFamily: glassTypography.body,
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      color: tokens.color.inkSec,
+                      mt: '2px',
+                    }}
+                  >
+                    Local profile · sign-in coming soon
+                  </Box>
                 </Box>
-                <Box
-                  component="span"
-                  sx={{
-                    display: 'block',
-                    fontFamily: glassTypography.body,
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    color: tokens.color.inkSec,
-                    mt: '2px',
-                  }}
-                >
-                  Local profile · sign-in coming soon
-                </Box>
-              </Box>
 
-              {/* Chevron */}
-              <Box aria-hidden="true" sx={{ flexShrink: 0 }}>
-                <ChevronRight size={16} strokeWidth={2} color={tokens.color.inkFaint} />
+                {/* Chevron */}
+                <Box aria-hidden="true" sx={{ flexShrink: 0 }}>
+                  <ChevronRight size={16} strokeWidth={2} color={tokens.color.inkFaint} />
+                </Box>
               </Box>
-            </Box>
+            </Glass>
+          </Box>
+
+          {/* ── Daily practice section ── */}
+          <SectionHeader>Daily practice</SectionHeader>
+          <Glass pad={0} floating>
+            <GlassRow
+              icon={Zap}
+              iconBg={tokens.color.warn}
+              title="Daily goal"
+              detail={`${settings.dailyGoal} words`}
+              onClick={() => openSubScreen('daily-goal')}
+              isLast={false}
+            />
+            <GlassRow
+              icon={Bell}
+              iconBg={tokens.color.red}
+              title="Reminder"
+              detail="9:00 AM"
+              onClick={() => openSubScreen('reminder')}
+              isLast={false}
+            />
+            <GlassRow
+              icon={Volume2}
+              iconBg={tokens.color.violet}
+              title="Sound effects"
+              chevron={false}
+              isLast
+              accessory={
+                <Toggle
+                  on={soundEffects}
+                  onChange={handleSoundEffectsToggle}
+                  aria-label="Sound effects"
+                />
+              }
+            />
           </Glass>
+
+          {/* ── Quiz section ── */}
+          <SectionHeader>Quiz</SectionHeader>
+          <Glass pad={0} floating>
+            <GlassRow
+              icon={Layers}
+              iconBg={tokens.color.accent}
+              title="Quiz mode"
+              detail={QUIZ_MODE_LABELS[settings.quizMode]}
+              onClick={() => openSubScreen('quiz-mode')}
+              isLast={false}
+            />
+            <GlassRow
+              icon={Clock}
+              iconBg={tokens.color.ok}
+              title="Show hints"
+              detail={showHintLabel}
+              onClick={() => openSubScreen('show-hint')}
+              isLast={false}
+            />
+            <GlassRow
+              icon={Volume2}
+              iconBg={tokens.color.violet}
+              title="Auto-play pronunciation"
+              chevron={false}
+              isLast
+              accessory={
+                <Toggle
+                  on={autoPlayPronunciation}
+                  onChange={handleAutoPlayToggle}
+                  aria-label="Auto-play pronunciation"
+                />
+              }
+            />
+          </Glass>
+
+          {/* ── Appearance section ── */}
+          <SectionHeader>Appearance</SectionHeader>
+          <Glass pad={0} floating>
+            <GlassRow
+              title="Theme"
+              detail={THEME_LABELS[themePreference]}
+              onClick={() => openSubScreen('theme')}
+              isLast
+            />
+          </Glass>
+
+          {/* ── Data section ── */}
+          <SectionHeader>Data</SectionHeader>
+          <Glass pad={0} floating>
+            <GlassRow
+              icon={Share}
+              iconBg={tokens.color.ok}
+              title="Export vocabulary"
+              detail={exporting ? 'Exporting…' : undefined}
+              onClick={() => {
+                void handleExport()
+              }}
+              isLast={false}
+            />
+            <GlassRow
+              icon={Plus}
+              iconBg={tokens.color.accent}
+              title="Import from file"
+              onClick={handleImportClick}
+              isLast={false}
+            />
+            <GlassRow
+              icon={X}
+              iconBg={tokens.color.red}
+              title="Reset progress"
+              onClick={() => setResetConfirmOpen(true)}
+              isLast
+            />
+          </Glass>
+
+          {/* Import error feedback */}
+          {importError && (
+            <Alert severity="error" sx={{ mt: 2 }} onClose={() => setImportError(null)}>
+              {importError}
+            </Alert>
+          )}
+
+          {/* Reset error feedback */}
+          {resetError && (
+            <Alert severity="error" sx={{ mt: 2 }} onClose={() => setResetError(null)}>
+              {resetError}
+            </Alert>
+          )}
         </Box>
-
-        {/* ── Daily practice section ── */}
-        <SectionHeader>Daily practice</SectionHeader>
-        <Glass pad={0} floating>
-          <GlassRow
-            icon={Zap}
-            iconBg={tokens.color.warn}
-            title="Daily goal"
-            detail={`${settings.dailyGoal} words`}
-            chevron={false}
-            isLast={false}
-          />
-          <GlassRow
-            icon={Bell}
-            iconBg={tokens.color.red}
-            title="Reminder"
-            detail="9:00 AM"
-            chevron={false}
-            isLast={false}
-          />
-          <GlassRow
-            icon={Volume2}
-            iconBg={tokens.color.violet}
-            title="Sound effects"
-            chevron={false}
-            isLast
-            accessory={
-              <Toggle
-                on={soundEffects}
-                onChange={handleSoundEffectsToggle}
-                aria-label="Sound effects"
-              />
-            }
-          />
-        </Glass>
-
-        {/* ── Quiz section ── */}
-        <SectionHeader>Quiz</SectionHeader>
-        <Glass pad={0} floating>
-          <GlassRow
-            icon={Layers}
-            iconBg={tokens.color.accent}
-            title="Quiz mode"
-            detail={QUIZ_MODE_LABELS[settings.quizMode]}
-            onClick={() => setQuizPickerOpen(true)}
-            isLast={false}
-          />
-          <GlassRow
-            icon={Clock}
-            iconBg={tokens.color.ok}
-            title="Show hints"
-            detail="After 10s"
-            chevron={false}
-            isLast={false}
-          />
-          <GlassRow
-            icon={Volume2}
-            iconBg={tokens.color.violet}
-            title="Auto-play pronunciation"
-            chevron={false}
-            isLast
-            accessory={
-              <Toggle
-                on={autoPlayPronunciation}
-                onChange={handleAutoPlayToggle}
-                aria-label="Auto-play pronunciation"
-              />
-            }
-          />
-        </Glass>
-
-        {/* ── Appearance section ── */}
-        <SectionHeader>Appearance</SectionHeader>
-        <Glass pad={0} floating>
-          <GlassRow
-            title="Theme"
-            detail={THEME_LABELS[themePreference]}
-            onClick={() => setThemePickerOpen(true)}
-            isLast
-          />
-        </Glass>
-
-        {/* ── Data section ── */}
-        <SectionHeader>Data</SectionHeader>
-        <Glass pad={0} floating>
-          <GlassRow
-            icon={Share}
-            iconBg={tokens.color.ok}
-            title="Export vocabulary"
-            detail={exporting ? 'Exporting…' : undefined}
-            onClick={() => {
-              void handleExport()
-            }}
-            isLast={false}
-          />
-          <GlassRow
-            icon={Plus}
-            iconBg={tokens.color.accent}
-            title="Import from file"
-            onClick={handleImportClick}
-            isLast={false}
-          />
-          <GlassRow
-            icon={X}
-            iconBg={tokens.color.red}
-            title="Reset progress"
-            onClick={() => setResetConfirmOpen(true)}
-            isLast
-          />
-        </Glass>
-
-        {/* Import error feedback */}
-        {importError && (
-          <Alert severity="error" sx={{ mt: 2 }} onClose={() => setImportError(null)}>
-            {importError}
-          </Alert>
-        )}
-
-        {/* Reset error feedback */}
-        {resetError && (
-          <Alert severity="error" sx={{ mt: 2 }} onClose={() => setResetError(null)}>
-            {resetError}
-          </Alert>
-        )}
       </Box>
 
-      {/* ── Quiz mode picker dialog ── */}
-      <Dialog
-        open={quizPickerOpen}
-        onClose={() => setQuizPickerOpen(false)}
-        maxWidth="xs"
-        fullWidth
-        slotProps={{ paper: { sx: { borderRadius: 3 } } }}
-        aria-labelledby="quiz-mode-dialog-title"
+      {/* ── Quiz mode sub-screen ── */}
+      <SubScreen
+        title="Quiz mode"
+        onBack={closeSubScreen}
+        visible={activeSubScreen === 'quiz-mode'}
       >
-        <DialogTitle id="quiz-mode-dialog-title">
-          <Typography variant="h6" component="span" fontWeight={700}>
-            Quiz mode
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <RadioGroup
-            value={settings.quizMode}
-            onChange={(e) => handleQuizModeChange(e.target.value)}
-            aria-label="Quiz mode"
-          >
-            <FormControlLabel value="type" control={<Radio />} label="Type" />
-            <FormControlLabel value="choice" control={<Radio />} label="Choice" />
-            <FormControlLabel value="mixed" control={<Radio />} label="Mixed" />
-          </RadioGroup>
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 3 }}>
-          <Button variant="outlined" onClick={() => setQuizPickerOpen(false)}>
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Glass pad={0} floating>
+          {(['type', 'choice', 'mixed'] as const).map((mode, i, arr) => (
+            <OptionRow
+              key={mode}
+              label={QUIZ_MODE_LABELS[mode]}
+              selected={settings.quizMode === mode}
+              onSelect={() => handleQuizModeChange(mode)}
+              isLast={i === arr.length - 1}
+            />
+          ))}
+        </Glass>
+      </SubScreen>
 
-      {/* ── Theme picker dialog ── */}
-      <Dialog
-        open={themePickerOpen}
-        onClose={() => setThemePickerOpen(false)}
-        maxWidth="xs"
-        fullWidth
-        slotProps={{ paper: { sx: { borderRadius: 3 } } }}
-        aria-labelledby="theme-dialog-title"
+      {/* ── Theme sub-screen ── */}
+      <SubScreen title="Appearance" onBack={closeSubScreen} visible={activeSubScreen === 'theme'}>
+        <Glass pad={0} floating>
+          {(['system', 'light', 'dark'] as const).map((t, i, arr) => (
+            <OptionRow
+              key={t}
+              label={THEME_LABELS[t]}
+              selected={themePreference === t}
+              onSelect={() => handleThemePickerChange(t)}
+              isLast={i === arr.length - 1}
+            />
+          ))}
+        </Glass>
+      </SubScreen>
+
+      {/* ── Daily goal sub-screen ── */}
+      <SubScreen
+        title="Daily goal"
+        onBack={closeSubScreen}
+        visible={activeSubScreen === 'daily-goal'}
       >
-        <DialogTitle id="theme-dialog-title">
-          <Typography variant="h6" component="span" fontWeight={700}>
-            Appearance
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <RadioGroup
-            value={themePreference}
-            onChange={(e) => handleThemePickerChange(e.target.value)}
-            aria-label="Theme preference"
-          >
-            <FormControlLabel value="system" control={<Radio />} label="System" />
-            <FormControlLabel value="light" control={<Radio />} label="Light" />
-            <FormControlLabel value="dark" control={<Radio />} label="Dark" />
-          </RadioGroup>
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 3 }}>
-          <Button variant="outlined" onClick={() => setThemePickerOpen(false)}>
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Glass pad={0} floating>
+          {DAILY_GOAL_PRESETS.map((goal, i) => (
+            <OptionRow
+              key={goal}
+              label={`${goal} words`}
+              selected={settings.dailyGoal === goal}
+              onSelect={() => handleDailyGoalChange(goal)}
+              isLast={i === DAILY_GOAL_PRESETS.length - 1}
+            />
+          ))}
+        </Glass>
+      </SubScreen>
 
-      {/* ── Import confirm dialog ── */}
-      <Dialog
+      {/* ── Show hint timeout sub-screen ── */}
+      <SubScreen
+        title="Show hints"
+        onBack={closeSubScreen}
+        visible={activeSubScreen === 'show-hint'}
+      >
+        <Glass pad={0} floating>
+          {([0, 5, 10, 15, 30] as const).map((secs, i, arr) => (
+            <OptionRow
+              key={secs}
+              label={SHOW_HINT_LABELS[String(secs)] ?? `After ${secs}s`}
+              selected={showHintSeconds === secs}
+              onSelect={() => handleShowHintChange(secs)}
+              isLast={i === arr.length - 1}
+            />
+          ))}
+        </Glass>
+      </SubScreen>
+
+      {/* ── Reminder sub-screen (stub — time picker coming soon) ── */}
+      <SubScreen title="Reminder" onBack={closeSubScreen} visible={activeSubScreen === 'reminder'}>
+        <Glass pad={16} floating>
+          <Box
+            sx={{
+              fontFamily: glassTypography.body,
+              fontSize: '15px',
+              fontWeight: 500,
+              color: tokens.color.inkSec,
+              textAlign: 'center',
+              py: '12px',
+            }}
+          >
+            Reminder scheduling coming soon.
+          </Box>
+        </Glass>
+      </SubScreen>
+
+      {/* ── Import confirm alert (iOS-styled) ── */}
+      <IOSAlert
         open={importConfirmOpen}
-        onClose={handleImportCancel}
-        maxWidth="xs"
-        fullWidth
-        slotProps={{ paper: { sx: { borderRadius: 3 } } }}
-        aria-labelledby="import-dialog-title"
-      >
-        <DialogTitle id="import-dialog-title">
-          <Typography variant="h6" component="span" fontWeight={700}>
-            Import backup?
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <Alert severity="warning" sx={{ mb: 1 }}>
-            This will overwrite your current data.
-          </Alert>
-          <Typography variant="body2">
-            All existing language pairs, words, progress, and stats will be replaced. This cannot be
-            undone.
-          </Typography>
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
-          <Button variant="outlined" onClick={handleImportCancel}>
-            Cancel
-          </Button>
-          <Button variant="contained" color="warning" onClick={() => void handleImportConfirm()}>
-            Import and overwrite
-          </Button>
-        </DialogActions>
-      </Dialog>
+        title="Import backup?"
+        message="This will overwrite all existing language pairs, words, progress, and stats. This cannot be undone."
+        cancelLabel="Cancel"
+        confirmLabel="Import and overwrite"
+        destructive
+        disabled={importingData}
+        onCancel={handleImportCancel}
+        onConfirm={() => void handleImportConfirm()}
+      />
 
-      {/* ── Reset progress confirm dialog ── */}
-      <Dialog
+      {/* ── Reset progress confirm alert (iOS-styled) ── */}
+      <IOSAlert
         open={resetConfirmOpen}
-        onClose={() => setResetConfirmOpen(false)}
-        maxWidth="xs"
-        fullWidth
-        slotProps={{ paper: { sx: { borderRadius: 3 } } }}
-        aria-labelledby="reset-progress-dialog-title"
-      >
-        <DialogTitle id="reset-progress-dialog-title">
-          <Typography variant="h6" component="span" fontWeight={700}>
-            Reset learning progress?
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <Typography variant="body1" gutterBottom>
-            This will clear all word progress, streaks, and daily stats. Your language pairs and
-            words will be kept.
-          </Typography>
-          <Typography variant="body2" color="error.main" sx={{ mt: 1 }}>
-            This action cannot be undone.
-          </Typography>
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 3, gap: 1 }}>
-          <Button
-            variant="outlined"
-            onClick={() => setResetConfirmOpen(false)}
-            disabled={resetting}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => void handleResetConfirm()}
-            disabled={resetting}
-          >
-            {resetting ? 'Resetting…' : 'Reset progress'}
-          </Button>
-        </DialogActions>
-      </Dialog>
+        title="Reset learning progress?"
+        message="This will clear all word progress, streaks, and daily stats. Your language pairs and words will be kept. This action cannot be undone."
+        cancelLabel="Cancel"
+        confirmLabel="Reset progress"
+        destructive
+        disabled={resetting}
+        onCancel={() => setResetConfirmOpen(false)}
+        onConfirm={() => void handleResetConfirm()}
+      />
 
       {/* ── Toast notifications ── */}
       <Snackbar

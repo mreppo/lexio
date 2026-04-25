@@ -107,7 +107,7 @@ test('complete onboarding with custom language pair', async ({ page }) => {
 
   // Navigate to Settings to verify the screen renders correctly after onboarding.
   await page.getByRole('button', { name: 'Navigate to Settings' }).click()
-  // The new Liquid Glass Settings screen shows a NavBar large "Settings" title.
+  // The new Liquid Glass Settings screen shows a NavBar large "Settings" heading.
   await expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible({ timeout: 5_000 })
   // The account card should be visible with the local profile placeholder.
   await expect(page.getByText('Lexio user')).toBeVisible()
