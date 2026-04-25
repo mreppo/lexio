@@ -58,27 +58,52 @@ export interface UserSettings {
    */
   readonly selectedLevels: readonly CefrLevel[]
   /**
-   * Optional display name for the avatar placeholder.
+   * Display name for the avatar placeholder.
    * Null means not set — the app falls back to the initial "L" for Lexio.
    * This is a placeholder for future auth integration.
    */
-  readonly displayName?: string | null
+  readonly displayName: string | null
   /**
    * Sound effects toggle — whether UI sound effects are enabled.
    * Defaults to false (no sounds in MVP). Persisted via StorageService.
    */
-  readonly soundEffects?: boolean
+  readonly soundEffects: boolean
   /**
    * Auto-play pronunciation toggle — whether to auto-play audio after each answer.
    * TTS implementation is out of scope for MVP; only the preference is stored.
    */
-  readonly autoPlayPronunciation?: boolean
+  readonly autoPlayPronunciation: boolean
   /**
    * Show hint timeout in seconds — how long to wait before showing the hint during quiz.
    * 0 means "Off" (never show hint). Defaults to 10.
    * Valid values: 0, 5, 10, 15, 30.
    */
-  readonly showHintTimeout?: number
+  readonly showHintTimeout: number
+}
+
+/**
+ * Canonical default values for all UserSettings fields.
+ *
+ * Single source of truth used by:
+ *   - AppContent initial state (before async storage.getSettings() resolves)
+ *   - LocalStorageService.getSettings() migration spread
+ *   - Test fixtures via createMockSettings()
+ *
+ * Keeping defaults here prevents the "double source of truth" problem: any
+ * new field added to UserSettings must also appear here, and TypeScript will
+ * enforce it because UserSettings is now fully required.
+ */
+export const defaultUserSettings: UserSettings = {
+  activePairId: null,
+  quizMode: 'mixed',
+  dailyGoal: 20,
+  theme: 'dark',
+  typoTolerance: 1,
+  selectedLevels: [],
+  displayName: null,
+  soundEffects: false,
+  autoPlayPronunciation: false,
+  showHintTimeout: 10,
 }
 
 export interface DailyStats {
