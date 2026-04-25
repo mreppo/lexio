@@ -9,3 +9,6 @@ export type { GlassRowProps } from './GlassRow'
 
 export { SectionHeader } from './SectionHeader'
 export type { SectionHeaderProps } from './SectionHeader'
+
+export { IOSAlert } from './IOSAlert'
+export type { IOSAlertProps } from './IOSAlert'
