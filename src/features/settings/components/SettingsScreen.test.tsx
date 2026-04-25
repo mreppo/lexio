@@ -520,6 +520,56 @@ describe('SettingsScreen', () => {
     expect(storage.saveWordProgress).not.toHaveBeenCalled()
   })
 
+  // ── Sub-screen layout and accessibility (issue #193) ────────────────────────
+
+  it('should hide sub-screen from accessibility tree when not visible', () => {
+    renderSettings(storage)
+    // All sub-screens start off-screen — they must be aria-hidden so their
+    // headings do not collide with main settings headings in the a11y tree.
+    const allDialogs = screen.getAllByRole('dialog', { hidden: true })
+    // 5 sub-screens: quiz-mode, theme, daily-goal, show-hint, reminder
+    expect(allDialogs.length).toBe(5)
+    // Each hidden sub-screen must have aria-hidden="true"
+    for (const dialog of allDialogs) {
+      expect(dialog).toHaveAttribute('aria-hidden', 'true')
+    }
+  })
+
+  it('should set aria-hidden=false on sub-screen when visible', async () => {
+    const user = userEvent.setup()
+    renderSettings(storage)
+    await user.click(screen.getByRole('button', { name: /quiz mode/i }))
+    await waitFor(() => {
+      // The dialog should be visible (aria-hidden=false) and findable without hidden:true
+      expect(screen.getByRole('dialog', { name: 'Quiz mode' })).toBeInTheDocument()
+    })
+    const dialog = screen.getByRole('dialog', { name: 'Quiz mode' })
+    // aria-hidden must be false (or absent) when visible — not "true"
+    expect(dialog).not.toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('should render sub-screen with position:fixed for full-bleed coverage', async () => {
+    const user = userEvent.setup()
+    renderSettings(storage)
+    await user.click(screen.getByRole('button', { name: /quiz mode/i }))
+    await waitFor(() => screen.getByRole('dialog', { name: 'Quiz mode' }))
+    const dialog = screen.getByRole('dialog', { name: 'Quiz mode' })
+    // position:fixed ensures the sub-screen is anchored to the viewport
+    // (not to a positioned ancestor), giving full-bleed coverage above the TabBar.
+    expect(dialog).toHaveStyle({ position: 'fixed' })
+  })
+
+  it('should render edge-to-edge header (h2) inside sub-screen, not floating pill NavBar', async () => {
+    const user = userEvent.setup()
+    renderSettings(storage)
+    await user.click(screen.getByRole('button', { name: /quiz mode/i }))
+    await waitFor(() => screen.getByRole('dialog', { name: 'Quiz mode' }))
+    const subScreen = screen.getByRole('dialog', { name: 'Quiz mode' })
+    // The sub-screen header renders a plain h2 element — not the floating glass pill NavBar
+    const headerEl = within(subScreen).getByRole('heading', { name: 'Quiz mode' })
+    expect(headerEl.tagName.toLowerCase()).toBe('h2')
+  })
+
   it('should call saveWordProgress for each word with progress on reset confirm', async () => {
     const user = userEvent.setup()
     const word = createMockWord({ id: 'w1', pairId: 'p1' })
