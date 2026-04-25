@@ -6,6 +6,7 @@ import { createAppTheme } from './theme'
 import { LocalStorageService } from './services/storage'
 import { StorageContext } from './hooks/useStorage'
 import { LandingPage } from './features/landing'
+import { AboutPage } from './features/about'
 import { Sentry } from './services/sentry'
 import { BrandedLoader } from './components/BrandedLoader'
 import { useAnalytics } from './hooks/useAnalytics'
@@ -79,6 +80,19 @@ function LandingThemeWrapper(): React.JSX.Element {
 }
 
 /**
+ * Theme wrapper for the about page route.
+ * Uses the same dark theme as the landing page for visual consistency.
+ */
+function AboutThemeWrapper(): React.JSX.Element {
+  return (
+    <ThemeProvider theme={landingDarkTheme}>
+      <CssBaseline />
+      <AboutPage />
+    </ThemeProvider>
+  )
+}
+
+/**
  * Inner component mounted inside HashRouter so that useAnalytics can
  * access window.location.hash after the router initialises.
  */
@@ -96,6 +110,9 @@ export default function App() {
           <Routes>
             {/* Landing page — shown at the root hash route */}
             <Route path="/" element={<LandingThemeWrapper />} />
+
+            {/* About page — "Built by AI" story and dev stats for tech/GitHub visitors */}
+            <Route path="/about" element={<AboutThemeWrapper />} />
 
             {/* Main app — lazy-loaded so the bundle is not fetched on landing page visits */}
             <Route
