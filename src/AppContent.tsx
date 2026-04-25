@@ -192,19 +192,18 @@ function AppContent(): React.JSX.Element {
       {!pairsLoading && !showOnboarding && (
         <>
           {/*
-           * Screen shell: position:relative provides the positioned ancestor for
-           * TabBar's position:absolute. Each tab renders its screen (which owns a
-           * PaperSurface) plus the shared TabBar at bottom:30 of this container.
+           * Screen shell: TabBar now uses position:fixed (#185) so it no longer
+           * requires a positioned ancestor — the pill always resolves against the
+           * viewport and stays visible regardless of how tall the content grows.
            * minHeight:100dvh + width:100% ensures the shell fills the viewport so
-           * bottom:30 resolves correctly against the visible screen area.
+           * the wallpaper gradient covers the full screen.
            *
            * LibraryScreen (words tab) previously rendered TabBar internally.
-           * It is now uniform: all tabs render TabBar here, externally.
+           * It is now uniform: all tabs render TabBar here, externally (#162).
            */}
           <Box
             component="main"
             sx={{
-              position: 'relative',
               minHeight: '100dvh',
               width: '100%',
             }}
@@ -275,7 +274,8 @@ function AppContent(): React.JSX.Element {
 
             {/*
              * Bottom navigation — uniform across all 5 tabs (#162).
-             * TabBar uses position:absolute anchored to this screen shell container.
+             * TabBar uses position:fixed (#185) anchored to the viewport, so it
+             * stays pinned regardless of content height or scroll position.
              * No tab exclusions: every non-onboarding tab renders TabBar here.
              */}
             {showNav && <TabBar activeTab={activeTab} onTabChange={handleTabChange} />}

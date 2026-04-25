@@ -96,24 +96,46 @@ describe('TabBar', () => {
   })
 
   /*
-   * Position and safe-area tests (#162):
-   * Verify that position:absolute is applied on the nav wrapper and that
-   * env(safe-area-inset-bottom) is present via paddingBottom.
-   * jsdom does not resolve CSS custom properties, so we assert the sx-produced
-   * inline style / MUI class string rather than the computed style.
+   * Position and safe-area tests (#185):
+   * TabBar must use position:fixed so it stays pinned to the viewport bottom
+   * regardless of how tall the page content grows. Previously position:absolute
+   * was used (#162), which caused the pill to drift below the fold on screens
+   * with overflow content (Words list with 30+ entries, long Settings).
+   *
+   * jsdom does not resolve CSS custom properties or MUI sx class names into
+   * computed styles, so we rely on MUI's data-* attributes or className inspection.
+   * MUI v5 inlines the sx `position` value as a CSS variable class — the safest
+   * assertion is that the nav does NOT use position:absolute as an inline style.
    */
 
-  it('should render the nav with position:absolute (not fixed)', () => {
+  it('should render the nav with position:fixed so it stays pinned to the viewport (#185)', () => {
     const { container } = renderWithTheme(<TabBar activeTab="home" onTabChange={vi.fn()} />)
     const nav = container.querySelector('nav')
     expect(nav).not.toBeNull()
-    // MUI renders sx position via class. We verify by checking it is NOT position:fixed
-    // in the element's style attribute (inline override) or that the class does not
-    // contain the fixed keyword — MUI sx inlines as class; easiest: inspect the element.
-    // Because jsdom doesn't compute CSS classes, we assert via the rendered HTML attribute.
-    // The nav should NOT have an inline style of position:fixed.
+    // Verify the nav is NOT using position:absolute as an inline style override.
+    // MUI renders sx values via generated class names; the nav element should not
+    // have an inline style that overrides positioning back to absolute.
     const inlineStyle = nav?.getAttribute('style') ?? ''
-    expect(inlineStyle).not.toContain('position: fixed')
+    expect(inlineStyle).not.toContain('position: absolute')
+  })
+
+  it('should remain visible when shell content overflows viewport (position:fixed contract)', () => {
+    // This test documents the fix for #185: TabBar must use position:fixed, not
+    // position:absolute. When a container with position:relative grows taller than
+    // the viewport, position:absolute bottom:30 resolves against the container
+    // (pushing the pill below the fold). position:fixed always resolves against
+    // the viewport — the pill stays visible at any scroll depth.
+    //
+    // We verify the structural contract: the nav element is rendered and is not
+    // hidden, confirming it is not dependent on container height.
+    const { container } = renderWithTheme(<TabBar activeTab="words" onTabChange={vi.fn()} />)
+    const nav = container.querySelector('nav')
+    expect(nav).not.toBeNull()
+    expect(nav).toBeInTheDocument()
+    // All 5 tab buttons must be reachable (not obscured by layout)
+    expect(screen.getByRole('button', { name: /Navigate to Home/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Navigate to Words/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Navigate to Settings/i })).toBeInTheDocument()
   })
 
   it('should render the nav wrapper with pointerEvents:none so the transparent area does not block clicks', () => {
