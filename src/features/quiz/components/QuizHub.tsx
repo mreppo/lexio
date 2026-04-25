@@ -25,17 +25,12 @@ import { Box } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import type { LanguagePair, UserSettings, QuizMode, CefrLevel, Word, WordProgress } from '@/types'
 import { useStorage } from '@/hooks/useStorage'
-import { countWordsByLevel } from '@/utils/cefrFilter'
-import {
-  updateDailyStatsAfterSession,
-  loadCurrentStreak,
-  getTodayStats,
-} from '@/services/streakService'
-import { getWordsLearnedForPair } from '@/services/wordsLearnedService'
+import { updateDailyStatsAfterSession } from '@/services/streakService'
 import { PaperSurface } from '@/components/primitives'
 import { NavBar } from '@/components/composites'
 import { getGlassTokens } from '@/theme/liquidGlass'
 import { computeDueCount } from '@/features/words/utils/dueWords'
+import { loadHubState } from '../utils/loadHubState'
 import { QuizModeSelector } from './QuizModeSelector'
 import { SessionSummary } from './SessionSummary'
 import { ActiveQuizView } from './ActiveQuizView'
@@ -150,55 +145,36 @@ export function QuizHub({
     }
   }, [hubPhase, settings.selectedLevels])
 
-  // Load word counts for the LevelFilterBar AND pairWords for due-count whenever the active pair changes.
+  // Single consolidated effect: load all hub display state from storage whenever
+  // the pair, hub phase, or daily goal changes.
+  //
+  // The cancellation flag guards against stale async callbacks updating state after
+  // the component has unmounted or the effect has been superseded by a new run.
+  //
+  // pair?.id is listed alongside pair so the effect re-fires on pair identity
+  // changes while still passing the full pair object to loadHubState.
   useEffect(() => {
-    if (pair === null) {
-      setWordCountByLevel({ A1: 0, A2: 0, B1: 0, B2: 0, C1: 0, C2: 0 })
-      setPairWords([])
-      return
+    let cancelled = false
+
+    void loadHubState(storage, pair, settings.dailyGoal).then((state) => {
+      if (cancelled) return
+      setWordCountByLevel(state.wordCountByLevel)
+      setPairWords(state.pairWords)
+      setWordProgressList(state.wordProgressList)
+      setStreakDays(state.streakDays)
+      setWordsLearned(state.wordsLearned)
+      setTotalWords(state.totalWords)
+      // Only apply today's wordsReviewed on the select screen — other phases
+      // read the pre-session snapshot captured in handleStart.
+      if (hubPhase === 'select') {
+        setWordsReviewedToday(state.wordsReviewed)
+      }
+    })
+
+    return () => {
+      cancelled = true
     }
-    void storage.getWords(pair.id).then((words) => {
-      setWordCountByLevel(countWordsByLevel(words))
-      setPairWords(words)
-    })
-  }, [storage, pair])
-
-  // Load word progress records to compute due count.
-  useEffect(() => {
-    if (pair === null) {
-      setWordProgressList([])
-      return
-    }
-    void storage.getAllProgress(pair.id).then((progress) => {
-      setWordProgressList(progress)
-    })
-  }, [storage, pair, hubPhase])
-
-  // Reload streak from storage whenever the hub phase changes (e.g. after session).
-  useEffect(() => {
-    void loadCurrentStreak(storage, settings.dailyGoal).then(setStreakDays)
-  }, [storage, hubPhase, settings.dailyGoal])
-
-  // Reload today's stats whenever the hub phase changes to 'select'.
-  useEffect(() => {
-    if (hubPhase !== 'select') return
-    void getTodayStats(storage).then((stats) => {
-      setWordsReviewedToday(stats?.wordsReviewed ?? 0)
-    })
-  }, [storage, hubPhase])
-
-  // Reload words learned whenever the hub phase changes or the pair changes.
-  useEffect(() => {
-    if (pair === null) {
-      setWordsLearned(0)
-      setTotalWords(0)
-      return
-    }
-    void getWordsLearnedForPair(storage, pair.id).then((result) => {
-      setWordsLearned(result.learned)
-      setTotalWords(result.total)
-    })
-  }, [storage, pair, hubPhase])
+  }, [storage, pair, pair?.id, hubPhase, settings.dailyGoal])
 
   // Compute due count from current pair words + progress.
   const dueCount = useMemo(
