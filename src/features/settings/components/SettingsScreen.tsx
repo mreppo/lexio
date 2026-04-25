@@ -35,16 +35,7 @@
  */
 
 import { useState, useCallback, useRef } from 'react'
-import {
-  Box,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Button,
-  Typography,
-  Snackbar,
-  Alert,
-} from '@mui/material'
+import { Box, Snackbar, Alert } from '@mui/material'
 import {
   Zap,
   Bell,
@@ -64,6 +55,7 @@ import { Glass } from '@/components/primitives/Glass'
 import { NavBar } from '@/components/composites/NavBar'
 import { SectionHeader } from '@/components/composites/SectionHeader'
 import { GlassRow } from '@/components/composites/GlassRow'
+import { IOSAlert } from '@/components/composites/IOSAlert'
 import { Toggle } from '@/components/atoms/Toggle'
 import { getGlassTokens, glassTypography } from '@/theme/liquidGlass'
 import { useStorage } from '@/hooks/useStorage'
@@ -99,145 +91,6 @@ const SHOW_HINT_LABELS: Record<string, string> = {
 // ─── Sub-screen types ─────────────────────────────────────────────────────────
 
 type ActiveSubScreen = 'quiz-mode' | 'theme' | 'daily-goal' | 'show-hint' | 'reminder' | null
-
-// ─── iOS-styled Alert Dialog ──────────────────────────────────────────────────
-
-interface IOSAlertProps {
-  readonly open: boolean
-  readonly title: string
-  readonly message: React.ReactNode
-  readonly cancelLabel?: string
-  readonly confirmLabel: string
-  readonly destructive?: boolean
-  readonly disabled?: boolean
-  readonly onCancel: () => void
-  readonly onConfirm: () => void
-}
-
-/**
- * iOS-styled centered alert dialog. Centered alert is the correct iOS pattern
- * for destructive confirmations. Material drop-shadow and button shapes removed.
- */
-function IOSAlert({
-  open,
-  title,
-  message,
-  cancelLabel = 'Cancel',
-  confirmLabel,
-  destructive = false,
-  disabled = false,
-  onCancel,
-  onConfirm,
-}: IOSAlertProps): React.JSX.Element {
-  const theme = useTheme()
-  const tokens = getGlassTokens(theme.palette.mode)
-
-  return (
-    <Dialog
-      open={open}
-      onClose={onCancel}
-      maxWidth="xs"
-      fullWidth
-      aria-labelledby="ios-alert-title"
-      slotProps={{
-        paper: {
-          sx: {
-            borderRadius: '14px',
-            background:
-              theme.palette.mode === 'dark' ? 'rgba(28,28,30,0.98)' : 'rgba(242,242,247,0.98)',
-            backdropFilter: 'blur(40px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(40px) saturate(180%)',
-            boxShadow: 'none',
-            border: `0.5px solid ${tokens.glass.border}`,
-          },
-        },
-        backdrop: {
-          sx: {
-            backgroundColor: 'rgba(0,0,0,0.4)',
-            backdropFilter: 'blur(2px)',
-          },
-        },
-      }}
-    >
-      <DialogTitle
-        id="ios-alert-title"
-        sx={{
-          textAlign: 'center',
-          pt: '20px',
-          pb: '4px',
-          px: '16px',
-          fontFamily: glassTypography.body,
-          fontSize: '17px',
-          fontWeight: 600,
-          letterSpacing: '-0.3px',
-          color: tokens.color.ink,
-        }}
-      >
-        {title}
-      </DialogTitle>
-      <DialogContent sx={{ pt: '4px', pb: '16px', px: '16px', textAlign: 'center' }}>
-        <Typography
-          sx={{
-            fontFamily: glassTypography.body,
-            fontSize: '13px',
-            fontWeight: 400,
-            letterSpacing: '-0.1px',
-            color: tokens.color.inkSec,
-            lineHeight: 1.4,
-          }}
-        >
-          {message}
-        </Typography>
-      </DialogContent>
-      <Box
-        sx={{
-          borderTop: `0.5px solid ${tokens.color.rule2}`,
-          display: 'flex',
-        }}
-      >
-        <Button
-          onClick={onCancel}
-          disabled={disabled}
-          sx={{
-            flex: 1,
-            borderRadius: 0,
-            borderBottomLeftRadius: '14px',
-            fontFamily: glassTypography.body,
-            fontSize: '17px',
-            fontWeight: 400,
-            letterSpacing: '-0.3px',
-            color: tokens.color.accent,
-            textTransform: 'none',
-            py: '12px',
-            borderRight: `0.5px solid ${tokens.color.rule2}`,
-            '&:hover': { backgroundColor: 'transparent' },
-          }}
-        >
-          {cancelLabel}
-        </Button>
-        <Button
-          onClick={onConfirm}
-          disabled={disabled}
-          sx={{
-            flex: 1,
-            borderRadius: 0,
-            borderBottomRightRadius: '14px',
-            fontFamily: glassTypography.body,
-            fontSize: '17px',
-            fontWeight: 600,
-            letterSpacing: '-0.3px',
-            color: destructive ? tokens.color.red : tokens.color.accent,
-            textTransform: 'none',
-            py: '12px',
-            '&:hover': { backgroundColor: 'transparent' },
-          }}
-        >
-          {confirmLabel}
-        </Button>
-      </Box>
-    </Dialog>
-  )
-}
 
 // ─── Back Button ──────────────────────────────────────────────────────────────
 
