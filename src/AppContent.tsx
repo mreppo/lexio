@@ -38,18 +38,14 @@ function AppContent(): React.JSX.Element {
    * Read once on mount via a ref so it's stable across renders.
    * When true, the OnboardingFlow will auto-trigger the instant demo path.
    *
-   * With HashRouter the query string is encoded in the hash fragment
-   * (e.g. #/app?demo=true), so we parse from window.location.hash rather
-   * than window.location.search.
+   * With HashRouter the query string lives inside the hash fragment
+   * (e.g. `#/app?demo=true`), so we parse from window.location.hash.
    */
   const autoDemoRef = useRef(
     (() => {
-      // Extract everything after the first '?' in the hash fragment.
       const hash = window.location.hash // e.g. "#/app?demo=true"
       const qIndex = hash.indexOf('?')
-      const hashSearch = qIndex >= 0 ? hash.slice(qIndex) : ''
-      // Also check the regular search for direct navigation scenarios.
-      const search = window.location.search || hashSearch
+      const search = qIndex >= 0 ? hash.slice(qIndex) : ''
       return new URLSearchParams(search).get('demo') === 'true'
     })(),
   )
