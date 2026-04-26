@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   Box,
   Button,
+  ButtonGroup,
   Container,
   Grid2 as Grid,
   Typography,
@@ -16,38 +17,107 @@ import BarChartIcon from '@mui/icons-material/BarChart'
 import WifiOffIcon from '@mui/icons-material/WifiOff'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import GitHubIcon from '@mui/icons-material/GitHub'
+import { useLandingI18n } from './useLandingI18n'
+import type { LandingTranslations } from './useLandingI18n'
 
 /** Public GitHub repo URL for this project. */
 const GITHUB_URL = 'https://github.com/mreppo/lexio'
 
 declare const __APP_VERSION__: string
 
-// Feature highlights shown in the second section of the landing page.
-const FEATURES: Array<{ icon: React.ReactNode; title: string; body: string }> = [
-  {
-    icon: <SchoolIcon fontSize="medium" sx={{ color: 'primary.main' }} />,
-    title: 'Spaced repetition',
-    body: 'Words you struggle with appear more often. Words you know drift into the background.',
-  },
-  {
-    icon: <TuneIcon fontSize="medium" sx={{ color: 'primary.main' }} />,
-    title: 'Multiple quiz modes',
-    body: 'Type the answer or pick from multiple choices. Mix both for variety.',
-  },
-  {
-    icon: <BarChartIcon fontSize="medium" sx={{ color: 'primary.main' }} />,
-    title: 'Progress and streaks',
-    body: 'Track daily streaks, confidence per word, and your overall learning curve.',
-  },
-  {
-    icon: <WifiOffIcon fontSize="medium" sx={{ color: 'primary.main' }} />,
-    title: 'Works offline',
-    body: 'Installable on your home screen. All data stays local — no account required.',
-  },
+// Icon set for each feature — order must match the translations.features array.
+const FEATURE_ICONS: ReadonlyArray<React.ReactNode> = [
+  <SchoolIcon key="school" fontSize="medium" sx={{ color: 'primary.main' }} />,
+  <TuneIcon key="tune" fontSize="medium" sx={{ color: 'primary.main' }} />,
+  <BarChartIcon key="bar-chart" fontSize="medium" sx={{ color: 'primary.main' }} />,
+  <WifiOffIcon key="wifi-off" fontSize="medium" sx={{ color: 'primary.main' }} />,
 ]
 
+/**
+ * Pill-style EN | LV language toggle shown in the top-right corner.
+ * Uses a ButtonGroup with two compact buttons to keep the control minimal.
+ */
+function LangToggle({
+  lang,
+  onToggle,
+}: {
+  lang: 'en' | 'lv'
+  onToggle: () => void
+}): React.JSX.Element {
+  return (
+    <Box
+      sx={{
+        position: 'fixed',
+        top: { xs: 12, sm: 16 },
+        right: { xs: 12, sm: 20 },
+        zIndex: 1200,
+      }}
+    >
+      <ButtonGroup
+        size="small"
+        aria-label="Language toggle"
+        sx={{
+          borderRadius: 6,
+          overflow: 'hidden',
+          border: '1px solid',
+          borderColor: 'rgba(255,255,255,0.18)',
+          backdropFilter: 'blur(8px)',
+          backgroundColor: 'rgba(10,15,26,0.7)',
+        }}
+      >
+        <Button
+          onClick={lang === 'lv' ? onToggle : undefined}
+          disableRipple={lang === 'en'}
+          aria-pressed={lang === 'en'}
+          sx={{
+            px: 1.5,
+            py: 0.5,
+            minWidth: 40,
+            fontSize: '0.7rem',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            color: lang === 'en' ? '#f59e0b' : 'text.secondary',
+            backgroundColor: lang === 'en' ? 'rgba(245,158,11,0.12)' : 'transparent',
+            border: 'none',
+            borderRadius: 0,
+            cursor: lang === 'en' ? 'default' : 'pointer',
+            '&:hover': {
+              backgroundColor: lang === 'en' ? 'rgba(245,158,11,0.12)' : 'rgba(255,255,255,0.06)',
+            },
+          }}
+        >
+          EN
+        </Button>
+        <Button
+          onClick={lang === 'en' ? onToggle : undefined}
+          disableRipple={lang === 'lv'}
+          aria-pressed={lang === 'lv'}
+          sx={{
+            px: 1.5,
+            py: 0.5,
+            minWidth: 40,
+            fontSize: '0.7rem',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            color: lang === 'lv' ? '#f59e0b' : 'text.secondary',
+            backgroundColor: lang === 'lv' ? 'rgba(245,158,11,0.12)' : 'transparent',
+            border: 'none',
+            borderRadius: 0,
+            cursor: lang === 'lv' ? 'default' : 'pointer',
+            '&:hover': {
+              backgroundColor: lang === 'lv' ? 'rgba(245,158,11,0.12)' : 'rgba(255,255,255,0.06)',
+            },
+          }}
+        >
+          LV
+        </Button>
+      </ButtonGroup>
+    </Box>
+  )
+}
+
 /** The hero section with app title, tagline, and CTAs. */
-function HeroSection(): React.JSX.Element {
+function HeroSection({ t }: { t: LandingTranslations }): React.JSX.Element {
   const navigate = useNavigate()
 
   const handleTryNow = useCallback(() => {
@@ -116,7 +186,7 @@ function HeroSection(): React.JSX.Element {
             mx: 'auto',
           }}
         >
-          Learn vocabulary in any language
+          {t.heroTagline}
         </Typography>
 
         <Typography
@@ -129,7 +199,7 @@ function HeroSection(): React.JSX.Element {
             lineHeight: 1.7,
           }}
         >
-          A simple way to practise vocabulary every day — no account needed.
+          {t.heroSubtitle}
         </Typography>
 
         <Stack
@@ -158,7 +228,7 @@ function HeroSection(): React.JSX.Element {
               '&:hover': { backgroundColor: '#d97706' },
             }}
           >
-            Try it now
+            {t.tryItNow}
           </Button>
 
           <Button
@@ -173,7 +243,7 @@ function HeroSection(): React.JSX.Element {
               minWidth: 180,
             }}
           >
-            Set up your own
+            {t.setUpYourOwn}
           </Button>
         </Stack>
       </Container>
@@ -254,7 +324,7 @@ function AppMockup(): React.JSX.Element {
 }
 
 /** Feature highlights grid. */
-function FeaturesSection(): React.JSX.Element {
+function FeaturesSection({ t }: { t: LandingTranslations }): React.JSX.Element {
   return (
     <Box component="section" sx={{ py: { xs: 8, md: 10 } }}>
       <Container maxWidth="md">
@@ -263,17 +333,17 @@ function FeaturesSection(): React.JSX.Element {
           variant="h4"
           sx={{ fontWeight: 700, textAlign: 'center', mb: 1 }}
         >
-          Everything you need to learn
+          {t.featuresSectionTitle}
         </Typography>
         <Typography
           variant="body1"
           sx={{ color: 'text.secondary', textAlign: 'center', mb: 6, maxWidth: 480, mx: 'auto' }}
         >
-          A focused tool that does one thing well.
+          {t.featuresSectionSubtitle}
         </Typography>
 
         <Grid container spacing={3}>
-          {FEATURES.map((f) => (
+          {t.features.map((f, i) => (
             <Grid key={f.title} size={{ xs: 12, sm: 6 }}>
               <Paper
                 elevation={0}
@@ -291,7 +361,7 @@ function FeaturesSection(): React.JSX.Element {
                   '&:hover': { borderColor: 'primary.main' },
                 }}
               >
-                <Box sx={{ flexShrink: 0, mt: 0.25 }}>{f.icon}</Box>
+                <Box sx={{ flexShrink: 0, mt: 0.25 }}>{FEATURE_ICONS[i]}</Box>
                 <Box>
                   <Typography component="h3" variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>
                     {f.title}
@@ -315,7 +385,7 @@ function FeaturesSection(): React.JSX.Element {
 }
 
 /** Footer with attribution and links. */
-function FooterSection(): React.JSX.Element {
+function FooterSection({ t }: { t: LandingTranslations }): React.JSX.Element {
   return (
     <Box
       component="footer"
@@ -334,7 +404,7 @@ function FooterSection(): React.JSX.Element {
         >
           <Stack direction="row" spacing={1} alignItems="center">
             <Link href="/#/about" sx={{ color: 'text.secondary' }}>
-              <Typography variant="body2">How it was built</Typography>
+              <Typography variant="body2">{t.footerHowBuilt}</Typography>
             </Link>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               · v{__APP_VERSION__}
@@ -359,9 +429,12 @@ function FooterSection(): React.JSX.Element {
 /**
  * Landing page rendered at the root route /.
  * Shows hero, feature highlights, and footer.
+ * Includes a LV/EN language toggle pill in the top-right corner.
  * Does NOT include the app bar or bottom nav.
  */
 export function LandingPage(): React.JSX.Element {
+  const { t, lang, toggle } = useLandingI18n()
+
   return (
     <Box
       component="main"
@@ -370,9 +443,10 @@ export function LandingPage(): React.JSX.Element {
         background: 'linear-gradient(180deg, #0d1529 0%, #0a0f1a 40%, #0a0f1a 100%)',
       }}
     >
-      <HeroSection />
-      <FeaturesSection />
-      <FooterSection />
+      <LangToggle lang={lang} onToggle={toggle} />
+      <HeroSection t={t} />
+      <FeaturesSection t={t} />
+      <FooterSection t={t} />
     </Box>
   )
 }
