@@ -1,0 +1,231 @@
+/*
+ * Lexio Design System — colors_and_type.css
+ *
+ * Source of truth: src/theme/liquidGlass.ts and src/theme/theme.ts in mreppo/lexio.
+ * Two variants: lightGlass (in-app default) and darkGlass (landing/about pages).
+ *
+ * Tokens are exposed as CSS custom properties on :root (light) and [data-theme="dark"].
+ * Semantic role classes (.h1, .body, .caption, etc.) are also provided so non-React
+ * surfaces can pick up the same scale.
+ */
+
+/* ─── Fonts ─────────────────────────────────────────────────────────────────
+ * Primary stack is the Apple system family (SF Pro Display / SF Pro Text).
+ * Inter is the cross-platform fallback used on Android, Windows, Linux and is
+ * shipped via @fontsource/inter at runtime in the app. Inter covers Latvian
+ * diacritics (ā, č, ē, ģ, ī, ķ, ļ, ņ, š, ū, ž).
+ *
+ * We import Inter from Google Fonts for static HTML previews. Production app
+ * uses @fontsource/inter (self-hosted) — see CAVEATS in README.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Light variant tokens (in-app default) */
+  --lx-bg: #F4F2EE;
+  --lx-ink: #111114;
+  --lx-ink-soft: rgba(30, 30, 36, 0.75);
+  --lx-ink-sec: rgba(30, 30, 36, 0.70);
+  --lx-ink-faint: rgba(30, 30, 36, 0.28);
+  --lx-rule: rgba(0, 0, 0, 0.08);
+
+  --lx-accent: #007AFF;
+  --lx-accent-soft: rgba(0, 122, 255, 0.14);
+  --lx-accent-text: #0060D6;
+
+  --lx-ok: #34C759;
+  --lx-warn: #FF9500;
+  --lx-red: #FF3B30;
+  --lx-violet: #AF52DE;
+  --lx-pink: #FF2D55;
+
+  --lx-avatar-gradient: linear-gradient(135deg, #007AFF 0%, #AF52DE 100%);
+  --lx-ai-gradient: linear-gradient(135deg, #AF52DE 0%, #007AFF 100%);
+  --lx-streak-gradient: linear-gradient(135deg, #FF9500 0%, #FF3B30 100%);
+
+  --lx-pair-es: linear-gradient(135deg, #FF9500 0%, #FF3B30 100%);
+  --lx-pair-fr: linear-gradient(135deg, #5856D6 0%, #0A84FF 100%);
+  --lx-pair-ja: linear-gradient(135deg, #FF2D55 0%, #AF52DE 100%);
+  --lx-pair-de: linear-gradient(135deg, #30D158 0%, #0A84FF 100%);
+
+  --lx-glass-bg: rgba(255, 255, 255, 0.55);
+  --lx-glass-bg-strong: rgba(255, 255, 255, 0.72);
+  --lx-glass-border: rgba(255, 255, 255, 0.7);
+  --lx-glass-inner: inset 1.5px 1.5px 1px rgba(255, 255, 255, 0.85),
+                    inset -1px -1px 1px rgba(255, 255, 255, 0.5);
+  --lx-glass-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 30px rgba(0, 0, 0, 0.08);
+  --lx-glass-backdrop: blur(24px) saturate(180%);
+
+  --lx-wallpaper:
+    radial-gradient(1200px 600px at 85% -10%, #FFD6A5 0%, transparent 50%),
+    radial-gradient(900px 500px at -10% 30%, #A5C8FF 0%, transparent 55%),
+    radial-gradient(800px 500px at 50% 110%, #FFB3D4 0%, transparent 55%),
+    linear-gradient(180deg, #F9F7F2 0%, #EEEDF6 100%);
+
+  /* Shadows */
+  --lx-sh-glass:        0 1px 3px rgba(0,0,0,0.05), 0 8px 30px rgba(0,0,0,0.08);
+  --lx-sh-glass-dark:   0 1px 3px rgba(0,0,0,0.4),  0 12px 36px rgba(0,0,0,0.5);
+  --lx-sh-accent-btn:   0 6px 20px rgba(0, 122, 255, 0.32);
+  --lx-sh-white-btn:    0 6px 20px rgba(0, 0, 0, 0.2);
+  --lx-sh-icon-square:  inset 0 1px 0 rgba(255,255,255,0.35), 0 2px 6px rgba(0,0,0,0.1);
+  --lx-sh-active-tab:   0 4px 14px rgba(0, 122, 255, 0.35);
+  --lx-sh-pill-active:  0 4px 14px rgba(0, 0, 0, 0.18);
+  --lx-sh-ai-circle:    0 4px 12px rgba(175, 82, 222, 0.4);
+
+  /* Radii */
+  --lx-r-card: 22px;
+  --lx-r-btn: 18px;
+  --lx-r-glass: 28px;
+  --lx-r-inline: 14px;
+  --lx-r-icon-sq: 10px;
+  --lx-r-pill: 999px;
+
+  /* Spacing scale (4-base; values in px) */
+  --lx-s-1: 4px;
+  --lx-s-2: 8px;
+  --lx-s-3: 10px;
+  --lx-s-4: 12px;
+  --lx-s-5: 14px;
+  --lx-s-6: 16px;
+  --lx-s-7: 18px;
+  --lx-s-8: 20px;
+  --lx-s-9: 22px;
+  --lx-s-10: 24px;
+  --lx-s-11: 28px;
+  --lx-s-12: 36px;
+  --lx-s-13: 46px;
+  --lx-s-14: 56px;
+  --lx-s-15: 72px;
+  --lx-screen-pad-x: 16px;
+  --lx-nav-top: 52px;
+  --lx-tab-bottom: 30px;
+
+  /* Type families */
+  --lx-font-display: -apple-system, "SF Pro Display", "Helvetica Neue", Inter, system-ui, sans-serif;
+  --lx-font-body: -apple-system, "SF Pro Text", Inter, system-ui, sans-serif;
+  --lx-font-mono: "SF Mono", ui-monospace, monospace;
+
+  /* Motion */
+  --lx-motion-toggle: 200ms ease;
+  --lx-motion-progress: 300ms ease;
+  --lx-motion-press: 80ms ease;
+}
+
+/* Dark variant — used on landing/about and in-app dark mode. */
+[data-theme="dark"] {
+  --lx-bg: #0A0A10;
+  --lx-ink: #FFFFFF;
+  --lx-ink-soft: rgba(255, 255, 255, 0.82);
+  --lx-ink-sec: rgba(255, 255, 255, 0.55);
+  --lx-ink-faint: rgba(255, 255, 255, 0.28);
+  --lx-rule: rgba(255, 255, 255, 0.10);
+
+  --lx-accent: #0A84FF;
+  --lx-accent-soft: rgba(10, 132, 255, 0.22);
+  --lx-accent-text: #6FB4FF;
+
+  --lx-ok: #30D158;
+  --lx-warn: #FF9F0A;
+  --lx-red: #FF453A;
+  --lx-violet: #BF5AF2;
+  --lx-pink: #FF375F;
+
+  --lx-avatar-gradient: linear-gradient(135deg, #0A84FF 0%, #BF5AF2 100%);
+  --lx-ai-gradient: linear-gradient(135deg, #BF5AF2 0%, #0A84FF 100%);
+  /* streak-gradient stays the same on both variants */
+
+  --lx-glass-bg: rgba(255, 255, 255, 0.10);
+  --lx-glass-bg-strong: rgba(255, 255, 255, 0.18);
+  --lx-glass-border: rgba(255, 255, 255, 0.22);
+  --lx-glass-inner: inset 1.5px 1.5px 1px rgba(255, 255, 255, 0.14),
+                    inset -1px -1px 1px rgba(255, 255, 255, 0.06);
+  --lx-glass-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 12px 36px rgba(0, 0, 0, 0.5);
+
+  --lx-wallpaper:
+    radial-gradient(900px 500px at 100% -10%, #3A1E6B 0%, transparent 55%),
+    radial-gradient(900px 500px at -10% 50%, #0F3B6C 0%, transparent 55%),
+    radial-gradient(700px 400px at 50% 110%, #6B1E4A 0%, transparent 55%),
+    linear-gradient(180deg, #0A0A10 0%, #14121D 100%);
+
+  --lx-sh-accent-btn: 0 6px 20px rgba(10, 132, 255, 0.32);
+  --lx-sh-active-tab: 0 4px 14px rgba(10, 132, 255, 0.35);
+  --lx-sh-ai-circle:  0 4px 12px rgba(191, 90, 242, 0.4);
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+html, body {
+  background: var(--lx-bg);
+  color: var(--lx-ink);
+  font-family: var(--lx-font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Semantic type roles (mirrors glassTypography.roles) ─────────────────── */
+.lx-hero-word {
+  font-family: var(--lx-font-display);
+  font-size: 72px; font-weight: 800; letter-spacing: -1.2px; line-height: 1.02;
+}
+.lx-large-title, .lx-h1 {
+  font-family: var(--lx-font-display);
+  font-size: 36px; font-weight: 800; letter-spacing: -1px; line-height: 1.05;
+}
+.lx-onboard-headline {
+  font-family: var(--lx-font-display);
+  font-size: 42px; font-weight: 800; letter-spacing: -1px; line-height: 1.05;
+}
+.lx-title, .lx-h2 {
+  font-family: var(--lx-font-display);
+  font-size: 28px; font-weight: 800; letter-spacing: -0.6px; line-height: 1.1;
+}
+.lx-body, p {
+  font-family: var(--lx-font-body);
+  font-size: 17px; font-weight: 500; letter-spacing: -0.3px; line-height: 1.3;
+  color: var(--lx-ink);
+}
+.lx-button {
+  font-family: var(--lx-font-body);
+  font-size: 17px; font-weight: 600; letter-spacing: -0.2px; line-height: 1;
+  text-transform: none;
+}
+.lx-copy {
+  font-family: var(--lx-font-body);
+  font-size: 15px; font-weight: 500; letter-spacing: -0.2px; line-height: 1.5;
+  color: var(--lx-ink-sec);
+}
+.lx-caption {
+  font-family: var(--lx-font-body);
+  font-size: 13px; font-weight: 500; letter-spacing: -0.1px; line-height: 1.3;
+  color: var(--lx-ink-sec);
+}
+.lx-micro {
+  font-family: var(--lx-font-body);
+  font-size: 12px; font-weight: 700; letter-spacing: -0.1px; line-height: 1;
+}
+.lx-uppercase-label, .lx-streak-eyebrow {
+  font-family: var(--lx-font-body);
+  font-size: 13px; font-weight: 700; letter-spacing: 1px; line-height: 1;
+  text-transform: uppercase;
+}
+.lx-mono { font-family: var(--lx-font-mono); }
+
+/* ─── Glass surface helper (use sparingly in static previews) ─────────────── */
+.lx-glass {
+  background: var(--lx-glass-bg);
+  backdrop-filter: var(--lx-glass-backdrop);
+  -webkit-backdrop-filter: var(--lx-glass-backdrop);
+  border: 0.5px solid var(--lx-glass-border);
+  box-shadow: var(--lx-glass-shadow), var(--lx-glass-inner);
+  border-radius: var(--lx-r-glass);
+}
+.lx-glass-strong { background: var(--lx-glass-bg-strong); }
+
+/* Reduced-transparency fallback */
+@media (prefers-reduced-transparency: reduce) {
+  .lx-glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--lx-bg);
+    border: 0.5px solid var(--lx-rule);
+  }
+}

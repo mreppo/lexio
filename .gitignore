@@ -37,3 +37,7 @@ test-results/
 
 # Test coverage reports
 coverage/
+
+# Design system working artifacts (zip source and raw extraction - design-system/ is committed)
+design/
+design_extracted/

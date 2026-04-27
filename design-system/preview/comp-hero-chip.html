@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Hero chip</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:20px; background:#F4F2EE; }
+  .row { display:flex; gap:14px; align-items:flex-start; flex-wrap:wrap; }
+  .col { display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .chip {
+    background:rgba(255,255,255,0.55);
+    backdrop-filter:blur(20px) saturate(180%);
+    -webkit-backdrop-filter:blur(20px) saturate(180%);
+    border:0.5px solid rgba(255,255,255,0.7);
+    border-radius:28px;
+    padding:14px 20px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.05),0 8px 30px rgba(0,0,0,0.08);
+    display:flex; align-items:center; gap:12px;
+    color:var(--lx-ink);
+  }
+  .icon { width:32px; height:32px; border-radius:10px; background:linear-gradient(135deg,#007AFF,#AF52DE); box-shadow:inset 0 1px 0 rgba(255,255,255,0.35); display:flex; align-items:center; justify-content:center; color:white; font:700 16px var(--lx-font-display); }
+  .label { font:700 15px var(--lx-font-body); letter-spacing:-0.2px; }
+  .sub { font:500 12px var(--lx-font-body); color:var(--lx-ink-sec); margin-top:1px; }
+  .pressed { transform:scale(0.97); background:rgba(255,255,255,0.45); }
+  .disabled { opacity:0.42; }
+  .meta { font:500 10px var(--lx-font-mono); color:var(--lx-ink-faint); }
+</style></head>
+<body>
+  <div class="row">
+    <div class="col"><div class="chip"><div class="icon">L</div><div><div class="label">Continue review</div><div class="sub">12 words due</div></div></div><div class="meta">default</div></div>
+    <div class="col"><div class="chip pressed"><div class="icon">L</div><div><div class="label">Continue review</div><div class="sub">12 words due</div></div></div><div class="meta">pressed</div></div>
+    <div class="col"><div class="chip disabled"><div class="icon">L</div><div><div class="label">All caught up</div><div class="sub">No words due</div></div></div><div class="meta">disabled</div></div>
+  </div>
+</body></html>

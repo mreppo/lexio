@@ -1,0 +1,22 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Bottom nav</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:30px 20px; background:#F4F2EE; display:flex; flex-direction:column; gap:16px; align-items:center; }
+  .nav { width:340px; height:64px; display:flex; align-items:center; justify-content:space-around; background:rgba(255,255,255,0.55); backdrop-filter:blur(20px) saturate(180%); border:0.5px solid rgba(255,255,255,0.7); border-radius:28px; box-shadow:0 1px 3px rgba(0,0,0,0.05),0 8px 30px rgba(0,0,0,0.08); padding:0 16px; }
+  .item { display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 12px; border-radius:18px; color:var(--lx-ink-faint); }
+  .item .ic { width:24px; height:24px; display:flex; align-items:center; justify-content:center; }
+  .item .lb { font:600 11px var(--lx-font-body); letter-spacing:-0.1px; }
+  .item.active { color:#007AFF; }
+  .item.active .ic { background:rgba(0,122,255,0.14); border-radius:10px; }
+  svg { width:22px; height:22px; }
+  .meta { font:500 10px var(--lx-font-mono); color:var(--lx-ink-faint); }
+</style></head>
+<body>
+  <div class="nav">
+    <div class="item active"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2V11z"/></svg></div><div class="lb">Home</div></div>
+    <div class="item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 4h11l3 5-3 5H5V4z"/><line x1="5" y1="14" x2="5" y2="22"/></svg></div><div class="lb">Words</div></div>
+    <div class="item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 17l4-4 4 4 8-8"/><path d="M14 5h7v7"/></svg></div><div class="lb">Stats</div></div>
+    <div class="item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.34 1.85l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.85-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.55 1.7 1.7 0 00-1.85.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.85 1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.55-1 1.7 1.7 0 00-.34-1.85l-.06-.06a2 2 0 112.83-2.83l.06.06a1.7 1.7 0 001.85.34h0a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.55 1.7 1.7 0 001.85-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.85v0a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.55 1z"/></svg></div><div class="lb">Settings</div></div>
+  </div>
+  <div class="meta">pinned to viewport bottom — Home active</div>
+</body></html>

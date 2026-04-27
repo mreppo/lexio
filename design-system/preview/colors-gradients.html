@@ -1,0 +1,19 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Gradients</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:20px; background:#fff; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .sw { padding:14px 12px; border-radius:14px; border:0.5px solid var(--lx-rule); }
+  .chip { width:100%; height:48px; border-radius:12px; margin-bottom:8px; }
+  .name { font:600 12px var(--lx-font-body); letter-spacing:-0.1px; }
+  .hex { font:500 10px var(--lx-font-mono); color:var(--lx-ink-faint); margin-top:2px; line-height:1.3; }
+</style></head>
+<body>
+  <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#007AFF 0%,#AF52DE 100%)"></div><div class="name">avatar</div><div class="hex">accent → violet</div></div>
+  <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#AF52DE 0%,#007AFF 100%)"></div><div class="name">ai</div><div class="hex">violet → accent</div></div>
+  <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#FF9500 0%,#FF3B30 100%)"></div><div class="name">streak</div><div class="hex">warn → red</div></div>
+  <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#FF9500 0%,#FF3B30 100%)"></div><div class="name">pair · es</div><div class="hex">orange → red</div></div>
+  <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#5856D6 0%,#0A84FF 100%)"></div><div class="name">pair · fr</div><div class="hex">indigo → blue</div></div>
+  <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#FF2D55 0%,#AF52DE 100%)"></div><div class="name">pair · ja</div><div class="hex">pink → violet</div></div>
+  <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#30D158 0%,#0A84FF 100%)"></div><div class="name">pair · de</div><div class="hex">green → blue</div></div>
+  <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#007AFF 0%,#AF52DE 100%)"></div><div class="name">pair · default</div><div class="hex">avatar fallback</div></div>
+</body></html>

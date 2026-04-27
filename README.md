@@ -34,6 +34,10 @@ npm test         # Run tests
 npm run build    # Production build
 ```
 
+## Design system
+
+The Lexio design system bundle lives in [`design-system/`](design-system/). Start with [`design-system/SKILL.md`](design-system/SKILL.md) - it is the agent-facing entry point and defines the trust boundary: tokens, components, and interaction rules are canonical; screen layouts in `ui_kits/` are illustrative only and must never be copied to production.
+
 ## Documentation
 
 - [Product Specification](docs/PRODUCT_SPEC.md)

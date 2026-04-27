@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Stat card</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:20px; background:#F4F2EE; display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .card { background:rgba(255,255,255,0.55); backdrop-filter:blur(20px); border:0.5px solid rgba(255,255,255,0.7); border-radius:22px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.05),0 8px 30px rgba(0,0,0,0.08); }
+  .eyebrow { font:800 11px var(--lx-font-body); letter-spacing:1px; text-transform:uppercase; color:var(--lx-ink-faint); }
+  .num { font:800 30px var(--lx-font-display); letter-spacing:-0.7px; line-height:1.05; margin-top:6px; color:var(--lx-ink); }
+  .delta { font:700 12px var(--lx-font-body); margin-top:4px; }
+  .delta.up { color:#1F8E3F; }
+  .delta.flat { color:var(--lx-ink-faint); }
+  .bars { display:flex; gap:4px; align-items:flex-end; margin-top:10px; height:36px; }
+  .bar { flex:1; background:linear-gradient(180deg,#FF9500,#FF3B30); border-radius:3px; }
+</style></head>
+<body>
+  <div class="card">
+    <div class="eyebrow">Streak</div>
+    <div class="num">5</div>
+    <div class="delta up">↑ best 12 days</div>
+  </div>
+  <div class="card">
+    <div class="eyebrow">Reviewed</div>
+    <div class="num">142</div>
+    <div class="delta up">+18 this week</div>
+    <div class="bars"><div class="bar" style="height:30%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:80%"></div><div class="bar" style="height:45%"></div><div class="bar" style="height:90%"></div><div class="bar" style="height:65%"></div><div class="bar" style="height:75%"></div></div>
+  </div>
+  <div class="card">
+    <div class="eyebrow">Accuracy</div>
+    <div class="num">87%</div>
+    <div class="delta flat">last 50 reviews</div>
+  </div>
+</body></html>

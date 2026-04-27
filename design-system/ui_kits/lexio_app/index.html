@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lexio · UI Kit</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    background: #1a1a22;
+    background-image: radial-gradient(800px 600px at 30% 20%, #2a2438 0%, transparent 60%), radial-gradient(700px 500px at 80% 80%, #1f2a3a 0%, transparent 60%);
+    font-family: var(--lx-font-body);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    min-height: 100vh;
+  }
+  .stage { display: flex; gap: 28px; align-items: center; }
+  .meta { max-width: 280px; }
+  .meta h1 { font: 800 30px var(--lx-font-display); letter-spacing: -0.7px; margin: 0 0 8px; color: #fff; }
+  .meta p { font: 500 15px var(--lx-font-body); letter-spacing: -0.2px; color: rgba(255,255,255,0.65); line-height: 1.5; margin: 0 0 16px; }
+  .key { font: 600 13px var(--lx-font-body); letter-spacing: -0.1px; color: rgba(255,255,255,0.5); display: flex; flex-direction: column; gap: 6px; }
+  .key kbd { display: inline-block; padding: 2px 8px; border-radius: 6px; background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.18); font-family: var(--lx-font-mono); font-size: 12px; color: #fff; }
+  @media (max-width: 760px) { .stage { flex-direction: column; } .meta { max-width: 360px; text-align: center; } }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="stage">
+    <div class="meta">
+      <h1>Lexio</h1>
+      <p>Click-thru recreation of the Lexio PWA. Mobile-first, Liquid-Glass surfaces, Inter (system stack bold) display + body.</p>
+      <div class="key">
+        <div>· Tap <b style="color:#fff">Continue review</b> to start the quiz</div>
+        <div>· Bottom nav: Home · Words · Stats · Settings</div>
+        <div>· Settings rows drill into a back-stack</div>
+      </div>
+    </div>
+    <div id="frame-mount"></div>
+  </div>
+
+<script type="text/babel" src="tokens.jsx"></script>
+<script type="text/babel" src="Primitives.jsx"></script>
+<script type="text/babel" src="BottomNav.jsx"></script>
+<script type="text/babel" src="Dashboard.jsx"></script>
+<script type="text/babel" src="QuizScreen.jsx"></script>
+<script type="text/babel" src="StatsScreen.jsx"></script>
+<script type="text/babel" src="WordsScreen.jsx"></script>
+<script type="text/babel" src="SettingsScreen.jsx"></script>
+
+<script type="text/babel">
+const { useState, useMemo } = React;
+
+const INITIAL_WORDS = [
+  { term: 'māja',     gloss: 'house, home',   due: 0 },
+  { term: 'grāmata',  gloss: 'book',          due: 0 },
+  { term: 'kaķis',    gloss: 'cat',           due: 0 },
+  { term: 'lasīt',    gloss: 'to read',       due: 1 },
+  { term: 'rīts',     gloss: 'morning',       due: 1 },
+  { term: 'ūdens',    gloss: 'water',         due: 2 },
+  { term: 'sarkans',  gloss: 'red',           due: 3 },
+  { term: 'liels',    gloss: 'big, large',    due: 4 },
+  { term: 'darbs',    gloss: 'work, job',     due: 7 },
+  { term: 'mīlēt',    gloss: 'to love',       due: 12 },
+];
+
+const QUIZ = [
+  { term: 'māja',    hint: 'noun · feminine', options: ['street','house','window','family'], correct: 1 },
+  { term: 'grāmata', hint: 'noun · feminine', options: ['book','letter','page','school'],     correct: 0 },
+  { term: 'lasīt',   hint: 'verb',            options: ['to write','to speak','to read','to learn'], correct: 2 },
+  { term: 'sarkans', hint: 'adjective',       options: ['blue','green','yellow','red'],       correct: 3 },
+];
+
+function App() {
+  const [tab, setTab]   = useState('home');
+  const [route, setRoute] = useState({ name: 'tab' }); // 'tab' | 'quiz' | 'quizDone' | 'settingsDetail'
+  const [words, setWords] = useState(INITIAL_WORDS);
+
+  const mocks = useMemo(() => ({
+    due: words.filter(w => w.due === 0).length,
+    streak: 5,
+    reviewed: 142,
+    upNext: words.slice(0, 4),
+  }), [words]);
+
+  const screen = (() => {
+    if (route.name === 'quiz') {
+      return <QuizScreen
+        words={QUIZ}
+        onExit={() => setRoute({ name: 'tab' })}
+        onComplete={() => setRoute({ name: 'quizDone' })}
+      />;
+    }
+    if (route.name === 'quizDone') {
+      return (
+        <div style={{ padding: '20px 18px 110px', display: 'flex', flexDirection: 'column', gap: 16, height: '100%', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+          <div style={{ width: 72, height: 72, borderRadius: 22, background: 'linear-gradient(135deg,#30D158,#0A84FF)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', font: `800 36px ${LX.font.display}`, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.4)' }}>✓</div>
+          <div style={{ font: `800 28px ${LX.font.display}`, letterSpacing: '-0.6px' }}>All caught up</div>
+          <div style={{ font: `500 15px ${LX.font.body}`, color: LX.color.inkSec, maxWidth: 240 }}>Nice — back tomorrow when more words are due.</div>
+          <Button variant="primary" onClick={() => setRoute({ name: 'tab' })} style={{ marginTop: 12 }}>Done</Button>
+        </div>
+      );
+    }
+    if (route.name === 'settingsDetail') {
+      return <SettingsDrillDown id={route.id} onBack={() => setRoute({ name: 'tab' })} />;
+    }
+    if (tab === 'home')     return <Dashboard mocks={mocks} onStartReview={() => setRoute({ name: 'quiz' })} onAddWord={() => setTab('words')} />;
+    if (tab === 'words')    return <WordsScreen words={words} onAdd={w => setWords([w, ...words])} />;
+    if (tab === 'stats')    return <StatsScreen />;
+    if (tab === 'settings') return <SettingsScreen onDrillDown={id => setRoute({ name: 'settingsDetail', id })} />;
+  })();
+
+  const showNav = route.name === 'tab';
+
+  return (
+    <div style={{
+      width: 390, height: 844,
+      borderRadius: 48,
+      overflow: 'hidden',
+      position: 'relative',
+      background: LX.wallpaper,
+      boxShadow: '0 0 0 10px #1c1c1e, 0 30px 80px rgba(0,0,0,0.55), 0 0 0 12px #2c2c2e',
+      border: '1px solid rgba(255,255,255,0.08)',
+      fontFamily: LX.font.body,
+      color: LX.color.ink,
+    }}>
+      {/* iOS notch */}
+      <div style={{ position: 'absolute', top: 8, left: '50%', transform: 'translateX(-50%)', width: 120, height: 32, background: '#000', borderRadius: 999, zIndex: 30 }} />
+      {/* Status bar */}
+      <div style={{ position: 'absolute', top: 14, left: 0, right: 0, height: 44, padding: '0 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', font: `600 15px ${LX.font.body}`, color: LX.color.ink, zIndex: 25, pointerEvents: 'none' }}>
+        <div>9:41</div>
+        <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+          <span style={{ font: `600 12px ${LX.font.body}` }}>•••</span>
+          <span style={{ width: 18, height: 11, border: `1.2px solid ${LX.color.ink}`, borderRadius: 3, position: 'relative' }}>
+            <span style={{ position: 'absolute', inset: 1.5, background: LX.color.ink, borderRadius: 1.5, width: '70%' }}/>
+          </span>
+        </div>
+      </div>
+
+      {/* Scroll area */}
+      <div style={{ position: 'absolute', top: 50, left: 0, right: 0, bottom: 0, overflowY: 'auto', overflowX: 'hidden' }}>
+        {screen}
+      </div>
+
+      {showNav && <BottomNav active={tab} onChange={setTab} />}
+
+      {/* Home indicator */}
+      <div style={{ position: 'absolute', bottom: 6, left: '50%', transform: 'translateX(-50%)', width: 134, height: 5, borderRadius: 3, background: 'rgba(0,0,0,0.35)', zIndex: 30 }} />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('frame-mount')).render(<App />);
+</script>
+</body>
+</html>

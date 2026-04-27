@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Quiz card</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:20px; background:#F4F2EE; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .card { background:rgba(255,255,255,0.55); backdrop-filter:blur(20px); border:0.5px solid rgba(255,255,255,0.7); border-radius:22px; padding:18px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.05),0 8px 30px rgba(0,0,0,0.08); }
+  .pill { font:700 12px var(--lx-font-body); padding:4px 10px; border-radius:999px; background:rgba(0,0,0,0.06); color:var(--lx-ink-sec); display:inline-block; }
+  .term { font:700 30px var(--lx-font-display); letter-spacing:-0.7px; margin-top:10px; color:var(--lx-ink); }
+  .sub { font:500 14px var(--lx-font-body); color:var(--lx-ink-sec); margin-top:2px; }
+  .opts { display:grid; gap:8px; margin-top:12px; }
+  .opt { font:600 16px var(--lx-font-body); padding:11px 14px; border-radius:14px; background:rgba(255,255,255,0.7); border:0.5px solid rgba(0,0,0,0.08); }
+  .opt.correct { background:rgba(52,199,89,0.16); border-color:#34C759; color:#1F8E3F; }
+  .opt.wrong { background:rgba(255,59,48,0.12); border-color:#FF3B30; color:#C2241B; }
+  .opt.selected { background:rgba(0,122,255,0.14); border-color:#007AFF; color:#007AFF; }
+  .meta { font:500 10px var(--lx-font-mono); color:var(--lx-ink-faint); margin-top:6px; }
+</style></head>
+<body>
+  <div class="card">
+    <span class="pill">3 / 12</span>
+    <div class="term">māja</div>
+    <div class="sub">noun · feminine</div>
+    <div class="opts"><div class="opt">street</div><div class="opt selected">house</div><div class="opt">window</div></div>
+    <div class="meta">selected — awaiting submit</div>
+  </div>
+  <div class="card">
+    <span class="pill">3 / 12</span>
+    <div class="term">māja</div>
+    <div class="sub">noun · feminine</div>
+    <div class="opts"><div class="opt">street</div><div class="opt correct">house ✓</div><div class="opt">window</div></div>
+    <div class="meta">graded — correct feedback</div>
+  </div>
+</body></html>
