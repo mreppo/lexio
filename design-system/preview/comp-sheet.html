@@ -1,0 +1,28 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Sheet</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:20px; background:#F4F2EE; }
+  .stage { width:280px; height:280px; margin:0 auto; border-radius:32px; background:linear-gradient(135deg,#FFD6A5,#A5C8FF,#FFB3D4); position:relative; overflow:hidden; }
+  .scrim { position:absolute; inset:0; background:rgba(0,0,0,0.45); }
+  .sheet { position:absolute; left:8px; right:8px; bottom:8px; background:rgba(255,255,255,0.78); backdrop-filter:blur(30px) saturate(180%); border:0.5px solid rgba(255,255,255,0.7); border-radius:24px 24px 24px 24px; padding:12px 16px 18px; box-shadow:0 -8px 30px rgba(0,0,0,0.12); }
+  .grabber { width:36px; height:5px; background:rgba(0,0,0,0.18); border-radius:999px; margin:0 auto 12px; }
+  .title { font:700 18px var(--lx-font-display); letter-spacing:-0.4px; color:var(--lx-ink); }
+  .sub { font:500 14px var(--lx-font-body); color:var(--lx-ink-sec); margin-top:4px; }
+  .actions { display:flex; gap:8px; margin-top:14px; }
+  .btn { flex:1; font:600 15px var(--lx-font-body); padding:12px; border-radius:14px; border:none; }
+  .b1 { background:#007AFF; color:#fff; }
+  .b2 { background:rgba(0,0,0,0.06); color:var(--lx-ink); }
+  .meta { font:500 10px var(--lx-font-mono); color:var(--lx-ink-faint); text-align:center; margin-top:10px; }
+</style></head>
+<body>
+  <div class="stage">
+    <div class="scrim"></div>
+    <div class="sheet">
+      <div class="grabber"></div>
+      <div class="title">Reset progress?</div>
+      <div class="sub">Resets review history. Words stay.</div>
+      <div class="actions"><button class="btn b2">Cancel</button><button class="btn b1">Reset</button></div>
+    </div>
+  </div>
+  <div class="meta">spring rise · 0.35s · grabber tap to dismiss</div>
+</body></html>

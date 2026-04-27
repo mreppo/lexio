@@ -1,0 +1,21 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Inputs</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:20px; background:#F4F2EE; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .field { display:flex; flex-direction:column; gap:6px; }
+  label { font:700 11px var(--lx-font-body); letter-spacing:1px; text-transform:uppercase; color:var(--lx-ink-faint); }
+  .input { font:500 17px var(--lx-font-body); letter-spacing:-0.2px; padding:14px 16px; border-radius:18px; background:rgba(255,255,255,0.7); border:0.5px solid rgba(0,0,0,0.08); color:var(--lx-ink); outline:none; }
+  .input.placeholder { color:var(--lx-ink-faint); }
+  .input.focus { background:#fff; border-color:#007AFF; box-shadow:0 0 0 3px rgba(0,122,255,0.16); }
+  .input.error { background:#fff; border-color:#FF3B30; box-shadow:0 0 0 3px rgba(255,59,48,0.16); color:#FF3B30; }
+  .input.disabled { opacity:0.5; }
+  .help { font:500 13px var(--lx-font-body); color:var(--lx-ink-sec); margin-top:2px; }
+  .help.error { color:#FF3B30; }
+  .meta { font:500 10px var(--lx-font-mono); color:var(--lx-ink-faint); }
+</style></head>
+<body>
+  <div class="field"><label>default</label><div class="input placeholder">your translation</div><div class="meta">empty placeholder</div></div>
+  <div class="field"><label>filled</label><div class="input">house</div><div class="meta">value entered</div></div>
+  <div class="field"><label>focus</label><div class="input focus">hou|</div><div class="meta">accent ring</div></div>
+  <div class="field"><label>error</label><div class="input error">huse</div><div class="help error">Not quite — try again</div></div>
+</body></html>

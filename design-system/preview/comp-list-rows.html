@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>List rows</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:20px; background:#F4F2EE; }
+  .group { background:rgba(255,255,255,0.55); backdrop-filter:blur(20px); border:0.5px solid rgba(255,255,255,0.7); border-radius:22px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.05),0 8px 30px rgba(0,0,0,0.08); margin-bottom:14px; }
+  .row { display:flex; align-items:center; gap:14px; padding:14px 18px; }
+  .row + .row { border-top:0.5px solid rgba(0,0,0,0.08); }
+  .row.pressed { background:rgba(0,0,0,0.03); }
+  .icon { width:32px; height:32px; border-radius:10px; background:linear-gradient(135deg,#007AFF,#AF52DE); box-shadow:inset 0 1px 0 rgba(255,255,255,0.35); flex-shrink:0; display:flex; align-items:center; justify-content:center; color:white; font:700 14px var(--lx-font-display); }
+  .icon.warn { background:linear-gradient(135deg,#FF9500,#FF3B30); }
+  .icon.ok { background:linear-gradient(135deg,#30D158,#0A84FF); }
+  .body { flex:1; min-width:0; }
+  .title { font:600 17px var(--lx-font-body); letter-spacing:-0.3px; color:var(--lx-ink); }
+  .sub { font:500 13px var(--lx-font-body); color:var(--lx-ink-sec); margin-top:2px; }
+  .trail { color:var(--lx-ink-faint); font:600 17px var(--lx-font-body); }
+  .badge { font:700 12px var(--lx-font-body); padding:3px 8px; border-radius:999px; background:rgba(0,122,255,0.14); color:#007AFF; }
+  .meta { font:500 10px var(--lx-font-mono); color:var(--lx-ink-faint); padding:6px 18px; }
+</style></head>
+<body>
+  <div class="group">
+    <div class="row"><div class="icon">A</div><div class="body"><div class="title">Account</div><div class="sub">marekss@gmail.com</div></div><div class="trail">›</div></div>
+    <div class="row pressed"><div class="icon ok">L</div><div class="body"><div class="title">Languages</div><div class="sub">Latvian → English</div></div><div class="trail">›</div></div>
+    <div class="row"><div class="icon warn">N</div><div class="body"><div class="title">Notifications</div><div class="sub">Daily at 8:00</div></div><span class="badge">New</span></div>
+  </div>
+  <div class="meta">default · pressed · with trailing badge</div>
+</body></html>

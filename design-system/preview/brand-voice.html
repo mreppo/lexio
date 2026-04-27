@@ -1,0 +1,19 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Voice & tone</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:20px; background:#fff; }
+  h4 { margin:0 0 8px; font:700 11px var(--lx-font-body); letter-spacing:1px; text-transform:uppercase; color:var(--lx-ink-faint); }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px; }
+  .ex { padding:10px 12px; border-radius:12px; font:500 14px var(--lx-font-body); letter-spacing:-0.2px; line-height:1.4; }
+  .yes { background:rgba(52,199,89,0.10); color:#1F8E3F; }
+  .no { background:rgba(255,59,48,0.08); color:#C2241B; }
+  .yes::before { content:"✓ "; font-weight:700; }
+  .no::before { content:"✗ "; font-weight:700; text-decoration:line-through; }
+</style></head>
+<body>
+  <h4>Voice — calm, concrete, second-person</h4>
+  <div class="row"><div class="ex yes">12 words due today</div><div class="ex no">You have 12 vocabulary items pending review!</div></div>
+  <div class="row"><div class="ex yes">Not quite — try again</div><div class="ex no">Incorrect answer. Please retry.</div></div>
+  <div class="row"><div class="ex yes">All caught up</div><div class="ex no">Congratulations! 🎉 You finished!</div></div>
+  <div class="row"><div class="ex yes">Reset progress?</div><div class="ex no">Are you sure you want to permanently reset?</div></div>
+</body></html>

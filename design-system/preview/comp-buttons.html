@@ -1,0 +1,36 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Buttons</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:20px; background:#F4F2EE; display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+  .group { display:flex; flex-direction:column; gap:10px; }
+  h4 { margin:0; font:700 11px var(--lx-font-body); letter-spacing:1px; text-transform:uppercase; color:var(--lx-ink-faint); }
+  .btn { font:600 17px var(--lx-font-body); letter-spacing:-0.2px; padding:13px 20px; border-radius:18px; border:none; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; }
+  .primary { background:#007AFF; color:#fff; box-shadow:0 6px 20px rgba(0,122,255,0.32); }
+  .primary.pressed { transform:scale(0.97); background:#0066D6; }
+  .primary.disabled { opacity:0.42; box-shadow:none; }
+  .ghost { background:rgba(255,255,255,0.55); backdrop-filter:blur(20px); border:0.5px solid rgba(255,255,255,0.7); color:var(--lx-ink); box-shadow:0 1px 3px rgba(0,0,0,0.05),0 8px 30px rgba(0,0,0,0.08); }
+  .ghost.pressed { transform:scale(0.97); background:rgba(255,255,255,0.45); }
+  .destructive { background:#FF3B30; color:#fff; box-shadow:0 6px 20px rgba(255,59,48,0.32); }
+  .text { background:transparent; color:#007AFF; padding:10px 12px; }
+  .text.pressed { color:#0066D6; }
+  .meta { font:500 10px var(--lx-font-mono); color:var(--lx-ink-faint); margin-left:6px; align-self:center; }
+  .row { display:flex; align-items:center; gap:10px; }
+  .spinner { width:14px; height:14px; border:2px solid rgba(255,255,255,0.35); border-top-color:#fff; border-radius:50%; animation:s 0.8s linear infinite; }
+  @keyframes s { to { transform:rotate(360deg); } }
+</style></head>
+<body>
+  <div class="group">
+    <h4>Primary</h4>
+    <div class="row"><button class="btn primary">Start review</button><span class="meta">default</span></div>
+    <div class="row"><button class="btn primary pressed">Start review</button><span class="meta">pressed</span></div>
+    <div class="row"><button class="btn primary"><span class="spinner"></span>Saving</button><span class="meta">loading</span></div>
+    <div class="row"><button class="btn primary disabled">Start review</button><span class="meta">disabled</span></div>
+  </div>
+  <div class="group">
+    <h4>Ghost / Text / Destructive</h4>
+    <div class="row"><button class="btn ghost">Skip</button><span class="meta">ghost</span></div>
+    <div class="row"><button class="btn ghost pressed">Skip</button><span class="meta">ghost · pressed</span></div>
+    <div class="row"><button class="btn text">Cancel</button><span class="meta">text</span></div>
+    <div class="row"><button class="btn destructive">Delete word</button><span class="meta">destructive</span></div>
+  </div>
+</body></html>
